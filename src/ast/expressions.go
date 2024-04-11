@@ -41,3 +41,11 @@ type BinaryExpr struct {
 func (node BinaryExpr) expr() {
 	// TODO:
 }
+
+
+type UnaryExpr struct {
+	Operator lexer.Token
+	Operand  Expr
+}
+
+func (node UnaryExpr) expr() {}

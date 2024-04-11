@@ -3,4 +3,6 @@ let b = 3;
 
 const isGreater = a > b;
 
-let c = (a+b)*6;
+let c = (a+b)*-6;
+
+let k = -13-2;
