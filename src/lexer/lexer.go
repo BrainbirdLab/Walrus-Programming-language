@@ -86,7 +86,7 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`\s+`), skipHandler},
 			{regexp.MustCompile(`#.*`), skipHandler},
 			{regexp.MustCompile(`"[^"]*"`), stringHandler},
-			{regexp.MustCompile(`[0-9]+(\.[0-9]+)?`), numberHandler},
+			{regexp.MustCompile(`[0-9.]+`), numberHandler},
 			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), symbolHandler},
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
 			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},
@@ -138,6 +138,17 @@ func symbolHandler(lex *lexer, regex *regexp.Regexp) {
 
 func numberHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindString(lex.remainder())
+	// if the number has more than 1 dot, it's an error
+	count := 0
+	for _, c := range match {
+		if c == '.' {
+			count++
+		}
+	}
+	
+	if count > 1 {
+		panic(fmt.Sprintf("Lexer::Error at position %d: Multiple decimal operator found near %v\n", lex.pos, lex.remainder()))
+	}
 
 	lex.push(NewToken(NUMBER, match))
 	lex.advanceN(len(match))

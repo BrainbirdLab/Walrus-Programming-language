@@ -7,6 +7,7 @@ import (
 
 type binding_power int
 
+//Operator precedence levels. primary is the highest binding power
 const (
 	default_bp binding_power = iota
 	comma

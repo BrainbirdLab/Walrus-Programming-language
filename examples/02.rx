@@ -5,4 +5,4 @@ const isGreater = a > b;
 
 let c = (a+b)*-6;
 
-let k = -13-2;
+let k = 5.0.4;
