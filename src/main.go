@@ -1,21 +1,24 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 	"os"
 	"rexlang/lexer"
+	"rexlang/parser"
+
+	"github.com/sanity-io/litter"
 )
 
 func main() {
-	bytes, _ := os.ReadFile("./../examples/00.rx")
+	bytes, _ := os.ReadFile("./../examples/02.rx")
 
 	source := string(bytes)
 
-	fmt.Printf("Source code: %s\n", source)
+	//fmt.Printf("Source code: %s\n", source)
 
 	tokens := lexer.Tokenize(source)
 
-	for _, token := range tokens {
-		token.Debug()
-	}
+	ast := parser.Parse(tokens)
+
+	litter.Dump(ast)
 }

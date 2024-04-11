@@ -3,23 +3,25 @@ package lexer
 import (
 	"fmt"
 	"regexp"
+
+	//"github.com/sanity-io/litter"
 )
 
-type regexHandler func (lex *lexer, regex *regexp.Regexp)
+type regexHandler func(lex *lexer, regex *regexp.Regexp)
 
 type regexPattern struct {
-	regex 	*regexp.Regexp
+	regex   *regexp.Regexp
 	handler regexHandler
 }
 
 type lexer struct {
-	patterns 	[]regexPattern
-	Tokens 		[]Token
-	source 		string
-	pos 		int
+	patterns []regexPattern
+	Tokens   []Token
+	source   string
+	pos      int
 }
 
-func Tokenize(source string) [] Token {
+func Tokenize(source string) []Token {
 	lex := createLexer(source)
 
 	for !lex.at_eof() {
@@ -42,32 +44,30 @@ func Tokenize(source string) [] Token {
 
 	lex.push(NewToken(EOF, "EOF"))
 
+	//litter.Dump(lex.Tokens)
+
 	return lex.Tokens
 }
 
-
-func (lex *lexer) advanceN (n int) {
+func (lex *lexer) advanceN(n int) {
 	lex.pos += n
 }
 
-
-func (lex *lexer) push (token Token) {
+func (lex *lexer) push(token Token) {
 	lex.Tokens = append(lex.Tokens, token)
 }
 
-func (lex *lexer) at () byte {
+func (lex *lexer) at() byte {
 	return lex.source[lex.pos]
 }
 
-func (lex *lexer) remainder () string {
+func (lex *lexer) remainder() string {
 	return lex.source[lex.pos:]
 }
 
-
-func (lex *lexer) at_eof () bool {
+func (lex *lexer) at_eof() bool {
 	return lex.pos >= len(lex.source)
 }
-
 
 func defaultHandler(kind TokenKind, value string) regexHandler {
 	return func(lex *lexer, regex *regexp.Regexp) {
@@ -77,10 +77,9 @@ func defaultHandler(kind TokenKind, value string) regexHandler {
 	}
 }
 
-
 func createLexer(source string) *lexer {
 	return &lexer{
-		pos: 0,
+		pos:    0,
 		source: source,
 		Tokens: make([]Token, 0),
 		patterns: []regexPattern{
@@ -118,7 +117,7 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`-=`), defaultHandler(MINUS_EQUALS, "-=")},
 			{regexp.MustCompile(`\+`), defaultHandler(PLUS, "+")},
 			{regexp.MustCompile(`-`), defaultHandler(MINUS, "-")},
-			{regexp.MustCompile(`/`), defaultHandler(DEVIDE, "/")},
+			{regexp.MustCompile(`/`), defaultHandler(DIVIDE, "/")},
 			{regexp.MustCompile(`\*`), defaultHandler(TIMES, "*")},
 			{regexp.MustCompile(`%`), defaultHandler(MODULO, "%")},
 		},
@@ -127,7 +126,7 @@ func createLexer(source string) *lexer {
 
 func symbolHandler(lex *lexer, regex *regexp.Regexp) {
 	symbol := regex.FindString(lex.remainder())
-	
+
 	if kind, exists := reserved_lookup[symbol]; exists {
 		lex.push(NewToken(kind, symbol))
 	} else {
@@ -146,7 +145,7 @@ func numberHandler(lex *lexer, regex *regexp.Regexp) {
 
 func stringHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindStringIndex(lex.remainder())
-	stringLiteral := lex.remainder()[match[0] + 1 : match[1] - 1]
+	stringLiteral := lex.remainder()[match[0]+1 : match[1]-1]
 
 	lex.push(NewToken(STRING, stringLiteral))
 	lex.advanceN(len(stringLiteral) + 2)
@@ -154,5 +153,5 @@ func stringHandler(lex *lexer, regex *regexp.Regexp) {
 
 func skipHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindStringIndex(lex.remainder())
-	lex.advanceN(match[1]) 
+	lex.advanceN(match[1])
 }

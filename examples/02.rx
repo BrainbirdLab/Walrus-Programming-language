@@ -1,0 +1,6 @@
+let a = 2;
+let b = 3;
+
+const isGreater = a > b;
+
+let c = (a+b)*6;

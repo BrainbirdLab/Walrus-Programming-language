@@ -57,7 +57,7 @@ const (
 	PLUS
 	MINUS
 	TIMES
-	DEVIDE
+	DIVIDE
 	MODULO
 
 	// Keywords
@@ -85,29 +85,28 @@ const (
 	E
 )
 
-
 // Reserved keywords
-var reserved_lookup map[string]TokenKind = map[string]TokenKind {
-	"let": LET,
-	"const": CONST,
-	"class": CLASS,
-	"new": NEW,
-	"import": IMPORT,
-	"from": FROM,
-	"fn": FUNCTION,
-	"if": IF,
-	"else": ELSE,
+var reserved_lookup map[string]TokenKind = map[string]TokenKind{
+	"let":     LET,
+	"const":   CONST,
+	"class":   CLASS,
+	"new":     NEW,
+	"import":  IMPORT,
+	"from":    FROM,
+	"fn":      FUNCTION,
+	"if":      IF,
+	"else":    ELSE,
 	"foreach": FOREACH,
-	"while": WHILE,
-	"for": FOR,
-	"export": EXPORT,
-	"typeof": TYPEOF,
-	"in": IN,
-	"null": NULL,
-	"true": TRUE,
-	"false": FALSE,
-	"pi": PI,
-	"e": E,
+	"while":   WHILE,
+	"for":     FOR,
+	"export":  EXPORT,
+	"typeof":  TYPEOF,
+	"in":      IN,
+	"null":    NULL,
+	"true":    TRUE,
+	"false":   FALSE,
+	"pi":      PI,
+	"e":       E,
 }
 
 // Define token types
@@ -116,7 +115,7 @@ type Token struct {
 	Value string
 }
 
-func (token Token) isOneOfMany (expectedTokens ...TokenKind) bool {
+func (token Token) isOneOfMany(expectedTokens ...TokenKind) bool {
 	for _, expected := range expectedTokens {
 		if expected == token.Kind {
 			return true
@@ -135,8 +134,8 @@ func (token Token) Debug() {
 	}
 }
 
-func NewToken (kind TokenKind, value string) Token {
-	return Token {
+func NewToken(kind TokenKind, value string) Token {
+	return Token{
 		kind, value,
 	}
 }
@@ -216,7 +215,7 @@ func TokenKindString(kind TokenKind) string {
 		return "minus"
 	case TIMES:
 		return "times"
-	case DEVIDE:
+	case DIVIDE:
 		return "devide"
 	case MODULO:
 		return "modulo"
