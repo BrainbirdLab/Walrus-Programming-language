@@ -152,73 +152,73 @@ func TokenKindString(kind TokenKind) string {
 	case IDENTIFIER:
 		return "identifier"
 	case OPEN_BRACKET:
-		return "open_bracket"
+		return "["
 	case CLOSE_BRACKET:
-		return "close_bracket"
+		return "]"
 	case OPEN_CURLY:
-		return "open_curly"
+		return "{"
 	case CLOSE_CURLY:
-		return "close_curly"
+		return "}"
 	case OPEN_PAREN:
-		return "open_paren"
+		return "("
 	case CLOSE_PAREN:
-		return "close_paren"
+		return ")"
 	case ASSIGNMENT:
-		return "assignment"
+		return "="
 	case EQUALS:
-		return "equals"
+		return "is"
 	case NOT:
-		return "not"
+		return "!"
 	case NOT_EQUALS:
-		return "not_equals"
+		return "!="
 	case LESS:
-		return "less"
+		return "<"
 	case LESS_EQUALS:
-		return "less_equals"
+		return "<="
 	case GREATER:
-		return "greater"
+		return ">"
 	case GREATER_EQUALS:
-		return "greater_equals"
+		return ">="
 	case OR:
 		return "or"
 	case AND:
 		return "and"
 	case DOT:
-		return "dot"
+		return "."
 	case DOT_DOT:
-		return "dot_dot"
+		return ".."
 	case SEMI_COLON:
-		return "semi_colon"
+		return ";"
 	case COLON:
-		return "colon"
+		return ":"
 	case QUESTION:
-		return "question"
+		return "?"
 	case COMMA:
-		return "comma"
+		return ","
 	case PLUS_PLUS:
-		return "plus_plus"
+		return "++"
 	case MINUS_MINUS:
-		return "minus_minus"
+		return "--"
 	case PLUS_EQUALS:
-		return "plus_equals"
+		return "+="
 	case MINUS_EQUALS:
-		return "minus_equals"
+		return "-="
 	case TIMES_EQUALS:
-		return "times_equals"
+		return "*="
 	case DEVIDE_EQUALS:
-		return "devide_equals"
+		return "/="
 	case MODULO_EQUALS:
-		return "modulo_equals"
+		return "%="
 	case PLUS:
-		return "plus"
+		return "+"
 	case MINUS:
-		return "minus"
+		return "-"
 	case TIMES:
-		return "times"
+		return "*"
 	case DIVIDE:
-		return "devide"
+		return "/"
 	case MODULO:
-		return "modulo"
+		return "%"
 	case LET:
 		return "let"
 	case CONST:

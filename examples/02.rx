@@ -3,6 +3,10 @@ let b = 3;
 
 const isGreater = a > b;
 
+let h = 2;
+
 let c = (a+b)*-6;
 
-let k = 5.0.4;
+let k = 5.04;
+
+const j;
