@@ -9,4 +9,6 @@ let c = (a+b)*-6;
 
 let k = 5.04;
 
-const j;
+#hello
+
+const j = "Hello";

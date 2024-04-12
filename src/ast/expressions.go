@@ -18,11 +18,11 @@ func (node StringLiteral) expr() {
 
 }
 
-type SymbolExpr struct {
+type Symbol struct {
 	Value string
 }
 
-func (node SymbolExpr) expr() {
+func (node Symbol) expr() {
 
 }
 
@@ -41,7 +41,6 @@ type BinaryExpr struct {
 func (node BinaryExpr) expr() {
 	// TODO:
 }
-
 
 type UnaryExpr struct {
 	Operator lexer.Token

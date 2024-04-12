@@ -49,16 +49,16 @@ func parse_primary_expr(p *Parser) ast.Expr {
 			Value: p.advance().Value,
 		}
 	case lexer.IDENTIFIER:
-		return ast.SymbolExpr{
+		return ast.Symbol{
 			Value: p.advance().Value,
 		}
 	case lexer.OPEN_PAREN:
-		p.advance() // Consume the opening parenthesis
+		p.advance()                       // Consume the opening parenthesis
 		expr := parse_expr(p, default_bp) // Parse expression inside parentheses
-		p.expect(lexer.CLOSE_PAREN) // Expect closing parenthesis
+		p.expect(lexer.CLOSE_PAREN)       // Expect closing parenthesis
 		return expr
 	case lexer.MINUS:
-        return parse_unary_expr(p)
+		return parse_unary_expr(p)
 	default:
 		panic(fmt.Sprintf("Cannot create primary expression from %s\n", lexer.TokenKindString(p.currentTokenKind())))
 	}
@@ -75,13 +75,12 @@ func parse_binary_expr(p *Parser, left ast.Expr, bp binding_power) ast.Expr {
 	}
 }
 
-
 func parse_unary_expr(p *Parser) ast.Expr {
-    operator := p.currentToken()
-    p.advance() // Consume the unary operator token
-    operand := parse_expr(p, unary) // Parse the operand
-    return ast.UnaryExpr{
-        Operator: operator,
-        Operand:  operand,
-    }
+	operator := p.currentToken()
+	p.advance()                     // Consume the unary operator token
+	operand := parse_expr(p, unary) // Parse the operand
+	return ast.UnaryExpr{
+		Operator: operator,
+		Operand:  operand,
+	}
 }
