@@ -65,7 +65,7 @@ const (
 	CONST
 	CLASS
 	NEW
-	IMPORT
+	USE
 	FROM
 	FUNCTION
 	IF
@@ -91,7 +91,7 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"const":   CONST,
 	"class":   CLASS,
 	"new":     NEW,
-	"import":  IMPORT,
+	"use":  USE,
 	"from":    FROM,
 	"fn":      FUNCTION,
 	"if":      IF,
@@ -227,8 +227,8 @@ func TokenKindString(kind TokenKind) string {
 		return "class"
 	case NEW:
 		return "new"
-	case IMPORT:
-		return "import"
+	case USE:
+		return "use"
 	case FROM:
 		return "from"
 	case FUNCTION:

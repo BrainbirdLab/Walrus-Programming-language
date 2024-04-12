@@ -1,6 +1,6 @@
-import fs;
-import path;
-import time;
+use fs;
+use path;
+use time;
 
 class DirectoryReader {
   let directoryPath: string;
