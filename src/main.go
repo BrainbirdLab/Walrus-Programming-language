@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	bytes, _ := os.ReadFile("./../examples/00.rx")
+	bytes, _ := os.ReadFile("./../examples/02.rx")
 
 	source := string(bytes)
 

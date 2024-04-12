@@ -50,7 +50,7 @@ const (
 	PLUS_EQUALS
 	MINUS_EQUALS
 	TIMES_EQUALS
-	DEVIDE_EQUALS
+	DIVIDE_EQUALS
 	MODULO_EQUALS
 
 	// Binary operators
@@ -205,7 +205,7 @@ func TokenKindString(kind TokenKind) string {
 		return "-="
 	case TIMES_EQUALS:
 		return "*="
-	case DEVIDE_EQUALS:
+	case DIVIDE_EQUALS:
 		return "/="
 	case MODULO_EQUALS:
 		return "%="
