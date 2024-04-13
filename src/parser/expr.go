@@ -23,6 +23,7 @@ func parse_expr(p *Parser, bp binding_power) ast.Expr {
 	//continue parsing the left hand side of the expression
 
 	for bp_lu[p.currentTokenKind()] > bp {
+		
 		tokenKind = p.currentTokenKind()
 		led_fn, exists := led_lu[tokenKind]
 
@@ -66,7 +67,16 @@ func parse_primary_expr(p *Parser) ast.Expr {
 
 func parse_binary_expr(p *Parser, left ast.Expr, bp binding_power) ast.Expr {
 	operatorToken := p.advance()
-	right := parse_expr(p, bp)
+
+	right_bp := bp_lu[operatorToken.Kind]
+
+	var right ast.Expr
+
+	if right_bp > bp {
+		right = parse_expr(p, right_bp)
+	} else {
+		right = parse_expr(p, bp)
+	}
 
 	return ast.BinaryExpr{
 		Left:     left,
