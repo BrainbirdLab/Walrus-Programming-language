@@ -2,6 +2,7 @@ package main
 
 import (
 
+	"fmt"
 	"os"
 	"rexlang/lexer"
 	"rexlang/parser"
@@ -13,11 +14,15 @@ import (
 
 func main() {
 	
-	bytes, _ := os.ReadFile("./../examples/03.rx")
+	bytes, err := os.ReadFile("./../examples/03.x")
+
+	if err != nil {
+		panic(err)
+	}
 
 	source := string(bytes)
 
-	//fmt.Printf("Source code: %s\n", source)
+	fmt.Printf("Source code: %s\n", source)
 
 	tokens := lexer.Tokenize(source, true)
 

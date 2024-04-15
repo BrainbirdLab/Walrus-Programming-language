@@ -35,6 +35,7 @@ const (
 	// Logical operators
 	OR
 	AND
+	IS
 	
 	// Literals
 	DOT
@@ -88,26 +89,32 @@ const (
 
 // Reserved keywords
 var reserved_lookup map[string]TokenKind = map[string]TokenKind{
-	"let":     LET,
-	"const":   CONST,
-	"class":   CLASS,
-	"new":     NEW,
-	"use":     USE,
-	"from":    FROM,
-	"fn":      FUNCTION,
-	"if":      IF,
-	"elf":     ELSEIF,
-	"els":     ELSE,
-	"foreach": FOREACH,
-	"while":   WHILE,
-	"for":     FOR,
-	"export":  EXPORT,
-	"typeof":  TYPEOF,
-	"in":      IN,
-	"null":    NULL,
-	"true":    TRUE,
-	"false":   FALSE,
+	"let":     		LET,
+	"const":   		CONST,
+	"class":   		CLASS,
+	"new":     		NEW,
+	"use":     		USE,
+	"from":    		FROM,
+	"fn":      		FUNCTION,
+	"if":      		IF,
+	"elf":     		ELSEIF,
+	"els":     		ELSE,
+	"is": 	   		IS,
+	"isnt": 		NOT_EQUALS,
+	"and":     		AND,
+	"or":      		OR,
+	"not":	   		NOT,
+	"foreach": 		FOREACH,
+	"while":   		WHILE,
+	"for":     		FOR,
+	"export":  		EXPORT,
+	"typeof":  		TYPEOF,
+	"in":      		IN,
+	"null":    		NULL,
+	"true":    		TRUE,
+	"false":   		FALSE,
 }
+
 
 // Define token types
 type Token struct {
