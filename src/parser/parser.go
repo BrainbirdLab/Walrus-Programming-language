@@ -74,3 +74,13 @@ func (p *Parser) expectError(expectedKind lexer.TokenKind, err any) lexer.Token 
 func (p *Parser) expect(expectedKind lexer.TokenKind) lexer.Token {
 	return p.expectError(expectedKind, nil)
 }
+
+func (p *Parser) expectAny(kinds ...lexer.TokenKind) lexer.Token {
+	for _, kind := range kinds {
+		if p.currentTokenKind() == kind {
+			return p.advance()
+		}
+	}
+
+	panic(fmt.Sprintf("Expected any of %v but recieved %s instead\n", kinds, lexer.TokenKindString(p.currentTokenKind())))
+}

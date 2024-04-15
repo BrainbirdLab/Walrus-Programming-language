@@ -1,22 +1,39 @@
 package ast
 
+
+type ExpressionStmt struct {
+	Kind NodeType
+	Expression Expr
+}
+func (e ExpressionStmt) stmt() {} // implements the Stmt interface
+
+type ProgramStmt struct {
+	Kind NodeType
+}
+func (p ProgramStmt) stmt() {} // implements the Stmt interface
+
+
 type BlockStmt struct {
+	Kind NodeType
 	Body []Stmt
 }
 
-func (node BlockStmt) stmt() {}
+func (b BlockStmt) stmt() {}
 
-type ExpressionStmt struct {
-	Expression Expr
-}
 
-func (node ExpressionStmt) stmt() {}
-
-type VarDeclStmt struct {
-	Name string
+type VariableDclStml struct {
+	Kind       NodeType
 	IsConstant bool
-	Value Expr
-	// Explicit type
+	Identifier string
+	Value      Expr
 }
+func (v VariableDclStml) stmt() {}
 
-func (node VarDeclStmt) stmt() {}
+
+type IfStmt struct {
+	Kind      NodeType
+	Condition Expr
+	Block     BlockStmt
+	Alternate interface{}
+}
+func (i IfStmt) stmt() {}

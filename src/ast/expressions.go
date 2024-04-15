@@ -1,50 +1,64 @@
 package ast
 
-import "rexlang/lexer"
+import (
+	"rexlang/lexer"
+)
 
-type NumericLiteral struct {
-	Value float64
-}
-
-func (node NumericLiteral) expr() {
-
-}
-
-type StringLiteral struct {
-	Value string
-}
-
-func (node StringLiteral) expr() {
-
-}
-
-type Symbol struct {
-	Value string
-}
-
-func (node Symbol) expr() {
-
-}
-
-//Complex expressions
-
-// 10 + 3 * 5
-// Left: 10
-// Operator: +
-// Right: 3 * 5
 type BinaryExpr struct {
-	Left     Expr
+	Kind     NodeType
 	Operator lexer.Token
+	Left     Expr
 	Right    Expr
 }
 
-func (node BinaryExpr) expr() {
-	// TODO:
-}
+func (b BinaryExpr) expr() {}
 
 type UnaryExpr struct {
+	Kind     NodeType
 	Operator lexer.Token
-	Operand  Expr
+	Argument Expr
 }
 
-func (node UnaryExpr) expr() {}
+func (u UnaryExpr) expr() {}
+
+type Identifier struct {
+	Kind   NodeType
+	Symbol string
+}
+func (i Identifier) expr() {}
+
+type NumericLiteral struct {
+	Kind  NodeType
+	Value float64
+}
+
+func (n NumericLiteral) expr() {}
+
+type StringLiteral struct {
+	Kind  NodeType
+	Value string
+}
+
+func (s StringLiteral) expr() {}
+
+type BooleanLiteral struct {
+	Kind  NodeType
+	Value bool
+}
+
+func (b BooleanLiteral) expr() {}
+
+type NullLiteral struct {
+	Kind  NodeType
+	Value string
+}
+
+func (n NullLiteral) expr() {}
+
+type AssignmentExpr struct {
+	Kind     NodeType
+	Assigne  Identifier
+	Value    Expr
+	Operator lexer.Token
+}
+func (a AssignmentExpr) expr() {}

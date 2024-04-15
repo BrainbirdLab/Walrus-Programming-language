@@ -22,29 +22,31 @@ const (
 
 	// Assignment operators
 	ASSIGNMENT
-	EQUALS
-	NOT
-	NOT_EQUALS
+
 
 	// Comparison operators
+	EQUALS
+	NOT_EQUALS
 	LESS
 	LESS_EQUALS
 	GREATER
 	GREATER_EQUALS
-
+	
 	// Logical operators
 	OR
 	AND
-
+	
 	// Literals
 	DOT
 	DOT_DOT
 	SEMI_COLON
+	//ENDLINE
 	COLON
 	QUESTION
 	COMMA
-
+	
 	// Unary operators
+	NOT
 	PLUS_PLUS
 	MINUS_MINUS
 	PLUS_EQUALS
@@ -69,6 +71,7 @@ const (
 	FROM
 	FUNCTION
 	IF
+	ELSEIF
 	ELSE
 	FOREACH
 	WHILE
@@ -81,8 +84,6 @@ const (
 	NULL
 	TRUE
 	FALSE
-	PI
-	E
 )
 
 // Reserved keywords
@@ -91,11 +92,12 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"const":   CONST,
 	"class":   CLASS,
 	"new":     NEW,
-	"use":  USE,
+	"use":     USE,
 	"from":    FROM,
 	"fn":      FUNCTION,
 	"if":      IF,
-	"else":    ELSE,
+	"elf":     ELSEIF,
+	"els":     ELSE,
 	"foreach": FOREACH,
 	"while":   WHILE,
 	"for":     FOR,
@@ -105,8 +107,6 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"null":    NULL,
 	"true":    TRUE,
 	"false":   FALSE,
-	"pi":      PI,
-	"e":       E,
 }
 
 // Define token types
@@ -152,73 +152,75 @@ func TokenKindString(kind TokenKind) string {
 	case IDENTIFIER:
 		return "identifier"
 	case OPEN_BRACKET:
-		return "["
+		return "Open Bracket ["
 	case CLOSE_BRACKET:
-		return "]"
+		return "Close Bracket ]"
 	case OPEN_CURLY:
-		return "{"
+		return "Open curly {"
 	case CLOSE_CURLY:
-		return "}"
+		return "Close curly }"
 	case OPEN_PAREN:
-		return "("
+		return "Open paren ("
 	case CLOSE_PAREN:
-		return ")"
+		return "Close paren )"
 	case ASSIGNMENT:
-		return "="
+		return "Assignment ="
 	case EQUALS:
-		return "is"
+		return "is =="
 	case NOT:
-		return "!"
+		return "Not !"
 	case NOT_EQUALS:
-		return "!="
+		return "Not equal !="
 	case LESS:
-		return "<"
+		return "Less than <"
 	case LESS_EQUALS:
-		return "<="
+		return "Less than or equal <="
 	case GREATER:
-		return ">"
+		return "Greater than >"
 	case GREATER_EQUALS:
-		return ">="
+		return "Greater than or equal >="
 	case OR:
-		return "or"
+		return "Or ||"
 	case AND:
-		return "and"
+		return "And &&"
 	case DOT:
-		return "."
+		return "Dot ."
 	case DOT_DOT:
-		return ".."
+		return "Range .."
 	case SEMI_COLON:
 		return ";"
+	//case ENDLINE:
+	//	return "Endline"
 	case COLON:
-		return ":"
+		return "Colon :"
 	case QUESTION:
-		return "?"
+		return " Question ?"
 	case COMMA:
-		return ","
+		return "Comma ,"
 	case PLUS_PLUS:
-		return "++"
+		return "Increment ++"
 	case MINUS_MINUS:
-		return "--"
+		return "Decrement --"
 	case PLUS_EQUALS:
-		return "+="
+		return "Incremental assignment +="
 	case MINUS_EQUALS:
-		return "-="
+		return "Decremental assignment -="
 	case TIMES_EQUALS:
-		return "*="
+		return "Multiplicative assignment *="
 	case DIVIDE_EQUALS:
-		return "/="
+		return "Division assignment /="
 	case MODULO_EQUALS:
-		return "%="
+		return "Modulo assignment %="
 	case PLUS:
-		return "+"
+		return "Add +"
 	case MINUS:
-		return "-"
+		return "Subtract -"
 	case TIMES:
-		return "*"
+		return "Multiply *"
 	case DIVIDE:
-		return "/"
+		return "Divide /"
 	case MODULO:
-		return "%"
+		return "Modulo %"
 	case LET:
 		return "let"
 	case CONST:
@@ -235,6 +237,8 @@ func TokenKindString(kind TokenKind) string {
 		return "function"
 	case IF:
 		return "if"
+	case ELSEIF:
+		return "elseif"
 	case ELSE:
 		return "else"
 	case FOREACH:

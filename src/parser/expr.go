@@ -7,13 +7,29 @@ import (
 	"strconv"
 )
 
-func parse_expr(p *Parser, bp binding_power) ast.Expr {
+func parse_binary_expr(p *Parser, left ast.Expr, bp binding_power) ast.Expr {
+	
+	operatorToken := p.advance()
+
+	right := parse_expr(p, bp)
+
+	return ast.BinaryExpr{
+		Kind:    ast.NodeType(ast.BINARY_EXPRESSION),
+		Operator: operatorToken,
+		Left:     left,
+		Right:    right,
+	}
+}
+
+func parse_expr(p *Parser, bp binding_power) ast.Expr{
 	// Fist parse the NUD
 	tokenKind := p.currentTokenKind()
+	fmt.Printf("Parsing expression with token: %s\n", lexer.TokenKindString(tokenKind))
 
 	nud_fn, exists := nud_lu[tokenKind]
 
 	if !exists {
+		fmt.Printf("Current token: %s on pos: %d\n", lexer.TokenKindString(tokenKind), p.pos);
 		panic(fmt.Sprintf("NUD handler expected for token %s\n", lexer.TokenKindString(tokenKind)))
 	}
 
@@ -23,15 +39,16 @@ func parse_expr(p *Parser, bp binding_power) ast.Expr {
 	//continue parsing the left hand side of the expression
 
 	for bp_lu[p.currentTokenKind()] > bp {
-		
-		tokenKind = p.currentTokenKind()
+
+		tokenKind := p.currentTokenKind()
+
 		led_fn, exists := led_lu[tokenKind]
 
 		if !exists {
 			panic(fmt.Sprintf("LED handler expected for token %s\n", lexer.TokenKindString(tokenKind)))
 		}
 
-		left = led_fn(p, left, bp)
+		left = led_fn(p, left, bp_lu[tokenKind])
 	}
 
 	return left
@@ -43,54 +60,87 @@ func parse_primary_expr(p *Parser) ast.Expr {
 	case lexer.NUMBER:
 		number, _ := strconv.ParseFloat(p.advance().Value, 64)
 		return ast.NumericLiteral{
+			Kind: ast.NodeType(ast.NUMERIC_LITERAL),
 			Value: number,
 		}
 	case lexer.STRING:
 		return ast.StringLiteral{
+			Kind: ast.NodeType(ast.STRING_LITERAL),
 			Value: p.advance().Value,
 		}
 	case lexer.IDENTIFIER:
-		return ast.Symbol{
-			Value: p.advance().Value,
+		return ast.Identifier{
+			Kind: ast.NodeType(ast.IDENTIFIER),
+			Symbol: p.advance().Value,
 		}
-	case lexer.OPEN_PAREN:
-		p.advance()                       // Consume the opening parenthesis
-		expr := parse_expr(p, default_bp) // Parse expression inside parentheses
-		p.expect(lexer.CLOSE_PAREN)       // Expect closing parenthesis
-		return expr
-	case lexer.MINUS:
-		return parse_unary_expr(p)
+	case lexer.TRUE:
+		p.advance()
+		return ast.BooleanLiteral{
+			Kind: ast.NodeType(ast.BOOLEAN_LITERAL),
+			Value: true,
+		}
+	case lexer.FALSE:
+		p.advance()
+		return ast.BooleanLiteral{
+			Kind: ast.NodeType(ast.BOOLEAN_LITERAL),
+			Value: false,
+		}
+	case lexer.NULL:
+		p.advance()
+		return ast.NullLiteral{
+			Kind: ast.NodeType(ast.NULL_LITERAL),
+			Value: "null",
+		}
+
 	default:
 		panic(fmt.Sprintf("Cannot create primary expression from %s\n", lexer.TokenKindString(p.currentTokenKind())))
 	}
 }
 
-func parse_binary_expr(p *Parser, left ast.Expr, bp binding_power) ast.Expr {
-	operatorToken := p.advance()
+func parse_grouping_expr(p *Parser) ast.Expr {
+	p.expect(lexer.OPEN_PAREN)
+	expression := parse_expr(p, default_bp)
+	p.expect(lexer.CLOSE_PAREN)
+	return expression
+}
 
-	right_bp := bp_lu[operatorToken.Kind]
 
-	var right ast.Expr
+func parse_prefix_expr(p *Parser) ast.Expr {
+	operator := p.advance()
 
-	if right_bp > bp {
-		right = parse_expr(p, right_bp)
-	} else {
-		right = parse_expr(p, bp)
-	}
+	expr := parse_expr(p, unary)
 
-	return ast.BinaryExpr{
-		Left:     left,
-		Operator: operatorToken,
-		Right:    right,
+	return ast.UnaryExpr{
+		Kind: ast.NodeType(ast.UNARY_EXPRESSION),
+		Operator: operator,
+		Argument: expr,
 	}
 }
 
-func parse_unary_expr(p *Parser) ast.Expr {
-	operator := p.currentToken()
-	p.advance()                     // Consume the unary operator token
-	operand := parse_expr(p, unary) // Parse the operand
-	return ast.UnaryExpr{
+
+func parse_unary_expr(p *Parser) ast.Expr{
+	return parse_prefix_expr(p)
+}
+
+
+func parse_var_assignment_expr(p *Parser, left ast.Expr, bp binding_power) ast.Expr {
+    // Check if left is an Identifier
+    
+	identifier, ok := left.(ast.Identifier)
+
+    if !ok {
+        panic("Cannot assign value: Expected an identifier on the left side of the assignment")
+    }
+
+	operator := p.advance()
+
+	right := parse_expr(p, bp)
+
+	return ast.AssignmentExpr{
+		Kind: ast.NodeType(ast.ASSIGNMENT_EXPRESSION),
+		Assigne: identifier,
 		Operator: operator,
-		Operand:  operand,
+		Value: right,
 	}
+
 }

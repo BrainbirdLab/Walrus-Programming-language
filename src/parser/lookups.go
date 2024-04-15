@@ -7,7 +7,7 @@ import (
 
 type binding_power int
 
-//Operator precedence levels. primary is the highest binding power
+// Operator precedence levels. primary is the highest binding power
 const (
 	default_bp binding_power = iota
 	comma
@@ -37,18 +37,19 @@ type nud_lookup map[lexer.TokenKind]nud_handler
 type led_lookup map[lexer.TokenKind]led_handler
 type bp_lookup map[lexer.TokenKind]binding_power
 
+
 var bp_lu = bp_lookup{}
 var nud_lu = nud_lookup{}
 var led_lu = led_lookup{}
 var stmt_lu = stmt_lookup{}
+
 
 func led(kind lexer.TokenKind, bp binding_power, led_fn led_handler) {
 	bp_lu[kind] = bp
 	led_lu[kind] = led_fn
 }
 
-func nud(kind lexer.TokenKind, bp binding_power, nud_fn nud_handler) {
-	bp_lu[kind] = primary
+func nud(kind lexer.TokenKind, nud_fn nud_handler) {
 	nud_lu[kind] = nud_fn
 }
 
@@ -59,11 +60,18 @@ func stmt(kind lexer.TokenKind, stmt_fn stmt_handler) {
 
 func createTokenLookups() {
 
+	// Assignment
+	led(lexer.ASSIGNMENT, assignment, parse_var_assignment_expr)
+	led(lexer.PLUS_EQUALS, assignment, parse_var_assignment_expr)
+	led(lexer.MINUS_EQUALS, assignment, parse_var_assignment_expr)
+	led(lexer.TIMES_EQUALS, assignment, parse_var_assignment_expr)
+	led(lexer.DIVIDE_EQUALS, assignment, parse_var_assignment_expr)
+	led(lexer.MODULO_EQUALS, assignment, parse_var_assignment_expr)
+
 	// Logical operations
 	led(lexer.AND, logical, parse_binary_expr)
 	led(lexer.OR, logical, parse_binary_expr)
 	led(lexer.DOT_DOT, logical, parse_binary_expr)
-
 
 	// Relational
 	led(lexer.LESS, relational, parse_binary_expr)
@@ -73,26 +81,34 @@ func createTokenLookups() {
 	led(lexer.EQUALS, relational, parse_binary_expr)
 	led(lexer.NOT_EQUALS, relational, parse_binary_expr)
 
-
 	// Additive & Multiplicative
 	led(lexer.PLUS, additive, parse_binary_expr)
 	led(lexer.MINUS, additive, parse_binary_expr)
-	
+
 	led(lexer.TIMES, multiplicative, parse_binary_expr)
 	led(lexer.DIVIDE, multiplicative, parse_binary_expr)
 	led(lexer.MODULO, multiplicative, parse_binary_expr)
 
-
 	//literals & symbols
-	nud(lexer.NUMBER, primary, parse_primary_expr)
-	nud(lexer.STRING, primary, parse_primary_expr)
-	nud(lexer.IDENTIFIER, primary, parse_primary_expr)
-	
-	nud(lexer.OPEN_PAREN, primary, parse_primary_expr)
-	nud(lexer.MINUS, unary, parse_unary_expr)
+	nud(lexer.NUMBER, parse_primary_expr)
+	nud(lexer.STRING, parse_primary_expr)
+	nud(lexer.IDENTIFIER, parse_primary_expr)
+	nud(lexer.TRUE, parse_primary_expr)
+	nud(lexer.FALSE, parse_primary_expr)
+	nud(lexer.NULL, parse_primary_expr)
 
+	nud(lexer.OPEN_PAREN, parse_grouping_expr)
+
+	//unary / prefix
+	nud(lexer.MINUS, parse_prefix_expr)
+	nud(lexer.PLUS, parse_prefix_expr)
+	nud(lexer.PLUS_PLUS, parse_unary_expr)
+	nud(lexer.MINUS_MINUS, parse_unary_expr)
+	nud(lexer.NOT, parse_unary_expr)
 
 	// Statements
-	stmt((lexer.CONST), parse_var_decl_stmt)
-	stmt((lexer.LET), parse_var_decl_stmt)
+	stmt(lexer.CONST, parse_var_decl_stmt)
+	stmt(lexer.LET, parse_var_decl_stmt)
+	stmt(lexer.IF, parse_if_statement)
+	//stmt(lexer.ELSEIF, parse_if_statement)
 }
