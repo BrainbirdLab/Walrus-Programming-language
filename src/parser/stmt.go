@@ -24,14 +24,13 @@ func parse_stmt(p *Parser) ast.Stmt {
 func parse_expression_stmt(p *Parser) ast.ExpressionStmt {
 
 	expression := parse_expr(p, default_bp)
-	
+
 	p.expect(lexer.SEMI_COLON)
 
 	fmt.Printf("Parsed expression: %v\n", expression)
-	
 
 	return ast.ExpressionStmt{
-		Kind:       ast.NodeType(ast.STATEMENT),
+		Kind:       ast.STATEMENT,
 		Expression: expression,
 	}
 }
@@ -45,9 +44,33 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 
 	varName := p.expectError(lexer.IDENTIFIER, errMsg).Value
 
-	assignmentToken:= p.advance()
+	p.expectError(lexer.COLON, "Expected : after variable name")
 
-	fmt.Printf("Ass token (%s)", assignmentToken.Value)
+	// Parse the type of the variable
+	varType := p.advance()
+
+	if varType.Kind != lexer.ASSIGNMENT {
+		// No type specified, get the type from the value
+		fmt.Printf("No type specified for variable: %s\n", varName)
+
+		// must provide a value for the variable
+
+		//expect a
+	}
+
+	var assignmentToken lexer.Token
+
+	fmt.Printf("Type of variable: %s\n", varType.Value)
+
+	if varType.Kind == lexer.ASSIGNMENT {
+		assignmentToken = varType
+		varType.Value = "infr"
+	} else {
+		assignmentToken = p.advance()
+	}
+
+
+	fmt.Printf("Ass token (%s)", lexer.TokenKindString(assignmentToken.Kind))
 
 	var value ast.Expr
 
@@ -66,13 +89,13 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 	}
 
 	return ast.VariableDclStml{
-		Kind: ast.NodeType(ast.VARIABLE_DECLARATION_STATEMENT),
+		Kind:       ast.VARIABLE_DECLARATION_STATEMENT,
 		IsConstant: isConstant,
 		Identifier: varName,
 		Value:      value,
+		Type:       varType.Value,
 	}
 }
-
 
 func parse_block(p *Parser) ast.BlockStmt {
 
@@ -87,13 +110,13 @@ func parse_block(p *Parser) ast.BlockStmt {
 	p.expect(lexer.CLOSE_CURLY)
 
 	return ast.BlockStmt{
-		Kind: ast.NodeType(ast.BLOCK_STATEMENT),
+		Kind: ast.BLOCK_STATEMENT,
 		Body: body,
 	}
 }
 
-func parse_if_statement(p *Parser) ast.Stmt{
-	
+func parse_if_statement(p *Parser) ast.Stmt {
+
 	//pass the if token
 	fmt.Printf("Current token in if: %v\n", p.currentToken())
 
@@ -120,9 +143,9 @@ func parse_if_statement(p *Parser) ast.Stmt{
 	}
 
 	return ast.IfStmt{
-		Kind: ast.NodeType(ast.IF_STATEMENT),
+		Kind:      ast.IF_STATEMENT,
 		Condition: condition,
-		Block: consequentBlock,
+		Block:     consequentBlock,
 		Alternate: alternate,
 	}
 }

@@ -8,7 +8,7 @@ type NodeType int
 
 const (
     // Statements
-    PROGRAM int = iota
+    PROGRAM NodeType = iota
     STATEMENT         			
     BLOCK_STATEMENT    			
     VARIABLE_DECLARATION_STATEMENT
@@ -34,6 +34,10 @@ const (
     UNARY_EXPRESSION			
 )
 
+type Node interface {
+    node()
+}
+
 type Stmt interface {
 	stmt()
 }
@@ -43,7 +47,7 @@ type Expr interface {
 }
 
 type Type interface {
-	_type()
+    _type()
 }
 
 func ExpectExpr[T Expr](expr Expr) T {

@@ -26,3 +26,11 @@ if a > 50 {
 }
 ```
 
+## todos
+### Lexer
+- [x] Complete
+
+### Parser
+- [x] Var declare
+- [x] Var assign
+- [ ] Infer type from value

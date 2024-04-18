@@ -24,12 +24,14 @@ func (u UnaryExpr) expr() {}
 type Identifier struct {
 	Kind   NodeType
 	Symbol string
+	Type   string
 }
 func (i Identifier) expr() {}
 
 type NumericLiteral struct {
 	Kind  NodeType
 	Value float64
+	Type  string
 }
 
 func (n NumericLiteral) expr() {}
@@ -37,6 +39,7 @@ func (n NumericLiteral) expr() {}
 type StringLiteral struct {
 	Kind  NodeType
 	Value string
+	Type  string
 }
 
 func (s StringLiteral) expr() {}
@@ -44,6 +47,7 @@ func (s StringLiteral) expr() {}
 type BooleanLiteral struct {
 	Kind  NodeType
 	Value bool
+	Type  string
 }
 
 func (b BooleanLiteral) expr() {}
@@ -51,6 +55,7 @@ func (b BooleanLiteral) expr() {}
 type NullLiteral struct {
 	Kind  NodeType
 	Value string
+	Type  string
 }
 
 func (n NullLiteral) expr() {}

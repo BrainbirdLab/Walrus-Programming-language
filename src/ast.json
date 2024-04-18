@@ -1,0 +1,238 @@
+{
+  "Kind": 0,
+  "Body": [
+    {
+      "Kind": 3,
+      "IsConstant": true,
+      "Identifier": "a",
+      "Value": {
+        "Kind": 9,
+        "Value": 40,
+        "Type": "i8"
+      },
+      "Type": "infr"
+    },
+    {
+      "Kind": 3,
+      "IsConstant": false,
+      "Identifier": "b",
+      "Value": null,
+      "Type": "i8"
+    },
+    {
+      "Kind": 7,
+      "Condition": {
+        "Kind": 15,
+        "Operator": {
+          "Kind": 15,
+          "Value": "\u003e"
+        },
+        "Left": {
+          "Kind": 14,
+          "Symbol": "a",
+          "Type": "infr"
+        },
+        "Right": {
+          "Kind": 9,
+          "Value": 50,
+          "Type": "i8"
+        }
+      },
+      "Block": {
+        "Kind": 2,
+        "Body": [
+          {
+            "Kind": 1,
+            "Expression": {
+              "Kind": 13,
+              "Assigne": {
+                "Kind": 14,
+                "Symbol": "b",
+                "Type": "infr"
+              },
+              "Value": {
+                "Kind": 10,
+                "Value": "a is more than 50",
+                "Type": "str"
+              },
+              "Operator": {
+                "Kind": 10,
+                "Value": "="
+              }
+            }
+          }
+        ]
+      },
+      "Alternate": {
+        "Kind": 7,
+        "Condition": {
+          "Kind": 15,
+          "Operator": {
+            "Kind": 13,
+            "Value": "\u003c"
+          },
+          "Left": {
+            "Kind": 14,
+            "Symbol": "a",
+            "Type": "infr"
+          },
+          "Right": {
+            "Kind": 9,
+            "Value": 50,
+            "Type": "i8"
+          }
+        },
+        "Block": {
+          "Kind": 2,
+          "Body": [
+            {
+              "Kind": 1,
+              "Expression": {
+                "Kind": 13,
+                "Assigne": {
+                  "Kind": 14,
+                  "Symbol": "b",
+                  "Type": "infr"
+                },
+                "Value": {
+                  "Kind": 10,
+                  "Value": "a is less that 50",
+                  "Type": "str"
+                },
+                "Operator": {
+                  "Kind": 10,
+                  "Value": "="
+                }
+              }
+            }
+          ]
+        },
+        "Alternate": {
+          "Kind": 7,
+          "Condition": {
+            "Kind": 15,
+            "Operator": {
+              "Kind": 18,
+              "Value": "and"
+            },
+            "Left": {
+              "Kind": 15,
+              "Operator": {
+                "Kind": 18,
+                "Value": "and"
+              },
+              "Left": {
+                "Kind": 15,
+                "Operator": {
+                  "Kind": 11,
+                  "Value": "is"
+                },
+                "Left": {
+                  "Kind": 9,
+                  "Value": 67,
+                  "Type": "i8"
+                },
+                "Right": {
+                  "Kind": 17,
+                  "Operator": {
+                    "Kind": 25,
+                    "Value": "not"
+                  },
+                  "Argument": {
+                    "Kind": 11,
+                    "Value": true,
+                    "Type": "bool"
+                  }
+                }
+              },
+              "Right": {
+                "Kind": 15,
+                "Operator": {
+                  "Kind": 11,
+                  "Value": "is"
+                },
+                "Left": {
+                  "Kind": 14,
+                  "Symbol": "b",
+                  "Type": "infr"
+                },
+                "Right": {
+                  "Kind": 14,
+                  "Symbol": "a",
+                  "Type": "infr"
+                }
+              }
+            },
+            "Right": {
+              "Kind": 15,
+              "Operator": {
+                "Kind": 15,
+                "Value": "\u003e"
+              },
+              "Left": {
+                "Kind": 14,
+                "Symbol": "a",
+                "Type": "infr"
+              },
+              "Right": {
+                "Kind": 9,
+                "Value": 50,
+                "Type": "i8"
+              }
+            }
+          },
+          "Block": {
+            "Kind": 2,
+            "Body": [
+              {
+                "Kind": 1,
+                "Expression": {
+                  "Kind": 13,
+                  "Assigne": {
+                    "Kind": 14,
+                    "Symbol": "b",
+                    "Type": "infr"
+                  },
+                  "Value": {
+                    "Kind": 10,
+                    "Value": "a is 50",
+                    "Type": "str"
+                  },
+                  "Operator": {
+                    "Kind": 10,
+                    "Value": "="
+                  }
+                }
+              }
+            ]
+          },
+          "Alternate": {
+            "Kind": 2,
+            "Body": [
+              {
+                "Kind": 1,
+                "Expression": {
+                  "Kind": 13,
+                  "Assigne": {
+                    "Kind": 14,
+                    "Symbol": "b",
+                    "Type": "infr"
+                  },
+                  "Value": {
+                    "Kind": 10,
+                    "Value": "none",
+                    "Type": "str"
+                  },
+                  "Operator": {
+                    "Kind": 10,
+                    "Value": "="
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

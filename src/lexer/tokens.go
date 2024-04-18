@@ -35,7 +35,6 @@ const (
 	// Logical operators
 	OR
 	AND
-	IS
 	
 	// Literals
 	DOT
@@ -99,7 +98,7 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"if":      		IF,
 	"elf":     		ELSEIF,
 	"els":     		ELSE,
-	"is": 	   		IS,
+	"is": 	   		EQUALS,
 	"isnt": 		NOT_EQUALS,
 	"and":     		AND,
 	"or":      		OR,

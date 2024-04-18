@@ -26,6 +26,7 @@ type VariableDclStml struct {
 	IsConstant bool
 	Identifier string
 	Value      Expr
+	Type	   string
 }
 func (v VariableDclStml) stmt() {}
 
