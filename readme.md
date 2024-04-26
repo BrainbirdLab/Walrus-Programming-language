@@ -33,4 +33,5 @@ if a > 50 {
 ### Parser
 - [x] Var declare
 - [x] Var assign
-- [ ] Infer type from value
+- [x] Infer type from value
+- [ ] funtions
