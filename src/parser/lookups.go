@@ -106,9 +106,13 @@ func createTokenLookups() {
 	nud(lexer.MINUS_MINUS, parse_unary_expr)
 	nud(lexer.NOT, parse_unary_expr)
 
+	//call/member
+	led(lexer.OPEN_CURLY, call, parse_struct_instantiation_expr)
+
 	// Statements
 	stmt(lexer.CONST, parse_var_decl_stmt)
 	stmt(lexer.LET, parse_var_decl_stmt)
 	stmt(lexer.IF, parse_if_statement)
+	stmt(lexer.STRUCT, parse_struct_decl_stmt)
 	//stmt(lexer.ELSEIF, parse_if_statement)
 }

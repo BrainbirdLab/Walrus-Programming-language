@@ -1,20 +1,20 @@
-use fs;
-use path;
-use time;
+import "fs";
+import "path";
+import { time } from "system";
 
-class DirectoryReader {
-  let directoryPath: string;
+struct DirectoryReader {
+  let directoryPath: str;
 
-  fn mount(directoryPath: string) {
+  fn mount(directoryPath: str) {
     this.directoryPath = directoryPath;
   }
 
   fn readRecentFiles() {
-    let allFiles: []string = fs.readDir(this.directoryPath);
-    let recentFiles: []string = [];
+    let allFiles: []str = fs.readDir(this.directoryPath);
+    let recentFiles: []str = [];
 
     foreach file in allFiles {
-      let fullPath: string = path.join(this.directoryPath, file);
+      let fullPath: str = path.join(this.directoryPath, file);
       let fileInfo: FileInfo = fs.stat(fullPath);
       if this.isFileRecent(fileInfo.creationTime) {
         recentFiles.push(fullPath);
@@ -26,15 +26,15 @@ class DirectoryReader {
     }
   }
 
-  fn isFileRecent(creationTime: Time): boolean {
+  fn isFileRecent(creationTime: Time): bool {
     let twentyFourHoursAgo: Time = time.now() - time.hours(24);
     creationTime > twentyFourHoursAgo;
   }
 }
 
 fn main() {
-  const directory: string = "/path/to/directory";
-  const reader = new DirectoryReader();
+  const directory: str = "/path/to/directory";
+  const reader = DirectoryReader::new();
   reader.mount(directory);
   reader.readRecentFiles();
 }

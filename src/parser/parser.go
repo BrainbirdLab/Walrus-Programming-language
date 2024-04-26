@@ -30,6 +30,7 @@ func Parse(tokens []lexer.Token) ast.BlockStmt {
 func createParser(tokens []lexer.Token) *Parser {
 	
 	createTokenLookups()
+	createTokenTypesLookups()
 	
 	return &Parser{
 		tokens: tokens,

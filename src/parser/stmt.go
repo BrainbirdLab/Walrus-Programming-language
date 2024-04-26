@@ -37,6 +37,9 @@ func parse_expression_stmt(p *Parser) ast.ExpressionStmt {
 
 func parse_var_decl_stmt(p *Parser) ast.Stmt {
 
+	var explicitType ast.Type
+	var assignedValue ast.Expr
+
 	isConstant := p.advance().Kind == lexer.CONST
 
 	//varName := p.expectError(lexer.IDENTIFIER, "Expected identifier after " + (isConstant ? "const" : "let")  ).Value
@@ -44,56 +47,38 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 
 	varName := p.expectError(lexer.IDENTIFIER, errMsg).Value
 
-	p.expectError(lexer.COLON, "Expected : after variable name")
+	fmt.Printf("Variable name: %s\n", varName)
 
-	// Parse the type of the variable
-	varType := p.advance()
-
-	if varType.Kind != lexer.ASSIGNMENT {
-		// No type specified, get the type from the value
-		fmt.Printf("No type specified for variable: %s\n", varName)
-
-		// must provide a value for the variable
-
-		//expect a
-	}
-
-	var assignmentToken lexer.Token
-
-	fmt.Printf("Type of variable: %s\n", varType.Value)
-
-	if varType.Kind == lexer.ASSIGNMENT {
-		assignmentToken = varType
-		varType.Value = "infr"
+	//p.expectError(lexer.COLON, "Expected type or value after variable name")
+	if p.currentTokenKind() != lexer.COLON {
+		// then we expect wallrus
+		p.expect(lexer.WALRUS)
 	} else {
-		assignmentToken = p.advance()
+		// then we expect type
+		p.advance()
+		explicitType = parse_type(p, default_bp)
+		fmt.Printf("Explicit type: %v\n", explicitType)
+		p.expect(lexer.ASSIGNMENT)
 	}
 
+	fmt.Printf("Explicit type: %v\n", explicitType)
 
-	fmt.Printf("Ass token (%s)", lexer.TokenKindString(assignmentToken.Kind))
+	fmt.Printf("Current token: %s\n", p.currentToken().Value)
 
-	var value ast.Expr
-
-	if assignmentToken.Kind != lexer.ASSIGNMENT {
-		if isConstant {
-			panic("Constant must be initialized with a value")
-		} else if !isConstant && (assignmentToken.Kind != lexer.SEMI_COLON) {
-			panic("Cannot determine the end of statement")
-		}
-	} else {
-		// No assignment, just a declaration
-		fmt.Printf("Parsing variable declaration with assignment for identifier: %s\n", varName)
-		value = parse_expr(p, assignment)
-		p.expect(lexer.SEMI_COLON)
-		//p.expectAny(lexer.ENDLINE, lexer.EOF)
+	if p.currentTokenKind() != lexer.SEMI_COLON {
+		// then we expect assignment
+		//p.expect(lexer.ASSIGNMENT)
+		assignedValue = parse_expr(p, default_bp)
 	}
+	
+	p.expect(lexer.SEMI_COLON)
 
 	return ast.VariableDclStml{
-		Kind:       ast.VARIABLE_DECLARATION_STATEMENT,
-		IsConstant: isConstant,
-		Identifier: varName,
-		Value:      value,
-		Type:       varType.Value,
+		Kind:         ast.VARIABLE_DECLARATION_STATEMENT,
+		IsConstant:   isConstant,
+		Identifier:   varName,
+		Value:        assignedValue,
+		ExplicitType: explicitType,
 	}
 }
 
@@ -112,6 +97,57 @@ func parse_block(p *Parser) ast.BlockStmt {
 	return ast.BlockStmt{
 		Kind: ast.BLOCK_STATEMENT,
 		Body: body,
+	}
+}
+
+func parse_struct_decl_stmt(p *Parser) ast.Stmt {
+
+	p.expect(lexer.STRUCT)
+
+	properties := map[string]ast.StructProperty{}
+	methods := map[string]ast.StructMethod{}
+	structName := p.expect(lexer.IDENTIFIER).Value
+
+	p.expect(lexer.OPEN_CURLY)
+
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+
+		var IsStatic bool
+		var propName string
+
+		if p.currentTokenKind() == lexer.STATIC {
+			IsStatic = true
+			p.expect(lexer.STATIC) //! or use p.advance()
+		}
+
+		//property
+		if p.currentTokenKind() == lexer.IDENTIFIER {
+			propName = p.expect(lexer.IDENTIFIER).Value
+			p.expectError(lexer.COLON, "Expected ':' after property name")
+			structType := parse_type(p, default_bp)
+			p.expect(lexer.COMMA)
+
+			_, exists := properties[propName]
+			if exists {
+				panic(fmt.Sprintf("Property %s already exists", propName))
+			}
+
+			properties[propName] = ast.StructProperty{
+				IsStatic: IsStatic,
+				Type:     structType,
+				PropertyName: propName,
+			}
+
+			continue
+		}
+	}
+
+	p.expect(lexer.CLOSE_CURLY)
+
+	return ast.StructDeclStatement{
+		Properties: properties,
+		Methods: methods,
+		StructName: structName,
 	}
 }
 

@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"rexlang/lexer"
 	"rexlang/parser"
+	"github.com/sanity-io/litter"
 )
 
 
@@ -15,7 +16,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	bytes, err := os.ReadFile("./../examples/03.rex")
+	bytes, err := os.ReadFile("./../examples/01.rex")
 
 	if err != nil {
 		panic(err)
@@ -35,6 +36,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	litter.Dump(ast)
 
 	//parse as string
 	astString, err := json.MarshalIndent(ast, "", "  ")

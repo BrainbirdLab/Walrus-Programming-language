@@ -1,4 +1,4 @@
-
+import { read } from "io"
 
 fn main() {
     let a : i8 = 1;

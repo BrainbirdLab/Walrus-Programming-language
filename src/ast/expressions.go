@@ -21,12 +21,13 @@ type UnaryExpr struct {
 
 func (u UnaryExpr) expr() {}
 
-type Identifier struct {
+type SymbolExpr struct {
 	Kind   NodeType
 	Symbol string
 	Type   string
 }
-func (i Identifier) expr() {}
+
+func (i SymbolExpr) expr() {}
 
 type NumericLiteral struct {
 	Kind  NodeType
@@ -62,8 +63,15 @@ func (n NullLiteral) expr() {}
 
 type AssignmentExpr struct {
 	Kind     NodeType
-	Assigne  Identifier
+	Assigne  SymbolExpr
 	Value    Expr
 	Operator lexer.Token
 }
+
 func (a AssignmentExpr) expr() {}
+
+type StructInstantiationExpr struct {
+	StructName string
+	Properties map[string]Expr
+}
+func (s StructInstantiationExpr) expr() {}

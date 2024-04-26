@@ -22,6 +22,7 @@ const (
 
 	// Assignment operators
 	ASSIGNMENT
+	WALRUS
 
 
 	// Comparison operators
@@ -84,6 +85,9 @@ const (
 	NULL
 	TRUE
 	FALSE
+
+	STRUCT
+	STATIC
 )
 
 // Reserved keywords
@@ -98,11 +102,6 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"if":      		IF,
 	"elf":     		ELSEIF,
 	"els":     		ELSE,
-	"is": 	   		EQUALS,
-	"isnt": 		NOT_EQUALS,
-	"and":     		AND,
-	"or":      		OR,
-	"not":	   		NOT,
 	"foreach": 		FOREACH,
 	"while":   		WHILE,
 	"for":     		FOR,
@@ -112,6 +111,8 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"null":    		NULL,
 	"true":    		TRUE,
 	"false":   		FALSE,
+	"struct":  		STRUCT,
+	"static":  		STATIC,
 }
 
 
@@ -171,6 +172,8 @@ func TokenKindString(kind TokenKind) string {
 		return "Close paren )"
 	case ASSIGNMENT:
 		return "Assignment ="
+	case WALRUS:
+		return "Walrus :="
 	case EQUALS:
 		return "is =="
 	case NOT:
@@ -194,7 +197,7 @@ func TokenKindString(kind TokenKind) string {
 	case DOT_DOT:
 		return "Range .."
 	case SEMI_COLON:
-		return ";"
+		return "semi colon ;"
 	//case ENDLINE:
 	//	return "Endline"
 	case COLON:
@@ -259,6 +262,16 @@ func TokenKindString(kind TokenKind) string {
 		return "typeof"
 	case IN:
 		return "in"
+	case NULL:
+		return "null"
+	case TRUE:
+		return "true"
+	case FALSE:
+		return "false"
+	case STRUCT:
+		return "struct"
+	case STATIC:
+		return "static"
 	default:
 		return "unknown"
 	}
