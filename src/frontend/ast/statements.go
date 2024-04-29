@@ -32,21 +32,18 @@ func (v VariableDclStml) stmt() {}
 
 type StructProperty struct {
 	IsStatic bool
-	PropertyName string
+	IsPublic bool
 	Type Type
-	Value Expr
 }
 
 type StructMethod struct {
 	IsStatic bool
-	MethodName string
-	Parameters []string
+	IsPublic bool
+	Parameters map[string]Type
 	ReturnType Type
-	Block BlockStmt
 }
 
 type StructDeclStatement struct {
-	IsPublic bool
 	StructName string
 	Properties map[string]StructProperty
 	Methods map[string]StructMethod
@@ -60,5 +57,4 @@ type IfStmt struct {
 	Block     BlockStmt
 	Alternate interface{}
 }
-
 func (i IfStmt) stmt() {}

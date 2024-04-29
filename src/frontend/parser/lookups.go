@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"rexlang/ast"
-	"rexlang/lexer"
+	"rexlang/frontend/ast"
+	"rexlang/frontend/lexer"
 )
 
 type binding_power int
@@ -105,6 +105,7 @@ func createTokenLookups() {
 	nud(lexer.PLUS_PLUS, parse_unary_expr)
 	nud(lexer.MINUS_MINUS, parse_unary_expr)
 	nud(lexer.NOT, parse_unary_expr)
+	nud(lexer.OPEN_BRACKET, parse_array_expr)
 
 	//call/member
 	led(lexer.OPEN_CURLY, call, parse_struct_instantiation_expr)

@@ -1,7 +1,7 @@
 package ast
 
 import (
-	"rexlang/lexer"
+	"rexlang/frontend/lexer"
 )
 
 type BinaryExpr struct {
@@ -67,11 +67,28 @@ type AssignmentExpr struct {
 	Value    Expr
 	Operator lexer.Token
 }
-
 func (a AssignmentExpr) expr() {}
+
+type FunctionExpr struct {
+	Kind     NodeType
+	Params   SymbolExpr
+	Returns  Expr
+	Body     BlockStmt
+}
+func (f FunctionExpr) expr() {}
+
 
 type StructInstantiationExpr struct {
 	StructName string
 	Properties map[string]Expr
+	Methods    map[string]FunctionExpr
 }
 func (s StructInstantiationExpr) expr() {}
+
+type ArrayLiterals struct {
+	Kind          	NodeType
+	Size     		uint64
+	Elements 		[]Expr
+}
+
+func (a ArrayLiterals) expr() {}

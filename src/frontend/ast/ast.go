@@ -14,7 +14,7 @@ const (
     VARIABLE_DECLARATION_STATEMENT
     CONTROL_FLOW_STATEMENT       
     WHILE_STATEMENT    			
-    fOR_STATEMENT      			
+    FOR_STATEMENT      			
     IF_STATEMENT       			
     ELSE_STATEMENT   			 			
 
@@ -23,15 +23,18 @@ const (
     STRING_LITERAL 				
     BOOLEAN_LITERAL			
     NULL_LITERAL				
+    ARRAY_LITERALS
 
     // Expressions
     ASSIGNMENT_EXPRESSION
     IDENTIFIER	
     BINARY_EXPRESSION
-    LOGICAL_EXPRESSION    		
+    LOGICAL_EXPRESSION
 
+    FUNCTION_EXPRESSION
+    
     // Unary Operations
-    UNARY_EXPRESSION			
+    UNARY_EXPRESSION	
 )
 
 type Node interface {

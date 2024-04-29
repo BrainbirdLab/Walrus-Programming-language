@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 	"encoding/json"
-	"rexlang/lexer"
-	"rexlang/parser"
+	"rexlang/frontend/lexer"
+	"rexlang/frontend/parser"
 	"github.com/sanity-io/litter"
 )
 
@@ -16,7 +16,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	bytes, err := os.ReadFile("./../examples/01.rex")
+	bytes, err := os.ReadFile("./../examples/array.rex")
 
 	if err != nil {
 		panic(err)

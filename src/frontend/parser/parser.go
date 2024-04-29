@@ -2,8 +2,8 @@ package parser
 
 import (
 	"fmt"
-	"rexlang/ast"
-	"rexlang/lexer"
+	"rexlang/frontend/ast"
+	"rexlang/frontend/lexer"
 )
 
 type Parser struct {

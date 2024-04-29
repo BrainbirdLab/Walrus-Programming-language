@@ -15,22 +15,23 @@ fn func() {
 }
 
 
-class CLASSNAME {
-    //properties
-    let a : i8 = 1;  // 8 bit int
+//struct in rust
+struct Point {
 
-    static const c : i64 = 4389235677832; // 64 bit int (static)
+    pub let x: i8;
+    pub const y: i8;
 
-    const b: i8; // must be assigned in the constructor
-
-    //constructor
-    fn new(b: i8) -> Self {
-        self.b = b;
-
-        return self;
+    // method
+    pub fn distance(self, other: Point) -> i8 {
+        return (self.x - other.x).abs() + (self.y - other.y).abs();
     }
 
+    // no return method
+    pub fn print(self) {
+        println("x: {}, y: {}", self.x, self.y);
+    }
 }
+
 
 
 fn y() -> i8 {

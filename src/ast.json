@@ -4,134 +4,99 @@
     {
       "Kind": 3,
       "IsConstant": false,
-      "Identifier": "a",
-      "Value": {
-        "Kind": 15,
-        "Operator": {
-          "Kind": 34,
-          "Value": "+"
-        },
-        "Left": {
-          "Kind": 9,
-          "Value": 1,
-          "Type": "i8"
-        },
-        "Right": {
-          "Kind": 15,
-          "Operator": {
-            "Kind": 36,
-            "Value": "*"
-          },
-          "Left": {
-            "Kind": 9,
-            "Value": 5,
-            "Type": "i8"
-          },
-          "Right": {
-            "Kind": 9,
-            "Value": 4,
-            "Type": "i8"
-          }
-        }
-      },
-      "ExplicitType": {
-        "Name": "number"
-      }
-    },
-    {
-      "Kind": 3,
-      "IsConstant": false,
-      "Identifier": "b",
-      "Value": {
-        "Kind": 15,
-        "Operator": {
-          "Kind": 16,
-          "Value": "\u003e"
-        },
-        "Left": {
-          "Kind": 14,
-          "Symbol": "a",
-          "Type": "infr"
-        },
-        "Right": {
-          "Kind": 9,
-          "Value": 9,
-          "Type": "i8"
-        }
-      },
-      "ExplicitType": {
-        "Name": "bool"
-      }
-    },
-    {
-      "Kind": 3,
-      "IsConstant": false,
-      "Identifier": "c",
-      "Value": {
-        "Kind": 9,
-        "Value": 8,
-        "Type": "i8"
-      },
-      "ExplicitType": null
-    },
-    {
-      "Kind": 3,
-      "IsConstant": false,
       "Identifier": "arr",
       "Value": {
-        "Kind": 9,
-        "Value": 0,
-        "Type": "i8"
-      },
-      "ExplicitType": {
-        "UnderlayingType": {
-          "Name": "i8"
-        }
-      }
-    },
-    {
-      "IsPublic": false,
-      "StructName": "Point",
-      "Properties": {
-        "x": {
-          "IsStatic": false,
-          "PropertyName": "x",
-          "Type": {
-            "Name": "i8"
-          },
-          "Value": null
-        },
-        "y": {
-          "IsStatic": false,
-          "PropertyName": "y",
-          "Type": {
-            "Name": "i8"
-          },
-          "Value": null
-        }
-      },
-      "Methods": {}
-    },
-    {
-      "Kind": 3,
-      "IsConstant": false,
-      "Identifier": "p",
-      "Value": {
-        "StructName": "Point",
-        "Properties": {
-          "x": {
+        "Kind": 13,
+        "Size": 5,
+        "Elements": [
+          {
             "Kind": 9,
             "Value": 1,
             "Type": "i8"
           },
-          "y": {
+          {
             "Kind": 9,
             "Value": 2,
             "Type": "i8"
+          },
+          {
+            "Kind": 9,
+            "Value": 3,
+            "Type": "i8"
+          },
+          {
+            "Kind": 9,
+            "Value": 4,
+            "Type": "i8"
+          },
+          {
+            "Kind": 9,
+            "Value": 5,
+            "Type": "i8"
+          }
+        ]
+      },
+      "ExplicitType": {
+        "ElementType": {
+          "BitSize": 8,
+          "IsSigned": true
+        },
+        "Size": 0
+      }
+    },
+    {
+      "StructName": "Array",
+      "Properties": {
+        "_arr": {
+          "IsStatic": false,
+          "IsPublic": false,
+          "Type": {
+            "ElementType": {
+              "BitSize": 8,
+              "IsSigned": true
+            },
+            "Size": 0
+          }
+        },
+        "_capacity": {
+          "IsStatic": false,
+          "IsPublic": false,
+          "Type": {
+            "BitSize": 8,
+            "IsSigned": true
+          }
+        },
+        "length": {
+          "IsStatic": false,
+          "IsPublic": true,
+          "Type": {
+            "BitSize": 8,
+            "IsSigned": true
           }
         }
       },
-      "ExplicitType": null
+      "Methods": {
+        "pop": {
+          "IsStatic": false,
+          "IsPublic": true,
+          "Parameters": {},
+          "ReturnType": {
+            "BitSize": 8,
+            "IsSigned": true
+          }
+        },
+        "push": {
+          "IsStatic": false,
+          "IsPublic": true,
+          "Parameters": {
+            "elem": {
+              "BitSize": 8,
+              "IsSigned": true
+            }
+          },
+          "ReturnType": {}
+        }
+      }
     }
   ]
 }

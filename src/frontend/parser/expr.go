@@ -2,9 +2,9 @@ package parser
 
 import (
 	"fmt"
-	"rexlang/ast"
+	"rexlang/frontend/ast"
 	"rexlang/helpers"
-	"rexlang/lexer"
+	"rexlang/frontend/lexer"
 	"strconv"
 )
 
@@ -167,6 +167,7 @@ func parse_struct_instantiation_expr(p *Parser, left ast.Expr, bp binding_power)
 	structName := helpers.ExpectType[ast.SymbolExpr](left).Symbol
 
 	var properties = map[string]ast.Expr{}
+	var methods = map[string]ast.FunctionExpr{}
 
 	p.expect(lexer.OPEN_CURLY)
 
@@ -187,5 +188,28 @@ func parse_struct_instantiation_expr(p *Parser, left ast.Expr, bp binding_power)
 	return ast.StructInstantiationExpr{
 		StructName: structName,
 		Properties: properties,
+		Methods: methods,
+	}
+}
+
+func parse_array_expr(p *Parser) ast.Expr {
+
+	p.expect(lexer.OPEN_BRACKET)
+
+	elements := []ast.Expr{}
+
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_BRACKET {
+		elements = append(elements, parse_expr(p, primary))
+		if p.currentTokenKind() != lexer.CLOSE_BRACKET {
+			p.expect(lexer.COMMA)
+		}
+	}
+
+	p.expect(lexer.CLOSE_BRACKET)
+
+	return ast.ArrayLiterals{
+		Kind: ast.ARRAY_LITERALS,
+		Elements: elements,
+		Size: uint64(len(elements)),
 	}
 }

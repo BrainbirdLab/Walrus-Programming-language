@@ -11,6 +11,8 @@ const (
 	NUMBER
 	STRING
 	IDENTIFIER
+	ACCESS_MODIFIER
+	RETURN
 
 	// Delimiters
 	OPEN_BRACKET
@@ -23,6 +25,8 @@ const (
 	// Assignment operators
 	ASSIGNMENT
 	WALRUS
+
+	ARROW
 
 
 	// Comparison operators
@@ -113,6 +117,9 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"false":   		FALSE,
 	"struct":  		STRUCT,
 	"static":  		STATIC,
+	"pub":    		ACCESS_MODIFIER,
+	"priv":    		ACCESS_MODIFIER,
+	"ret":    		RETURN,
 }
 
 
@@ -272,6 +279,12 @@ func TokenKindString(kind TokenKind) string {
 		return "struct"
 	case STATIC:
 		return "static"
+	case ARROW:
+		return "->"
+	case ACCESS_MODIFIER:
+		return "access modifier"
+	case RETURN:
+		return "return"
 	default:
 		return "unknown"
 	}

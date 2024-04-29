@@ -2,8 +2,10 @@ package parser
 
 import (
 	"fmt"
-	"rexlang/ast"
-	"rexlang/lexer"
+	"regexp"
+	"rexlang/frontend/ast"
+	"rexlang/frontend/lexer"
+	"strconv"
 )
 
 // Null denoted. Expect nothing to the left of the token
@@ -12,16 +14,13 @@ type type_nud_handler func(p *Parser) ast.Type
 // Left denoted. Expect something to the left of the token
 type type_led_handler func(p *Parser, left ast.Type, bp binding_power) ast.Type
 
-
 type type_nud_lookup map[lexer.TokenKind]type_nud_handler
 type type_led_lookup map[lexer.TokenKind]type_led_handler
 type type_bp_lookup map[lexer.TokenKind]binding_power
 
-
 var type_bp_lu = type_bp_lookup{}
 var type_nud_lu = type_nud_lookup{}
 var type_led_lu = type_led_lookup{}
-
 
 func type_led(kind lexer.TokenKind, bp binding_power, led_fn type_led_handler) {
 	type_bp_lu[kind] = bp
@@ -32,27 +31,65 @@ func type_nud(kind lexer.TokenKind, nud_fn type_nud_handler) {
 	type_nud_lu[kind] = nud_fn
 }
 
-
 func createTokenTypesLookups() {
-	type_nud(lexer.IDENTIFIER, parse_symbol_type)
+	type_nud(lexer.IDENTIFIER, parse_data_type)
 	type_nud(lexer.OPEN_BRACKET, parse_array_type)
 }
 
-func parse_symbol_type(p *Parser) ast.Type {
-	return ast.SymbolType{
-		Name: p.expect(lexer.IDENTIFIER).Value,
+func parse_data_type(p *Parser) ast.Type {
+	value := p.expect(lexer.IDENTIFIER).Value
+	switch value {
+		case "i8","i16","i32","i64","i128":
+			return ast.IntegerType{
+				BitSize: BitSizeFromString(value),
+				IsSigned: true,
+			}
+		case "u8","u16","u32","u64","u128":
+			return ast.IntegerType{
+				BitSize: BitSizeFromString(value),
+				IsSigned: false,
+			}
+		case "f32", "f64":
+			return ast.FloatingType{
+				BitSize: BitSizeFromString(value),
+			}
+		case "bool":
+			return ast.BooleanType{}
+		case "char":
+			return ast.CharecterType{}
+		case "str":
+			return ast.StringType{}
+		default:
+			return ast.NullType{}
 	}
 }
+
+func BitSizeFromString(value string) uint8 {
+	//extract the number from the string
+	regexp := regexp.MustCompile(`\d+`)
+	match := regexp.FindString(value)
+	if match == "" {
+		panic("Invalid bit size")
+	}
+	size, err := strconv.Atoi(match)
+
+	if err != nil {
+		panic("Invalid bit size")
+	}
+
+	return uint8(size)
+}
+
 
 func parse_array_type(p *Parser) ast.Type {
 
 	p.advance()
 	p.expect(lexer.CLOSE_BRACKET)
 
-	underlaying := parse_type(p, default_bp)
+	elemType := parse_type(p, default_bp)
 
 	return ast.ArrayType{
-		UnderlayingType: underlaying,
+		ElementType: elemType,
 	}
 }
 
@@ -82,5 +119,4 @@ func parse_type(p *Parser, bp binding_power) ast.Type {
 	}
 
 	return left
-
 }
