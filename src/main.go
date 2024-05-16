@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 	"encoding/json"
-	"rexlang/frontend/lexer"
 	"rexlang/frontend/parser"
 	"github.com/sanity-io/litter"
 )
@@ -16,7 +15,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	bytes, err := os.ReadFile("./../examples/array.rex")
+	bytes, err := os.ReadFile("./../examples/05.rex")
 
 	if err != nil {
 		panic(err)
@@ -26,9 +25,7 @@ func main() {
 
 	fmt.Printf("Source code: %s\n", source)
 
-	tokens := lexer.Tokenize(source, true)
-
-	ast := parser.Parse(tokens)
+	ast := parser.Parse(&source, true)
 
 	//store as file
 	file, err := os.Create("ast.json");

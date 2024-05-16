@@ -2,21 +2,23 @@ package parser
 
 import (
 	"fmt"
+	"os"
 	"rexlang/frontend/ast"
 	"rexlang/frontend/lexer"
+	"strings"
 )
 
 type Parser struct {
-	//!ToDo: error
 	tokens 	[]lexer.Token
 	pos 	int
+	Lines	[]string
 }
 
-func Parse(tokens []lexer.Token) ast.BlockStmt {
+func Parse(source *string, debugMode bool) ast.BlockStmt {
 
 	Body := make([]ast.Stmt, 0)
 
-	parser := createParser(tokens)
+	parser := createParser(source, debugMode)
 
 	for parser.hasTokens() {
 		Body = append(Body, parse_stmt(parser))
@@ -27,14 +29,15 @@ func Parse(tokens []lexer.Token) ast.BlockStmt {
 	}
 }
 
-func createParser(tokens []lexer.Token) *Parser {
+func createParser(src *string, debugMode bool) *Parser {
 	
 	createTokenLookups()
 	createTokenTypesLookups()
 	
 	return &Parser{
-		tokens: tokens,
+		tokens: lexer.Tokenize(src, debugMode),
 		pos: 0,
+		Lines: strings.Split(*src, "\n"),
 	}
 }
 
@@ -63,10 +66,10 @@ func (p *Parser) expectError(expectedKind lexer.TokenKind, err any) lexer.Token 
 
 	if kind != expectedKind {
 		if err == nil {
-			err = fmt.Sprintf("Expected %s but recieved %s instead\n", lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind))
+			err = fmt.Sprintf("At line %d: Expected %s but recieved %s instead\n", token.StartPos.Line, lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind))
 		}
 
-		panic(err)
+		PrintError(p, token, fmt.Sprintf("Expected %s but recieved %s instead\n", lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind)))
 	}
 
 	return p.advance()
@@ -84,4 +87,22 @@ func (p *Parser) expectAny(kinds ...lexer.TokenKind) lexer.Token {
 	}
 
 	panic(fmt.Sprintf("Expected any of %v but recieved %s instead\n", kinds, lexer.TokenKindString(p.currentTokenKind())))
+}
+
+
+func PrintError(p *Parser, token lexer.Token, errMsg string) {
+
+	// decorate the error with ~~~~~ under the error line
+
+	line := p.Lines[token.StartPos.Line - 1]
+
+	fmt.Printf("\nLine: %d, Column: %d\n", token.StartPos.Line, token.StartPos.Column)
+	fmt.Printf("%s\n", line)
+	fmt.Printf("%s", strings.Repeat("~", token.StartPos.Column))
+	fmt.Printf("%s\n", strings.Repeat("^", token.EndPos.Column - token.StartPos.Column))
+	fmt.Printf("\n")
+	fmt.Printf("Error: %s\n", errMsg)
+
+	//exit
+	os.Exit(1)
 }

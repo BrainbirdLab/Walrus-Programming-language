@@ -13,14 +13,37 @@ type regexPattern struct {
 	handler regexHandler
 }
 
-type Lexer struct {
-	patterns []regexPattern
-	Tokens   []Token
-	source   string
-	index      int
+type Position struct {
+	Line 	int
+	Column 	int
+	Index 	int
 }
 
-func Tokenize(source string, debug bool) []Token {
+func (p *Position) advance(toSkip string) *Position {
+
+	currentChar := []byte(toSkip)
+
+	p.Index++
+	p.Column++
+	
+	for _, char := range currentChar {
+		if char == '\n' {
+			p.Line++
+			p.Column = 0
+		}
+	}
+
+	return p
+}
+
+type Lexer struct {
+	patterns 	[]regexPattern
+	Tokens   	[]Token
+	source   	*string
+	Pos 		Position
+}
+
+func Tokenize(source *string, debug bool) []Token {
 	
 	lex := createLexer(source)
 
@@ -40,11 +63,11 @@ func Tokenize(source string, debug bool) []Token {
 		}
 
 		if !matched {
-			panic(fmt.Sprintf("Lexer::Error at position %d: Unexpected token near %v\n", lex.index, lex.remainingLines()))
+			panic(fmt.Sprintf("At line %d: Unexpected character: %c", lex.Pos.Line, lex.at()))
 		}
 	}
 
-	lex.push(NewToken(EOF, "EOF"))
+	lex.push(NewToken(EOF, "EOF", lex.Pos, lex.Pos))
 
 	//litter.Dump(lex.Tokens)
 	if (debug) {
@@ -56,8 +79,9 @@ func Tokenize(source string, debug bool) []Token {
 	return lex.Tokens
 }
 
-func (lex *Lexer) advanceN(n int) {
-	lex.index += n
+func (lex *Lexer) advanceN(match string) {
+	//ascii value of match
+	lex.Pos.advance(match)
 }
 
 func (lex *Lexer) push(token Token) {
@@ -65,11 +89,11 @@ func (lex *Lexer) push(token Token) {
 }
 
 func (lex *Lexer) at() byte {
-	return lex.source[lex.index]
+	return (*(lex.source))[lex.Pos.Index]
 }
 
 func (lex *Lexer) remainder() string {
-	return lex.source[lex.index:]
+	return (*(lex.source))[lex.Pos.Index:]
 }
 
 func (lex *Lexer) remainingLines() string {
@@ -84,28 +108,38 @@ func (lex *Lexer) remainingLines() string {
 }
 
 func (lex *Lexer) at_eof() bool {
-	return lex.index >= len(lex.source)
+	return lex.Pos.Index >= len(*(lex.source))
 }
 
 func defaultHandler(kind TokenKind, value string) regexHandler {
 	return func(lex *Lexer, regex *regexp.Regexp) {
-		// advance the position
-		lex.advanceN(len(value))
-		lex.push(NewToken(kind, value))
+
+		start := lex.Pos
+		lex.advanceN(value)
+		end := lex.Pos
+
+		//line := lex.getLineNum(start)
+
+		lex.push(NewToken(kind, value, start, end))
 	}
 }
 
-func createLexer(source string) *Lexer {
-	return &Lexer{
-		index:    0,
+func createLexer(source *string) *Lexer {
+	lex := &Lexer{
 		source: source,
 		Tokens: make([]Token, 0),
+		Pos: Position{
+			Line: 1,
+			Index: 0,
+			Column: 0,
+		},
 		patterns: []regexPattern{
+			//{regexp.MustCompile(`\n`), skipHandler}, // newlines
 			{regexp.MustCompile(`\s+`), skipHandler}, // whitespace
 			{regexp.MustCompile(`\/\/.*`), skipHandler}, // single line comments
 			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler}, // multi line comments
 			{regexp.MustCompile(`"[^"]*"`), stringHandler}, // string literals
-			{regexp.MustCompile(`[0-9.]+`), numberHandler}, // numbers
+			{regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`), numberHandler}, // decimal numbers
 			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), symbolHandler}, // identifiers
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
 			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},
@@ -146,47 +180,53 @@ func createLexer(source string) *Lexer {
 			{regexp.MustCompile(`%`), defaultHandler(MODULO, "%")},
 		},
 	}
+
+	return lex
 }
 
 func symbolHandler(lex *Lexer, regex *regexp.Regexp) {
+
 	symbol := regex.FindString(lex.remainder())
 
+	start := lex.Pos
+	lex.advanceN(symbol)
+	end := lex.Pos
+
 	if kind, exists := reserved_lookup[symbol]; exists {
-		lex.push(NewToken(kind, symbol))
+		lex.push(NewToken(kind, symbol, start, end))
 	} else {
-		lex.push(NewToken(IDENTIFIER, symbol))
+		lex.push(NewToken(IDENTIFIER, symbol, start, end))
 	}
 
-	lex.advanceN(len(symbol))
 }
 
 func numberHandler(lex *Lexer, regex *regexp.Regexp) {
 	match := regex.FindString(lex.remainder())
-	// if the number has more than 1 dot, it's an error
-	count := 0
-	for _, c := range match {
-		if c == '.' {
-			count++
-		}
-	}
-	
-	if count > 1 {
-		panic(fmt.Sprintf("Lexer::Error at position %d: Multiple decimal operator found near %v\n", lex.index, lex.remainder()))
-	}
 
-	lex.push(NewToken(NUMBER, match))
-	lex.advanceN(len(match))
+	start := lex.Pos
+
+	lex.advanceN(match)
+
+	end := lex.Pos
+
+	lex.push(NewToken(NUMBER, match, start, end))
 }
 
 func stringHandler(lex *Lexer, regex *regexp.Regexp) {
-	match := regex.FindStringIndex(lex.remainder())
-	stringLiteral := lex.remainder()[match[0]+1 : match[1]-1]
 
-	lex.push(NewToken(STRING, stringLiteral))
-	lex.advanceN(len(stringLiteral) + 2)
+	match := regex.FindString(lex.remainder())
+	stringLiteral := match[1 : len(match)-1]
+
+	start := lex.Pos
+	lex.advanceN(match)
+	end := lex.Pos
+
+	lex.push(NewToken(STRING, stringLiteral, start, end))
 }
 
 func skipHandler(lex *Lexer, regex *regexp.Regexp) {
-	match := regex.FindStringIndex(lex.remainder())
-	lex.advanceN(match[1])
+
+	match := regex.FindString(lex.remainder())
+
+	lex.advanceN(match)
 }

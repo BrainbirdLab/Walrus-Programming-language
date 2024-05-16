@@ -1,20 +1,27 @@
 
-let arr : []i8 = [1, 2, 3, 4, 5];
+let a := i8 = 5;
+let a := 2;
+let b := 10;
+
+let c := a + b;
+
+let d := (a + b) * 2 - -c;
+
+
+
+let arr : []i8 = [1, 2, 3, 4, 5]
+
+let arr2 : [][]i8;
 
 struct Array {
 
-    length: i8, // public
-    _elements: []i8, // private
-
-    LENGTH = 5, // constant
-
-    $_copies: i8, // static, private
-
     pub length: i8;
 
-    priv static readonly _arr: []i8;
-    $_ARR: []i8;
+    priv _arr: []i8;
+
     priv _capacity: i8;
+
+    pub static readonly count: i8;
 
     pub push(elem: i8); // returns nothing
     pub pop() -> i8;

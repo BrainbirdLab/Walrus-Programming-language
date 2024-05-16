@@ -33,6 +33,7 @@ func (v VariableDclStml) stmt() {}
 type StructProperty struct {
 	IsStatic bool
 	IsPublic bool
+	ReadOnly bool
 	Type Type
 }
 

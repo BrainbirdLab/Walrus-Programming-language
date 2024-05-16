@@ -10,7 +10,6 @@ type BinaryExpr struct {
 	Left     Expr
 	Right    Expr
 }
-
 func (b BinaryExpr) expr() {}
 
 type UnaryExpr struct {
@@ -18,7 +17,6 @@ type UnaryExpr struct {
 	Operator lexer.Token
 	Argument Expr
 }
-
 func (u UnaryExpr) expr() {}
 
 type SymbolExpr struct {
@@ -26,7 +24,6 @@ type SymbolExpr struct {
 	Symbol string
 	Type   string
 }
-
 func (i SymbolExpr) expr() {}
 
 type NumericLiteral struct {
@@ -34,7 +31,6 @@ type NumericLiteral struct {
 	Value float64
 	Type  string
 }
-
 func (n NumericLiteral) expr() {}
 
 type StringLiteral struct {
@@ -42,7 +38,6 @@ type StringLiteral struct {
 	Value string
 	Type  string
 }
-
 func (s StringLiteral) expr() {}
 
 type BooleanLiteral struct {
@@ -50,7 +45,6 @@ type BooleanLiteral struct {
 	Value bool
 	Type  string
 }
-
 func (b BooleanLiteral) expr() {}
 
 type NullLiteral struct {
@@ -58,7 +52,6 @@ type NullLiteral struct {
 	Value string
 	Type  string
 }
-
 func (n NullLiteral) expr() {}
 
 type AssignmentExpr struct {
@@ -90,5 +83,4 @@ type ArrayLiterals struct {
 	Size     		uint64
 	Elements 		[]Expr
 }
-
 func (a ArrayLiterals) expr() {}

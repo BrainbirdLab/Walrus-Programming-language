@@ -20,21 +20,22 @@ const (
 
     // Literals
     NUMERIC_LITERAL				
-    STRING_LITERAL 				
-    BOOLEAN_LITERAL			
-    NULL_LITERAL				
+    STRING_LITERAL
+    CHARACTER_LITERAL			
+    BOOLEAN_LITERAL		
+    NULL_LITERAL		
     ARRAY_LITERALS
 
     // Expressions
     ASSIGNMENT_EXPRESSION
-    IDENTIFIER	
+    IDENTIFIER
     BINARY_EXPRESSION
     LOGICAL_EXPRESSION
 
     FUNCTION_EXPRESSION
     
     // Unary Operations
-    UNARY_EXPRESSION	
+    UNARY_EXPRESSION
 )
 
 type Node interface {

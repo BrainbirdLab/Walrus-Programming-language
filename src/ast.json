@@ -4,97 +4,93 @@
     {
       "Kind": 3,
       "IsConstant": false,
-      "Identifier": "arr",
+      "Identifier": "a",
       "Value": {
-        "Kind": 13,
-        "Size": 5,
-        "Elements": [
-          {
-            "Kind": 9,
-            "Value": 1,
-            "Type": "i8"
-          },
-          {
-            "Kind": 9,
-            "Value": 2,
-            "Type": "i8"
-          },
-          {
-            "Kind": 9,
-            "Value": 3,
-            "Type": "i8"
-          },
-          {
-            "Kind": 9,
-            "Value": 4,
-            "Type": "i8"
-          },
-          {
-            "Kind": 9,
-            "Value": 5,
-            "Type": "i8"
-          }
-        ]
-      },
-      "ExplicitType": {
-        "ElementType": {
-          "BitSize": 8,
-          "IsSigned": true
+        "Kind": 15,
+        "Assigne": {
+          "Kind": 16,
+          "Symbol": "i8",
+          "Type": "infr"
         },
-        "Size": 0
-      }
-    },
-    {
-      "StructName": "Array",
-      "Properties": {
-        "_arr": {
-          "IsStatic": false,
-          "IsPublic": false,
-          "Type": {
-            "ElementType": {
-              "BitSize": 8,
-              "IsSigned": true
-            },
-            "Size": 0
-          }
+        "Value": {
+          "Kind": 9,
+          "Value": 5,
+          "Type": "i8"
         },
-        "_capacity": {
-          "IsStatic": false,
-          "IsPublic": false,
-          "Type": {
-            "BitSize": 8,
-            "IsSigned": true
-          }
-        },
-        "length": {
-          "IsStatic": false,
-          "IsPublic": true,
-          "Type": {
-            "BitSize": 8,
-            "IsSigned": true
+        "Operator": {
+          "Kind": 12,
+          "Value": "=",
+          "StartPos": {
+            "Line": 2,
+            "Column": 8,
+            "Index": 8
+          },
+          "EndPos": {
+            "Line": 2,
+            "Column": 9,
+            "Index": 9
           }
         }
       },
-      "Methods": {
-        "pop": {
-          "IsStatic": false,
-          "IsPublic": true,
-          "Parameters": {},
-          "ReturnType": {
-            "BitSize": 8,
-            "IsSigned": true
+      "ExplicitType": null
+    },
+    {
+      "Kind": 3,
+      "IsConstant": false,
+      "Identifier": "a",
+      "Value": {
+        "Kind": 9,
+        "Value": 2,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": 3,
+      "IsConstant": false,
+      "Identifier": "b",
+      "Value": {
+        "Kind": 9,
+        "Value": 10,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": 1,
+      "Expression": {
+        "Kind": 16,
+        "Symbol": "c",
+        "Type": "infr"
+      }
+    },
+    {
+      "Kind": 1,
+      "Expression": {
+        "Kind": 17,
+        "Operator": {
+          "Kind": 37,
+          "Value": "+",
+          "StartPos": {
+            "Line": 12,
+            "Column": 8,
+            "Index": 40
+          },
+          "EndPos": {
+            "Line": 12,
+            "Column": 9,
+            "Index": 41
           }
         },
-        "push": {
-          "IsStatic": false,
-          "IsPublic": true,
-          "Parameters": {
-            "elem": {
-              "BitSize": 8,
-              "IsSigned": true
-            }
-          },
-          "ReturnType": {}
+        "Left": {
+          "Kind": 16,
+          "Symbol": "a",
+          "Type": "infr"
+        },
+        "Right": {
+          "Kind": 16,
+          "Symbol": "b",
+          "Type": "infr"
         }
       }
     }

@@ -9,15 +9,12 @@ import (
 
 func parse_stmt(p *Parser) ast.Stmt {
 
-	fmt.Printf("Current token in parse_stmt: %s\n", p.currentToken().Value)
-
 	stmt_fn, exists := stmt_lu[p.currentTokenKind()]
 
 	if exists {
 		return stmt_fn(p)
 	}
 
-	fmt.Printf("Current token: %s does not have a statement handler\n", p.currentToken().Value)
 	return parse_expression_stmt(p)
 }
 
@@ -26,8 +23,6 @@ func parse_expression_stmt(p *Parser) ast.ExpressionStmt {
 	expression := parse_expr(p, default_bp)
 
 	p.expect(lexer.SEMI_COLON)
-
-	fmt.Printf("Parsed expression: %v\n", expression)
 
 	return ast.ExpressionStmt{
 		Kind:       ast.STATEMENT,
@@ -47,8 +42,6 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 
 	varName := p.expectError(lexer.IDENTIFIER, errMsg).Value
 
-	fmt.Printf("Variable name: %s\n", varName)
-
 	//p.expectError(lexer.COLON, "Expected type or value after variable name")
 	if p.currentTokenKind() != lexer.COLON {
 		// then we expect wallrus
@@ -57,8 +50,9 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 		if (p.currentTokenKind() == lexer.SEMI_COLON) {
 			panic("Expected value after := operator")
 		}
+
 		assignedValue = parse_expr(p, default_bp)
-		fmt.Printf("Assigned value: %v\n", assignedValue)
+
 		if assignedValue == nil {
 			panic("Expected value after := operator")
 		}
@@ -66,7 +60,6 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 		// then we expect type
 		p.advance()
 		explicitType = parse_type(p, default_bp)
-		fmt.Printf("Explicit type: %v\n", explicitType)
 		if p.currentTokenKind() == lexer.ASSIGNMENT {
 			// then we expect assignment
 			p.advance()
@@ -74,8 +67,6 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 		}
 	}
 
-	fmt.Printf("Explicit type: %v\n", explicitType)
-	
 	p.expect(lexer.SEMI_COLON)
 
 	return ast.VariableDclStml{
@@ -119,23 +110,32 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 
 		var IsStatic bool
 		var IsPublic bool
+		var ReadOnly bool
 		var propname string
-
-		if p.currentTokenKind() == lexer.STATIC {
-			IsStatic = true
-			//p.expect(lexer.STATIC) //! or use p.advance()
-			p.advance() //advance to the next token
-		}
 
 		//property
 		if p.currentTokenKind() == lexer.ACCESS_MODIFIER {
 
 			if p.currentToken().Value == "pub" {
 				IsPublic = true
-				p.advance()
 			} else {
 				IsPublic = false
+			}
+
+			p.advance() //pass the access modifier
+
+			if p.currentTokenKind() == lexer.STATIC {
+				IsStatic = true
 				p.advance()
+			} else {
+				IsStatic = false
+			}
+
+			if p.currentTokenKind() == lexer.READONLY {
+				ReadOnly = true
+				p.advance()
+			} else {
+				ReadOnly = false
 			}
 
 			propname = p.expect(lexer.IDENTIFIER).Value
@@ -144,8 +144,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 				//then its a property
 
 				p.advance()
-
-				//fmt.Printf("Parsed property type: %v\n", parse_type(p, default_bp))
+				
 				propertyType := parse_type(p, default_bp)
 
 				p.expect(lexer.SEMI_COLON)
@@ -158,6 +157,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 				properties[propname] = ast.StructProperty{
 					IsStatic: IsStatic,
 					IsPublic: IsPublic,
+					ReadOnly: ReadOnly,
 					Type: propertyType,
 					//Value: nil,
 				}
@@ -193,6 +193,8 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 			}
 
 			continue
+		} else {
+			panic("Expected access modifier of property or method")
 		}
 	}
 
@@ -213,13 +215,10 @@ func parse_params(p *Parser) map[string]ast.Type {
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_PAREN {
 
 		paramName := p.expect(lexer.IDENTIFIER).Value
-		fmt.Printf("Param name: %s\n", paramName)
 
 		p.expect(lexer.COLON)
 
 		paramType := parse_type(p, default_bp)
-		fmt.Printf("Param type: %v\n", paramType)
-		
 		
 		//add to the map
 		params[paramName] = paramType
@@ -235,16 +234,9 @@ func parse_params(p *Parser) map[string]ast.Type {
 
 func parse_if_statement(p *Parser) ast.Stmt {
 
-	//pass the if token
-	fmt.Printf("Current token in if: %v\n", p.currentToken())
-
 	p.advance()
 
-	fmt.Printf("Remaining tokens: %v\n", p.currentToken())
-
 	condition := parse_expr(p, assignment) // using assignment as the lowest binding power
-
-	fmt.Println("Condition: ", condition)
 
 	consequentBlock := parse_block(p)
 

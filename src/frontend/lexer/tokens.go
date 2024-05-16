@@ -10,8 +10,8 @@ const (
 	EOF TokenKind = iota
 	NUMBER
 	STRING
+	CHARACTER
 	IDENTIFIER
-	ACCESS_MODIFIER
 	RETURN
 
 	// Delimiters
@@ -70,9 +70,8 @@ const (
 	// Keywords
 	LET
 	CONST
-	CLASS
 	NEW
-	USE
+	IMPORT
 	FROM
 	FUNCTION
 	IF
@@ -92,15 +91,16 @@ const (
 
 	STRUCT
 	STATIC
+	ACCESS_MODIFIER
+	READONLY
 )
 
 // Reserved keywords
 var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"let":     		LET,
 	"const":   		CONST,
-	"class":   		CLASS,
 	"new":     		NEW,
-	"use":     		USE,
+	"import":		IMPORT,
 	"from":    		FROM,
 	"fn":      		FUNCTION,
 	"if":      		IF,
@@ -119,14 +119,25 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"static":  		STATIC,
 	"pub":    		ACCESS_MODIFIER,
 	"priv":    		ACCESS_MODIFIER,
+	"readonly":		READONLY,
 	"ret":    		RETURN,
 }
 
+// Location
+type Location struct {
+	Line   int
+	Column int
+	Endline int
+	Endcolumn int
+}
 
 // Define token types
 type Token struct {
-	Kind  TokenKind
-	Value string
+	Kind  		TokenKind
+	Value 		string
+	StartPos 	Position
+	EndPos   	Position
+	//LineNumber 	int
 }
 
 func (token Token) isOneOfMany(expectedTokens ...TokenKind) bool {
@@ -148,9 +159,9 @@ func (token Token) Debug() {
 	}
 }
 
-func NewToken(kind TokenKind, value string) Token {
+func NewToken(kind TokenKind, value string, start Position, end Position) Token {
 	return Token{
-		kind, value,
+		kind, value, start, end,
 	}
 }
 
@@ -241,12 +252,10 @@ func TokenKindString(kind TokenKind) string {
 		return "let"
 	case CONST:
 		return "const"
-	case CLASS:
-		return "class"
 	case NEW:
 		return "new"
-	case USE:
-		return "use"
+	case IMPORT:
+		return "import"
 	case FROM:
 		return "from"
 	case FUNCTION:
@@ -283,6 +292,8 @@ func TokenKindString(kind TokenKind) string {
 		return "->"
 	case ACCESS_MODIFIER:
 		return "access modifier"
+	case READONLY:
+		return "readonly"
 	case RETURN:
 		return "return"
 	default:

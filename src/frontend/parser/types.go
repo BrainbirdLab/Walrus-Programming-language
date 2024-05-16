@@ -2,10 +2,9 @@ package parser
 
 import (
 	"fmt"
-	"regexp"
 	"rexlang/frontend/ast"
 	"rexlang/frontend/lexer"
-	"strconv"
+	"rexlang/utils"
 )
 
 // Null denoted. Expect nothing to the left of the token
@@ -41,43 +40,38 @@ func parse_data_type(p *Parser) ast.Type {
 	switch value {
 		case "i8","i16","i32","i64","i128":
 			return ast.IntegerType{
-				BitSize: BitSizeFromString(value),
+				Kind: ast.INTEGER,
+				BitSize: utils.BitSizeFromString(value),
 				IsSigned: true,
 			}
 		case "u8","u16","u32","u64","u128":
 			return ast.IntegerType{
-				BitSize: BitSizeFromString(value),
+				Kind: ast.INTEGER,
+				BitSize: utils.BitSizeFromString(value),
 				IsSigned: false,
 			}
 		case "f32", "f64":
 			return ast.FloatingType{
-				BitSize: BitSizeFromString(value),
+				Kind: ast.FLOATING,
+				BitSize: utils.BitSizeFromString(value),
 			}
 		case "bool":
-			return ast.BooleanType{}
+			return ast.BooleanType{
+				Kind: ast.BOOLEAN,
+			}
 		case "char":
-			return ast.CharecterType{}
+			return ast.CharecterType{
+				Kind: ast.CHARACTER,
+			}
 		case "str":
-			return ast.StringType{}
+			return ast.StringType{
+				Kind: ast.STRING,
+			}
 		default:
-			return ast.NullType{}
+			return ast.NullType{
+				Kind: ast.NULL,
+			}
 	}
-}
-
-func BitSizeFromString(value string) uint8 {
-	//extract the number from the string
-	regexp := regexp.MustCompile(`\d+`)
-	match := regexp.FindString(value)
-	if match == "" {
-		panic("Invalid bit size")
-	}
-	size, err := strconv.Atoi(match)
-
-	if err != nil {
-		panic("Invalid bit size")
-	}
-
-	return uint8(size)
 }
 
 
