@@ -23,13 +23,13 @@ func (p *Position) advance(toSkip string) *Position {
 
 	currentChar := []byte(toSkip)
 
-	p.Index++
-	p.Column++
+	p.Index += len(toSkip)
+	p.Column += len(toSkip)
 	
 	for _, char := range currentChar {
 		if char == '\n' {
 			p.Line++
-			p.Column = 0
+			p.Column = 1
 		}
 	}
 
@@ -80,7 +80,7 @@ func Tokenize(source *string, debug bool) []Token {
 }
 
 func (lex *Lexer) advanceN(match string) {
-	//ascii value of match
+	//ascii value of match-
 	lex.Pos.advance(match)
 }
 
@@ -130,8 +130,8 @@ func createLexer(source *string) *Lexer {
 		Tokens: make([]Token, 0),
 		Pos: Position{
 			Line: 1,
+			Column: 1,
 			Index: 0,
-			Column: 0,
 		},
 		patterns: []regexPattern{
 			//{regexp.MustCompile(`\n`), skipHandler}, // newlines

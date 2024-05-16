@@ -22,13 +22,13 @@
           "Value": "=",
           "StartPos": {
             "Line": 2,
-            "Column": 8,
-            "Index": 8
+            "Column": 13,
+            "Index": 14
           },
           "EndPos": {
             "Line": 2,
-            "Column": 9,
-            "Index": 9
+            "Column": 14,
+            "Index": 15
           }
         }
       },
@@ -57,29 +57,23 @@
       "ExplicitType": null
     },
     {
-      "Kind": 1,
-      "Expression": {
-        "Kind": 16,
-        "Symbol": "c",
-        "Type": "infr"
-      }
-    },
-    {
-      "Kind": 1,
-      "Expression": {
+      "Kind": 3,
+      "IsConstant": false,
+      "Identifier": "c",
+      "Value": {
         "Kind": 17,
         "Operator": {
           "Kind": 37,
           "Value": "+",
           "StartPos": {
             "Line": 12,
-            "Column": 8,
-            "Index": 40
+            "Column": 12,
+            "Index": 87
           },
           "EndPos": {
             "Line": 12,
-            "Column": 9,
-            "Index": 41
+            "Column": 13,
+            "Index": 88
           }
         },
         "Left": {
@@ -92,7 +86,8 @@
           "Symbol": "b",
           "Type": "infr"
         }
-      }
+      },
+      "ExplicitType": null
     }
   ]
 }

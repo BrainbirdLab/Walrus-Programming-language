@@ -5,6 +5,7 @@ import (
 	"os"
 	"rexlang/frontend/ast"
 	"rexlang/frontend/lexer"
+	"rexlang/utils"
 	"strings"
 )
 
@@ -61,19 +62,25 @@ func (p *Parser) hasTokens() bool {
 }
 
 func (p *Parser) expectError(expectedKind lexer.TokenKind, err any) lexer.Token {
-	token := p.currentToken()
-	kind := token.Kind
+    token := p.currentToken()
+    kind := token.Kind
 
-	if kind != expectedKind {
-		if err == nil {
-			err = fmt.Sprintf("At line %d: Expected %s but recieved %s instead\n", token.StartPos.Line, lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind))
-		}
+    if kind != expectedKind {
+        if err == nil {
+            PrintError(p, token, fmt.Sprintf("Expected %s but received %s instead\n", lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind)))
+        } else {
+            if errMsg, ok := err.(string); ok {
+                PrintError(p, token, errMsg)
+            } else {
+                // Handle error if it's not a string
+                PrintError(p, token, "An unexpected error occurred")
+            }
+        }
+    }
 
-		PrintError(p, token, fmt.Sprintf("Expected %s but recieved %s instead\n", lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind)))
-	}
-
-	return p.advance()
+    return p.advance()
 }
+
 
 func (p *Parser) expect(expectedKind lexer.TokenKind) lexer.Token {
 	return p.expectError(expectedKind, nil)
@@ -96,13 +103,14 @@ func PrintError(p *Parser, token lexer.Token, errMsg string) {
 
 	line := p.Lines[token.StartPos.Line - 1]
 
-	fmt.Printf("\nLine: %d, Column: %d\n", token.StartPos.Line, token.StartPos.Column)
+	//fmt.Printf("Token start: %v, end: %v\n", token.StartPos, token.EndPos)
+	lineStr := fmt.Sprintf("<Program> %d:%d:\n", token.StartPos.Line, token.StartPos.Column)
+	fmt.Print(lineStr)
 	fmt.Printf("%s\n", line)
-	fmt.Printf("%s", strings.Repeat("~", token.StartPos.Column))
-	fmt.Printf("%s\n", strings.Repeat("^", token.EndPos.Column - token.StartPos.Column))
-	fmt.Printf("\n")
-	fmt.Printf("Error: %s\n", errMsg)
+	fmt.Printf("%s", strings.Repeat(" ", (token.StartPos.Column - 1)))
+	utils.PrintColor(utils.RED, fmt.Sprintf("%s\n", strings.Repeat("^", token.EndPos.Column - token.StartPos.Column)))
+	utils.PrintColor(utils.RED, fmt.Sprintf("Error: %s\n", errMsg))
 
 	//exit
-	os.Exit(1)
+	os.Exit(-1)
 }

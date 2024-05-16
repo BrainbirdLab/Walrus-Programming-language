@@ -123,14 +123,6 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"ret":    		RETURN,
 }
 
-// Location
-type Location struct {
-	Line   int
-	Column int
-	Endline int
-	Endcolumn int
-}
-
 // Define token types
 type Token struct {
 	Kind  		TokenKind
@@ -177,77 +169,77 @@ func TokenKindString(kind TokenKind) string {
 	case IDENTIFIER:
 		return "identifier"
 	case OPEN_BRACKET:
-		return "Open Bracket ["
+		return "["
 	case CLOSE_BRACKET:
-		return "Close Bracket ]"
+		return "]"
 	case OPEN_CURLY:
-		return "Open curly {"
+		return "{"
 	case CLOSE_CURLY:
-		return "Close curly }"
+		return "}"
 	case OPEN_PAREN:
-		return "Open paren ("
+		return "("
 	case CLOSE_PAREN:
-		return "Close paren )"
+		return ")"
 	case ASSIGNMENT:
-		return "Assignment ="
+		return "="
 	case WALRUS:
-		return "Walrus :="
+		return ":="
 	case EQUALS:
-		return "is =="
+		return "=="
 	case NOT:
-		return "Not !"
+		return "!"
 	case NOT_EQUALS:
-		return "Not equal !="
+		return "!="
 	case LESS:
-		return "Less than <"
+		return "<"
 	case LESS_EQUALS:
-		return "Less than or equal <="
+		return "<="
 	case GREATER:
-		return "Greater than >"
+		return ">"
 	case GREATER_EQUALS:
-		return "Greater than or equal >="
+		return ">="
 	case OR:
-		return "Or ||"
+		return "||"
 	case AND:
-		return "And &&"
+		return "&&"
 	case DOT:
-		return "Dot ."
+		return "."
 	case DOT_DOT:
-		return "Range .."
+		return ".."
 	case SEMI_COLON:
-		return "semi colon ;"
+		return ";"
 	//case ENDLINE:
 	//	return "Endline"
 	case COLON:
-		return "Colon :"
+		return ":"
 	case QUESTION:
-		return " Question ?"
+		return "?"
 	case COMMA:
-		return "Comma ,"
+		return ","
 	case PLUS_PLUS:
-		return "Increment ++"
+		return "++"
 	case MINUS_MINUS:
-		return "Decrement --"
+		return "--"
 	case PLUS_EQUALS:
-		return "Incremental assignment +="
+		return "+="
 	case MINUS_EQUALS:
-		return "Decremental assignment -="
+		return "-="
 	case TIMES_EQUALS:
-		return "Multiplicative assignment *="
+		return "*="
 	case DIVIDE_EQUALS:
-		return "Division assignment /="
+		return "/="
 	case MODULO_EQUALS:
-		return "Modulo assignment %="
+		return "%="
 	case PLUS:
-		return "Add +"
+		return "+"
 	case MINUS:
-		return "Subtract -"
+		return "-"
 	case TIMES:
-		return "Multiply *"
+		return "*"
 	case DIVIDE:
-		return "Divide /"
+		return "/"
 	case MODULO:
-		return "Modulo %"
+		return "%"
 	case LET:
 		return "let"
 	case CONST:
@@ -259,13 +251,13 @@ func TokenKindString(kind TokenKind) string {
 	case FROM:
 		return "from"
 	case FUNCTION:
-		return "function"
+		return "fn"
 	case IF:
 		return "if"
 	case ELSEIF:
-		return "elseif"
+		return "elf"
 	case ELSE:
-		return "else"
+		return "els"
 	case FOREACH:
 		return "foreach"
 	case WHILE:

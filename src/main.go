@@ -23,9 +23,9 @@ func main() {
 
 	source := string(bytes)
 
-	fmt.Printf("Source code: %s\n", source)
+	//fmt.Printf("Source code: %s\n", source)
 
-	ast := parser.Parse(&source, true)
+	ast := parser.Parse(&source, false)
 
 	//store as file
 	file, err := os.Create("ast.json");
