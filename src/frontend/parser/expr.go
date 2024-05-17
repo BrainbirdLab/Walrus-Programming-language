@@ -22,13 +22,42 @@ func parse_binary_expr(p *Parser, left ast.Expr, bp binding_power) ast.Expr {
 	}
 }
 
+func parse_call_expr(p *Parser, left ast.Expr, bp binding_power) ast.Expr {
+
+	p.expect(lexer.OPEN_PAREN)
+
+	var arguments []ast.Expr
+
+	for p.currentTokenKind() != lexer.CLOSE_PAREN {
+		//parse the arguments
+		argument := parse_expr(p, default_bp)
+		arguments = append(arguments, argument)
+		
+		if p.currentTokenKind() == lexer.COMMA {
+			p.advance()
+		}
+	}
+
+	p.expect(lexer.CLOSE_PAREN)
+
+	return ast.FunctionCallExpr{
+		Kind: ast.FUNCTION_CALL_EXPRESSION,
+		Function: left,
+		Args: arguments,
+	}
+}
+
 func parse_expr(p *Parser, bp binding_power) ast.Expr {
 	// Fist parse the NUD
 	tokenKind := p.currentTokenKind()
 	nud_fn, exists := nud_lu[tokenKind]
 
 	if !exists {
-		panic(fmt.Sprintf("NUD handler expected for token %s\n", lexer.TokenKindString(tokenKind)))
+		if lexer.IsKeyword(tokenKind) {
+			panic(fmt.Sprintf("NUD handler expected for keyword '%s'\n", lexer.TokenKindString(tokenKind)))
+		} else {
+			panic(fmt.Sprintf("NUD handler expected for token '%s'\n", lexer.TokenKindString(tokenKind)))
+		}
 	}
 
 	left := nud_fn(p)
@@ -167,7 +196,7 @@ func parse_struct_instantiation_expr(p *Parser, left ast.Expr, bp binding_power)
 	structName := helpers.ExpectType[ast.SymbolExpr](left).Symbol
 
 	var properties = map[string]ast.Expr{}
-	var methods = map[string]ast.FunctionExpr{}
+	var methods = map[string]ast.FunctionDeclStmt{}
 
 	p.expect(lexer.OPEN_CURLY)
 

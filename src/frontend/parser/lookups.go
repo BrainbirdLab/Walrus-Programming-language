@@ -89,6 +89,9 @@ func createTokenLookups() {
 	led(lexer.DIVIDE, multiplicative, parse_binary_expr)
 	led(lexer.MODULO, multiplicative, parse_binary_expr)
 
+	//call
+	led(lexer.OPEN_PAREN, call, parse_call_expr)
+
 	//literals & symbols
 	nud(lexer.NUMBER, parse_primary_expr)
 	nud(lexer.STRING, parse_primary_expr)
@@ -115,5 +118,8 @@ func createTokenLookups() {
 	stmt(lexer.LET, parse_var_decl_stmt)
 	stmt(lexer.IF, parse_if_statement)
 	stmt(lexer.STRUCT, parse_struct_decl_stmt)
+	//function
+	stmt(lexer.FUNCTION, parse_function_decl_stmt)
+	stmt(lexer.RETURN, parse_return_stmt)
 	//stmt(lexer.ELSEIF, parse_if_statement)
 }

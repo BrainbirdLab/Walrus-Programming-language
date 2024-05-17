@@ -15,7 +15,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	bytes, err := os.ReadFile("./../examples/05.rex")
+	bytes, err := os.ReadFile("./../examples/06.rex")
 
 	if err != nil {
 		panic(err)

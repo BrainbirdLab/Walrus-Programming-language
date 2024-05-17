@@ -1,6 +1,8 @@
 package lexer
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // TokenKind represents the type of token
 type TokenKind int
@@ -121,6 +123,11 @@ var reserved_lookup map[string]TokenKind = map[string]TokenKind{
 	"priv":    		ACCESS_MODIFIER,
 	"readonly":		READONLY,
 	"ret":    		RETURN,
+}
+
+func IsKeyword(tokenKind TokenKind) bool {
+	_, ok := reserved_lookup[TokenKindString(tokenKind)]
+	return ok
 }
 
 // Define token types

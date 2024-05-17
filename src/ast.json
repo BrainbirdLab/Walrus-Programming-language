@@ -2,92 +2,27 @@
   "Kind": 0,
   "Body": [
     {
-      "Kind": 3,
-      "IsConstant": false,
-      "Identifier": "a",
-      "Value": {
-        "Kind": 15,
-        "Assigne": {
-          "Kind": 16,
-          "Symbol": "i8",
+      "Kind": 1,
+      "Expression": {
+        "Kind": 23,
+        "Function": {
+          "Kind": 20,
+          "Symbol": "print",
           "Type": "infr"
         },
-        "Value": {
-          "Kind": 9,
-          "Value": 5,
-          "Type": "i8"
-        },
-        "Operator": {
-          "Kind": 12,
-          "Value": "=",
-          "StartPos": {
-            "Line": 2,
-            "Column": 13,
-            "Index": 14
+        "Args": [
+          {
+            "Kind": 13,
+            "Value": "Hello",
+            "Type": "str"
           },
-          "EndPos": {
-            "Line": 2,
-            "Column": 14,
-            "Index": 15
+          {
+            "Kind": 12,
+            "Value": 23,
+            "Type": "i8"
           }
-        }
-      },
-      "ExplicitType": null
-    },
-    {
-      "Kind": 3,
-      "IsConstant": false,
-      "Identifier": "a",
-      "Value": {
-        "Kind": 9,
-        "Value": 2,
-        "Type": "i8"
-      },
-      "ExplicitType": null
-    },
-    {
-      "Kind": 3,
-      "IsConstant": false,
-      "Identifier": "b",
-      "Value": {
-        "Kind": 9,
-        "Value": 10,
-        "Type": "i8"
-      },
-      "ExplicitType": null
-    },
-    {
-      "Kind": 3,
-      "IsConstant": false,
-      "Identifier": "c",
-      "Value": {
-        "Kind": 17,
-        "Operator": {
-          "Kind": 37,
-          "Value": "+",
-          "StartPos": {
-            "Line": 12,
-            "Column": 12,
-            "Index": 87
-          },
-          "EndPos": {
-            "Line": 12,
-            "Column": 13,
-            "Index": 88
-          }
-        },
-        "Left": {
-          "Kind": 16,
-          "Symbol": "a",
-          "Type": "infr"
-        },
-        "Right": {
-          "Kind": 16,
-          "Symbol": "b",
-          "Type": "infr"
-        }
-      },
-      "ExplicitType": null
+        ]
+      }
     }
   ]
 }

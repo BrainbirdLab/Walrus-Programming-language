@@ -54,6 +54,14 @@ type NullLiteral struct {
 }
 func (n NullLiteral) expr() {}
 
+type VoidExpr struct {
+	Kind  NodeType
+	Value string
+	Type  string
+}
+
+func (v VoidExpr) expr() {}
+
 type AssignmentExpr struct {
 	Kind     NodeType
 	Assigne  SymbolExpr
@@ -62,19 +70,17 @@ type AssignmentExpr struct {
 }
 func (a AssignmentExpr) expr() {}
 
-type FunctionExpr struct {
-	Kind     NodeType
-	Params   SymbolExpr
-	Returns  Expr
-	Body     BlockStmt
+type FunctionCallExpr struct {
+  Kind     		NodeType
+  Function 		Expr
+  Args     		[]Expr
 }
-func (f FunctionExpr) expr() {}
-
+func (c FunctionCallExpr) expr() {}
 
 type StructInstantiationExpr struct {
 	StructName string
 	Properties map[string]Expr
-	Methods    map[string]FunctionExpr
+	Methods    map[string]FunctionDeclStmt
 }
 func (s StructInstantiationExpr) expr() {}
 

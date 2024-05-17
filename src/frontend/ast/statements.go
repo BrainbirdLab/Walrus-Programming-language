@@ -30,27 +30,45 @@ type VariableDclStml struct {
 
 func (v VariableDclStml) stmt() {}
 
+type FunctionDeclStmt struct {
+	Kind         NodeType
+	FunctionName string
+	Parameters   map[string]Type
+	ReturnType   Type
+	Block        BlockStmt
+}
+
+func (f FunctionDeclStmt) stmt() {}
+
+type ReturnStmt struct {
+	Kind       NodeType
+	Expression Expr
+}
+
+func (r ReturnStmt) stmt() {}
+
 type StructProperty struct {
 	IsStatic bool
 	IsPublic bool
 	ReadOnly bool
-	Type Type
+	Type     Type
 }
 
 type StructMethod struct {
-	IsStatic bool
-	IsPublic bool
+	IsStatic   bool
+	IsPublic   bool
 	Parameters map[string]Type
 	ReturnType Type
 }
 
 type StructDeclStatement struct {
+	Kind       NodeType
 	StructName string
 	Properties map[string]StructProperty
-	Methods map[string]StructMethod
+	Methods    map[string]StructMethod
 }
-func (s StructDeclStatement) stmt() {}
 
+func (s StructDeclStatement) stmt() {}
 
 type IfStmt struct {
 	Kind      NodeType
@@ -58,4 +76,5 @@ type IfStmt struct {
 	Block     BlockStmt
 	Alternate interface{}
 }
+
 func (i IfStmt) stmt() {}

@@ -4,7 +4,9 @@ type Datatype int
 
 const (
 	// Primitive Types
-	INTEGER Datatype = iota
+	VOID Datatype = iota
+	
+	INTEGER
 	FLOATING
 	BOOLEAN
 	STRING
@@ -47,6 +49,11 @@ type NullType struct{
 	Kind 	  	Datatype
 }
 func (n NullType) _type() {}
+
+type VoidType struct{
+	Kind 	  	Datatype
+}
+func (v VoidType) _type() {}
 
 type ArrayType struct {
 	Kind        Datatype

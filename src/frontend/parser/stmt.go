@@ -47,7 +47,7 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 		// then we expect wallrus
 		p.expect(lexer.WALRUS)
 		// then we expect value
-		if (p.currentTokenKind() == lexer.SEMI_COLON) {
+		if p.currentTokenKind() == lexer.SEMI_COLON {
 			panic("Expected value after := operator")
 		}
 
@@ -93,6 +93,53 @@ func parse_block(p *Parser) ast.BlockStmt {
 	return ast.BlockStmt{
 		Kind: ast.BLOCK_STATEMENT,
 		Body: body,
+	}
+}
+
+func parse_function_decl_stmt(p *Parser) ast.Stmt {
+	p.expect(lexer.FUNCTION)
+
+	functionName := p.expect(lexer.IDENTIFIER).Value
+	//parse parameters
+	params := parse_params(p)
+
+	// if there is a ARROW token, then we have explicit return type. else we have implicit return type of void
+	var explicitReturnType ast.Type
+	if p.currentTokenKind() == lexer.ARROW {
+		p.advance()
+		explicitReturnType = parse_type(p, default_bp)
+	} else {
+		explicitReturnType = ast.VoidType{}
+	}
+
+	// parse block
+	functionBody := parse_block(p)
+
+	return ast.FunctionDeclStmt{
+		Kind:         ast.FN_DECLARATION_STATEMENT,
+		FunctionName: functionName,
+		Parameters:   params,
+		Block:        functionBody,
+		ReturnType:   explicitReturnType,
+	}
+}
+
+func parse_return_stmt(p *Parser) ast.Stmt {
+	p.expect(lexer.RETURN)
+
+	var value ast.Expr
+
+	if p.currentTokenKind() != lexer.SEMI_COLON {
+		value = parse_expr(p, default_bp)
+	} else {
+		value = ast.VoidExpr{}
+	}
+
+	p.expect(lexer.SEMI_COLON)
+
+	return ast.ReturnStmt{
+		Kind:       ast.RETURN_STATEMENT,
+		Expression: value,
 	}
 }
 
@@ -144,7 +191,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 				//then its a property
 
 				p.advance()
-				
+
 				propertyType := parse_type(p, default_bp)
 
 				p.expect(lexer.SEMI_COLON)
@@ -158,7 +205,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 					IsStatic: IsStatic,
 					IsPublic: IsPublic,
 					ReadOnly: ReadOnly,
-					Type: propertyType,
+					Type:     propertyType,
 					//Value: nil,
 				}
 
@@ -185,8 +232,8 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 				}
 
 				methods[propname] = ast.StructMethod{
-					IsStatic: IsStatic,
-					IsPublic: IsPublic,
+					IsStatic:   IsStatic,
+					IsPublic:   IsPublic,
 					Parameters: params,
 					ReturnType: returnType,
 				}
@@ -201,10 +248,10 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 	p.expect(lexer.CLOSE_CURLY)
 
 	return ast.StructDeclStatement{
+		Kind:       ast.STRUCT_DECLARATION_STATEMENT,
 		Properties: properties,
-		Methods: methods,
+		Methods:    methods,
 		StructName: structName,
-		
 	}
 }
 
@@ -219,7 +266,7 @@ func parse_params(p *Parser) map[string]ast.Type {
 		p.expect(lexer.COLON)
 
 		paramType := parse_type(p, default_bp)
-		
+
 		//add to the map
 		params[paramName] = paramType
 
@@ -230,7 +277,6 @@ func parse_params(p *Parser) map[string]ast.Type {
 	p.expect(lexer.CLOSE_PAREN)
 	return params
 }
-
 
 func parse_if_statement(p *Parser) ast.Stmt {
 
