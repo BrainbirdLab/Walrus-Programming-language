@@ -2,24 +2,212 @@
   "Kind": 0,
   "Body": [
     {
-      "Kind": 1,
-      "Expression": {
-        "Kind": 23,
-        "Function": {
+      "Kind": 3,
+      "IsConstant": false,
+      "Identifier": "a",
+      "Value": {
+        "Kind": 19,
+        "Assigne": {
           "Kind": 20,
-          "Symbol": "print",
+          "Symbol": "i8",
           "Type": "infr"
         },
-        "Args": [
-          {
-            "Kind": 13,
-            "Value": "Hello",
-            "Type": "str"
+        "Value": {
+          "Kind": 12,
+          "Value": 5,
+          "Type": "i8"
+        },
+        "Operator": {
+          "Kind": 12,
+          "Value": "=",
+          "StartPos": {
+            "Line": 2,
+            "Column": 13,
+            "Index": 14
           },
+          "EndPos": {
+            "Line": 2,
+            "Column": 14,
+            "Index": 15
+          }
+        }
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": 3,
+      "IsConstant": false,
+      "Identifier": "a",
+      "Value": {
+        "Kind": 12,
+        "Value": 2,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": 3,
+      "IsConstant": false,
+      "Identifier": "b",
+      "Value": {
+        "Kind": 12,
+        "Value": 10,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": 9,
+      "FunctionName": "add",
+      "Parameters": {
+        "a": {
+          "Kind": 1,
+          "BitSize": 8,
+          "IsSigned": true
+        },
+        "b": {
+          "Kind": 1,
+          "BitSize": 8,
+          "IsSigned": true
+        }
+      },
+      "ReturnType": {
+        "Kind": 1,
+        "BitSize": 8,
+        "IsSigned": true
+      },
+      "Block": {
+        "Kind": 2,
+        "Body": [
           {
-            "Kind": 12,
-            "Value": 23,
-            "Type": "i8"
+            "Kind": 10,
+            "Expression": {
+              "Kind": 21,
+              "Operator": {
+                "Kind": 37,
+                "Value": "+",
+                "StartPos": {
+                  "Line": 7,
+                  "Column": 7,
+                  "Index": 89
+                },
+                "EndPos": {
+                  "Line": 7,
+                  "Column": 8,
+                  "Index": 90
+                }
+              },
+              "Left": {
+                "Kind": 20,
+                "Symbol": "a",
+                "Type": "infr"
+              },
+              "Right": {
+                "Kind": 20,
+                "Symbol": "b",
+                "Type": "infr"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Kind": 9,
+      "FunctionName": "mul",
+      "Parameters": {
+        "a": {
+          "Kind": 1,
+          "BitSize": 8,
+          "IsSigned": true
+        },
+        "b": {
+          "Kind": 1,
+          "BitSize": 8,
+          "IsSigned": true
+        }
+      },
+      "ReturnType": {
+        "Kind": 1,
+        "BitSize": 8,
+        "IsSigned": true
+      },
+      "Block": {
+        "Kind": 2,
+        "Body": [
+          {
+            "Kind": 10,
+            "Expression": {
+              "Kind": 21,
+              "Operator": {
+                "Kind": 39,
+                "Value": "*",
+                "StartPos": {
+                  "Line": 11,
+                  "Column": 7,
+                  "Index": 140
+                },
+                "EndPos": {
+                  "Line": 11,
+                  "Column": 8,
+                  "Index": 141
+                }
+              },
+              "Left": {
+                "Kind": 20,
+                "Symbol": "a",
+                "Type": "infr"
+              },
+              "Right": {
+                "Kind": 20,
+                "Symbol": "b",
+                "Type": "infr"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Kind": 9,
+      "FunctionName": "square",
+      "Parameters": {
+        "a": {
+          "Kind": 1,
+          "BitSize": 8,
+          "IsSigned": true
+        }
+      },
+      "ReturnType": {
+        "Kind": 1,
+        "BitSize": 8,
+        "IsSigned": true
+      },
+      "Block": {
+        "Kind": 2,
+        "Body": [
+          {
+            "Kind": 10,
+            "Expression": {
+              "Kind": 23,
+              "Function": {
+                "Kind": 20,
+                "Symbol": "mul",
+                "Type": "infr"
+              },
+              "Args": [
+                {
+                  "Kind": 20,
+                  "Symbol": "a",
+                  "Type": "infr"
+                },
+                {
+                  "Kind": 20,
+                  "Symbol": "a",
+                  "Type": "infr"
+                }
+              ]
+            }
           }
         ]
       }

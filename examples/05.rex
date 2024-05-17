@@ -13,6 +13,6 @@ fn mul(a: i8, b: i8) -> i8 {
 
 fn square(a: i8) -> i8 {
     // return a * a;
-    //ret mul(a, a);
-    ret 4;
+    ret mul(a, a);
+    //ret 4;
 }
