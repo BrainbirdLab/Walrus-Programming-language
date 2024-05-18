@@ -31,3 +31,15 @@ func TypesMatchT[T any](args ...any) bool {
 
 	return true
 }
+
+func ContainsIn(items []string, targets ...string) bool {
+	for _, target := range targets {
+		for _, item := range items {
+			if item == target {
+				return true
+			}
+		}
+	}
+
+	return false
+}

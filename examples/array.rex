@@ -23,11 +23,12 @@ struct Array {
 
     pub static readonly count: i8;
 
+    pub new(capacity: i8) -> Array;
+
     pub push(elem: i8); // returns nothing
     pub pop() -> i8;
 }
 
-/*
 impl Array::push(elem: i8) {
     // code here
 }
@@ -36,14 +37,7 @@ impl Array::pop() -> i8 {
     // code here
     ret -1;
 }
-*/
 
-
-
-
-
-
-/*
 impl Array::new(capacity: i8) -> Array {
     return Array {
         _arr: []i8,
@@ -66,4 +60,3 @@ impl Array::pop(&mut self) -> i8 {
     }
     return -1;
 }
-*/

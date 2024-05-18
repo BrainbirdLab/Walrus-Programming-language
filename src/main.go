@@ -15,17 +15,9 @@ func main() {
 
 	timeStart := time.Now()
 
-	bytes, err := os.ReadFile("./../examples/05.rex")
-
-	if err != nil {
-		panic(err)
-	}
-
-	source := string(bytes)
-
 	//fmt.Printf("Source code: %s\n", source)
 
-	ast := parser.Parse(&source, false)
+	ast := parser.Parse("./../examples/05.rex", false)
 
 	//store as file
 	file, err := os.Create("ast.json");
@@ -55,5 +47,4 @@ func main() {
 	timeEnd := time.Now()
 
 	fmt.Printf("Time taken: %v\n", timeEnd.Sub(timeStart))
-	
 }

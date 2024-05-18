@@ -5,92 +5,90 @@ import (
 	"rexlang/frontend/lexer"
 )
 
-type binding_power int
+type BINDING_POWER int
 
-// Operator precedence levels. primary is the highest binding power
+// Operator precedence levels. PRIMARY is the highest binding power
 const (
-	default_bp binding_power = iota
-	comma
-	assignment
-	logical
-	relational
-	additive
-	multiplicative
-	unary
-	call
-	member
-	primary
+	DEFAULT_BP BINDING_POWER = iota
+	COMMA
+	ASSIGNMENT
+	LOGICAL
+	RELATIONAL
+	ADDITIVE
+	MULTIPLICATIVE
+	UNARY
+	CALL
+	MEMBER
+	PRIMARY
 )
 
 // Statement handler. Expect nothing to the left of the token
-type stmt_handler func(p *Parser) ast.Stmt
+type statementHandler func(p *Parser) ast.Stmt
 
 // Null denoted. Expect nothing to the left of the token
-type nud_handler func(p *Parser) ast.Expr
+type nudHandler func(p *Parser) ast.Expr
 
 // Left denoted. Expect something to the left of the token
-type led_handler func(p *Parser, left ast.Expr, bp binding_power) ast.Expr
+type LEDHandler func(p *Parser, left ast.Expr, bp BINDING_POWER) ast.Expr
 
 // lookup table for the different token types
-type stmt_lookup map[lexer.TokenKind]stmt_handler
-type nud_lookup map[lexer.TokenKind]nud_handler
-type led_lookup map[lexer.TokenKind]led_handler
-type bp_lookup map[lexer.TokenKind]binding_power
+type stmtLookupType map[lexer.TOKEN_KIND]statementHandler
+type nudLookupType map[lexer.TOKEN_KIND]nudHandler
+type ledLookupType map[lexer.TOKEN_KIND]LEDHandler
+type bpLookupType map[lexer.TOKEN_KIND]BINDING_POWER
 
+var nudLookup = nudLookupType{}
+var ledLookup = ledLookupType{}
+var stmtLookup = stmtLookupType{}
+var bpLookup = bpLookupType{}
 
-var bp_lu = bp_lookup{}
-var nud_lu = nud_lookup{}
-var led_lu = led_lookup{}
-var stmt_lu = stmt_lookup{}
-
-
-func led(kind lexer.TokenKind, bp binding_power, led_fn led_handler) {
-	bp_lu[kind] = bp
-	led_lu[kind] = led_fn
+func led(kind lexer.TOKEN_KIND, bp BINDING_POWER, led_fn LEDHandler) {
+	bpLookup[kind] = bp
+	ledLookup[kind] = led_fn
 }
 
-func nud(kind lexer.TokenKind, nud_fn nud_handler) {
-	nud_lu[kind] = nud_fn
+func nud(kind lexer.TOKEN_KIND, nud_fn nudHandler) {
+	nudLookup[kind] = nud_fn
 }
 
-func stmt(kind lexer.TokenKind, stmt_fn stmt_handler) {
-	bp_lu[kind] = default_bp
-	stmt_lu[kind] = stmt_fn
+func stmt(kind lexer.TOKEN_KIND, stmt_fn statementHandler) {
+	bpLookup[kind] = DEFAULT_BP
+	stmtLookup[kind] = stmt_fn
 }
 
 func createTokenLookups() {
 
 	// Assignment
-	led(lexer.ASSIGNMENT, assignment, parse_var_assignment_expr)
-	led(lexer.PLUS_EQUALS, assignment, parse_var_assignment_expr)
-	led(lexer.MINUS_EQUALS, assignment, parse_var_assignment_expr)
-	led(lexer.TIMES_EQUALS, assignment, parse_var_assignment_expr)
-	led(lexer.DIVIDE_EQUALS, assignment, parse_var_assignment_expr)
-	led(lexer.MODULO_EQUALS, assignment, parse_var_assignment_expr)
+	led(lexer.ASSIGNMENT, ASSIGNMENT, parse_var_assignment_expr)
+	led(lexer.PLUS_EQUALS, ASSIGNMENT, parse_var_assignment_expr)
+	led(lexer.MINUS_EQUALS, ASSIGNMENT, parse_var_assignment_expr)
+	led(lexer.TIMES_EQUALS, ASSIGNMENT, parse_var_assignment_expr)
+	led(lexer.DIVIDE_EQUALS, ASSIGNMENT, parse_var_assignment_expr)
+	led(lexer.MODULO_EQUALS, ASSIGNMENT, parse_var_assignment_expr)
 
 	// Logical operations
-	led(lexer.AND, logical, parse_binary_expr)
-	led(lexer.OR, logical, parse_binary_expr)
-	led(lexer.DOT_DOT, logical, parse_binary_expr)
+	led(lexer.AND, LOGICAL, parse_binary_expr)
+	led(lexer.OR, LOGICAL, parse_binary_expr)
+	led(lexer.DOT_DOT, LOGICAL, parse_binary_expr)
 
 	// Relational
-	led(lexer.LESS, relational, parse_binary_expr)
-	led(lexer.LESS_EQUALS, relational, parse_binary_expr)
-	led(lexer.GREATER, relational, parse_binary_expr)
-	led(lexer.GREATER_EQUALS, relational, parse_binary_expr)
-	led(lexer.EQUALS, relational, parse_binary_expr)
-	led(lexer.NOT_EQUALS, relational, parse_binary_expr)
+	led(lexer.LESS, RELATIONAL, parse_binary_expr)
+	led(lexer.LESS_EQUALS, RELATIONAL, parse_binary_expr)
+	led(lexer.GREATER, RELATIONAL, parse_binary_expr)
+	led(lexer.GREATER_EQUALS, RELATIONAL, parse_binary_expr)
+	led(lexer.EQUALS, RELATIONAL, parse_binary_expr)
+	led(lexer.NOT_EQUALS, RELATIONAL, parse_binary_expr)
 
 	// Additive & Multiplicative
-	led(lexer.PLUS, additive, parse_binary_expr)
-	led(lexer.MINUS, additive, parse_binary_expr)
+	led(lexer.PLUS, ADDITIVE, parse_binary_expr)
+	led(lexer.MINUS, ADDITIVE, parse_binary_expr)
 
-	led(lexer.TIMES, multiplicative, parse_binary_expr)
-	led(lexer.DIVIDE, multiplicative, parse_binary_expr)
-	led(lexer.MODULO, multiplicative, parse_binary_expr)
+	led(lexer.TIMES, MULTIPLICATIVE, parse_binary_expr)
+	led(lexer.DIVIDE, MULTIPLICATIVE, parse_binary_expr)
+	led(lexer.MODULO, MULTIPLICATIVE, parse_binary_expr)
 
 	//call
-	led(lexer.OPEN_PAREN, call, parse_call_expr)
+	led(lexer.OPEN_PAREN, CALL, parse_call_expr)
 
 	//literals & symbols
 	nud(lexer.NUMBER, parse_primary_expr)
@@ -111,7 +109,7 @@ func createTokenLookups() {
 	nud(lexer.OPEN_BRACKET, parse_array_expr)
 
 	//call/member
-	led(lexer.OPEN_CURLY, call, parse_struct_instantiation_expr)
+	led(lexer.OPEN_CURLY, CALL, parse_struct_instantiation_expr)
 
 	// Statements
 	stmt(lexer.CONST, parse_var_decl_stmt)

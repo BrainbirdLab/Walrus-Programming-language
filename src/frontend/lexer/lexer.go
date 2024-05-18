@@ -14,9 +14,9 @@ type regexPattern struct {
 }
 
 type Position struct {
-	Line 	int
-	Column 	int
-	Index 	int
+	Line   int
+	Column int
+	Index  int
 }
 
 func (p *Position) advance(toSkip string) *Position {
@@ -25,7 +25,7 @@ func (p *Position) advance(toSkip string) *Position {
 
 	p.Index += len(toSkip)
 	p.Column += len(toSkip)
-	
+
 	for _, char := range currentChar {
 		if char == '\n' {
 			p.Line++
@@ -37,24 +37,24 @@ func (p *Position) advance(toSkip string) *Position {
 }
 
 type Lexer struct {
-	patterns 	[]regexPattern
-	Tokens   	[]Token
-	source   	*string
-	Pos 		Position
+	patterns []regexPattern
+	Tokens   []Token
+	source   *string
+	Pos      Position
 }
 
-func Tokenize(source *string, debug bool) []Token {
-	
-	lex := createLexer(source)
+func Tokenize(source string, debug bool) []Token {
+
+	lex := createLexer(&source)
 
 	for !lex.at_eof() {
 
 		matched := false
 
 		for _, pattern := range lex.patterns {
-			
+
 			loc := pattern.regex.FindStringIndex(lex.remainder())
-			
+
 			if loc != nil && loc[0] == 0 {
 				pattern.handler(lex, pattern.regex)
 				matched = true
@@ -70,7 +70,7 @@ func Tokenize(source *string, debug bool) []Token {
 	lex.push(NewToken(EOF, "EOF", lex.Pos, lex.Pos))
 
 	//litter.Dump(lex.Tokens)
-	if (debug) {
+	if debug {
 		for _, token := range lex.Tokens {
 			token.Debug()
 		}
@@ -96,22 +96,11 @@ func (lex *Lexer) remainder() string {
 	return (*(lex.source))[lex.Pos.Index:]
 }
 
-func (lex *Lexer) remainingLines() string {
-	//until newline or eof
-	rem := lex.remainder()
-	for i, c := range rem {
-		if c == '\n' {
-			return rem[:i]
-		}
-	}
-	return rem
-}
-
 func (lex *Lexer) at_eof() bool {
 	return lex.Pos.Index >= len(*(lex.source))
 }
 
-func defaultHandler(kind TokenKind, value string) regexHandler {
+func defaultHandler(kind TOKEN_KIND, value string) regexHandler {
 	return func(lex *Lexer, regex *regexp.Regexp) {
 
 		start := lex.Pos
@@ -129,17 +118,17 @@ func createLexer(source *string) *Lexer {
 		source: source,
 		Tokens: make([]Token, 0),
 		Pos: Position{
-			Line: 1,
+			Line:   1,
 			Column: 1,
-			Index: 0,
+			Index:  0,
 		},
 		patterns: []regexPattern{
 			//{regexp.MustCompile(`\n`), skipHandler}, // newlines
-			{regexp.MustCompile(`\s+`), skipHandler}, // whitespace
-			{regexp.MustCompile(`\/\/.*`), skipHandler}, // single line comments
-			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler}, // multi line comments
-			{regexp.MustCompile(`"[^"]*"`), stringHandler}, // string literals
-			{regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`), numberHandler}, // decimal numbers
+			{regexp.MustCompile(`\s+`), skipHandler},                      // whitespace
+			{regexp.MustCompile(`\/\/.*`), skipHandler},                   // single line comments
+			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler},         // multi line comments
+			{regexp.MustCompile(`"[^"]*"`), stringHandler},                // string literals
+			{regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`), numberHandler},    // decimal numbers
 			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), symbolHandler}, // identifiers
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
 			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},
@@ -192,7 +181,7 @@ func symbolHandler(lex *Lexer, regex *regexp.Regexp) {
 	lex.advanceN(symbol)
 	end := lex.Pos
 
-	if kind, exists := reserved_lookup[symbol]; exists {
+	if kind, exists := reservedLookup[symbol]; exists {
 		lex.push(NewToken(kind, symbol, start, end))
 	} else {
 		lex.push(NewToken(IDENTIFIER, symbol, start, end))
@@ -215,7 +204,7 @@ func numberHandler(lex *Lexer, regex *regexp.Regexp) {
 func stringHandler(lex *Lexer, regex *regexp.Regexp) {
 
 	match := regex.FindString(lex.remainder())
-	stringLiteral := match[1 : len(match)-1]
+	stringLiteral := match[1 : len(match)-2]
 
 	start := lex.Pos
 	lex.advanceN(match)

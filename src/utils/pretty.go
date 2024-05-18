@@ -14,10 +14,10 @@ const (
     WHITE  = "\033[37m"
 )
 
-func PrintColor(color, text string) {
+func Colorize(color, text string) string {
 	switch color {
 		case RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE:
-			fmt.Printf("%s%s%s", color, text, RESET)
+			return fmt.Sprintf("%s%s%s", color, text, RESET)
 		default:
 			panic("Invalid color")
 	}

@@ -1,58 +1,65 @@
 package ast
 
-type Datatype int
+type Datatype string
 
 const (
 	// Primitive Types
-	VOID Datatype = iota
-	
-	INTEGER
-	FLOATING
-	BOOLEAN
-	STRING
-	CHARACTER
-	NULL
+	VOID Datatype 	= "VOID"
+
+	INTEGER   		= "INTEGER"
+	FLOATING  		= "FLOATING"
+	BOOLEAN   		= "BOOLEAN"
+	STRING    		= "STRING"
+	CHARACTER 		= "CHARECTER"
+	NULL      		= "NULL"
 
 	// Derived Types
-	ARRAY
+	ARRAY 			= "ARRAY"
 )
 
-type IntegerType struct{
-	Kind 	  	Datatype
-	BitSize     uint8
-	IsSigned    bool
+type IntegerType struct {
+	Kind     Datatype
+	BitSize  uint8
+	IsSigned bool
 }
+
 func (i IntegerType) _type() {}
 
 type FloatingType struct {
-	Kind 	  	Datatype
-	BitSize 	uint8
+	Kind     Datatype
+	BitSize  uint8
 }
+
 func (f FloatingType) _type() {}
 
-type BooleanType struct{
-	Kind 	  	Datatype
+type BooleanType struct {
+	Kind     Datatype
 }
+
 func (b BooleanType) _type() {}
 
-type StringType struct{
-	Kind 	  	Datatype
+type StringType struct {
+	Kind     Datatype
 }
+
 func (s StringType) _type() {}
 
-type CharecterType struct{
-	Kind 	  	Datatype
+type CharecterType struct {
+	Kind     Datatype
 }
+
 func (c CharecterType) _type() {}
 
-type NullType struct{
-	Kind 	  	Datatype
+type NullType struct {
+	Kind     Datatype
 }
+
 func (n NullType) _type() {}
 
-type VoidType struct{
-	Kind 	  	Datatype
+type VoidType struct {
+	Kind     Datatype
 }
+
 func (v VoidType) _type() {}
 
 type ArrayType struct {
@@ -60,4 +67,5 @@ type ArrayType struct {
 	ElementType Type
 	Size        int
 }
+
 func (a ArrayType) _type() {}

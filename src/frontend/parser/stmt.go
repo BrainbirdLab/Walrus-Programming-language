@@ -9,7 +9,7 @@ import (
 
 func parse_stmt(p *Parser) ast.Stmt {
 
-	stmt_fn, exists := stmt_lu[p.currentTokenKind()]
+	stmt_fn, exists := stmtLookup[p.currentTokenKind()]
 
 	if exists {
 		return stmt_fn(p)
@@ -20,17 +20,23 @@ func parse_stmt(p *Parser) ast.Stmt {
 
 func parse_expression_stmt(p *Parser) ast.ExpressionStmt {
 
-	expression := parse_expr(p, default_bp)
+	start := p.currentToken().StartPos
 
-	p.expect(lexer.SEMI_COLON)
+	expression := parse_expr(p, DEFAULT_BP)
+
+	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.ExpressionStmt{
 		Kind:       ast.STATEMENT,
 		Expression: expression,
+		StartPos:  start,
+		EndPos:  end,
 	}
 }
 
 func parse_var_decl_stmt(p *Parser) ast.Stmt {
+
+	start := p.currentToken().StartPos
 
 	var explicitType ast.Type
 	var assignedValue ast.Expr
@@ -51,7 +57,7 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 			panic("Expected value after := operator")
 		}
 
-		assignedValue = parse_expr(p, default_bp)
+		assignedValue = parse_expr(p, DEFAULT_BP)
 
 		if assignedValue == nil {
 			panic("Expected value after := operator")
@@ -59,15 +65,15 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 	} else {
 		// then we expect type
 		p.advance()
-		explicitType = parse_type(p, default_bp)
+		explicitType = parse_type(p, DEFAULT_BP)
 		if p.currentTokenKind() == lexer.ASSIGNMENT {
 			// then we expect assignment
 			p.advance()
-			assignedValue = parse_expr(p, default_bp)
+			assignedValue = parse_expr(p, DEFAULT_BP)
 		}
 	}
 
-	p.expect(lexer.SEMI_COLON)
+	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.VariableDclStml{
 		Kind:         ast.VARIABLE_DECLARATION_STATEMENT,
@@ -75,12 +81,14 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 		Identifier:   varName,
 		Value:        assignedValue,
 		ExplicitType: explicitType,
+		StartPos:    start,
+		EndPos:    end,
 	}
 }
 
 func parse_block(p *Parser) ast.BlockStmt {
 
-	p.expect(lexer.OPEN_CURLY)
+	start := p.expect(lexer.OPEN_CURLY).StartPos
 
 	body := make([]ast.Stmt, 0)
 
@@ -88,15 +96,20 @@ func parse_block(p *Parser) ast.BlockStmt {
 		body = append(body, parse_stmt(p))
 	}
 
-	p.expect(lexer.CLOSE_CURLY)
+	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
 	return ast.BlockStmt{
 		Kind: ast.BLOCK_STATEMENT,
 		Body: body,
+		StartPos: start,
+		EndPos: end,
 	}
 }
 
 func parse_function_decl_stmt(p *Parser) ast.Stmt {
+
+	start := p.currentToken().StartPos
+
 	p.expect(lexer.FUNCTION)
 
 	functionName := p.expect(lexer.IDENTIFIER).Value
@@ -107,7 +120,7 @@ func parse_function_decl_stmt(p *Parser) ast.Stmt {
 	var explicitReturnType ast.Type
 	if p.currentTokenKind() == lexer.ARROW {
 		p.advance()
-		explicitReturnType = parse_type(p, default_bp)
+		explicitReturnType = parse_type(p, DEFAULT_BP)
 	} else {
 		explicitReturnType = ast.VoidType{}
 	}
@@ -115,35 +128,46 @@ func parse_function_decl_stmt(p *Parser) ast.Stmt {
 	// parse block
 	functionBody := parse_block(p)
 
+	end := functionBody.EndPos
+
 	return ast.FunctionDeclStmt{
 		Kind:         ast.FN_DECLARATION_STATEMENT,
 		FunctionName: functionName,
 		Parameters:   params,
 		Block:        functionBody,
 		ReturnType:   explicitReturnType,
+		StartPos:    start,
+		EndPos:    end,
 	}
 }
 
 func parse_return_stmt(p *Parser) ast.Stmt {
+
+	start := p.currentToken().StartPos
+
 	p.expect(lexer.RETURN)
 
 	var value ast.Expr
 
 	if p.currentTokenKind() != lexer.SEMI_COLON {
-		value = parse_expr(p, default_bp)
+		value = parse_expr(p, DEFAULT_BP)
 	} else {
 		value = ast.VoidExpr{}
 	}
 
-	p.expect(lexer.SEMI_COLON)
+	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.ReturnStmt{
 		Kind:       ast.RETURN_STATEMENT,
 		Expression: value,
+		StartPos:  start,
+		EndPos:  end,
 	}
 }
 
 func parse_struct_decl_stmt(p *Parser) ast.Stmt {
+
+	start := p.currentToken().StartPos
 
 	p.expect(lexer.STRUCT)
 
@@ -161,7 +185,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 		var propname string
 
 		//property
-		if p.currentTokenKind() == lexer.ACCESS_MODIFIER {
+		if p.currentTokenKind() == lexer.ACCESS {
 
 			if p.currentToken().Value == "pub" {
 				IsPublic = true
@@ -192,7 +216,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 
 				p.advance()
 
-				propertyType := parse_type(p, default_bp)
+				propertyType := parse_type(p, DEFAULT_BP)
 
 				p.expect(lexer.SEMI_COLON)
 
@@ -219,7 +243,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 				if p.currentTokenKind() == lexer.ARROW {
 					// so then we expect return type
 					p.advance()
-					returnType = parse_type(p, default_bp)
+					returnType = parse_type(p, DEFAULT_BP)
 				} else {
 					returnType = ast.NullType{}
 				}
@@ -245,27 +269,31 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 		}
 	}
 
-	p.expect(lexer.CLOSE_CURLY)
+	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
 	return ast.StructDeclStatement{
 		Kind:       ast.STRUCT_DECLARATION_STATEMENT,
 		Properties: properties,
 		Methods:    methods,
 		StructName: structName,
+		StartPos:  start,
+		EndPos:  end,
 	}
 }
 
 func parse_params(p *Parser) map[string]ast.Type {
 	params := map[string]ast.Type{}
 	//while )
-	p.advance()
+	p.advance() // pass the open paren
+
+	//parse the parameters
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_PAREN {
 
 		paramName := p.expect(lexer.IDENTIFIER).Value
 
 		p.expect(lexer.COLON)
 
-		paramType := parse_type(p, default_bp)
+		paramType := parse_type(p, DEFAULT_BP)
 
 		//add to the map
 		params[paramName] = paramType
@@ -280,22 +308,29 @@ func parse_params(p *Parser) map[string]ast.Type {
 
 func parse_if_statement(p *Parser) ast.Stmt {
 
-	p.advance()
+	start := p.advance().StartPos
 
-	condition := parse_expr(p, assignment) // using assignment as the lowest binding power
+	condition := parse_expr(p, ASSIGNMENT) // using assignment as the lowest binding power
 
 	consequentBlock := parse_block(p)
 
 	var alternate ast.Stmt
 
+	var end lexer.Position
+
 	if p.currentTokenKind() == lexer.ELSE {
 		p.advance()
-		alternate = parse_block(p)
+		block := parse_block(p)
+		alternate = block
+		end = block.EndPos
 	} else if p.currentTokenKind() == lexer.ELSEIF {
 		//p.advance()
-		alternate = parse_if_statement(p)
+		stmt := parse_if_statement(p)
+		alternate = stmt
+		// type cast
+		end = stmt.(ast.IfStmt).EndPos
 	} else {
-		p.expect(lexer.CLOSE_CURLY)
+		end = p.expect(lexer.CLOSE_CURLY).EndPos
 	}
 
 	return ast.IfStmt{
@@ -303,5 +338,7 @@ func parse_if_statement(p *Parser) ast.Stmt {
 		Condition: condition,
 		Block:     consequentBlock,
 		Alternate: alternate,
+		StartPos: start,
+		EndPos: end,
 	}
 }
