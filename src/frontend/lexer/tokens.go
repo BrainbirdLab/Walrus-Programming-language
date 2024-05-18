@@ -2,6 +2,7 @@ package lexer
 
 import (
 	"fmt"
+	"regexp"
 )
 
 // TOKEN_KIND represents the type of token
@@ -127,6 +128,11 @@ var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
 func IsKeyword(tokenKind TOKEN_KIND) bool {
 	_, ok := reservedLookup[string(tokenKind)]
 	return ok
+}
+
+func IsNumber(tokenKind TOKEN_KIND) bool {
+	regexp := regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`)
+	return regexp.MatchString(string(tokenKind))
 }
 
 // Define token types

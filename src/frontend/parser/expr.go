@@ -200,6 +200,7 @@ func parse_prefix_expr(p *Parser) ast.Expr {
 	}
 }
 
+/*
 // parse_postfix_expr parses a postfix expression, which can be an increment or
 // decrement operation on an identifier. It checks that the left-hand side is a
 // valid identifier, and returns an AST node representing the unary expression.
@@ -222,6 +223,7 @@ func parse_postfix_expr(p *Parser, left ast.Expr) ast.Expr {
 		Argument: left,
 	}
 }
+*/
 
 // parse_unary_expr parses a unary expression from the input stream.
 // It returns the parsed expression as an ast.Expr.

@@ -1,7 +1,9 @@
 
 let x : i8 = 5;
-let a : puka = 2;
+let a := 2;
 let b := 10;
+
+let myName := "John";
 
 a = -10 + 5 * 2;
 

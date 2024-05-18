@@ -21,10 +21,12 @@ var type_bp_lu = type_bp_lookup{}
 var type_nud_lu = type_nud_lookup{}
 var type_led_lu = type_led_lookup{}
 
+/*
 func type_led(kind lexer.TOKEN_KIND, bp BINDING_POWER, led_fn type_led_handler) {
 	type_bp_lu[kind] = bp
 	type_led_lu[kind] = led_fn
 }
+*/
 
 func type_nud(kind lexer.TOKEN_KIND, nud_fn type_nud_handler) {
 	type_nud_lu[kind] = nud_fn
@@ -71,8 +73,7 @@ func parse_data_type(p *Parser) ast.Type {
 			Kind: ast.STRING,
 		}
 	default:
-		//panic(fmt.Sprintf("Unknown data type %s\n", value))
-		panic(MakeErrorStr(p, identifier, fmt.Sprintf("Unknown data type %s\n", value)))
+		panic(MakeErrorStr(p, identifier, fmt.Sprintf("Unknown data type '%s'\n", value)))
 	}
 }
 

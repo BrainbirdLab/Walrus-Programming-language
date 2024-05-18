@@ -46,9 +46,17 @@ func Parse(filepath string, debugMode bool) ast.ProgramStmt {
 		Filename: filepath,
 	}
 
+	end := tokens[len(tokens) - 1].EndPos
+
 	return ast.ProgramStmt{
 		Contents: Contents,
 		File:     file,
+		StartPos: lexer.Position{
+			Line:   1,
+			Column: 1,
+			Index:  0,
+		},
+		EndPos: end,
 	}
 }
 
@@ -95,16 +103,6 @@ func (p *Parser) expect(expectedKind lexer.TOKEN_KIND) lexer.Token {
 	return p.expectError(expectedKind, nil)
 }
 
-func (p *Parser) expectAny(kinds ...lexer.TOKEN_KIND) lexer.Token {
-	for _, kind := range kinds {
-		if p.currentTokenKind() == kind {
-			return p.advance()
-		}
-	}
-
-	panic(fmt.Sprintf("Expected any of %v but recieved %s instead\n", kinds, p.currentTokenKind()))
-}
-
 func MakeErrorStr(p *Parser, token lexer.Token, errMsg string) string {
 
 	// decorate the error with ~~~~~ under the error line
@@ -114,14 +112,28 @@ func MakeErrorStr(p *Parser, token lexer.Token, errMsg string) string {
 	line := p.Lines[token.StartPos.Line-1]
 
 	//fmt.Printf("Token start: %v, end: %v\n", token.StartPos, token.EndPos)
-	errStr += fmt.Sprintf("Error at %d:%d\n", token.StartPos.Line, token.StartPos.Column)
+	errStr += utils.Colorize(utils.RED, fmt.Sprintf("Error at %d:%d\n", token.StartPos.Line, token.StartPos.Column))
 
-	paddind := fmt.Sprintf("%d | ", token.StartPos.Line)
+	padding := fmt.Sprintf("%d | ", token.StartPos.Line)
 
-	errStr += fmt.Sprintf("%s%s\n", paddind, line)
-	errStr += strings.Repeat(" ", (token.StartPos.Column-1) + len(paddind))
-	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("%s\n", strings.Repeat("~", token.EndPos.Column-token.StartPos.Column))))
+	errStr += utils.Colorize(utils.GREY, padding) + Highlight(line[0:token.StartPos.Column - 1]) + utils.Colorize(utils.RED, line[token.StartPos.Column - 1:token.EndPos.Column - 1]) + Highlight(line[token.EndPos.Column - 1:]) + "\n"
+	errStr += strings.Repeat(" ", (token.StartPos.Column - 1) + len(padding))
+	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column-token.StartPos.Column - 1))))
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 
 	return errStr
+}
+
+func Highlight(line string) string {
+	words := strings.Split(line, " ")
+
+	for i, word := range words {
+		if lexer.IsKeyword(lexer.TOKEN_KIND(word)) {
+			words[i] = utils.Colorize(utils.PURPLE, word)
+		} else if lexer.IsNumber(lexer.TOKEN_KIND(word)) {
+			words[i] = utils.Colorize(utils.ORANGE, word)
+		}
+	}
+
+	return strings.Join(words, " ")
 }
