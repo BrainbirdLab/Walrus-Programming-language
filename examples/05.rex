@@ -3,9 +3,9 @@ let x : i8 = 5;
 let a := 2;
 let b := 10;
 
-let myName := "John";
+let myName := "John';
 
-a = -10 + 5  2;
+a = -10 + 5 - b;
 
 fn add(a: i8, b: i8) -> i8 {
     ret a + b;

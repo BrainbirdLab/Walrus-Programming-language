@@ -2,7 +2,10 @@ package lexer
 
 import (
 	"fmt"
+	"os"
 	"regexp"
+	"rexlang/utils"
+	"strings"
 	//"github.com/sanity-io/litter"
 )
 
@@ -41,11 +44,13 @@ type Lexer struct {
 	Tokens   []Token
 	source   *string
 	Pos      Position
+	FilePath string
 }
 
-func Tokenize(source string, debug bool) []Token {
+func Tokenize(source, file string, debug bool) []Token {
 
 	lex := createLexer(&source)
+	lex.FilePath = file
 
 	for !lex.at_eof() {
 
@@ -63,7 +68,17 @@ func Tokenize(source string, debug bool) []Token {
 		}
 
 		if !matched {
-			panic(fmt.Sprintf("At line %d: Unexpected character: %c", lex.Pos.Line, lex.at()))
+
+			//line is from lex.Pos.Index to
+			padding := fmt.Sprintf("%d | ", lex.Pos.Line)
+
+			errStr := fmt.Sprintf("\n%s:%d:%d\n", lex.FilePath, lex.Pos.Line, lex.Pos.Column)
+			errStr += utils.Colorize(utils.GREY, padding) + Highlight(lex.getLine(lex.Pos.Index)) + "\n"
+			errStr += utils.Colorize(utils.BOLD_RED, (strings.Repeat(" ", (lex.Pos.Column - 1) + len(padding)) + "^\n"))
+			errStr += fmt.Sprintf("At line %d: Unexpected character: '%c'", lex.Pos.Line, lex.at())
+			fmt.Println(errStr)
+
+			os.Exit(-1)
 		}
 	}
 
@@ -94,6 +109,36 @@ func (lex *Lexer) at() byte {
 
 func (lex *Lexer) remainder() string {
 	return (*(lex.source))[lex.Pos.Index:]
+}
+/*
+func (lex *Lexer) getLine(index int) string {
+	//end is the first newline after index
+	end := strings.Index((*(lex.source))[index:], "\n")
+	if end == -1 {
+		return (*(lex.source))[index:]
+	}
+
+	return (*(lex.source))[index:index+end]
+}
+*/
+
+func (lex *Lexer) getLine(index int) string {
+	//start is index of previous newline or beginning of source from index
+	start := strings.LastIndex((*(lex.source))[0:index], "\n")
+	if start == -1 {
+		start = 0
+	} else {
+		start += 1
+	}
+	//end is the first newline after index
+	end := strings.Index((*(lex.source))[start:], "\n")
+	if end == -1 {
+		end = len(*(lex.source))
+	} else {
+		end += start
+	}
+
+	return (*(lex.source))[start:end]
 }
 
 func (lex *Lexer) at_eof() bool {

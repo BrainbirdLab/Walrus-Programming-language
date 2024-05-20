@@ -33,7 +33,7 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 	filePath := filepath.Base(fileSrc)
 
 
-	tokens := lexer.Tokenize(source, debugMode)
+	tokens := lexer.Tokenize(source, filePath, debugMode)
 
 	createTokenLookups()
 	createTokenTypesLookups()
@@ -121,24 +121,10 @@ func MakeErrorStr(p *Parser, token lexer.Token, errMsg string) string {
 
 	padding := fmt.Sprintf("%d | ", token.StartPos.Line)
 
-	errStr += utils.Colorize(utils.GREY, padding) + Highlight(line[0:token.StartPos.Column - 1]) + utils.Colorize(utils.RED, line[token.StartPos.Column - 1:token.EndPos.Column - 1]) + Highlight(line[token.EndPos.Column - 1:]) + "\n"
+	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:token.StartPos.Column - 1]) + utils.Colorize(utils.RED, line[token.StartPos.Column - 1:token.EndPos.Column - 1]) + lexer.Highlight(line[token.EndPos.Column - 1:]) + "\n"
 	errStr += strings.Repeat(" ", (token.StartPos.Column - 1) + len(padding))
 	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column-token.StartPos.Column - 1))))
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 
 	return errStr
-}
-
-func Highlight(line string) string {
-	words := strings.Split(line, " ")
-
-	for i, word := range words {
-		if lexer.IsKeyword(lexer.TOKEN_KIND(word)) {
-			words[i] = utils.Colorize(utils.PURPLE, word)
-		} else if lexer.IsNumber(lexer.TOKEN_KIND(word)) {
-			words[i] = utils.Colorize(utils.ORANGE, word)
-		}
-	}
-
-	return strings.Join(words, " ")
 }

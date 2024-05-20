@@ -36,7 +36,6 @@ func Colorize(color, text string) string {
 	return fmt.Sprintf("%s%s%s", color, text, RESET)
 }
 
-
 func IF(conddition bool, a, b any) any {
 	if conddition {
 		return a
