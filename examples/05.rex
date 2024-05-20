@@ -5,7 +5,7 @@ let b := 10;
 
 let myName := "John";
 
-a = -10 + 5 * 2;
+a = -10 + 5  2;
 
 fn add(a: i8, b: i8) -> i8 {
     ret a + b;

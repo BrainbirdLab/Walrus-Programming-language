@@ -2,10 +2,6 @@ package ast
 
 import "rexlang/frontend/lexer"
 
-type File struct {
-	Filename string
-}
-
 type ImportStmt struct {
 	Kind 		NODE_TYPE
 	Path 		string
@@ -31,7 +27,7 @@ func (e ExpressionStmt) GetPos() (lexer.Position, lexer.Position) {
 
 type ProgramStmt struct {
 	Imports 	[]ImportStmt
-	File   		File
+	FileName   	string
 	Contents 	[]Stmt
 	StartPos 	lexer.Position
 	EndPos   	lexer.Position

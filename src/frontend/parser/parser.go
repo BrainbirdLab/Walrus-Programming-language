@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"rexlang/frontend/ast"
 	"rexlang/frontend/lexer"
 	"rexlang/utils"
@@ -10,20 +11,27 @@ import (
 )
 
 type Parser struct {
-	tokens []lexer.Token
-	pos    int
-	Lines  []string
+	tokens 		[]lexer.Token
+	pos    		int
+	Lines  		[]string
+	FilePath 	string
 }
 
-func Parse(filepath string, debugMode bool) ast.ProgramStmt {
+func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 
-	bytes, err := os.ReadFile(filepath)
+	//read file and file data
 
-	if err != nil {
+	bytes, err := os.ReadFile(fileSrc)
+
+	if err!= nil {
 		panic(err)
 	}
 
 	source := string(bytes)
+
+
+	filePath := filepath.Base(fileSrc)
+
 
 	tokens := lexer.Tokenize(source, debugMode)
 
@@ -34,6 +42,7 @@ func Parse(filepath string, debugMode bool) ast.ProgramStmt {
 		tokens: tokens,
 		pos:    0,
 		Lines:  strings.Split(source, "\n"),
+		FilePath: filePath,
 	}
 
 	var Contents []ast.Stmt
@@ -42,15 +51,11 @@ func Parse(filepath string, debugMode bool) ast.ProgramStmt {
 		Contents = append(Contents, parse_stmt(parser))
 	}
 
-	file := ast.File{
-		Filename: filepath,
-	}
-
 	end := tokens[len(tokens) - 1].EndPos
 
 	return ast.ProgramStmt{
 		Contents: Contents,
-		File:     file,
+		FileName: filePath,
 		StartPos: lexer.Position{
 			Line:   1,
 			Column: 1,
@@ -112,7 +117,7 @@ func MakeErrorStr(p *Parser, token lexer.Token, errMsg string) string {
 	line := p.Lines[token.StartPos.Line-1]
 
 	//fmt.Printf("Token start: %v, end: %v\n", token.StartPos, token.EndPos)
-	errStr += utils.Colorize(utils.RED, fmt.Sprintf("Error at %d:%d\n", token.StartPos.Line, token.StartPos.Column))
+	errStr += fmt.Sprintf("\n%s:%d:%d\n", p.FilePath, token.StartPos.Line, token.StartPos.Column)
 
 	padding := fmt.Sprintf("%d | ", token.StartPos.Line)
 
