@@ -4,7 +4,7 @@ import "rexlang/frontend/lexer"
 
 type ImportStmt struct {
 	Kind 		NODE_TYPE
-	Path 		string
+	ModuleName 		string
 	Symbols 	[]string
 	StartPos 	lexer.Position
 	EndPos   	lexer.Position

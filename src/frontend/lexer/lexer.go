@@ -42,15 +42,18 @@ func (p *Position) advance(toSkip string) *Position {
 type Lexer struct {
 	patterns []regexPattern
 	Tokens   []Token
+	Lines    []string
 	source   *string
 	Pos      Position
 	FilePath string
 }
 
-func Tokenize(source, file string, debug bool) []Token {
+func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 
 	lex := createLexer(&source)
 	lex.FilePath = file
+	lex.Lines = strings.Split(source, "\n")
+
 
 	for !lex.at_eof() {
 
@@ -73,7 +76,7 @@ func Tokenize(source, file string, debug bool) []Token {
 			padding := fmt.Sprintf("%d | ", lex.Pos.Line)
 
 			errStr := fmt.Sprintf("\n%s:%d:%d\n", lex.FilePath, lex.Pos.Line, lex.Pos.Column)
-			errStr += utils.Colorize(utils.GREY, padding) + Highlight(lex.getLine(lex.Pos.Index)) + "\n"
+			errStr += utils.Colorize(utils.GREY, padding) + Highlight(lex.Lines[lex.Pos.Line]) + "\n"
 			errStr += utils.Colorize(utils.BOLD_RED, (strings.Repeat(" ", (lex.Pos.Column - 1) + len(padding)) + "^\n"))
 			errStr += fmt.Sprintf("At line %d: Unexpected character: '%c'", lex.Pos.Line, lex.at())
 			fmt.Println(errStr)
@@ -91,7 +94,7 @@ func Tokenize(source, file string, debug bool) []Token {
 		}
 	}
 
-	return lex.Tokens
+	return lex.Tokens, &lex.Lines
 }
 
 func (lex *Lexer) advanceN(match string) {
@@ -109,36 +112,6 @@ func (lex *Lexer) at() byte {
 
 func (lex *Lexer) remainder() string {
 	return (*(lex.source))[lex.Pos.Index:]
-}
-/*
-func (lex *Lexer) getLine(index int) string {
-	//end is the first newline after index
-	end := strings.Index((*(lex.source))[index:], "\n")
-	if end == -1 {
-		return (*(lex.source))[index:]
-	}
-
-	return (*(lex.source))[index:index+end]
-}
-*/
-
-func (lex *Lexer) getLine(index int) string {
-	//start is index of previous newline or beginning of source from index
-	start := strings.LastIndex((*(lex.source))[0:index], "\n")
-	if start == -1 {
-		start = 0
-	} else {
-		start += 1
-	}
-	//end is the first newline after index
-	end := strings.Index((*(lex.source))[start:], "\n")
-	if end == -1 {
-		end = len(*(lex.source))
-	} else {
-		end += start
-	}
-
-	return (*(lex.source))[start:end]
 }
 
 func (lex *Lexer) at_eof() bool {
@@ -249,7 +222,9 @@ func numberHandler(lex *Lexer, regex *regexp.Regexp) {
 func stringHandler(lex *Lexer, regex *regexp.Regexp) {
 
 	match := regex.FindString(lex.remainder())
-	stringLiteral := match[1 : len(match)-2]
+	
+	//exclude the quotes
+	stringLiteral := match[1:len(match)-1]
 
 	start := lex.Pos
 	lex.advanceN(match)

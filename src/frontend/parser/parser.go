@@ -3,7 +3,8 @@ package parser
 import (
 	"fmt"
 	"os"
-	"path/filepath"
+
+	//"path/filepath"
 	"rexlang/frontend/ast"
 	"rexlang/frontend/lexer"
 	"rexlang/utils"
@@ -11,10 +12,10 @@ import (
 )
 
 type Parser struct {
-	tokens 		[]lexer.Token
-	pos    		int
-	Lines  		[]string
-	FilePath 	string
+	tokens   []lexer.Token
+	pos      int
+	Lines    *[]string
+	FilePath string
 }
 
 func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
@@ -23,25 +24,24 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 
 	bytes, err := os.ReadFile(fileSrc)
 
-	if err!= nil {
+	if err != nil {
 		panic(err)
 	}
 
 	source := string(bytes)
 
+	//filePath := filepath.Base(fileSrc)
+	filePath := fileSrc
 
-	filePath := filepath.Base(fileSrc)
-
-
-	tokens := lexer.Tokenize(source, filePath, debugMode)
+	tokens, lines := lexer.Tokenize(source, filePath, debugMode)
 
 	createTokenLookups()
 	createTokenTypesLookups()
 
 	parser := &Parser{
-		tokens: tokens,
-		pos:    0,
-		Lines:  strings.Split(source, "\n"),
+		tokens:   tokens,
+		pos:      0,
+		Lines:    lines,
 		FilePath: filePath,
 	}
 
@@ -51,7 +51,7 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 		Contents = append(Contents, parse_stmt(parser))
 	}
 
-	end := tokens[len(tokens) - 1].EndPos
+	end := tokens[len(tokens)-1].EndPos
 
 	return ast.ProgramStmt{
 		Contents: Contents,
@@ -90,13 +90,13 @@ func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token
 
 	if kind != expectedKind {
 		if err == nil {
-			panic(MakeErrorStr(p, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)))
+			panic(MakeError((*p.Lines)[p.currentToken().StartPos.Line], p.FilePath, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)))
 		} else {
 			if errMsg, ok := err.(string); ok {
-				panic(MakeErrorStr(p, token, errMsg))
+				panic(MakeError((*p.Lines)[p.currentToken().StartPos.Line], p.FilePath, token, errMsg))
 			} else {
 				// Handle error if it's not a string
-				panic(MakeErrorStr(p, token, "An unexpected error occurred"))
+				panic(MakeError((*p.Lines)[p.currentToken().StartPos.Line], p.FilePath, token, "An unexpected error occurred"))
 			}
 		}
 	}
@@ -108,23 +108,42 @@ func (p *Parser) expect(expectedKind lexer.TOKEN_KIND) lexer.Token {
 	return p.expectError(expectedKind, nil)
 }
 
-func MakeErrorStr(p *Parser, token lexer.Token, errMsg string) string {
+type ErrorMessage struct {
+	Message string
+	hints   []string
+}
+
+func (e *ErrorMessage) AddHint(hint string) *ErrorMessage {
+	e.hints = append(e.hints, hint)
+	return e
+}
+
+func (e *ErrorMessage) Display() {
+	fmt.Println(e.Message)
+	// hints
+	for _, hint := range e.hints {
+		fmt.Printf("Hint: %s\n", hint)
+	}
+	os.Exit(1)
+}
+
+func MakeError(line, filePath string, token lexer.Token, errMsg string) *ErrorMessage {
 
 	// decorate the error with ~~~~~ under the error line
 
 	var errStr string
 
-	line := p.Lines[token.StartPos.Line-1]
-
 	//fmt.Printf("Token start: %v, end: %v\n", token.StartPos, token.EndPos)
-	errStr += fmt.Sprintf("\n%s:%d:%d\n", p.FilePath, token.StartPos.Line, token.StartPos.Column)
+	errStr += fmt.Sprintf("\n%s:%d:%d\n", filePath, token.StartPos.Line, token.StartPos.Column)
 
 	padding := fmt.Sprintf("%d | ", token.StartPos.Line)
 
-	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:token.StartPos.Column - 1]) + utils.Colorize(utils.RED, line[token.StartPos.Column - 1:token.EndPos.Column - 1]) + lexer.Highlight(line[token.EndPos.Column - 1:]) + "\n"
-	errStr += strings.Repeat(" ", (token.StartPos.Column - 1) + len(padding))
-	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column-token.StartPos.Column - 1))))
+	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:token.StartPos.Column-1]) + utils.Colorize(utils.RED, line[token.StartPos.Column-1:token.EndPos.Column-1]) + lexer.Highlight(line[token.EndPos.Column-1:]) + "\n"
+	errStr += strings.Repeat(" ", (token.StartPos.Column-1)+len(padding))
+	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column-token.StartPos.Column-1))))
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 
-	return errStr
+	return &ErrorMessage{
+		Message: errStr,
+	}
 }

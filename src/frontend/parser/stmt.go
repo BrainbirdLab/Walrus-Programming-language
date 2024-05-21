@@ -34,6 +34,41 @@ func parse_expression_stmt(p *Parser) ast.ExpressionStmt {
 	}
 }
 
+func parse_import_stmt(p *Parser) ast.Stmt {
+	start := p.currentToken().StartPos
+	//advaced to the next token
+	p.advance()
+
+	symbols := []string{}
+
+	//expect the module name "..." or {x,y,z}
+	if p.currentTokenKind() == lexer.OPEN_CURLY {
+		//expect identifiers inside the curly braces
+		for p.currentTokenKind() == lexer.IDENTIFIER {
+			symbols = append(symbols, p.currentToken().Value)
+			p.advance()
+		}
+		p.expect(lexer.CLOSE_CURLY)
+
+		//expect the "from" keyword
+		p.expect(lexer.FROM)
+	}
+
+	moduleName := p.expect(lexer.STRING).Value
+
+	fmt.Printf("importing %s from %s\n", symbols, moduleName)
+
+	end := p.expect(lexer.SEMI_COLON).EndPos
+
+	return ast.ImportStmt{
+		Kind:              ast.IMPORT_STATEMENT,
+		Symbols: symbols,
+		ModuleName: moduleName,
+		StartPos: start,
+		EndPos: end,
+	}
+}
+
 func parse_var_decl_stmt(p *Parser) ast.Stmt {
 
 	start := p.currentToken().StartPos
