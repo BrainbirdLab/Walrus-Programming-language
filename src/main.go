@@ -15,8 +15,6 @@ func main() {
 
 	timeStart := time.Now()
 
-	//fmt.Printf("Source code: %s\n", source)
-
 	ast := parser.Parse("./../examples/05.rex", false)
 
 	//store as file
