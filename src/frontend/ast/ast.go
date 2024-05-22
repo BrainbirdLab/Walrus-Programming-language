@@ -10,6 +10,7 @@ type NODE_TYPE string
 const (
 	// Statements
 	PROGRAM NODE_TYPE 							= "PROGRAM"
+	
 	IMPORT_STATEMENT                         	= "IMPORT_STATEMENT"
 	STATEMENT                                	= "STATEMENT"
 	BLOCK_STATEMENT                          	= "BLOCK_STATEMENT"
