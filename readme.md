@@ -19,7 +19,7 @@ if a > 50 {
     b = "a is more than 50";
 } elf a < 50 {
     b = "a is less that 50";
-} elf 67 isnt a and a > 50{
+} elf 67 != a && a > 50{
     b = "a is 50";
 } els {
     b = "none";
@@ -29,9 +29,12 @@ if a > 50 {
 ## todos
 ### Lexer
 - [x] Complete
+- [x] Error print 
 
 ### Parser
 - [x] Var declare
 - [x] Var assign
 - [x] Infer type from value
-- [ ] funtions
+- [x] funtions
+- [x] error print
+- [ ] function call
