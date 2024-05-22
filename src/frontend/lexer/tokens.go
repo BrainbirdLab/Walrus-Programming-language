@@ -11,6 +11,7 @@ type TOKEN_KIND string
 const (
 	// Identifiers
 	EOF TOKEN_KIND 			= "eof"
+
 	NUMBER                	= "number"
 	STRING                	= "string"
 	CHARACTER             	= "charecter"
@@ -72,6 +73,7 @@ const (
 	LET      				= "let"
 	CONST    				= "const"
 	NEW      				= "new"
+	MODULE					= "module"
 	IMPORT   				= "import"
 	FROM     				= "from"
 	FUNCTION 				= "fn"
@@ -102,6 +104,7 @@ var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
 	"let":      LET,
 	"const":    CONST,
 	"new":      NEW,
+	"mod":   	MODULE,
 	"import":   IMPORT,
 	"from":     FROM,
 	"fn":       FUNCTION,

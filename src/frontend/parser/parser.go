@@ -45,17 +45,31 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 		FilePath: filePath,
 	}
 
-	var Contents []ast.Stmt
+	var moduleName string
+	var imports []ast.ImportStmt
+	var contents []ast.Stmt
 
 	for parser.hasTokens() {
-		Contents = append(Contents, parse_stmt(parser))
+		stmt := parse_stmt(parser)
+
+		switch v := stmt.(type) {
+		case ast.ModuleStmt:
+			moduleName = v.ModuleName
+		case ast.ImportStmt:
+			imports = append(imports, v)
+		default:
+			contents = append(contents, stmt)
+		}
+
 	}
 
 	end := tokens[len(tokens)-1].EndPos
 
 	return ast.ProgramStmt{
-		Contents: Contents,
-		FileName: filePath,
+		ModuleName: moduleName,
+		Imports:    imports,
+		Contents:   contents,
+		FileName:   filePath,
 		StartPos: lexer.Position{
 			Line:   1,
 			Column: 1,

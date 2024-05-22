@@ -2,6 +2,17 @@ package ast
 
 import "rexlang/frontend/lexer"
 
+type ModuleStmt struct {
+	Kind       NODE_TYPE
+	ModuleName string
+	StartPos   lexer.Position
+	EndPos     lexer.Position
+}
+func (m ModuleStmt) stmt() {} // implements the Stmt interface
+func (m ModuleStmt) GetPos() (lexer.Position, lexer.Position) {
+	return m.StartPos, m.EndPos
+}
+
 type ImportStmt struct {
 	Kind 		NODE_TYPE
 	ModuleName 	string
@@ -27,6 +38,8 @@ func (e ExpressionStmt) GetPos() (lexer.Position, lexer.Position) {
 
 type ProgramStmt 	struct {
 	FileName   		string
+	ModuleName 		string
+	Imports  		[]ImportStmt
 	Contents 		[]Stmt
 	StartPos 		lexer.Position
 	EndPos   		lexer.Position

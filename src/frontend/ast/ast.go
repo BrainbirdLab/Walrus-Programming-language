@@ -11,6 +11,7 @@ const (
 	// Statements
 	PROGRAM NODE_TYPE 							= "PROGRAM"
 	
+	MODULE_STATEMENT                         	= "MODULE_STATEMENT"
 	IMPORT_STATEMENT                         	= "IMPORT_STATEMENT"
 	STATEMENT                                	= "STATEMENT"
 	BLOCK_STATEMENT                          	= "BLOCK_STATEMENT"

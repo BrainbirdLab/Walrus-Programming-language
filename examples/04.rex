@@ -1,6 +1,10 @@
-import { read } from "io"
+mod main;
 
-fn main() {
-    let a : i8 = 1;
-    const c : i64 = 4389235677832;
+import { read } from "io";
+
+struct Duck {
+    static id: i8;
+    priv static name: str;
+    color: str;
+    priv age: i8;
 }

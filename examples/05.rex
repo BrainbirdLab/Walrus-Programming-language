@@ -1,3 +1,5 @@
+mod main;
+
 import "core:fmt";
 import { readFile, writeFile } from "core:io";
 

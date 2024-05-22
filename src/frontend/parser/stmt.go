@@ -9,12 +9,14 @@ import (
 
 func parse_stmt(p *Parser) ast.Stmt {
 
+	// can be a statement or an expression
 	stmt_fn, exists := stmtLookup[p.currentTokenKind()]
 
 	if exists {
 		return stmt_fn(p)
 	}
 
+	// if not a statement, then it must be an expression
 	return parse_expression_stmt(p)
 }
 
@@ -29,6 +31,23 @@ func parse_expression_stmt(p *Parser) ast.ExpressionStmt {
 	return ast.ExpressionStmt{
 		Kind:       ast.STATEMENT,
 		Expression: expression,
+		StartPos:  start,
+		EndPos:  end,
+	}
+}
+
+func parse_module_stmt(p *Parser) ast.Stmt {
+	start := p.currentToken().StartPos
+
+	p.advance() // skip MODULE token
+
+	moduleName := p.expect(lexer.IDENTIFIER).Value
+
+	end := p.expect(lexer.SEMI_COLON).EndPos
+
+	return ast.ModuleStmt{
+		Kind:       ast.MODULE_STATEMENT,
+		ModuleName: moduleName,
 		StartPos:  start,
 		EndPos:  end,
 	}
