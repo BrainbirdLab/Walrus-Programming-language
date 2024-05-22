@@ -1,4 +1,5 @@
 import "core:fmt";
+import { readFile, writeFile } from "core:io";
 
 let x : i8 = 5;
 let a := 2;

@@ -4,7 +4,7 @@ import "rexlang/frontend/lexer"
 
 type ImportStmt struct {
 	Kind 		NODE_TYPE
-	ModuleName 		string
+	ModuleName 	string
 	Symbols 	[]string
 	StartPos 	lexer.Position
 	EndPos   	lexer.Position
@@ -25,12 +25,11 @@ func (e ExpressionStmt) GetPos() (lexer.Position, lexer.Position) {
 	return e.StartPos, e.EndPos
 }
 
-type ProgramStmt struct {
-	Imports 	[]ImportStmt
-	FileName   	string
-	Contents 	[]Stmt
-	StartPos 	lexer.Position
-	EndPos   	lexer.Position
+type ProgramStmt 	struct {
+	FileName   		string
+	Contents 		[]Stmt
+	StartPos 		lexer.Position
+	EndPos   		lexer.Position
 }
 func (p ProgramStmt) stmt() {} // implements the Stmt interface
 func (p ProgramStmt) GetPos() (lexer.Position, lexer.Position) {
@@ -49,13 +48,13 @@ func (b BlockStmt) GetPos() (lexer.Position, lexer.Position) {
 }
 
 type VariableDclStml struct {
-	Kind         NODE_TYPE
-	IsConstant   bool
-	Identifier   string
-	Value        Expr
-	ExplicitType Type
-	StartPos 	lexer.Position
-	EndPos   	lexer.Position
+	Kind         	NODE_TYPE
+	IsConstant   	bool
+	Identifier   	string
+	Value        	Expr
+	ExplicitType 	Type
+	StartPos 		lexer.Position
+	EndPos   		lexer.Position
 }
 func (v VariableDclStml) stmt() {}
 func (v VariableDclStml) GetPos() (lexer.Position, lexer.Position) {
@@ -77,10 +76,10 @@ func (f FunctionDeclStmt) GetPos() (lexer.Position, lexer.Position) {
 }
 
 type ReturnStmt struct {
-	Kind       NODE_TYPE
-	Expression Expr
-	StartPos lexer.Position
-	EndPos   lexer.Position
+	Kind       	NODE_TYPE
+	Expression 	Expr
+	StartPos 	lexer.Position
+	EndPos   	lexer.Position
 }
 func (r ReturnStmt) stmt() {}
 func (r ReturnStmt) GetPos() (lexer.Position, lexer.Position) {
@@ -97,21 +96,21 @@ type StructProperty struct {
 }
 
 type StructMethod struct {
-	IsStatic   bool
-	IsPublic   bool
-	Parameters map[string]Type
-	ReturnType Type
-	StartPos lexer.Position
-	EndPos   lexer.Position
+	IsStatic   	bool
+	IsPublic   	bool
+	Parameters 	map[string]Type
+	ReturnType 	Type
+	StartPos 	lexer.Position
+	EndPos   	lexer.Position
 }
 
 type StructDeclStatement struct {
-	Kind       NODE_TYPE
-	StructName string
-	Properties map[string]StructProperty
-	Methods    map[string]StructMethod
-	StartPos lexer.Position
-	EndPos   lexer.Position
+	Kind       	NODE_TYPE
+	StructName 	string
+	Properties 	map[string]StructProperty
+	Methods    	map[string]StructMethod
+	StartPos 	lexer.Position
+	EndPos   	lexer.Position
 }
 func (s StructDeclStatement) stmt() {}
 func (s StructDeclStatement) GetPos() (lexer.Position, lexer.Position) {
@@ -119,12 +118,12 @@ func (s StructDeclStatement) GetPos() (lexer.Position, lexer.Position) {
 }
 
 type IfStmt struct {
-	Kind      NODE_TYPE
-	Condition Expr
-	Block     BlockStmt
-	Alternate interface{}
-	StartPos lexer.Position
-	EndPos   lexer.Position
+	Kind      	NODE_TYPE
+	Condition 	Expr
+	Block     	BlockStmt
+	Alternate 	interface{}
+	StartPos 	lexer.Position
+	EndPos   	lexer.Position
 }
 func (i IfStmt) stmt() {}
 func (i IfStmt) GetPos() (lexer.Position, lexer.Position) {

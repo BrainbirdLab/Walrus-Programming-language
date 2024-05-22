@@ -43,10 +43,19 @@ func parse_import_stmt(p *Parser) ast.Stmt {
 
 	//expect the module name "..." or {x,y,z}
 	if p.currentTokenKind() == lexer.OPEN_CURLY {
+
+		p.advance()
+
 		//expect identifiers inside the curly braces
-		for p.currentTokenKind() == lexer.IDENTIFIER {
-			symbols = append(symbols, p.currentToken().Value)
-			p.advance()
+		for p.currentTokenKind() != lexer.CLOSE_CURLY {
+
+			symbol := p.expect(lexer.IDENTIFIER).Value
+			symbols = append(symbols, symbol)
+
+			//expect a comma between the identifiers
+			if p.currentTokenKind() != lexer.CLOSE_CURLY {
+				p.expect(lexer.COMMA)
+			}
 		}
 		p.expect(lexer.CLOSE_CURLY)
 
