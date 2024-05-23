@@ -81,6 +81,7 @@ const (
 	ELSEIF   				= "elf"
 	ELSE     				= "elf"
 	FOREACH  				= "foreach"
+	WHERE					= "where"
 	WHILE    				= "while"
 	FOR      				= "for"
 	EXPORT   				= "export"
@@ -112,6 +113,7 @@ var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
 	"elf":      ELSEIF,
 	"els":      ELSE,
 	"foreach":  FOREACH,
+	"where":    WHERE,
 	"while":    WHILE,
 	"for":      FOR,
 	"export":   EXPORT,

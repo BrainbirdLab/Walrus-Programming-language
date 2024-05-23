@@ -7,36 +7,24 @@ import (
 	"rexlang/utils"
 )
 
-func parse_stmt(p *Parser) ast.Stmt {
+func parse_node(p *Parser) ast.Node {
 
 	// can be a statement or an expression
 	stmt_fn, exists := stmtLookup[p.currentTokenKind()]
 
 	if exists {
+		fmt.Printf("parse_node: stmt_fn: %v\n", stmt_fn)
 		return stmt_fn(p)
 	}
 
 	// if not a statement, then it must be an expression
-	return parse_expression_stmt(p)
+	expr := parse_expr(p, DEFAULT_BP)
+	
+	p.expect(lexer.SEMI_COLON)
+
+	return expr
 }
-
-func parse_expression_stmt(p *Parser) ast.ExpressionStmt {
-
-	start := p.currentToken().StartPos
-
-	expression := parse_expr(p, DEFAULT_BP)
-
-	end := p.expect(lexer.SEMI_COLON).EndPos
-
-	return ast.ExpressionStmt{
-		Kind:       ast.STATEMENT,
-		Expression: expression,
-		StartPos:  start,
-		EndPos:  end,
-	}
-}
-
-func parse_module_stmt(p *Parser) ast.Stmt {
+func parse_module_stmt(p *Parser) ast.Statement {
 	start := p.currentToken().StartPos
 
 	p.advance() // skip MODULE token
@@ -48,17 +36,17 @@ func parse_module_stmt(p *Parser) ast.Stmt {
 	return ast.ModuleStmt{
 		Kind:       ast.MODULE_STATEMENT,
 		ModuleName: moduleName,
-		StartPos:  start,
-		EndPos:  end,
+		StartPos:   start,
+		EndPos:     end,
 	}
 }
 
-func parse_import_stmt(p *Parser) ast.Stmt {
+func parse_import_stmt(p *Parser) ast.Statement {
 	start := p.currentToken().StartPos
 	//advaced to the next token
 	p.advance()
 
-	symbols := []string{}
+	identifiers := []string{}
 
 	//expect the module name "..." or {x,y,z}
 	if p.currentTokenKind() == lexer.OPEN_CURLY {
@@ -68,8 +56,8 @@ func parse_import_stmt(p *Parser) ast.Stmt {
 		//expect identifiers inside the curly braces
 		for p.currentTokenKind() != lexer.CLOSE_CURLY {
 
-			symbol := p.expect(lexer.IDENTIFIER).Value
-			symbols = append(symbols, symbol)
+			identifier := p.expect(lexer.IDENTIFIER).Value
+			identifiers = append(identifiers, identifier)
 
 			//expect a comma between the identifiers
 			if p.currentTokenKind() != lexer.CLOSE_CURLY {
@@ -84,25 +72,23 @@ func parse_import_stmt(p *Parser) ast.Stmt {
 
 	moduleName := p.expect(lexer.STRING).Value
 
-	fmt.Printf("importing %s from %s\n", symbols, moduleName)
-
 	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.ImportStmt{
-		Kind:              ast.IMPORT_STATEMENT,
-		Symbols: symbols,
-		ModuleName: moduleName,
-		StartPos: start,
-		EndPos: end,
+		Kind:        ast.IMPORT_STATEMENT,
+		Identifiers: identifiers,
+		ModuleName:  moduleName,
+		StartPos:    start,
+		EndPos:      end,
 	}
 }
 
-func parse_var_decl_stmt(p *Parser) ast.Stmt {
+func parse_var_decl_stmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
 	var explicitType ast.Type
-	var assignedValue ast.Expr
+	var assignedValue ast.Expression
 
 	isConstant := p.advance().Kind == lexer.CONST
 
@@ -144,32 +130,33 @@ func parse_var_decl_stmt(p *Parser) ast.Stmt {
 		Identifier:   varName,
 		Value:        assignedValue,
 		ExplicitType: explicitType,
-		StartPos:    start,
-		EndPos:    end,
+		StartPos:     start,
+		EndPos:       end,
 	}
 }
 
-func parse_block(p *Parser) ast.BlockStmt {
+func parse_block(p *Parser) ast.Statement {
 
+	fmt.Printf("Current token kind: %s\n", p.currentTokenKind())
 	start := p.expect(lexer.OPEN_CURLY).StartPos
 
-	body := make([]ast.Stmt, 0)
+	body := make([]ast.Node, 0)
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
-		body = append(body, parse_stmt(p))
+		body = append(body, parse_node(p))
 	}
 
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
 	return ast.BlockStmt{
-		Kind: ast.BLOCK_STATEMENT,
-		Body: body,
+		Kind:     ast.BLOCK_STATEMENT,
+		Body:     body,
 		StartPos: start,
-		EndPos: end,
+		EndPos:   end,
 	}
 }
 
-func parse_function_decl_stmt(p *Parser) ast.Stmt {
+func parse_function_decl_stmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -189,7 +176,8 @@ func parse_function_decl_stmt(p *Parser) ast.Stmt {
 	}
 
 	// parse block
-	functionBody := parse_block(p)
+	//type assertion from ast.Statement to ast.BlockStmt
+	functionBody := parse_block(p).(ast.BlockStmt)
 
 	end := functionBody.EndPos
 
@@ -199,18 +187,18 @@ func parse_function_decl_stmt(p *Parser) ast.Stmt {
 		Parameters:   params,
 		Block:        functionBody,
 		ReturnType:   explicitReturnType,
-		StartPos:    start,
-		EndPos:    end,
+		StartPos:     start,
+		EndPos:       end,
 	}
 }
 
-func parse_return_stmt(p *Parser) ast.Stmt {
+func parse_return_stmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
 	p.expect(lexer.RETURN)
 
-	var value ast.Expr
+	var value ast.Expression
 
 	if p.currentTokenKind() != lexer.SEMI_COLON {
 		value = parse_expr(p, DEFAULT_BP)
@@ -223,12 +211,12 @@ func parse_return_stmt(p *Parser) ast.Stmt {
 	return ast.ReturnStmt{
 		Kind:       ast.RETURN_STATEMENT,
 		Expression: value,
-		StartPos:  start,
-		EndPos:  end,
+		StartPos:   start,
+		EndPos:     end,
 	}
 }
 
-func parse_struct_decl_stmt(p *Parser) ast.Stmt {
+func parse_struct_decl_stmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -339,8 +327,8 @@ func parse_struct_decl_stmt(p *Parser) ast.Stmt {
 		Properties: properties,
 		Methods:    methods,
 		StructName: structName,
-		StartPos:  start,
-		EndPos:  end,
+		StartPos:   start,
+		EndPos:     end,
 	}
 }
 
@@ -369,31 +357,30 @@ func parse_params(p *Parser) map[string]ast.Type {
 	return params
 }
 
-func parse_if_statement(p *Parser) ast.Stmt {
+func parse_if_statement(p *Parser) ast.Statement {
+
+	fmt.Printf("parse_if_statement\n")
 
 	start := p.advance().StartPos
 
 	condition := parse_expr(p, ASSIGNMENT) // using assignment as the lowest binding power
 
-	consequentBlock := parse_block(p)
+	fmt.Printf("condition: %v\n", condition)
 
-	var alternate ast.Stmt
+	consequentBlock := parse_block(p).(ast.BlockStmt)
 
-	var end lexer.Position
+	fmt.Printf("consequentBlock: %v\n", consequentBlock)
+
+	var alternate ast.Statement
 
 	if p.currentTokenKind() == lexer.ELSE {
-		p.advance()
+		p.advance() //pass the else
 		block := parse_block(p)
 		alternate = block
-		end = block.EndPos
 	} else if p.currentTokenKind() == lexer.ELSEIF {
 		//p.advance()
 		stmt := parse_if_statement(p)
 		alternate = stmt
-		// type cast
-		end = stmt.(ast.IfStmt).EndPos
-	} else {
-		end = p.expect(lexer.CLOSE_CURLY).EndPos
 	}
 
 	return ast.IfStmt{
@@ -401,7 +388,48 @@ func parse_if_statement(p *Parser) ast.Stmt {
 		Condition: condition,
 		Block:     consequentBlock,
 		Alternate: alternate,
-		StartPos: start,
-		EndPos: end,
+		StartPos:  start,
+		EndPos:    consequentBlock.EndPos,
+	}
+}
+
+func parse_for_loop_stmt(p *Parser) ast.Statement {
+
+	start := p.currentToken().StartPos
+
+	p.expect(lexer.FOR)
+
+	//parse the init
+	identifier := p.expect(lexer.IDENTIFIER).Value
+
+	p.expect(lexer.WALRUS)
+
+	init := parse_expr(p, ASSIGNMENT)
+
+	p.expect(lexer.SEMI_COLON)
+
+	//parse the condition
+	condition := parse_expr(p, ASSIGNMENT)
+
+	p.expect(lexer.SEMI_COLON)
+
+	//parse the post
+	post := parse_expr(p, ASSIGNMENT)
+
+	fmt.Printf("init: %s=%s, condition: %v, post: %v\n", identifier, init, condition, post)
+
+	block := parse_block(p).(ast.BlockStmt)
+
+	end := block.EndPos
+
+	return ast.ForStmt{
+		Kind:      ast.FOR_STATEMENT,
+		Variable:  identifier,
+		Init:      init,
+		Condition: condition,
+		Post:      post,
+		Block:     block,
+		StartPos:  start,
+		EndPos:    end,
 	}
 }

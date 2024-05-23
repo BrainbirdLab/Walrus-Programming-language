@@ -47,10 +47,10 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 
 	var moduleName string
 	var imports []ast.ImportStmt
-	var contents []ast.Stmt
+	var contents []ast.Node
 
 	for parser.hasTokens() {
-		stmt := parse_stmt(parser)
+		stmt := parse_node(parser)
 
 		switch v := stmt.(type) {
 		case ast.ModuleStmt:
@@ -88,6 +88,20 @@ func (p *Parser) currentToken() lexer.Token {
 	return p.tokens[p.pos]
 }
 
+func (p *Parser) nextToken() lexer.Token {
+	if p.pos+1 < len(p.tokens) {
+		return p.tokens[p.pos+1]
+	}
+	return lexer.Token{}
+}
+
+func (p *Parser) previousToken() lexer.Token {
+	if p.pos-1 >= 0 {
+		return p.tokens[p.pos-1]
+	}
+	return lexer.Token{}
+}
+
 func (p *Parser) advance() lexer.Token {
 	token := p.currentToken()
 	p.pos++
@@ -103,6 +117,9 @@ func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token
 	kind := token.Kind
 
 	if kind != expectedKind {
+
+		fmt.Printf("%s:%d:%d: Expected %s but received %s instead\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, expectedKind, kind)
+
 		if err == nil {
 			panic(MakeError((*p.Lines)[p.currentToken().StartPos.Line], p.FilePath, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)))
 		} else {

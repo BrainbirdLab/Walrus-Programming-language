@@ -7,92 +7,101 @@ import (
 type BinaryExpr struct {
 	Kind     NODE_TYPE
 	Operator lexer.Token
-	Left     Expr
-	Right    Expr
+	Left     Expression
+	Right    Expression
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
-func (b BinaryExpr) expr() {}
+
+func (b BinaryExpr) node() {}
 func (b BinaryExpr) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
-
+func (b BinaryExpr) _expression() {}
 
 type UnaryExpr struct {
 	Kind     NODE_TYPE
 	Operator lexer.Token
-	Argument Expr
+	Argument Expression
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
-func (u UnaryExpr) expr() {}
+
+func (u UnaryExpr) node() {}
 func (u UnaryExpr) GetPos() (lexer.Position, lexer.Position) {
 	return u.StartPos, u.EndPos
 }
+func (u UnaryExpr) _expression() {}
 
-type SymbolExpr struct {
-	Kind   NODE_TYPE
-	Symbol string
-	Type   string
-	StartPos lexer.Position
-	EndPos   lexer.Position
+type IdentifierExpr struct {
+	Kind     	NODE_TYPE
+	Identifier  string
+	Type     	string
+	StartPos 	lexer.Position
+	EndPos   	lexer.Position
 }
-func (i SymbolExpr) expr() {}
-func (i SymbolExpr) GetPos() (lexer.Position, lexer.Position) {
+
+func (i IdentifierExpr) node() {}
+func (i IdentifierExpr) GetPos() (lexer.Position, lexer.Position) {
 	return i.StartPos, i.EndPos
 }
+func (i IdentifierExpr) _expression() {}
 
 type NumericLiteral struct {
-	Kind  NODE_TYPE
-	Value float64
-	Type  string
+	Kind     NODE_TYPE
+	Value    float64
+	Type     string
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
 
-func (n NumericLiteral) expr() {}
+func (n NumericLiteral) node() {}
 func (n NumericLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return n.StartPos, n.EndPos
 }
+func (n NumericLiteral) _expression() {}
 
 type StringLiteral struct {
-	Kind  NODE_TYPE
-	Value string
-	Type  string
+	Kind     NODE_TYPE
+	Value    string
+	Type     string
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
 
-func (s StringLiteral) expr() {}
+func (s StringLiteral) node() {}
 func (s StringLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
+func (s StringLiteral) _expression() {}
 
 type BooleanLiteral struct {
-	Kind  NODE_TYPE
-	Value bool
-	Type  string
+	Kind     NODE_TYPE
+	Value    bool
+	Type     string
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
 
-func (b BooleanLiteral) expr() {}
+func (b BooleanLiteral) node() {}
 func (b BooleanLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
+func (b BooleanLiteral) _expression() {}
 
 type NullLiteral struct {
-	Kind  NODE_TYPE
-	Value string
-	Type  string
+	Kind     NODE_TYPE
+	Value    string
+	Type     string
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
 
-func (n NullLiteral) expr() {}
+func (n NullLiteral) node() {}
 func (n NullLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return n.StartPos, n.EndPos
 }
+func (n NullLiteral) _expression() {}
 
 type VoidExpr struct {
 	Kind  NODE_TYPE
@@ -100,57 +109,66 @@ type VoidExpr struct {
 	Type  string
 }
 
-func (v VoidExpr) expr() {}
+func (v VoidExpr) node() {}
 func (v VoidExpr) GetPos() (lexer.Position, lexer.Position) {
 	return lexer.Position{}, lexer.Position{}
 }
+func (v VoidExpr) _expression() {}
 
 type AssignmentExpr struct {
 	Kind     NODE_TYPE
-	Assigne  SymbolExpr
-	Value    Expr
+	Assigne  IdentifierExpr
+	Value    Expression
 	Operator lexer.Token
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
-func (a AssignmentExpr) expr() {}
+
+func (a AssignmentExpr) node() {}
 func (a AssignmentExpr) GetPos() (lexer.Position, lexer.Position) {
 	return a.StartPos, a.EndPos
 }
+func (a AssignmentExpr) _expression() {}
 
 type FunctionCallExpr struct {
 	Kind     NODE_TYPE
-	Function Expr
-	Args     []Expr
+	Function Expression
+	Args     []Expression
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
-func (c FunctionCallExpr) expr() {}
+
+func (c FunctionCallExpr) node() {}
 func (c FunctionCallExpr) GetPos() (lexer.Position, lexer.Position) {
 	return c.StartPos, c.EndPos
 }
+func (c FunctionCallExpr) _expression() {}
 
 type StructInstantiationExpr struct {
+	Kind       NODE_TYPE
 	StructName string
-	Properties map[string]Expr
+	Properties map[string]Expression
 	Methods    map[string]FunctionDeclStmt
-	StartPos lexer.Position
-	EndPos   lexer.Position
+	StartPos   lexer.Position
+	EndPos     lexer.Position
 }
-func (s StructInstantiationExpr) expr() {}
+
+func (s StructInstantiationExpr) node() {}
 func (s StructInstantiationExpr) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
+func (s StructInstantiationExpr) _expression() {}
 
 type ArrayLiterals struct {
 	Kind     NODE_TYPE
 	Size     uint64
-	Elements []Expr
+	Elements []Expression
 	StartPos lexer.Position
 	EndPos   lexer.Position
 }
 
-func (a ArrayLiterals) expr() {}
+func (a ArrayLiterals) node() {}
 func (a ArrayLiterals) GetPos() (lexer.Position, lexer.Position) {
 	return a.StartPos, a.EndPos
 }
+func (a ArrayLiterals) _expression() {}

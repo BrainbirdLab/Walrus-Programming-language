@@ -74,6 +74,7 @@ func parse_data_type(p *Parser) ast.Type {
 			Kind: ast.STRING,
 		}
 	default:
+		fmt.Printf("Start position: %d, end pos: %d\n", identifier.StartPos.Column, identifier.EndPos.Column)
 		MakeError((*p.Lines)[identifier.StartPos.Line - 1], p.FilePath, identifier, fmt.Sprintf("Unknown data type '%s'\n", value)).AddHint("You can use primitives types like i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, f32, f64, bool, char, str, or arrays of them").Display()
 		panic("Error while parsing")
 	}

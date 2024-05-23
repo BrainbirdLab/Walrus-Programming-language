@@ -24,16 +24,14 @@ type Position struct {
 
 func (p *Position) advance(toSkip string) *Position {
 
-	currentChar := []byte(toSkip)
-
-	p.Index += len(toSkip)
-	p.Column += len(toSkip)
-
-	for _, char := range currentChar {
+	for _, char := range toSkip { // a rune is an alias for int32
 		if char == '\n' {
 			p.Line++
 			p.Column = 1
+		} else {
+			p.Column++
 		}
+		p.Index++
 	}
 
 	return p
@@ -147,7 +145,7 @@ func createLexer(source *string) *Lexer {
 			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler},         // multi line comments
 			{regexp.MustCompile(`"[^"]*"`), stringHandler},                // string literals
 			{regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`), numberHandler},    // decimal numbers
-			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), symbolHandler}, // identifiers
+			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), identifierHandler}, // identifiers
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
 			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},
 			{regexp.MustCompile(`\{`), defaultHandler(OPEN_CURLY, "{")},
@@ -191,18 +189,18 @@ func createLexer(source *string) *Lexer {
 	return lex
 }
 
-func symbolHandler(lex *Lexer, regex *regexp.Regexp) {
+func identifierHandler(lex *Lexer, regex *regexp.Regexp) {
 
-	symbol := regex.FindString(lex.remainder())
+	identifier := regex.FindString(lex.remainder())
 
 	start := lex.Pos
-	lex.advanceN(symbol)
+	lex.advanceN(identifier)
 	end := lex.Pos
 
-	if kind, exists := reservedLookup[symbol]; exists {
-		lex.push(NewToken(kind, symbol, start, end))
+	if kind, exists := reservedLookup[identifier]; exists {
+		lex.push(NewToken(kind, identifier, start, end))
 	} else {
-		lex.push(NewToken(IDENTIFIER, symbol, start, end))
+		lex.push(NewToken(IDENTIFIER, identifier, start, end))
 	}
 
 }

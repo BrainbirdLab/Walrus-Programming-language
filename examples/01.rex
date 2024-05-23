@@ -8,11 +8,11 @@ let arr : []i8 = [1, 2, 3, 4, 5];
 true && false;
 
 struct Point {
-    x : i8;
-    y : i8;
+    pub x : i8;
+    pub y : i8;
 
     //method
-    add: fn () -> i8;
+    pub add() -> i8;
 }
 
 let p := Point { x: 1, y: 2 };

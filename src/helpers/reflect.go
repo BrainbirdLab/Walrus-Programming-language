@@ -6,11 +6,12 @@ import (
 )
 
 func ExpectType[T any](ref any) T {
-	expectedType := reflect.TypeOf((*T)(nil)).Elem()
-	recievedType := reflect.TypeOf(ref)
 
-	if recievedType != expectedType {
-		panic(fmt.Sprintf("Expected %T but instead recived %T inside ExpectType[T](r)\n", expectedType, recievedType))
+	expected := reflect.TypeOf((*T)(nil)).Elem()
+	actual := reflect.TypeOf(ref)
+
+	if expected!= actual {
+		panic(fmt.Sprintf("expected type %s, got %s", expected, actual))
 	}
 
 	return ref.(T)
