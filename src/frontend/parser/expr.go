@@ -88,7 +88,7 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 	if tokenKind == lexer.IDENTIFIER && p.nextToken().Kind == lexer.OPEN_CURLY && (p.previousToken().Kind == lexer.WALRUS || p.previousToken().Kind == lexer.ASSIGNMENT){
 		// Function call
 		//fmt.Printf("Struct instantiation\n")
-		return parse_struct_instantiation_expr(p, parse_primary_expr(p), CALL)
+		return parse_struct_instantiation_expr(p, parse_primary_expr(p))
 	}
 
 	nud_fn, exists := nudLookup[tokenKind]
@@ -296,7 +296,7 @@ func parse_var_assignment_expr(p *Parser, left ast.Expression, bp BINDING_POWER)
 // parse_struct_instantiation_expr parses a struct instantiation expression, which creates a new instance of a struct.
 // It expects the left-hand side to be an identifier representing the struct type, followed by a block of property assignments
 // enclosed in curly braces. The function returns an ast.StructInstantiationExpr representing the parsed expression.
-func parse_struct_instantiation_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parse_struct_instantiation_expr(p *Parser, left ast.Expression) ast.Expression {
 
 	fmt.Printf("parse_struct_instantiation_expr\n")
 
