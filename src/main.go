@@ -15,7 +15,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	ast := parser.Parse("./../examples/05.rex", false)
+	ast := parser.Parse("./../examples/05.wal", false)
 
 	//store as file
 	file, err := os.Create("ast.json");

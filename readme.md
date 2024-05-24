@@ -37,4 +37,4 @@ if a > 50 {
 - [x] Infer type from value
 - [x] funtions
 - [x] error print
-- [ ] function call
+- [x] function call

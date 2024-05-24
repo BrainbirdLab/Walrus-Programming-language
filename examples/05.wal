@@ -11,7 +11,7 @@ let myName := "John";
 
 a = -10 + 5 - b;
 
-if a == 4 {
+if (a == 4) {
     let a := 10;
     b = a + 3;
 }
@@ -54,3 +54,5 @@ fn square(a: i8) -> i8 {
     ret mul(a, a);
     //ret 4;
 }
+
+square(5);
