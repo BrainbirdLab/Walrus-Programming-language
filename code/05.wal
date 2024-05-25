@@ -37,7 +37,7 @@ foreach arr, i in array {
     // arr is the value on each iteration
 }
 
-foreach val in array where val % 2 == 0{
+foreach val in array where val % 2 == 0 {
     // val is the values that are even
     
     //similar to,
