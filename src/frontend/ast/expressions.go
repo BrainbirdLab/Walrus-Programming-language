@@ -159,6 +159,19 @@ func (s StructInstantiationExpr) GetPos() (lexer.Position, lexer.Position) {
 }
 func (s StructInstantiationExpr) _expression() {}
 
+type StructPropertyExpr struct {
+	Kind       		NODE_TYPE
+	Object	 		Expression
+	Property	 	IdentifierExpr
+	StartPos   		lexer.Position
+	EndPos     		lexer.Position
+}
+func (s StructPropertyExpr) node() {}
+func (s StructPropertyExpr) GetPos() (lexer.Position, lexer.Position) {
+	return s.StartPos, s.EndPos
+}
+func (s StructPropertyExpr) _expression() {}
+
 type ArrayLiterals struct {
 	Kind     NODE_TYPE
 	Size     uint64

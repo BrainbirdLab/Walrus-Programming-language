@@ -18,18 +18,20 @@ if (a == 4) {
 
 struct Person {
     pub name: str;
-    pub age: i8;
+    pub readonly age: i8;
 }
 
-let p := Person { name: "John", age: 23 };
+let p : Person = Person { name: "John", age: 23 };
+
+p.age = 24;
 
 fn add(a: i8, b: i8) -> i8 {
     ret a + b;
 }
 
-/*
+
 for i := 0; i < 10; ++i {
-    // print(i);
+    print(i);
 }
 let array := [1, 2, 3, 4, 5];
 
@@ -41,8 +43,6 @@ foreach i, arr in array {
 foreach val in array where val % 2 == 0{
     // val is the values that are even
 }
-*/
-
 
 
 fn mul(a: i8, b: i8) -> i8 {

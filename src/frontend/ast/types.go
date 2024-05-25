@@ -15,6 +15,9 @@ const (
 
 	// Derived Types
 	ARRAY 			= "ARRAY"
+
+	// User Defined Types
+	USER_DEFINED 	= "USER_DEFINED"
 )
 
 type IntegerType struct {
@@ -69,3 +72,9 @@ type ArrayType struct {
 }
 
 func (a ArrayType) _type() {}
+
+type UserDefinedType struct {
+	Kind     DATA_TYPE
+	Name     string
+}
+func (u UserDefinedType) _type() {}

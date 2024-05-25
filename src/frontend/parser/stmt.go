@@ -397,39 +397,90 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
-	p.expect(lexer.FOR)
+	loopKind := p.advance().Kind
 
 	//parse the init
 	identifier := p.expect(lexer.IDENTIFIER).Value
 
-	p.expect(lexer.WALRUS)
+	if loopKind == lexer.FOR {
+		p.expect(lexer.WALRUS)
 
-	init := parse_expr(p, ASSIGNMENT)
+		init := parse_expr(p, ASSIGNMENT)
 
-	p.expect(lexer.SEMI_COLON)
+		p.expect(lexer.SEMI_COLON)
 
-	//parse the condition
-	condition := parse_expr(p, ASSIGNMENT)
+		//parse the condition
+		condition := parse_expr(p, ASSIGNMENT)
 
-	p.expect(lexer.SEMI_COLON)
+		p.expect(lexer.SEMI_COLON)
 
-	//parse the post
-	post := parse_expr(p, ASSIGNMENT)
+		//parse the post
+		post := parse_expr(p, ASSIGNMENT)
 
-	fmt.Printf("init: %s=%s, condition: %v, post: %v\n", identifier, init, condition, post)
+		fmt.Printf("init: %s=%s, condition: %v, post: %v\n", identifier, init, condition, post)
 
-	block := parse_block(p).(ast.BlockStmt)
+		block := parse_block(p).(ast.BlockStmt)
 
-	end := block.EndPos
+		end := block.EndPos
 
-	return ast.ForStmt{
-		Kind:      ast.FOR_STATEMENT,
-		Variable:  identifier,
-		Init:      init,
-		Condition: condition,
-		Post:      post,
-		Block:     block,
-		StartPos:  start,
-		EndPos:    end,
+		return ast.ForStmt{
+			Kind:      ast.FOR_STATEMENT,
+			Variable:  identifier,
+			Init:      init,
+			Condition: condition,
+			Post:      post,
+			Block:     block,
+			StartPos:  start,
+			EndPos:    end,
+		}
+
+	} else if loopKind == lexer.FOREACH {
+
+		var indexVar string
+
+		/*
+			for val, i in arr {
+				...
+			}
+		*/
+
+		if p.currentTokenKind() == lexer.COMMA {
+			// then user wants index
+			p.advance()
+
+			indexVar = p.expect(lexer.IDENTIFIER).Value
+		}
+
+		p.expect(lexer.IN)
+
+		//parse the array
+
+		arr := parse_expr(p, ASSIGNMENT)
+
+		var whereCause ast.Expression
+
+		if p.currentTokenKind() == lexer.WHERE {
+			p.advance()
+
+			whereCause = parse_expr(p, ASSIGNMENT)
+		}
+
+		block := parse_block(p).(ast.BlockStmt)
+
+		end := block.EndPos
+
+		return ast.ForeachStmt{
+			Kind:         	ast.FOREACH_LOOP_STATEMENT,
+			Variable:     	identifier,
+			IndexVariable: 	indexVar,
+			Iterable:     	arr,
+			WhereClause: 	whereCause,
+			Block:        	block,
+			StartPos:     	start,
+			EndPos:       	end,
+		}
+
+	} else {
+		panic("Expected for or foreach")
 	}
 }

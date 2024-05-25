@@ -173,3 +173,19 @@ func (f ForStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
 func (f ForStmt) _statement() {}
+
+type ForeachStmt struct {
+	Kind       		NODE_TYPE
+	Variable   		string
+	IndexVariable 	string
+	Iterable   		Expression
+	WhereClause 	Expression
+	Block      		BlockStmt
+	StartPos   		lexer.Position
+	EndPos     		lexer.Position
+}
+func (f ForeachStmt) node() {}
+func (f ForeachStmt) GetPos() (lexer.Position, lexer.Position) {
+	return f.StartPos, f.EndPos
+}
+func (f ForeachStmt) _statement() {}

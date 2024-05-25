@@ -65,7 +65,6 @@ func stmt(kind lexer.TOKEN_KIND, stmt_fn statementHandler) {
 
 func createTokenLookups() {
 
-	
 	//literals & Identifiers
 	nud(lexer.NUMBER, parse_primary_expr)
 	nud(lexer.STRING, parse_primary_expr)
@@ -95,7 +94,12 @@ func createTokenLookups() {
 	// Logical operations
 	led(lexer.AND, LOGICAL, parse_binary_expr)
 	led(lexer.OR, LOGICAL, parse_binary_expr)
-	led(lexer.DOT_DOT, LOGICAL, parse_binary_expr)
+
+	// Range
+	led(lexer.DOT_DOT, PRIMARY, parse_binary_expr)
+
+	// Member
+	led(lexer.DOT, MEMBER, parse_property_expr)
 
 	// Relational
 	led(lexer.LESS, RELATIONAL, parse_binary_expr)
@@ -128,6 +132,7 @@ func createTokenLookups() {
 
 	//loops
 	stmt(lexer.FOR, parse_for_loop_stmt)
+	stmt(lexer.FOREACH, parse_for_loop_stmt)
 
 	//function
 	stmt(lexer.FUNCTION, parse_function_decl_stmt)

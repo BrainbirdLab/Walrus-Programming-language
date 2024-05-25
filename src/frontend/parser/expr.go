@@ -71,6 +71,31 @@ func parse_call_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expre
 	}
 }
 
+func parse_property_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+
+	p.expect(lexer.DOT)
+
+	identifier := p.expect(lexer.IDENTIFIER)
+
+	property := ast.IdentifierExpr{
+		Kind:       ast.IDENTIFIER,
+		Identifier: identifier.Value,
+		Type:       "infr",
+		StartPos:  	identifier.StartPos,
+		EndPos:     identifier.EndPos,
+	}
+
+	start := property.StartPos
+
+	return ast.StructPropertyExpr{
+		Kind:     ast.STRUCT_PROPERTY_EXPRESSION,
+		Object:   left,
+		Property: property,
+		StartPos: start,
+		EndPos:   property.EndPos,
+	}
+}
+
 // parse_expr parses an expression with the given binding power.
 // It first parses the NUD (Null Denotation) of the expression,
 // then continues to parse the LED (Left Denotation) of the expression
@@ -85,7 +110,7 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 	//fmt.Printf("parse_expr: tokenKind: %s, nextToken: %s\n", tokenKind, p.nextToken().Kind)
 
-	if tokenKind == lexer.IDENTIFIER && p.nextToken().Kind == lexer.OPEN_CURLY && (p.previousToken().Kind == lexer.WALRUS || p.previousToken().Kind == lexer.ASSIGNMENT){
+	if tokenKind == lexer.IDENTIFIER && p.nextToken().Kind == lexer.OPEN_CURLY && (p.previousToken().Kind == lexer.WALRUS || p.previousToken().Kind == lexer.ASSIGNMENT) {
 		// Function call
 		//fmt.Printf("Struct instantiation\n")
 		return parse_struct_instantiation_expr(p, parse_primary_expr(p))
@@ -108,7 +133,6 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 	fmt.Printf("NUD found for token %s\n", tokenKind)
 
 	left := nud_fn(p)
-
 
 	for GetBP(p.currentTokenKind()) > bp {
 
@@ -161,11 +185,11 @@ func parse_primary_expr(p *Parser) ast.Expression {
 		}
 	case lexer.IDENTIFIER:
 		return ast.IdentifierExpr{
-			Kind:     		ast.IDENTIFIER,
-			Identifier:   	p.advance().Value,
-			Type:     		"infr",
-			StartPos: 		startpos,
-			EndPos:   		p.currentToken().EndPos,
+			Kind:       ast.IDENTIFIER,
+			Identifier: p.advance().Value,
+			Type:       "infr",
+			StartPos:   startpos,
+			EndPos:     p.currentToken().EndPos,
 		}
 	case lexer.TRUE:
 		p.advance()
@@ -271,10 +295,24 @@ func parse_var_assignment_expr(p *Parser, left ast.Expression, bp BINDING_POWER)
 
 	start := p.currentToken().StartPos
 
-	identifier, ok := left.(ast.IdentifierExpr)
+	//identifier, ok := left.(ast.IdentifierExpr)
 
-	if !ok {
-		panic("Cannot assign value: Expected an identifier on the left side of the assignment")
+	var identifier ast.IdentifierExpr
+
+	switch assignee := left.(type) {
+
+	case ast.IdentifierExpr:
+		
+		identifier = assignee
+
+	case ast.StructPropertyExpr:
+
+		identifier = assignee.Property
+
+	default:
+		errMsg := "Cannot assign to a non-identifier\n"
+		p.MakeError(start.Line, p.FilePath, p.previousToken(), errMsg).AddHint("Expected an identifier").Display()
+		panic(errMsg)
 	}
 
 	operator := p.advance()
@@ -325,7 +363,7 @@ func parse_struct_instantiation_expr(p *Parser, left ast.Expression) ast.Express
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
 	return ast.StructInstantiationExpr{
-		Kind: 	 	ast.STRUCT_LITERAL,
+		Kind:       ast.STRUCT_LITERAL,
 		StructName: structName,
 		Properties: properties,
 		Methods:    methods,

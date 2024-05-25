@@ -121,13 +121,13 @@ func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token
 		fmt.Printf("%s:%d:%d: Expected %s but received %s instead\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, expectedKind, kind)
 
 		if err == nil {
-			panic(MakeError((*p.Lines)[p.currentToken().StartPos.Line], p.FilePath, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)))
+			panic(p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)))
 		} else {
 			if errMsg, ok := err.(string); ok {
-				panic(MakeError((*p.Lines)[p.currentToken().StartPos.Line], p.FilePath, token, errMsg))
+				panic(p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, errMsg))
 			} else {
 				// Handle error if it's not a string
-				panic(MakeError((*p.Lines)[p.currentToken().StartPos.Line], p.FilePath, token, "An unexpected error occurred"))
+				panic(p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, "An unexpected error occurred"))
 			}
 		}
 	}
@@ -158,11 +158,13 @@ func (e *ErrorMessage) Display() {
 	os.Exit(1)
 }
 
-func MakeError(line, filePath string, token lexer.Token, errMsg string) *ErrorMessage {
+func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMsg string) *ErrorMessage {
 
 	// decorate the error with ~~~~~ under the error line
 
 	var errStr string
+
+	line := (*p.Lines)[lineNo-1]
 
 	//fmt.Printf("Token start: %v, end: %v\n", token.StartPos, token.EndPos)
 	errStr += fmt.Sprintf("\n%s:%d:%d\n", filePath, token.StartPos.Line, token.StartPos.Column)
