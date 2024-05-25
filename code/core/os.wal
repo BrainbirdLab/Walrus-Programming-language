@@ -1,0 +1,8 @@
+mod core;
+
+
+
+export fn time() -> f64 {
+    // TODO: Implement time
+    ret 0.0;
+}

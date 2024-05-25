@@ -1,0 +1,9 @@
+mod core;
+
+export fn readFile(path: string): string {
+    ret "";
+}
+
+export fn writeFile(path: string, contents: string) {
+    //
+}

@@ -27,6 +27,14 @@ struct Array {
 
     pub push(elem: i8); // returns nothing
     pub pop() -> i8;
+
+    pub push(elem: i8) {
+        // code here
+    }
+}
+
+impl (a Array) push(elem: i8) {
+    // code here
 }
 
 impl Array::push(elem: i8) {

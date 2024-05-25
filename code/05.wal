@@ -3,6 +3,8 @@ mod main;
 import "core:fmt";
 import { readFile, writeFile } from "core:io";
 
+import "array.wal";
+
 let x : i8 = 5;
 let a := 2;
 let b := 10;

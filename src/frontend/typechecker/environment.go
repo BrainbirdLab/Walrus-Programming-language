@@ -25,7 +25,7 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 func (e *Environment) AssignVariable(name string, value RuntimeValue) RuntimeValue {
 	env := e.ResolveVariable(name)
 
-	if env.constants[name] == true {
+	if env.constants[name] {
 		panic(fmt.Sprintf("Cannot assign value to constant %s", name))
 	}
 

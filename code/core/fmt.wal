@@ -1,0 +1,23 @@
+mod core;
+
+// create fmt functions
+
+export fn print(str: str) {
+    // do something
+}
+
+export fn println(str: str) {
+    // do something
+}
+
+export fn printf(str: str, args: ...<T>) {
+    // do something
+}
+
+export fn sprintf(str: str, args: ...<T>) -> str {
+    // do something
+}
+
+export fn eprint(str: str) {
+    // do something
+}
