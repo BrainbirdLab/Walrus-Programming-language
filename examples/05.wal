@@ -32,13 +32,18 @@ for i := 0; i < 10; ++i {
 
 let array := [1, 2, 3, 4, 5];
 
-foreach i, arr in array {
+foreach arr, i in array {
     // i is the index
     // arr is the value on each iteration
 }
 
 foreach val in array where val % 2 == 0{
     // val is the values that are even
+    
+    //similar to,
+    if val % 2 != 0 {
+        continue;
+    }
 }
 
 

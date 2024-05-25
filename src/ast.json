@@ -728,122 +728,6 @@
       }
     },
     {
-      "Kind": "FN_DECLARATION_STATEMENT",
-      "FunctionName": "add",
-      "Parameters": {
-        "a": {
-          "Kind": "INTEGER",
-          "BitSize": 8,
-          "IsSigned": true
-        },
-        "b": {
-          "Kind": "INTEGER",
-          "BitSize": 8,
-          "IsSigned": true
-        }
-      },
-      "ReturnType": {
-        "Kind": "INTEGER",
-        "BitSize": 8,
-        "IsSigned": true
-      },
-      "Block": {
-        "Kind": "BLOCK_STATEMENT",
-        "Body": [
-          {
-            "Kind": "RETURN_STATEMENT",
-            "Expression": {
-              "Kind": "BINARY_EXPRESSION",
-              "Operator": {
-                "Kind": "+",
-                "Value": "+",
-                "StartPos": {
-                  "Line": 29,
-                  "Column": 11,
-                  "Index": 406
-                },
-                "EndPos": {
-                  "Line": 29,
-                  "Column": 12,
-                  "Index": 407
-                }
-              },
-              "Left": {
-                "Kind": "IDENTIFIER",
-                "Identifier": "a",
-                "Type": "infr",
-                "StartPos": {
-                  "Line": 29,
-                  "Column": 9,
-                  "Index": 404
-                },
-                "EndPos": {
-                  "Line": 29,
-                  "Column": 12,
-                  "Index": 407
-                }
-              },
-              "Right": {
-                "Kind": "IDENTIFIER",
-                "Identifier": "b",
-                "Type": "infr",
-                "StartPos": {
-                  "Line": 29,
-                  "Column": 13,
-                  "Index": 408
-                },
-                "EndPos": {
-                  "Line": 29,
-                  "Column": 15,
-                  "Index": 410
-                }
-              },
-              "StartPos": {
-                "Line": 29,
-                "Column": 11,
-                "Index": 406
-              },
-              "EndPos": {
-                "Line": 29,
-                "Column": 15,
-                "Index": 410
-              }
-            },
-            "StartPos": {
-              "Line": 29,
-              "Column": 5,
-              "Index": 400
-            },
-            "EndPos": {
-              "Line": 29,
-              "Column": 15,
-              "Index": 410
-            }
-          }
-        ],
-        "StartPos": {
-          "Line": 28,
-          "Column": 28,
-          "Index": 393
-        },
-        "EndPos": {
-          "Line": 30,
-          "Column": 2,
-          "Index": 413
-        }
-      },
-      "StartPos": {
-        "Line": 28,
-        "Column": 1,
-        "Index": 366
-      },
-      "EndPos": {
-        "Line": 30,
-        "Column": 2,
-        "Index": 413
-      }
-    },
-    {
       "Kind": "FOR_STATEMENT",
       "Variable": "i",
       "Init": {
@@ -851,14 +735,14 @@
         "Value": 0,
         "Type": "i8",
         "StartPos": {
-          "Line": 33,
+          "Line": 29,
           "Column": 10,
-          "Index": 428
+          "Index": 377
         },
         "EndPos": {
-          "Line": 33,
+          "Line": 29,
           "Column": 12,
-          "Index": 430
+          "Index": 379
         }
       },
       "Condition": {
@@ -867,14 +751,14 @@
           "Kind": "\u003c",
           "Value": "\u003c",
           "StartPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 15,
-            "Index": 433
+            "Index": 382
           },
           "EndPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 16,
-            "Index": 434
+            "Index": 383
           }
         },
         "Left": {
@@ -882,14 +766,14 @@
           "Identifier": "i",
           "Type": "infr",
           "StartPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 13,
-            "Index": 431
+            "Index": 380
           },
           "EndPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 16,
-            "Index": 434
+            "Index": 383
           }
         },
         "Right": {
@@ -897,25 +781,25 @@
           "Value": 10,
           "Type": "i8",
           "StartPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 17,
-            "Index": 435
+            "Index": 384
           },
           "EndPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 20,
-            "Index": 438
+            "Index": 387
           }
         },
         "StartPos": {
-          "Line": 33,
+          "Line": 29,
           "Column": 15,
-          "Index": 433
+          "Index": 382
         },
         "EndPos": {
-          "Line": 33,
+          "Line": 29,
           "Column": 20,
-          "Index": 438
+          "Index": 387
         }
       },
       "Post": {
@@ -924,14 +808,14 @@
           "Kind": "++",
           "Value": "++",
           "StartPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 21,
-            "Index": 439
+            "Index": 388
           },
           "EndPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 23,
-            "Index": 441
+            "Index": 390
           }
         },
         "Argument": {
@@ -939,25 +823,25 @@
           "Identifier": "i",
           "Type": "infr",
           "StartPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 23,
-            "Index": 441
+            "Index": 390
           },
           "EndPos": {
-            "Line": 33,
+            "Line": 29,
             "Column": 26,
-            "Index": 444
+            "Index": 393
           }
         },
         "StartPos": {
-          "Line": 33,
+          "Line": 29,
           "Column": 21,
-          "Index": 439
+          "Index": 388
         },
         "EndPos": {
-          "Line": 33,
+          "Line": 29,
           "Column": 26,
-          "Index": 444
+          "Index": 393
         }
       },
       "Block": {
@@ -970,14 +854,14 @@
               "Identifier": "print",
               "Type": "infr",
               "StartPos": {
-                "Line": 34,
+                "Line": 30,
                 "Column": 5,
-                "Index": 450
+                "Index": 399
               },
               "EndPos": {
-                "Line": 34,
+                "Line": 30,
                 "Column": 11,
-                "Index": 456
+                "Index": 405
               }
             },
             "Args": [
@@ -986,49 +870,49 @@
                 "Identifier": "i",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 34,
+                  "Line": 30,
                   "Column": 11,
-                  "Index": 456
+                  "Index": 405
                 },
                 "EndPos": {
-                  "Line": 34,
+                  "Line": 30,
                   "Column": 13,
-                  "Index": 458
+                  "Index": 407
                 }
               }
             ],
             "StartPos": {
-              "Line": 34,
+              "Line": 30,
               "Column": 10,
-              "Index": 455
+              "Index": 404
             },
             "EndPos": {
-              "Line": 34,
+              "Line": 30,
               "Column": 13,
-              "Index": 458
+              "Index": 407
             }
           }
         ],
         "StartPos": {
-          "Line": 33,
+          "Line": 29,
           "Column": 25,
-          "Index": 443
+          "Index": 392
         },
         "EndPos": {
-          "Line": 35,
+          "Line": 31,
           "Column": 2,
-          "Index": 462
+          "Index": 411
         }
       },
       "StartPos": {
-        "Line": 33,
+        "Line": 29,
         "Column": 1,
-        "Index": 419
+        "Index": 368
       },
       "EndPos": {
-        "Line": 35,
+        "Line": 31,
         "Column": 2,
-        "Index": 462
+        "Index": 411
       }
     },
     {
@@ -1044,14 +928,14 @@
             "Value": 1,
             "Type": "i8",
             "StartPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 15,
-              "Index": 478
+              "Index": 429
             },
             "EndPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 17,
-              "Index": 480
+              "Index": 431
             }
           },
           {
@@ -1059,14 +943,14 @@
             "Value": 2,
             "Type": "i8",
             "StartPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 18,
-              "Index": 481
+              "Index": 432
             },
             "EndPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 20,
-              "Index": 483
+              "Index": 434
             }
           },
           {
@@ -1074,14 +958,14 @@
             "Value": 3,
             "Type": "i8",
             "StartPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 21,
-              "Index": 484
+              "Index": 435
             },
             "EndPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 23,
-              "Index": 486
+              "Index": 437
             }
           },
           {
@@ -1089,14 +973,14 @@
             "Value": 4,
             "Type": "i8",
             "StartPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 24,
-              "Index": 487
+              "Index": 438
             },
             "EndPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 26,
-              "Index": 489
+              "Index": 440
             }
           },
           {
@@ -1104,57 +988,57 @@
             "Value": 5,
             "Type": "i8",
             "StartPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 27,
-              "Index": 490
+              "Index": 441
             },
             "EndPos": {
-              "Line": 36,
+              "Line": 33,
               "Column": 29,
-              "Index": 492
+              "Index": 443
             }
           }
         ],
         "StartPos": {
-          "Line": 36,
+          "Line": 33,
           "Column": 14,
-          "Index": 477
+          "Index": 428
         },
         "EndPos": {
-          "Line": 36,
+          "Line": 33,
           "Column": 29,
-          "Index": 492
+          "Index": 443
         }
       },
       "ExplicitType": null,
       "StartPos": {
-        "Line": 36,
+        "Line": 33,
         "Column": 1,
-        "Index": 464
+        "Index": 415
       },
       "EndPos": {
-        "Line": 36,
+        "Line": 33,
         "Column": 30,
-        "Index": 493
+        "Index": 444
       }
     },
     {
       "Kind": "FOREACH_LOOP_STATEMENT",
-      "Variable": "i",
-      "IndexVariable": "arr",
+      "Variable": "arr",
+      "IndexVariable": "i",
       "Iterable": {
         "Kind": "IDENTIFIER",
         "Identifier": "array",
         "Type": "infr",
         "StartPos": {
-          "Line": 38,
+          "Line": 35,
           "Column": 19,
-          "Index": 515
+          "Index": 466
         },
         "EndPos": {
-          "Line": 38,
+          "Line": 35,
           "Column": 26,
-          "Index": 522
+          "Index": 473
         }
       },
       "WhereClause": null,
@@ -1162,25 +1046,25 @@
         "Kind": "BLOCK_STATEMENT",
         "Body": [],
         "StartPos": {
-          "Line": 38,
+          "Line": 35,
           "Column": 25,
-          "Index": 521
+          "Index": 472
         },
         "EndPos": {
-          "Line": 41,
+          "Line": 38,
           "Column": 2,
-          "Index": 591
+          "Index": 542
         }
       },
       "StartPos": {
-        "Line": 38,
+        "Line": 35,
         "Column": 1,
-        "Index": 497
+        "Index": 448
       },
       "EndPos": {
-        "Line": 41,
+        "Line": 38,
         "Column": 2,
-        "Index": 591
+        "Index": 542
       }
     },
     {
@@ -1192,14 +1076,14 @@
         "Identifier": "array",
         "Type": "infr",
         "StartPos": {
-          "Line": 43,
+          "Line": 40,
           "Column": 16,
-          "Index": 610
+          "Index": 561
         },
         "EndPos": {
-          "Line": 43,
+          "Line": 40,
           "Column": 27,
-          "Index": 621
+          "Index": 572
         }
       },
       "WhereClause": {
@@ -1208,14 +1092,14 @@
           "Kind": "==",
           "Value": "==",
           "StartPos": {
-            "Line": 43,
+            "Line": 40,
             "Column": 36,
-            "Index": 630
+            "Index": 581
           },
           "EndPos": {
-            "Line": 43,
+            "Line": 40,
             "Column": 38,
-            "Index": 632
+            "Index": 583
           }
         },
         "Left": {
@@ -1224,14 +1108,14 @@
             "Kind": "%",
             "Value": "%",
             "StartPos": {
-              "Line": 43,
+              "Line": 40,
               "Column": 32,
-              "Index": 626
+              "Index": 577
             },
             "EndPos": {
-              "Line": 43,
+              "Line": 40,
               "Column": 33,
-              "Index": 627
+              "Index": 578
             }
           },
           "Left": {
@@ -1239,14 +1123,14 @@
             "Identifier": "val",
             "Type": "infr",
             "StartPos": {
-              "Line": 43,
+              "Line": 40,
               "Column": 28,
-              "Index": 622
+              "Index": 573
             },
             "EndPos": {
-              "Line": 43,
+              "Line": 40,
               "Column": 33,
-              "Index": 627
+              "Index": 578
             }
           },
           "Right": {
@@ -1254,25 +1138,25 @@
             "Value": 2,
             "Type": "i8",
             "StartPos": {
-              "Line": 43,
+              "Line": 40,
               "Column": 34,
-              "Index": 628
+              "Index": 579
             },
             "EndPos": {
-              "Line": 43,
+              "Line": 40,
               "Column": 38,
-              "Index": 632
+              "Index": 583
             }
           },
           "StartPos": {
-            "Line": 43,
+            "Line": 40,
             "Column": 32,
-            "Index": 626
+            "Index": 577
           },
           "EndPos": {
-            "Line": 43,
+            "Line": 40,
             "Column": 38,
-            "Index": 632
+            "Index": 583
           }
         },
         "Right": {
@@ -1280,50 +1164,194 @@
           "Value": 0,
           "Type": "i8",
           "StartPos": {
-            "Line": 43,
+            "Line": 40,
             "Column": 39,
-            "Index": 633
+            "Index": 584
           },
           "EndPos": {
-            "Line": 43,
+            "Line": 40,
             "Column": 41,
-            "Index": 635
+            "Index": 586
           }
         },
         "StartPos": {
-          "Line": 43,
+          "Line": 40,
           "Column": 36,
-          "Index": 630
+          "Index": 581
         },
         "EndPos": {
-          "Line": 43,
+          "Line": 40,
           "Column": 41,
-          "Index": 635
+          "Index": 586
         }
       },
       "Block": {
         "Kind": "BLOCK_STATEMENT",
-        "Body": [],
+        "Body": [
+          {
+            "Kind": "IF_STATEMENT",
+            "Condition": {
+              "Kind": "BINARY_EXPRESSION",
+              "Operator": {
+                "Kind": "!=",
+                "Value": "!=",
+                "StartPos": {
+                  "Line": 44,
+                  "Column": 16,
+                  "Index": 668
+                },
+                "EndPos": {
+                  "Line": 44,
+                  "Column": 18,
+                  "Index": 670
+                }
+              },
+              "Left": {
+                "Kind": "BINARY_EXPRESSION",
+                "Operator": {
+                  "Kind": "%",
+                  "Value": "%",
+                  "StartPos": {
+                    "Line": 44,
+                    "Column": 12,
+                    "Index": 664
+                  },
+                  "EndPos": {
+                    "Line": 44,
+                    "Column": 13,
+                    "Index": 665
+                  }
+                },
+                "Left": {
+                  "Kind": "IDENTIFIER",
+                  "Identifier": "val",
+                  "Type": "infr",
+                  "StartPos": {
+                    "Line": 44,
+                    "Column": 8,
+                    "Index": 660
+                  },
+                  "EndPos": {
+                    "Line": 44,
+                    "Column": 13,
+                    "Index": 665
+                  }
+                },
+                "Right": {
+                  "Kind": "NUMERIC_LITERAL",
+                  "Value": 2,
+                  "Type": "i8",
+                  "StartPos": {
+                    "Line": 44,
+                    "Column": 14,
+                    "Index": 666
+                  },
+                  "EndPos": {
+                    "Line": 44,
+                    "Column": 18,
+                    "Index": 670
+                  }
+                },
+                "StartPos": {
+                  "Line": 44,
+                  "Column": 12,
+                  "Index": 664
+                },
+                "EndPos": {
+                  "Line": 44,
+                  "Column": 18,
+                  "Index": 670
+                }
+              },
+              "Right": {
+                "Kind": "NUMERIC_LITERAL",
+                "Value": 0,
+                "Type": "i8",
+                "StartPos": {
+                  "Line": 44,
+                  "Column": 19,
+                  "Index": 671
+                },
+                "EndPos": {
+                  "Line": 44,
+                  "Column": 22,
+                  "Index": 674
+                }
+              },
+              "StartPos": {
+                "Line": 44,
+                "Column": 16,
+                "Index": 668
+              },
+              "EndPos": {
+                "Line": 44,
+                "Column": 22,
+                "Index": 674
+              }
+            },
+            "Block": {
+              "Kind": "BLOCK_STATEMENT",
+              "Body": [
+                {
+                  "Kind": "IDENTIFIER",
+                  "Identifier": "continue",
+                  "Type": "infr",
+                  "StartPos": {
+                    "Line": 45,
+                    "Column": 9,
+                    "Index": 684
+                  },
+                  "EndPos": {
+                    "Line": 45,
+                    "Column": 18,
+                    "Index": 693
+                  }
+                }
+              ],
+              "StartPos": {
+                "Line": 44,
+                "Column": 21,
+                "Index": 673
+              },
+              "EndPos": {
+                "Line": 46,
+                "Column": 6,
+                "Index": 700
+              }
+            },
+            "Alternate": null,
+            "StartPos": {
+              "Line": 44,
+              "Column": 5,
+              "Index": 657
+            },
+            "EndPos": {
+              "Line": 46,
+              "Column": 6,
+              "Index": 700
+            }
+          }
+        ],
         "StartPos": {
-          "Line": 43,
+          "Line": 40,
           "Column": 40,
-          "Index": 634
+          "Index": 585
         },
         "EndPos": {
-          "Line": 45,
+          "Line": 47,
           "Column": 2,
-          "Index": 678
+          "Index": 703
         }
       },
       "StartPos": {
-        "Line": 43,
+        "Line": 40,
         "Column": 1,
-        "Index": 595
+        "Index": 546
       },
       "EndPos": {
-        "Line": 45,
+        "Line": 47,
         "Column": 2,
-        "Index": 678
+        "Index": 703
       }
     },
     {
@@ -1357,14 +1385,14 @@
                 "Kind": "*",
                 "Value": "*",
                 "StartPos": {
-                  "Line": 49,
+                  "Line": 51,
                   "Column": 11,
-                  "Index": 724
+                  "Index": 749
                 },
                 "EndPos": {
-                  "Line": 49,
+                  "Line": 51,
                   "Column": 12,
-                  "Index": 725
+                  "Index": 750
                 }
               },
               "Left": {
@@ -1372,14 +1400,14 @@
                 "Identifier": "a",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 49,
+                  "Line": 51,
                   "Column": 9,
-                  "Index": 722
+                  "Index": 747
                 },
                 "EndPos": {
-                  "Line": 49,
+                  "Line": 51,
                   "Column": 12,
-                  "Index": 725
+                  "Index": 750
                 }
               },
               "Right": {
@@ -1387,59 +1415,59 @@
                 "Identifier": "b",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 49,
+                  "Line": 51,
                   "Column": 13,
-                  "Index": 726
+                  "Index": 751
                 },
                 "EndPos": {
-                  "Line": 49,
+                  "Line": 51,
                   "Column": 15,
-                  "Index": 728
+                  "Index": 753
                 }
               },
               "StartPos": {
-                "Line": 49,
+                "Line": 51,
                 "Column": 11,
-                "Index": 724
+                "Index": 749
               },
               "EndPos": {
-                "Line": 49,
+                "Line": 51,
                 "Column": 15,
-                "Index": 728
+                "Index": 753
               }
             },
             "StartPos": {
-              "Line": 49,
+              "Line": 51,
               "Column": 5,
-              "Index": 718
+              "Index": 743
             },
             "EndPos": {
-              "Line": 49,
+              "Line": 51,
               "Column": 15,
-              "Index": 728
+              "Index": 753
             }
           }
         ],
         "StartPos": {
-          "Line": 48,
+          "Line": 50,
           "Column": 28,
-          "Index": 711
+          "Index": 736
         },
         "EndPos": {
-          "Line": 50,
+          "Line": 52,
           "Column": 2,
-          "Index": 731
+          "Index": 756
         }
       },
       "StartPos": {
-        "Line": 48,
+        "Line": 50,
         "Column": 1,
-        "Index": 684
+        "Index": 709
       },
       "EndPos": {
-        "Line": 50,
+        "Line": 52,
         "Column": 2,
-        "Index": 731
+        "Index": 756
       }
     },
     {
@@ -1469,14 +1497,14 @@
                 "Identifier": "mul",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 54,
+                  "Line": 55,
                   "Column": 9,
-                  "Index": 791
+                  "Index": 794
                 },
                 "EndPos": {
-                  "Line": 54,
+                  "Line": 55,
                   "Column": 13,
-                  "Index": 795
+                  "Index": 798
                 }
               },
               "Args": [
@@ -1485,14 +1513,14 @@
                   "Identifier": "a",
                   "Type": "infr",
                   "StartPos": {
-                    "Line": 54,
+                    "Line": 55,
                     "Column": 13,
-                    "Index": 795
+                    "Index": 798
                   },
                   "EndPos": {
-                    "Line": 54,
+                    "Line": 55,
                     "Column": 15,
-                    "Index": 797
+                    "Index": 800
                   }
                 },
                 {
@@ -1500,60 +1528,60 @@
                   "Identifier": "a",
                   "Type": "infr",
                   "StartPos": {
-                    "Line": 54,
+                    "Line": 55,
                     "Column": 16,
-                    "Index": 798
+                    "Index": 801
                   },
                   "EndPos": {
-                    "Line": 54,
+                    "Line": 55,
                     "Column": 18,
-                    "Index": 800
+                    "Index": 803
                   }
                 }
               ],
               "StartPos": {
-                "Line": 54,
+                "Line": 55,
                 "Column": 12,
-                "Index": 794
+                "Index": 797
               },
               "EndPos": {
-                "Line": 54,
+                "Line": 55,
                 "Column": 18,
-                "Index": 800
+                "Index": 803
               }
             },
             "StartPos": {
-              "Line": 54,
+              "Line": 55,
               "Column": 5,
-              "Index": 787
+              "Index": 790
             },
             "EndPos": {
-              "Line": 54,
+              "Line": 55,
               "Column": 19,
-              "Index": 801
+              "Index": 804
             }
           }
         ],
         "StartPos": {
-          "Line": 52,
+          "Line": 54,
           "Column": 24,
-          "Index": 758
+          "Index": 783
         },
         "EndPos": {
           "Line": 56,
           "Column": 2,
-          "Index": 818
+          "Index": 807
         }
       },
       "StartPos": {
-        "Line": 52,
+        "Line": 54,
         "Column": 1,
-        "Index": 735
+        "Index": 760
       },
       "EndPos": {
         "Line": 56,
         "Column": 2,
-        "Index": 818
+        "Index": 807
       }
     },
     {
@@ -1565,12 +1593,12 @@
         "StartPos": {
           "Line": 58,
           "Column": 1,
-          "Index": 822
+          "Index": 811
         },
         "EndPos": {
           "Line": 58,
           "Column": 8,
-          "Index": 829
+          "Index": 818
         }
       },
       "Args": [
@@ -1581,24 +1609,24 @@
           "StartPos": {
             "Line": 58,
             "Column": 8,
-            "Index": 829
+            "Index": 818
           },
           "EndPos": {
             "Line": 58,
             "Column": 10,
-            "Index": 831
+            "Index": 820
           }
         }
       ],
       "StartPos": {
         "Line": 58,
         "Column": 7,
-        "Index": 828
+        "Index": 817
       },
       "EndPos": {
         "Line": 58,
         "Column": 10,
-        "Index": 831
+        "Index": 820
       }
     }
   ],
@@ -1610,6 +1638,6 @@
   "EndPos": {
     "Line": 58,
     "Column": 11,
-    "Index": 832
+    "Index": 821
   }
 }
