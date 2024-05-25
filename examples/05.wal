@@ -25,14 +25,11 @@ let p : Person = Person { name: "John", age: 23 };
 
 p.age = 24;
 
-fn add(a: i8, b: i8) -> i8 {
-    ret a + b;
-}
-
 
 for i := 0; i < 10; ++i {
     print(i);
 }
+
 let array := [1, 2, 3, 4, 5];
 
 foreach i, arr in array {
@@ -50,9 +47,7 @@ fn mul(a: i8, b: i8) -> i8 {
 }
 
 fn square(a: i8) -> i8 {
-    // return a * a;
     ret mul(a, a);
-    //ret 4;
 }
 
 square(5);
