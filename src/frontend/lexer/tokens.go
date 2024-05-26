@@ -95,8 +95,9 @@ const (
 
 	// Other
 	STRUCT   				= "struct"
-	COMPOSE  				= "compose"
+	EMBED	  				= "embed"
 	IMPLEMENT 				= "implement"
+	OVERRIDE 				= "override"
 	STATIC   				= "static"
 	ACCESS   				= "access modifier"
 	READONLY 				= "readonly"
@@ -125,8 +126,9 @@ var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
 	"true":     	TRUE,
 	"false":    	FALSE,
 	"struct":   	STRUCT,
-	"compose":  	COMPOSE,
+	"embed":  		EMBED,
 	"impl":			IMPLEMENT,
+	"override": 	OVERRIDE,
 	"static":   	STATIC,
 	"pub":      	ACCESS,
 	"priv":     	ACCESS,

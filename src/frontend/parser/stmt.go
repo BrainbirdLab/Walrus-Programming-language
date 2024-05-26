@@ -224,9 +224,8 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 	p.expect(lexer.STRUCT)
 
 	properties := map[string]ast.StructProperty{}
-	methods := map[string]ast.StructMethod{}
 	structName := p.expect(lexer.IDENTIFIER).Value
-	var composedOf []string
+	var embeds []string
 
 	p.expect(lexer.OPEN_CURLY)
 
@@ -286,49 +285,21 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 					//Value: nil,
 				}
 
-			} else if p.currentTokenKind() == lexer.OPEN_PAREN {
-				//then its a method
-				//parse the params
-				params := parse_params(p)
-
-				var returnType ast.Type
-				//check if return type is present, else use void
-				if p.currentTokenKind() == lexer.ARROW {
-					// so then we expect return type
-					p.advance()
-					returnType = parse_type(p, DEFAULT_BP)
-				} else {
-					returnType = ast.NullType{}
-				}
-
-				p.expect(lexer.SEMI_COLON)
-
-				//check if already exists
-				if _, exists := methods[propname]; exists {
-					panic(fmt.Sprintf("Method %s already declared", propname))
-				}
-
-				methods[propname] = ast.StructMethod{
-					IsStatic:   IsStatic,
-					IsPublic:   IsPublic,
-					Parameters: params,
-					ReturnType: returnType,
-				}
 			}
 
 			continue
-		} else if p.currentTokenKind() == lexer.COMPOSE {
+		} else if p.currentTokenKind() == lexer.EMBED {
 			p.advance()
-			//parse the structname to be composed into this struct
-			composedStructName := p.expect(lexer.IDENTIFIER).Value
+			//parse the structname to be embeded into this struct
+			embededStructName := p.expect(lexer.IDENTIFIER).Value
 
-			composedOf = append(composedOf, composedStructName)
+			embeds = append(embeds, embededStructName)
 
 			p.expect(lexer.SEMI_COLON)
 		} else {
-			err := fmt.Sprintf("Expected access modifier or compose keyword, got %s", p.currentToken().Value)
+			err := fmt.Sprintf("Expected access modifier or embed keyword, got %s", p.currentToken().Value)
 
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), err).AddHint("Try adding access modifier to the property.").AddHint("Or to embed a struct, use the compose keyword.").Display()
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), err).AddHint("Try adding access modifier to the property.").AddHint("Or to embed a struct, use the embed keyword.").Display()
 
 			os.Exit(1)
 		}
@@ -339,8 +310,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 	return ast.StructDeclStatement{
 		Kind:       ast.STRUCT_DECLARATION_STATEMENT,
 		Properties: properties,
-		Methods:    methods,
-		ComposedOf: composedOf,
+		Embeds:     embeds,
 		StructName: structName,
 		StartPos:   start,
 		EndPos:     end,
@@ -348,8 +318,6 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 }
 
 func parse_implement_stmt(p *Parser) ast.Statement {
-
-	fmt.Printf("parse_implement_stmt\n")
 
 	//advance impl token
 	start := p.advance().StartPos
@@ -365,7 +333,14 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 
 		start := p.currentToken().StartPos
 
+		override := false
 		isPublic := false
+		isStatic := false
+
+		if p.currentTokenKind() == lexer.OVERRIDE {
+			override = true
+			p.advance()
+		}
 
 		if p.currentTokenKind() == lexer.ACCESS {
 			if p.currentToken().Value == "pub" {
@@ -374,7 +349,6 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 			p.advance()
 		}
 
-		isStatic := false
 
 		if p.currentTokenKind() == lexer.STATIC {
 			isStatic = true
@@ -385,11 +359,10 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 
 		methods[method.FunctionName] = ast.StructMethod{
 			ParentName: structName,
+			Overrides: 	override,
 			IsPublic:   isPublic,
 			IsStatic:   isStatic,
-			Parameters: method.Parameters,
-			Block:      method.Block,
-			ReturnType: method.ReturnType,
+			Method:    	method,
 			StartPos:   start,
 			EndPos:     method.EndPos,
 		}
@@ -400,7 +373,7 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 	return ast.StructImplementStatement{
 		Kind:       ast.STRUCT_IMPLEMENT_STATEMENT,
 		StructName: structName,
-		Methods:   	methods,
+		Methods:    methods,
 		StartPos:   start,
 		EndPos:     end,
 	}

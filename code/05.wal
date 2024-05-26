@@ -40,25 +40,26 @@ impl Person {
 
 
 struct Boss{
-    compose Person;
+    embed Person;
     pub readonly salary: i32;
 }
 
-/*
+
 impl Boss {
-    pub fn constructor(name: str, age: i8, salary: i32) {
+    
+    override pub fn constructor(name: str, age: i8, salary: i32) {
         print("Boss created");
     }
 
-    override pub fn walk() {
+    pub fn walk() {
         print("Boss is walking");
     }
 
-    override pub fn talk() {
+    pub fn talk() {
         print("Boss is talking");
     }
 }
-*/
+
 
 let p : Person = Person { name: "John", age: 23 };
 

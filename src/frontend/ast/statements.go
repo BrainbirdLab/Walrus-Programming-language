@@ -112,22 +112,20 @@ type StructProperty struct {
 }
 
 type StructMethod struct {
-	ParentName string
-	IsStatic   bool
-	IsPublic   bool
-	Parameters map[string]Type
-	Block      BlockStmt
-	ReturnType Type
-	StartPos   lexer.Position
-	EndPos     lexer.Position
+	ParentName 	string
+	Overrides	bool
+	IsStatic   	bool
+	IsPublic   	bool
+	Method		FunctionDeclStmt
+	StartPos   	lexer.Position
+	EndPos     	lexer.Position
 }
 
 type StructDeclStatement struct {
 	Kind       NODE_TYPE
 	StructName string
 	Properties map[string]StructProperty
-	Methods    map[string]StructMethod
-	ComposedOf []string
+	Embeds     []string
 	StartPos   lexer.Position
 	EndPos     lexer.Position
 }
