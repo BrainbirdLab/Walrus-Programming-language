@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"os"
 	"rexlang/frontend/ast"
 	"rexlang/frontend/lexer"
 	"rexlang/utils"
@@ -19,7 +20,7 @@ func parse_node(p *Parser) ast.Node {
 
 	// if not a statement, then it must be an expression
 	expr := parse_expr(p, DEFAULT_BP)
-	
+
 	p.expect(lexer.SEMI_COLON)
 
 	return expr
@@ -225,6 +226,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 	properties := map[string]ast.StructProperty{}
 	methods := map[string]ast.StructMethod{}
 	structName := p.expect(lexer.IDENTIFIER).Value
+	var composedOf []string
 
 	p.expect(lexer.OPEN_CURLY)
 
@@ -315,8 +317,20 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 			}
 
 			continue
+		} else if p.currentTokenKind() == lexer.COMPOSE {
+			p.advance()
+			//parse the structname to be composed into this struct
+			composedStructName := p.expect(lexer.IDENTIFIER).Value
+
+			composedOf = append(composedOf, composedStructName)
+
+			p.expect(lexer.SEMI_COLON)
 		} else {
-			panic("Expected access modifier of property or method")
+			err := fmt.Sprintf("Expected access modifier or compose keyword, got %s", p.currentToken().Value)
+
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), err).AddHint("Try adding access modifier to the property.").AddHint("Or to embed a struct, use the compose keyword.").Display()
+
+			os.Exit(1)
 		}
 	}
 
@@ -326,7 +340,67 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 		Kind:       ast.STRUCT_DECLARATION_STATEMENT,
 		Properties: properties,
 		Methods:    methods,
+		ComposedOf: composedOf,
 		StructName: structName,
+		StartPos:   start,
+		EndPos:     end,
+	}
+}
+
+func parse_implement_stmt(p *Parser) ast.Statement {
+
+	fmt.Printf("parse_implement_stmt\n")
+
+	//advance impl token
+	start := p.advance().StartPos
+
+	//parse the struct name
+	structName := p.expect(lexer.IDENTIFIER).Value
+
+	p.expect(lexer.OPEN_CURLY)
+
+	methods := map[string]ast.StructMethod{}
+
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+
+		start := p.currentToken().StartPos
+
+		isPublic := false
+
+		if p.currentTokenKind() == lexer.ACCESS {
+			if p.currentToken().Value == "pub" {
+				isPublic = true
+			}
+			p.advance()
+		}
+
+		isStatic := false
+
+		if p.currentTokenKind() == lexer.STATIC {
+			isStatic = true
+			p.advance()
+		}
+
+		method := parse_function_decl_stmt(p).(ast.FunctionDeclStmt)
+
+		methods[method.FunctionName] = ast.StructMethod{
+			ParentName: structName,
+			IsPublic:   isPublic,
+			IsStatic:   isStatic,
+			Parameters: method.Parameters,
+			Block:      method.Block,
+			ReturnType: method.ReturnType,
+			StartPos:   start,
+			EndPos:     method.EndPos,
+		}
+	}
+
+	end := p.expect(lexer.CLOSE_CURLY).EndPos
+
+	return ast.StructImplementStatement{
+		Kind:       ast.STRUCT_IMPLEMENT_STATEMENT,
+		StructName: structName,
+		Methods:   	methods,
 		StartPos:   start,
 		EndPos:     end,
 	}
@@ -470,14 +544,14 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 		end := block.EndPos
 
 		return ast.ForeachStmt{
-			Kind:         	ast.FOREACH_LOOP_STATEMENT,
-			Variable:     	identifier,
-			IndexVariable: 	indexVar,
-			Iterable:     	arr,
-			WhereClause: 	whereCause,
-			Block:        	block,
-			StartPos:     	start,
-			EndPos:       	end,
+			Kind:          ast.FOREACH_LOOP_STATEMENT,
+			Variable:      identifier,
+			IndexVariable: indexVar,
+			Iterable:      arr,
+			WhereClause:   whereCause,
+			Block:         block,
+			StartPos:      start,
+			EndPos:        end,
 		}
 
 	} else {

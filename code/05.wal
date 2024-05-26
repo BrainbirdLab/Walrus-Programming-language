@@ -5,7 +5,7 @@ import { readFile, writeFile } from "core:io";
 
 import "array.wal";
 
-let x : i8 = 5;
+const x : i8 = 5;
 let a := 2;
 let b := 10;
 
@@ -13,7 +13,7 @@ let myName := "John";
 
 a = -10 + 5 - b;
 
-if (a == 4) {
+if a == 4 {
     let a := 10;
     b = a + 3;
 }
@@ -21,11 +21,52 @@ if (a == 4) {
 struct Person {
     pub name: str;
     pub readonly age: i8;
+    // No method declaration
 }
+
+impl Person {
+    pub fn constructor(name: str, age: i8) {
+        print("Person created");
+    }
+
+    pub fn walk() {
+        print("Person is walking");
+    }
+
+    pub fn talk() {
+        print("Person is talking");
+    }
+}
+
+
+struct Boss{
+    compose Person;
+    pub readonly salary: i32;
+}
+
+/*
+impl Boss {
+    pub fn constructor(name: str, age: i8, salary: i32) {
+        print("Boss created");
+    }
+
+    override pub fn walk() {
+        print("Boss is walking");
+    }
+
+    override pub fn talk() {
+        print("Boss is talking");
+    }
+}
+*/
 
 let p : Person = Person { name: "John", age: 23 };
 
 p.age = 24;
+p.walk();
+p.talk();
+
+
 
 
 for i := 0; i < 10; ++i {

@@ -1,5 +1,5 @@
 {
-  "FileName": "./../examples/05.wal",
+  "FileName": "./../code/05.wal",
   "ModuleName": "main",
   "Imports": [
     {
@@ -34,26 +34,41 @@
         "Column": 47,
         "Index": 79
       }
+    },
+    {
+      "Kind": "IMPORT_STATEMENT",
+      "ModuleName": "array.wal",
+      "Identifiers": [],
+      "StartPos": {
+        "Line": 6,
+        "Column": 1,
+        "Index": 83
+      },
+      "EndPos": {
+        "Line": 6,
+        "Column": 20,
+        "Index": 102
+      }
     }
   ],
   "Contents": [
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
-      "IsConstant": false,
+      "IsConstant": true,
       "Identifier": "x",
       "Value": {
         "Kind": "NUMERIC_LITERAL",
         "Value": 5,
         "Type": "i8",
         "StartPos": {
-          "Line": 6,
-          "Column": 14,
-          "Index": 96
+          "Line": 8,
+          "Column": 16,
+          "Index": 121
         },
         "EndPos": {
-          "Line": 6,
-          "Column": 16,
-          "Index": 98
+          "Line": 8,
+          "Column": 18,
+          "Index": 123
         }
       },
       "ExplicitType": {
@@ -62,14 +77,14 @@
         "IsSigned": true
       },
       "StartPos": {
-        "Line": 6,
+        "Line": 8,
         "Column": 1,
-        "Index": 83
+        "Index": 106
       },
       "EndPos": {
-        "Line": 6,
-        "Column": 16,
-        "Index": 98
+        "Line": 8,
+        "Column": 18,
+        "Index": 123
       }
     },
     {
@@ -81,26 +96,26 @@
         "Value": 2,
         "Type": "i8",
         "StartPos": {
-          "Line": 7,
+          "Line": 9,
           "Column": 10,
-          "Index": 109
+          "Index": 134
         },
         "EndPos": {
-          "Line": 7,
+          "Line": 9,
           "Column": 12,
-          "Index": 111
+          "Index": 136
         }
       },
       "ExplicitType": null,
       "StartPos": {
-        "Line": 7,
+        "Line": 9,
         "Column": 1,
-        "Index": 100
+        "Index": 125
       },
       "EndPos": {
-        "Line": 7,
+        "Line": 9,
         "Column": 12,
-        "Index": 111
+        "Index": 136
       }
     },
     {
@@ -112,26 +127,26 @@
         "Value": 10,
         "Type": "i8",
         "StartPos": {
-          "Line": 8,
+          "Line": 10,
           "Column": 10,
-          "Index": 122
+          "Index": 147
         },
         "EndPos": {
-          "Line": 8,
+          "Line": 10,
           "Column": 13,
-          "Index": 125
+          "Index": 150
         }
       },
       "ExplicitType": null,
       "StartPos": {
-        "Line": 8,
+        "Line": 10,
         "Column": 1,
-        "Index": 113
+        "Index": 138
       },
       "EndPos": {
-        "Line": 8,
+        "Line": 10,
         "Column": 13,
-        "Index": 125
+        "Index": 150
       }
     },
     {
@@ -143,26 +158,26 @@
         "Value": "John",
         "Type": "str",
         "StartPos": {
-          "Line": 10,
+          "Line": 12,
           "Column": 15,
-          "Index": 143
+          "Index": 168
         },
         "EndPos": {
-          "Line": 10,
+          "Line": 12,
           "Column": 22,
-          "Index": 150
+          "Index": 175
         }
       },
       "ExplicitType": null,
       "StartPos": {
-        "Line": 10,
+        "Line": 12,
         "Column": 1,
-        "Index": 129
+        "Index": 154
       },
       "EndPos": {
-        "Line": 10,
+        "Line": 12,
         "Column": 22,
-        "Index": 150
+        "Index": 175
       }
     },
     {
@@ -172,14 +187,14 @@
         "Identifier": "a",
         "Type": "infr",
         "StartPos": {
-          "Line": 12,
+          "Line": 14,
           "Column": 1,
-          "Index": 154
+          "Index": 179
         },
         "EndPos": {
-          "Line": 12,
+          "Line": 14,
           "Column": 4,
-          "Index": 157
+          "Index": 182
         }
       },
       "Value": {
@@ -188,14 +203,14 @@
           "Kind": "-",
           "Value": "-",
           "StartPos": {
-            "Line": 12,
+            "Line": 14,
             "Column": 13,
-            "Index": 166
+            "Index": 191
           },
           "EndPos": {
-            "Line": 12,
+            "Line": 14,
             "Column": 14,
-            "Index": 167
+            "Index": 192
           }
         },
         "Left": {
@@ -204,14 +219,14 @@
             "Kind": "+",
             "Value": "+",
             "StartPos": {
-              "Line": 12,
+              "Line": 14,
               "Column": 9,
-              "Index": 162
+              "Index": 187
             },
             "EndPos": {
-              "Line": 12,
+              "Line": 14,
               "Column": 10,
-              "Index": 163
+              "Index": 188
             }
           },
           "Left": {
@@ -220,14 +235,14 @@
               "Kind": "-",
               "Value": "-",
               "StartPos": {
-                "Line": 12,
+                "Line": 14,
                 "Column": 5,
-                "Index": 158
+                "Index": 183
               },
               "EndPos": {
-                "Line": 12,
+                "Line": 14,
                 "Column": 6,
-                "Index": 159
+                "Index": 184
               }
             },
             "Argument": {
@@ -235,25 +250,25 @@
               "Value": 10,
               "Type": "i8",
               "StartPos": {
-                "Line": 12,
+                "Line": 14,
                 "Column": 6,
-                "Index": 159
+                "Index": 184
               },
               "EndPos": {
-                "Line": 12,
+                "Line": 14,
                 "Column": 10,
-                "Index": 163
+                "Index": 188
               }
             },
             "StartPos": {
-              "Line": 12,
+              "Line": 14,
               "Column": 5,
-              "Index": 158
+              "Index": 183
             },
             "EndPos": {
-              "Line": 12,
+              "Line": 14,
               "Column": 10,
-              "Index": 163
+              "Index": 188
             }
           },
           "Right": {
@@ -261,25 +276,25 @@
             "Value": 5,
             "Type": "i8",
             "StartPos": {
-              "Line": 12,
+              "Line": 14,
               "Column": 11,
-              "Index": 164
+              "Index": 189
             },
             "EndPos": {
-              "Line": 12,
+              "Line": 14,
               "Column": 14,
-              "Index": 167
+              "Index": 192
             }
           },
           "StartPos": {
-            "Line": 12,
+            "Line": 14,
             "Column": 9,
-            "Index": 162
+            "Index": 187
           },
           "EndPos": {
-            "Line": 12,
+            "Line": 14,
             "Column": 14,
-            "Index": 167
+            "Index": 192
           }
         },
         "Right": {
@@ -287,50 +302,50 @@
           "Identifier": "b",
           "Type": "infr",
           "StartPos": {
-            "Line": 12,
+            "Line": 14,
             "Column": 15,
-            "Index": 168
+            "Index": 193
           },
           "EndPos": {
-            "Line": 12,
+            "Line": 14,
             "Column": 17,
-            "Index": 170
+            "Index": 195
           }
         },
         "StartPos": {
-          "Line": 12,
+          "Line": 14,
           "Column": 13,
-          "Index": 166
+          "Index": 191
         },
         "EndPos": {
-          "Line": 12,
+          "Line": 14,
           "Column": 17,
-          "Index": 170
+          "Index": 195
         }
       },
       "Operator": {
         "Kind": "=",
         "Value": "=",
         "StartPos": {
-          "Line": 12,
+          "Line": 14,
           "Column": 3,
-          "Index": 156
+          "Index": 181
         },
         "EndPos": {
-          "Line": 12,
+          "Line": 14,
           "Column": 4,
-          "Index": 157
+          "Index": 182
         }
       },
       "StartPos": {
-        "Line": 12,
+        "Line": 14,
         "Column": 3,
-        "Index": 156
+        "Index": 181
       },
       "EndPos": {
-        "Line": 12,
+        "Line": 14,
         "Column": 17,
-        "Index": 170
+        "Index": 195
       }
     },
     {
@@ -341,14 +356,14 @@
           "Kind": "==",
           "Value": "==",
           "StartPos": {
-            "Line": 14,
-            "Column": 7,
-            "Index": 180
+            "Line": 16,
+            "Column": 6,
+            "Index": 204
           },
           "EndPos": {
-            "Line": 14,
-            "Column": 9,
-            "Index": 182
+            "Line": 16,
+            "Column": 8,
+            "Index": 206
           }
         },
         "Left": {
@@ -356,14 +371,14 @@
           "Identifier": "a",
           "Type": "infr",
           "StartPos": {
-            "Line": 14,
-            "Column": 5,
-            "Index": 178
+            "Line": 16,
+            "Column": 4,
+            "Index": 202
           },
           "EndPos": {
-            "Line": 14,
-            "Column": 9,
-            "Index": 182
+            "Line": 16,
+            "Column": 8,
+            "Index": 206
           }
         },
         "Right": {
@@ -371,25 +386,25 @@
           "Value": 4,
           "Type": "i8",
           "StartPos": {
-            "Line": 14,
-            "Column": 10,
-            "Index": 183
+            "Line": 16,
+            "Column": 9,
+            "Index": 207
           },
           "EndPos": {
-            "Line": 14,
+            "Line": 16,
             "Column": 12,
-            "Index": 185
+            "Index": 210
           }
         },
         "StartPos": {
-          "Line": 14,
-          "Column": 7,
-          "Index": 180
+          "Line": 16,
+          "Column": 6,
+          "Index": 204
         },
         "EndPos": {
-          "Line": 14,
+          "Line": 16,
           "Column": 12,
-          "Index": 185
+          "Index": 210
         }
       },
       "Block": {
@@ -404,26 +419,26 @@
               "Value": 10,
               "Type": "i8",
               "StartPos": {
-                "Line": 15,
+                "Line": 17,
                 "Column": 14,
-                "Index": 202
+                "Index": 225
               },
               "EndPos": {
-                "Line": 15,
+                "Line": 17,
                 "Column": 17,
-                "Index": 205
+                "Index": 228
               }
             },
             "ExplicitType": null,
             "StartPos": {
-              "Line": 15,
+              "Line": 17,
               "Column": 5,
-              "Index": 193
+              "Index": 216
             },
             "EndPos": {
-              "Line": 15,
+              "Line": 17,
               "Column": 17,
-              "Index": 205
+              "Index": 228
             }
           },
           {
@@ -433,14 +448,14 @@
               "Identifier": "b",
               "Type": "infr",
               "StartPos": {
-                "Line": 16,
+                "Line": 18,
                 "Column": 5,
-                "Index": 211
+                "Index": 234
               },
               "EndPos": {
-                "Line": 16,
+                "Line": 18,
                 "Column": 8,
-                "Index": 214
+                "Index": 237
               }
             },
             "Value": {
@@ -449,14 +464,14 @@
                 "Kind": "+",
                 "Value": "+",
                 "StartPos": {
-                  "Line": 16,
+                  "Line": 18,
                   "Column": 11,
-                  "Index": 217
+                  "Index": 240
                 },
                 "EndPos": {
-                  "Line": 16,
+                  "Line": 18,
                   "Column": 12,
-                  "Index": 218
+                  "Index": 241
                 }
               },
               "Left": {
@@ -464,14 +479,14 @@
                 "Identifier": "a",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 16,
+                  "Line": 18,
                   "Column": 9,
-                  "Index": 215
+                  "Index": 238
                 },
                 "EndPos": {
-                  "Line": 16,
+                  "Line": 18,
                   "Column": 12,
-                  "Index": 218
+                  "Index": 241
                 }
               },
               "Right": {
@@ -479,74 +494,74 @@
                 "Value": 3,
                 "Type": "i8",
                 "StartPos": {
-                  "Line": 16,
+                  "Line": 18,
                   "Column": 13,
-                  "Index": 219
+                  "Index": 242
                 },
                 "EndPos": {
-                  "Line": 16,
+                  "Line": 18,
                   "Column": 15,
-                  "Index": 221
+                  "Index": 244
                 }
               },
               "StartPos": {
-                "Line": 16,
+                "Line": 18,
                 "Column": 11,
-                "Index": 217
+                "Index": 240
               },
               "EndPos": {
-                "Line": 16,
+                "Line": 18,
                 "Column": 15,
-                "Index": 221
+                "Index": 244
               }
             },
             "Operator": {
               "Kind": "=",
               "Value": "=",
               "StartPos": {
-                "Line": 16,
+                "Line": 18,
                 "Column": 7,
-                "Index": 213
+                "Index": 236
               },
               "EndPos": {
-                "Line": 16,
+                "Line": 18,
                 "Column": 8,
-                "Index": 214
+                "Index": 237
               }
             },
             "StartPos": {
-              "Line": 16,
+              "Line": 18,
               "Column": 7,
-              "Index": 213
+              "Index": 236
             },
             "EndPos": {
-              "Line": 16,
+              "Line": 18,
               "Column": 15,
-              "Index": 221
+              "Index": 244
             }
           }
         ],
         "StartPos": {
-          "Line": 14,
-          "Column": 13,
-          "Index": 186
+          "Line": 16,
+          "Column": 11,
+          "Index": 209
         },
         "EndPos": {
-          "Line": 17,
+          "Line": 19,
           "Column": 2,
-          "Index": 224
+          "Index": 247
         }
       },
       "Alternate": null,
       "StartPos": {
-        "Line": 14,
+        "Line": 16,
         "Column": 1,
-        "Index": 174
+        "Index": 199
       },
       "EndPos": {
-        "Line": 17,
+        "Line": 19,
         "Column": 2,
-        "Index": 224
+        "Index": 247
       }
     },
     {
@@ -593,15 +608,318 @@
         }
       },
       "Methods": {},
+      "ComposedOf": null,
       "StartPos": {
-        "Line": 19,
+        "Line": 21,
         "Column": 1,
-        "Index": 228
+        "Index": 251
       },
       "EndPos": {
-        "Line": 22,
+        "Line": 25,
         "Column": 2,
-        "Index": 293
+        "Index": 346
+      }
+    },
+    {
+      "Kind": "STRUCT_IMPLEMENT_STATEMENT",
+      "StructName": "Person",
+      "Methods": {
+        "constructor": {
+          "ParentName": "Person",
+          "IsStatic": false,
+          "IsPublic": true,
+          "Parameters": {
+            "age": {
+              "Kind": "INTEGER",
+              "BitSize": 8,
+              "IsSigned": true
+            },
+            "name": {
+              "Kind": "STRING"
+            }
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "Identifier": "print",
+                  "Type": "infr",
+                  "StartPos": {
+                    "Line": 29,
+                    "Column": 9,
+                    "Index": 419
+                  },
+                  "EndPos": {
+                    "Line": 29,
+                    "Column": 15,
+                    "Index": 425
+                  }
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "Value": "Person created",
+                    "Type": "str",
+                    "StartPos": {
+                      "Line": 29,
+                      "Column": 15,
+                      "Index": 425
+                    },
+                    "EndPos": {
+                      "Line": 29,
+                      "Column": 32,
+                      "Index": 442
+                    }
+                  }
+                ],
+                "StartPos": {
+                  "Line": 29,
+                  "Column": 14,
+                  "Index": 424
+                },
+                "EndPos": {
+                  "Line": 29,
+                  "Column": 32,
+                  "Index": 442
+                }
+              }
+            ],
+            "StartPos": {
+              "Line": 28,
+              "Column": 44,
+              "Index": 408
+            },
+            "EndPos": {
+              "Line": 30,
+              "Column": 6,
+              "Index": 450
+            }
+          },
+          "ReturnType": {
+            "Kind": ""
+          },
+          "StartPos": {
+            "Line": 28,
+            "Column": 5,
+            "Index": 369
+          },
+          "EndPos": {
+            "Line": 30,
+            "Column": 6,
+            "Index": 450
+          }
+        },
+        "talk": {
+          "ParentName": "Person",
+          "IsStatic": false,
+          "IsPublic": true,
+          "Parameters": {},
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "Identifier": "print",
+                  "Type": "infr",
+                  "StartPos": {
+                    "Line": 37,
+                    "Column": 9,
+                    "Index": 550
+                  },
+                  "EndPos": {
+                    "Line": 37,
+                    "Column": 15,
+                    "Index": 556
+                  }
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "Value": "Person is talking",
+                    "Type": "str",
+                    "StartPos": {
+                      "Line": 37,
+                      "Column": 15,
+                      "Index": 556
+                    },
+                    "EndPos": {
+                      "Line": 37,
+                      "Column": 35,
+                      "Index": 576
+                    }
+                  }
+                ],
+                "StartPos": {
+                  "Line": 37,
+                  "Column": 14,
+                  "Index": 555
+                },
+                "EndPos": {
+                  "Line": 37,
+                  "Column": 35,
+                  "Index": 576
+                }
+              }
+            ],
+            "StartPos": {
+              "Line": 36,
+              "Column": 19,
+              "Index": 539
+            },
+            "EndPos": {
+              "Line": 38,
+              "Column": 6,
+              "Index": 584
+            }
+          },
+          "ReturnType": {
+            "Kind": ""
+          },
+          "StartPos": {
+            "Line": 36,
+            "Column": 5,
+            "Index": 525
+          },
+          "EndPos": {
+            "Line": 38,
+            "Column": 6,
+            "Index": 584
+          }
+        },
+        "walk": {
+          "ParentName": "Person",
+          "IsStatic": false,
+          "IsPublic": true,
+          "Parameters": {},
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "Identifier": "print",
+                  "Type": "infr",
+                  "StartPos": {
+                    "Line": 33,
+                    "Column": 9,
+                    "Index": 483
+                  },
+                  "EndPos": {
+                    "Line": 33,
+                    "Column": 15,
+                    "Index": 489
+                  }
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "Value": "Person is walking",
+                    "Type": "str",
+                    "StartPos": {
+                      "Line": 33,
+                      "Column": 15,
+                      "Index": 489
+                    },
+                    "EndPos": {
+                      "Line": 33,
+                      "Column": 35,
+                      "Index": 509
+                    }
+                  }
+                ],
+                "StartPos": {
+                  "Line": 33,
+                  "Column": 14,
+                  "Index": 488
+                },
+                "EndPos": {
+                  "Line": 33,
+                  "Column": 35,
+                  "Index": 509
+                }
+              }
+            ],
+            "StartPos": {
+              "Line": 32,
+              "Column": 19,
+              "Index": 472
+            },
+            "EndPos": {
+              "Line": 34,
+              "Column": 6,
+              "Index": 517
+            }
+          },
+          "ReturnType": {
+            "Kind": ""
+          },
+          "StartPos": {
+            "Line": 32,
+            "Column": 5,
+            "Index": 458
+          },
+          "EndPos": {
+            "Line": 34,
+            "Column": 6,
+            "Index": 517
+          }
+        }
+      },
+      "StartPos": {
+        "Line": 27,
+        "Column": 1,
+        "Index": 350
+      },
+      "EndPos": {
+        "Line": 39,
+        "Column": 2,
+        "Index": 587
+      }
+    },
+    {
+      "Kind": "STRUCT_DECLARATION_STATEMENT",
+      "StructName": "Boss",
+      "Properties": {
+        "salary": {
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": true,
+          "Type": {
+            "Kind": "INTEGER",
+            "BitSize": 32,
+            "IsSigned": true
+          },
+          "StartPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "EndPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          }
+        }
+      },
+      "Methods": {},
+      "ComposedOf": [
+        "Person"
+      ],
+      "StartPos": {
+        "Line": 42,
+        "Column": 1,
+        "Index": 593
+      },
+      "EndPos": {
+        "Line": 45,
+        "Column": 2,
+        "Index": 660
       }
     },
     {
@@ -617,14 +935,14 @@
             "Value": 23,
             "Type": "i8",
             "StartPos": {
-              "Line": 24,
+              "Line": 63,
               "Column": 46,
-              "Index": 342
+              "Index": 981
             },
             "EndPos": {
-              "Line": 24,
+              "Line": 63,
               "Column": 50,
-              "Index": 346
+              "Index": 985
             }
           },
           "name": {
@@ -632,27 +950,27 @@
             "Value": "John",
             "Type": "str",
             "StartPos": {
-              "Line": 24,
+              "Line": 63,
               "Column": 33,
-              "Index": 329
+              "Index": 968
             },
             "EndPos": {
-              "Line": 24,
+              "Line": 63,
               "Column": 40,
-              "Index": 336
+              "Index": 975
             }
           }
         },
         "Methods": {},
         "StartPos": {
-          "Line": 24,
+          "Line": 63,
           "Column": 25,
-          "Index": 321
+          "Index": 960
         },
         "EndPos": {
-          "Line": 24,
+          "Line": 63,
           "Column": 50,
-          "Index": 346
+          "Index": 985
         }
       },
       "ExplicitType": {
@@ -660,14 +978,14 @@
         "Name": "Person"
       },
       "StartPos": {
-        "Line": 24,
+        "Line": 63,
         "Column": 1,
-        "Index": 297
+        "Index": 936
       },
       "EndPos": {
-        "Line": 24,
+        "Line": 63,
         "Column": 51,
-        "Index": 347
+        "Index": 986
       }
     },
     {
@@ -677,14 +995,14 @@
         "Identifier": "age",
         "Type": "infr",
         "StartPos": {
-          "Line": 26,
+          "Line": 65,
           "Column": 3,
-          "Index": 353
+          "Index": 992
         },
         "EndPos": {
-          "Line": 26,
+          "Line": 65,
           "Column": 6,
-          "Index": 356
+          "Index": 995
         }
       },
       "Value": {
@@ -692,39 +1010,153 @@
         "Value": 24,
         "Type": "i8",
         "StartPos": {
-          "Line": 26,
+          "Line": 65,
           "Column": 9,
-          "Index": 359
+          "Index": 998
         },
         "EndPos": {
-          "Line": 26,
+          "Line": 65,
           "Column": 12,
-          "Index": 362
+          "Index": 1001
         }
       },
       "Operator": {
         "Kind": "=",
         "Value": "=",
         "StartPos": {
-          "Line": 26,
+          "Line": 65,
           "Column": 7,
-          "Index": 357
+          "Index": 996
         },
         "EndPos": {
-          "Line": 26,
+          "Line": 65,
           "Column": 8,
-          "Index": 358
+          "Index": 997
         }
       },
       "StartPos": {
-        "Line": 26,
+        "Line": 65,
         "Column": 7,
-        "Index": 357
+        "Index": 996
       },
       "EndPos": {
-        "Line": 26,
+        "Line": 65,
         "Column": 12,
-        "Index": 362
+        "Index": 1001
+      }
+    },
+    {
+      "Kind": "FUNCTION_CALL_EXPRESSION",
+      "Function": {
+        "Kind": "STRUCT_PROPERTY",
+        "Object": {
+          "Kind": "IDENTIFIER",
+          "Identifier": "p",
+          "Type": "infr",
+          "StartPos": {
+            "Line": 66,
+            "Column": 1,
+            "Index": 1003
+          },
+          "EndPos": {
+            "Line": 66,
+            "Column": 3,
+            "Index": 1005
+          }
+        },
+        "Property": {
+          "Kind": "IDENTIFIER",
+          "Identifier": "walk",
+          "Type": "infr",
+          "StartPos": {
+            "Line": 66,
+            "Column": 3,
+            "Index": 1005
+          },
+          "EndPos": {
+            "Line": 66,
+            "Column": 7,
+            "Index": 1009
+          }
+        },
+        "StartPos": {
+          "Line": 66,
+          "Column": 3,
+          "Index": 1005
+        },
+        "EndPos": {
+          "Line": 66,
+          "Column": 7,
+          "Index": 1009
+        }
+      },
+      "Args": null,
+      "StartPos": {
+        "Line": 66,
+        "Column": 7,
+        "Index": 1009
+      },
+      "EndPos": {
+        "Line": 66,
+        "Column": 9,
+        "Index": 1011
+      }
+    },
+    {
+      "Kind": "FUNCTION_CALL_EXPRESSION",
+      "Function": {
+        "Kind": "STRUCT_PROPERTY",
+        "Object": {
+          "Kind": "IDENTIFIER",
+          "Identifier": "p",
+          "Type": "infr",
+          "StartPos": {
+            "Line": 67,
+            "Column": 1,
+            "Index": 1014
+          },
+          "EndPos": {
+            "Line": 67,
+            "Column": 3,
+            "Index": 1016
+          }
+        },
+        "Property": {
+          "Kind": "IDENTIFIER",
+          "Identifier": "talk",
+          "Type": "infr",
+          "StartPos": {
+            "Line": 67,
+            "Column": 3,
+            "Index": 1016
+          },
+          "EndPos": {
+            "Line": 67,
+            "Column": 7,
+            "Index": 1020
+          }
+        },
+        "StartPos": {
+          "Line": 67,
+          "Column": 3,
+          "Index": 1016
+        },
+        "EndPos": {
+          "Line": 67,
+          "Column": 7,
+          "Index": 1020
+        }
+      },
+      "Args": null,
+      "StartPos": {
+        "Line": 67,
+        "Column": 7,
+        "Index": 1020
+      },
+      "EndPos": {
+        "Line": 67,
+        "Column": 9,
+        "Index": 1022
       }
     },
     {
@@ -735,14 +1167,14 @@
         "Value": 0,
         "Type": "i8",
         "StartPos": {
-          "Line": 29,
+          "Line": 72,
           "Column": 10,
-          "Index": 377
+          "Index": 1042
         },
         "EndPos": {
-          "Line": 29,
+          "Line": 72,
           "Column": 12,
-          "Index": 379
+          "Index": 1044
         }
       },
       "Condition": {
@@ -751,14 +1183,14 @@
           "Kind": "\u003c",
           "Value": "\u003c",
           "StartPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 15,
-            "Index": 382
+            "Index": 1047
           },
           "EndPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 16,
-            "Index": 383
+            "Index": 1048
           }
         },
         "Left": {
@@ -766,14 +1198,14 @@
           "Identifier": "i",
           "Type": "infr",
           "StartPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 13,
-            "Index": 380
+            "Index": 1045
           },
           "EndPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 16,
-            "Index": 383
+            "Index": 1048
           }
         },
         "Right": {
@@ -781,25 +1213,25 @@
           "Value": 10,
           "Type": "i8",
           "StartPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 17,
-            "Index": 384
+            "Index": 1049
           },
           "EndPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 20,
-            "Index": 387
+            "Index": 1052
           }
         },
         "StartPos": {
-          "Line": 29,
+          "Line": 72,
           "Column": 15,
-          "Index": 382
+          "Index": 1047
         },
         "EndPos": {
-          "Line": 29,
+          "Line": 72,
           "Column": 20,
-          "Index": 387
+          "Index": 1052
         }
       },
       "Post": {
@@ -808,14 +1240,14 @@
           "Kind": "++",
           "Value": "++",
           "StartPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 21,
-            "Index": 388
+            "Index": 1053
           },
           "EndPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 23,
-            "Index": 390
+            "Index": 1055
           }
         },
         "Argument": {
@@ -823,25 +1255,25 @@
           "Identifier": "i",
           "Type": "infr",
           "StartPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 23,
-            "Index": 390
+            "Index": 1055
           },
           "EndPos": {
-            "Line": 29,
+            "Line": 72,
             "Column": 26,
-            "Index": 393
+            "Index": 1058
           }
         },
         "StartPos": {
-          "Line": 29,
+          "Line": 72,
           "Column": 21,
-          "Index": 388
+          "Index": 1053
         },
         "EndPos": {
-          "Line": 29,
+          "Line": 72,
           "Column": 26,
-          "Index": 393
+          "Index": 1058
         }
       },
       "Block": {
@@ -854,14 +1286,14 @@
               "Identifier": "print",
               "Type": "infr",
               "StartPos": {
-                "Line": 30,
+                "Line": 73,
                 "Column": 5,
-                "Index": 399
+                "Index": 1064
               },
               "EndPos": {
-                "Line": 30,
+                "Line": 73,
                 "Column": 11,
-                "Index": 405
+                "Index": 1070
               }
             },
             "Args": [
@@ -870,49 +1302,49 @@
                 "Identifier": "i",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 30,
+                  "Line": 73,
                   "Column": 11,
-                  "Index": 405
+                  "Index": 1070
                 },
                 "EndPos": {
-                  "Line": 30,
+                  "Line": 73,
                   "Column": 13,
-                  "Index": 407
+                  "Index": 1072
                 }
               }
             ],
             "StartPos": {
-              "Line": 30,
+              "Line": 73,
               "Column": 10,
-              "Index": 404
+              "Index": 1069
             },
             "EndPos": {
-              "Line": 30,
+              "Line": 73,
               "Column": 13,
-              "Index": 407
+              "Index": 1072
             }
           }
         ],
         "StartPos": {
-          "Line": 29,
+          "Line": 72,
           "Column": 25,
-          "Index": 392
+          "Index": 1057
         },
         "EndPos": {
-          "Line": 31,
+          "Line": 74,
           "Column": 2,
-          "Index": 411
+          "Index": 1076
         }
       },
       "StartPos": {
-        "Line": 29,
+        "Line": 72,
         "Column": 1,
-        "Index": 368
+        "Index": 1033
       },
       "EndPos": {
-        "Line": 31,
+        "Line": 74,
         "Column": 2,
-        "Index": 411
+        "Index": 1076
       }
     },
     {
@@ -928,14 +1360,14 @@
             "Value": 1,
             "Type": "i8",
             "StartPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 15,
-              "Index": 429
+              "Index": 1094
             },
             "EndPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 17,
-              "Index": 431
+              "Index": 1096
             }
           },
           {
@@ -943,14 +1375,14 @@
             "Value": 2,
             "Type": "i8",
             "StartPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 18,
-              "Index": 432
+              "Index": 1097
             },
             "EndPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 20,
-              "Index": 434
+              "Index": 1099
             }
           },
           {
@@ -958,14 +1390,14 @@
             "Value": 3,
             "Type": "i8",
             "StartPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 21,
-              "Index": 435
+              "Index": 1100
             },
             "EndPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 23,
-              "Index": 437
+              "Index": 1102
             }
           },
           {
@@ -973,14 +1405,14 @@
             "Value": 4,
             "Type": "i8",
             "StartPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 24,
-              "Index": 438
+              "Index": 1103
             },
             "EndPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 26,
-              "Index": 440
+              "Index": 1105
             }
           },
           {
@@ -988,38 +1420,38 @@
             "Value": 5,
             "Type": "i8",
             "StartPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 27,
-              "Index": 441
+              "Index": 1106
             },
             "EndPos": {
-              "Line": 33,
+              "Line": 76,
               "Column": 29,
-              "Index": 443
+              "Index": 1108
             }
           }
         ],
         "StartPos": {
-          "Line": 33,
+          "Line": 76,
           "Column": 14,
-          "Index": 428
+          "Index": 1093
         },
         "EndPos": {
-          "Line": 33,
+          "Line": 76,
           "Column": 29,
-          "Index": 443
+          "Index": 1108
         }
       },
       "ExplicitType": null,
       "StartPos": {
-        "Line": 33,
+        "Line": 76,
         "Column": 1,
-        "Index": 415
+        "Index": 1080
       },
       "EndPos": {
-        "Line": 33,
+        "Line": 76,
         "Column": 30,
-        "Index": 444
+        "Index": 1109
       }
     },
     {
@@ -1031,14 +1463,14 @@
         "Identifier": "array",
         "Type": "infr",
         "StartPos": {
-          "Line": 35,
+          "Line": 78,
           "Column": 19,
-          "Index": 466
+          "Index": 1131
         },
         "EndPos": {
-          "Line": 35,
+          "Line": 78,
           "Column": 26,
-          "Index": 473
+          "Index": 1138
         }
       },
       "WhereClause": null,
@@ -1046,25 +1478,25 @@
         "Kind": "BLOCK_STATEMENT",
         "Body": [],
         "StartPos": {
-          "Line": 35,
+          "Line": 78,
           "Column": 25,
-          "Index": 472
+          "Index": 1137
         },
         "EndPos": {
-          "Line": 38,
+          "Line": 81,
           "Column": 2,
-          "Index": 542
+          "Index": 1207
         }
       },
       "StartPos": {
-        "Line": 35,
+        "Line": 78,
         "Column": 1,
-        "Index": 448
+        "Index": 1113
       },
       "EndPos": {
-        "Line": 38,
+        "Line": 81,
         "Column": 2,
-        "Index": 542
+        "Index": 1207
       }
     },
     {
@@ -1076,14 +1508,14 @@
         "Identifier": "array",
         "Type": "infr",
         "StartPos": {
-          "Line": 40,
+          "Line": 83,
           "Column": 16,
-          "Index": 561
+          "Index": 1226
         },
         "EndPos": {
-          "Line": 40,
+          "Line": 83,
           "Column": 27,
-          "Index": 572
+          "Index": 1237
         }
       },
       "WhereClause": {
@@ -1092,14 +1524,14 @@
           "Kind": "==",
           "Value": "==",
           "StartPos": {
-            "Line": 40,
+            "Line": 83,
             "Column": 36,
-            "Index": 581
+            "Index": 1246
           },
           "EndPos": {
-            "Line": 40,
+            "Line": 83,
             "Column": 38,
-            "Index": 583
+            "Index": 1248
           }
         },
         "Left": {
@@ -1108,14 +1540,14 @@
             "Kind": "%",
             "Value": "%",
             "StartPos": {
-              "Line": 40,
+              "Line": 83,
               "Column": 32,
-              "Index": 577
+              "Index": 1242
             },
             "EndPos": {
-              "Line": 40,
+              "Line": 83,
               "Column": 33,
-              "Index": 578
+              "Index": 1243
             }
           },
           "Left": {
@@ -1123,14 +1555,14 @@
             "Identifier": "val",
             "Type": "infr",
             "StartPos": {
-              "Line": 40,
+              "Line": 83,
               "Column": 28,
-              "Index": 573
+              "Index": 1238
             },
             "EndPos": {
-              "Line": 40,
+              "Line": 83,
               "Column": 33,
-              "Index": 578
+              "Index": 1243
             }
           },
           "Right": {
@@ -1138,25 +1570,25 @@
             "Value": 2,
             "Type": "i8",
             "StartPos": {
-              "Line": 40,
+              "Line": 83,
               "Column": 34,
-              "Index": 579
+              "Index": 1244
             },
             "EndPos": {
-              "Line": 40,
+              "Line": 83,
               "Column": 38,
-              "Index": 583
+              "Index": 1248
             }
           },
           "StartPos": {
-            "Line": 40,
+            "Line": 83,
             "Column": 32,
-            "Index": 577
+            "Index": 1242
           },
           "EndPos": {
-            "Line": 40,
+            "Line": 83,
             "Column": 38,
-            "Index": 583
+            "Index": 1248
           }
         },
         "Right": {
@@ -1164,25 +1596,25 @@
           "Value": 0,
           "Type": "i8",
           "StartPos": {
-            "Line": 40,
+            "Line": 83,
             "Column": 39,
-            "Index": 584
+            "Index": 1249
           },
           "EndPos": {
-            "Line": 40,
-            "Column": 41,
-            "Index": 586
+            "Line": 83,
+            "Column": 42,
+            "Index": 1252
           }
         },
         "StartPos": {
-          "Line": 40,
+          "Line": 83,
           "Column": 36,
-          "Index": 581
+          "Index": 1246
         },
         "EndPos": {
-          "Line": 40,
-          "Column": 41,
-          "Index": 586
+          "Line": 83,
+          "Column": 42,
+          "Index": 1252
         }
       },
       "Block": {
@@ -1196,14 +1628,14 @@
                 "Kind": "!=",
                 "Value": "!=",
                 "StartPos": {
-                  "Line": 44,
+                  "Line": 87,
                   "Column": 16,
-                  "Index": 668
+                  "Index": 1334
                 },
                 "EndPos": {
-                  "Line": 44,
+                  "Line": 87,
                   "Column": 18,
-                  "Index": 670
+                  "Index": 1336
                 }
               },
               "Left": {
@@ -1212,14 +1644,14 @@
                   "Kind": "%",
                   "Value": "%",
                   "StartPos": {
-                    "Line": 44,
+                    "Line": 87,
                     "Column": 12,
-                    "Index": 664
+                    "Index": 1330
                   },
                   "EndPos": {
-                    "Line": 44,
+                    "Line": 87,
                     "Column": 13,
-                    "Index": 665
+                    "Index": 1331
                   }
                 },
                 "Left": {
@@ -1227,14 +1659,14 @@
                   "Identifier": "val",
                   "Type": "infr",
                   "StartPos": {
-                    "Line": 44,
+                    "Line": 87,
                     "Column": 8,
-                    "Index": 660
+                    "Index": 1326
                   },
                   "EndPos": {
-                    "Line": 44,
+                    "Line": 87,
                     "Column": 13,
-                    "Index": 665
+                    "Index": 1331
                   }
                 },
                 "Right": {
@@ -1242,25 +1674,25 @@
                   "Value": 2,
                   "Type": "i8",
                   "StartPos": {
-                    "Line": 44,
+                    "Line": 87,
                     "Column": 14,
-                    "Index": 666
+                    "Index": 1332
                   },
                   "EndPos": {
-                    "Line": 44,
+                    "Line": 87,
                     "Column": 18,
-                    "Index": 670
+                    "Index": 1336
                   }
                 },
                 "StartPos": {
-                  "Line": 44,
+                  "Line": 87,
                   "Column": 12,
-                  "Index": 664
+                  "Index": 1330
                 },
                 "EndPos": {
-                  "Line": 44,
+                  "Line": 87,
                   "Column": 18,
-                  "Index": 670
+                  "Index": 1336
                 }
               },
               "Right": {
@@ -1268,25 +1700,25 @@
                 "Value": 0,
                 "Type": "i8",
                 "StartPos": {
-                  "Line": 44,
+                  "Line": 87,
                   "Column": 19,
-                  "Index": 671
+                  "Index": 1337
                 },
                 "EndPos": {
-                  "Line": 44,
+                  "Line": 87,
                   "Column": 22,
-                  "Index": 674
+                  "Index": 1340
                 }
               },
               "StartPos": {
-                "Line": 44,
+                "Line": 87,
                 "Column": 16,
-                "Index": 668
+                "Index": 1334
               },
               "EndPos": {
-                "Line": 44,
+                "Line": 87,
                 "Column": 22,
-                "Index": 674
+                "Index": 1340
               }
             },
             "Block": {
@@ -1297,61 +1729,61 @@
                   "Identifier": "continue",
                   "Type": "infr",
                   "StartPos": {
-                    "Line": 45,
+                    "Line": 88,
                     "Column": 9,
-                    "Index": 684
+                    "Index": 1350
                   },
                   "EndPos": {
-                    "Line": 45,
+                    "Line": 88,
                     "Column": 18,
-                    "Index": 693
+                    "Index": 1359
                   }
                 }
               ],
               "StartPos": {
-                "Line": 44,
+                "Line": 87,
                 "Column": 21,
-                "Index": 673
+                "Index": 1339
               },
               "EndPos": {
-                "Line": 46,
+                "Line": 89,
                 "Column": 6,
-                "Index": 700
+                "Index": 1366
               }
             },
             "Alternate": null,
             "StartPos": {
-              "Line": 44,
+              "Line": 87,
               "Column": 5,
-              "Index": 657
+              "Index": 1323
             },
             "EndPos": {
-              "Line": 46,
+              "Line": 89,
               "Column": 6,
-              "Index": 700
+              "Index": 1366
             }
           }
         ],
         "StartPos": {
-          "Line": 40,
-          "Column": 40,
-          "Index": 585
+          "Line": 83,
+          "Column": 41,
+          "Index": 1251
         },
         "EndPos": {
-          "Line": 47,
+          "Line": 90,
           "Column": 2,
-          "Index": 703
+          "Index": 1369
         }
       },
       "StartPos": {
-        "Line": 40,
+        "Line": 83,
         "Column": 1,
-        "Index": 546
+        "Index": 1211
       },
       "EndPos": {
-        "Line": 47,
+        "Line": 90,
         "Column": 2,
-        "Index": 703
+        "Index": 1369
       }
     },
     {
@@ -1385,14 +1817,14 @@
                 "Kind": "*",
                 "Value": "*",
                 "StartPos": {
-                  "Line": 51,
+                  "Line": 94,
                   "Column": 11,
-                  "Index": 749
+                  "Index": 1415
                 },
                 "EndPos": {
-                  "Line": 51,
+                  "Line": 94,
                   "Column": 12,
-                  "Index": 750
+                  "Index": 1416
                 }
               },
               "Left": {
@@ -1400,14 +1832,14 @@
                 "Identifier": "a",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 51,
+                  "Line": 94,
                   "Column": 9,
-                  "Index": 747
+                  "Index": 1413
                 },
                 "EndPos": {
-                  "Line": 51,
+                  "Line": 94,
                   "Column": 12,
-                  "Index": 750
+                  "Index": 1416
                 }
               },
               "Right": {
@@ -1415,59 +1847,59 @@
                 "Identifier": "b",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 51,
+                  "Line": 94,
                   "Column": 13,
-                  "Index": 751
+                  "Index": 1417
                 },
                 "EndPos": {
-                  "Line": 51,
+                  "Line": 94,
                   "Column": 15,
-                  "Index": 753
+                  "Index": 1419
                 }
               },
               "StartPos": {
-                "Line": 51,
+                "Line": 94,
                 "Column": 11,
-                "Index": 749
+                "Index": 1415
               },
               "EndPos": {
-                "Line": 51,
+                "Line": 94,
                 "Column": 15,
-                "Index": 753
+                "Index": 1419
               }
             },
             "StartPos": {
-              "Line": 51,
+              "Line": 94,
               "Column": 5,
-              "Index": 743
+              "Index": 1409
             },
             "EndPos": {
-              "Line": 51,
+              "Line": 94,
               "Column": 15,
-              "Index": 753
+              "Index": 1419
             }
           }
         ],
         "StartPos": {
-          "Line": 50,
+          "Line": 93,
           "Column": 28,
-          "Index": 736
+          "Index": 1402
         },
         "EndPos": {
-          "Line": 52,
+          "Line": 95,
           "Column": 2,
-          "Index": 756
+          "Index": 1422
         }
       },
       "StartPos": {
-        "Line": 50,
+        "Line": 93,
         "Column": 1,
-        "Index": 709
+        "Index": 1375
       },
       "EndPos": {
-        "Line": 52,
+        "Line": 95,
         "Column": 2,
-        "Index": 756
+        "Index": 1422
       }
     },
     {
@@ -1497,14 +1929,14 @@
                 "Identifier": "mul",
                 "Type": "infr",
                 "StartPos": {
-                  "Line": 55,
+                  "Line": 98,
                   "Column": 9,
-                  "Index": 794
+                  "Index": 1460
                 },
                 "EndPos": {
-                  "Line": 55,
+                  "Line": 98,
                   "Column": 13,
-                  "Index": 798
+                  "Index": 1464
                 }
               },
               "Args": [
@@ -1513,14 +1945,14 @@
                   "Identifier": "a",
                   "Type": "infr",
                   "StartPos": {
-                    "Line": 55,
+                    "Line": 98,
                     "Column": 13,
-                    "Index": 798
+                    "Index": 1464
                   },
                   "EndPos": {
-                    "Line": 55,
+                    "Line": 98,
                     "Column": 15,
-                    "Index": 800
+                    "Index": 1466
                   }
                 },
                 {
@@ -1528,60 +1960,60 @@
                   "Identifier": "a",
                   "Type": "infr",
                   "StartPos": {
-                    "Line": 55,
+                    "Line": 98,
                     "Column": 16,
-                    "Index": 801
+                    "Index": 1467
                   },
                   "EndPos": {
-                    "Line": 55,
+                    "Line": 98,
                     "Column": 18,
-                    "Index": 803
+                    "Index": 1469
                   }
                 }
               ],
               "StartPos": {
-                "Line": 55,
+                "Line": 98,
                 "Column": 12,
-                "Index": 797
+                "Index": 1463
               },
               "EndPos": {
-                "Line": 55,
+                "Line": 98,
                 "Column": 18,
-                "Index": 803
+                "Index": 1469
               }
             },
             "StartPos": {
-              "Line": 55,
+              "Line": 98,
               "Column": 5,
-              "Index": 790
+              "Index": 1456
             },
             "EndPos": {
-              "Line": 55,
+              "Line": 98,
               "Column": 19,
-              "Index": 804
+              "Index": 1470
             }
           }
         ],
         "StartPos": {
-          "Line": 54,
+          "Line": 97,
           "Column": 24,
-          "Index": 783
+          "Index": 1449
         },
         "EndPos": {
-          "Line": 56,
+          "Line": 99,
           "Column": 2,
-          "Index": 807
+          "Index": 1473
         }
       },
       "StartPos": {
-        "Line": 54,
+        "Line": 97,
         "Column": 1,
-        "Index": 760
+        "Index": 1426
       },
       "EndPos": {
-        "Line": 56,
+        "Line": 99,
         "Column": 2,
-        "Index": 807
+        "Index": 1473
       }
     },
     {
@@ -1591,14 +2023,14 @@
         "Identifier": "square",
         "Type": "infr",
         "StartPos": {
-          "Line": 58,
+          "Line": 101,
           "Column": 1,
-          "Index": 811
+          "Index": 1477
         },
         "EndPos": {
-          "Line": 58,
+          "Line": 101,
           "Column": 8,
-          "Index": 818
+          "Index": 1484
         }
       },
       "Args": [
@@ -1607,26 +2039,26 @@
           "Value": 5,
           "Type": "i8",
           "StartPos": {
-            "Line": 58,
+            "Line": 101,
             "Column": 8,
-            "Index": 818
+            "Index": 1484
           },
           "EndPos": {
-            "Line": 58,
+            "Line": 101,
             "Column": 10,
-            "Index": 820
+            "Index": 1486
           }
         }
       ],
       "StartPos": {
-        "Line": 58,
+        "Line": 101,
         "Column": 7,
-        "Index": 817
+        "Index": 1483
       },
       "EndPos": {
-        "Line": 58,
+        "Line": 101,
         "Column": 10,
-        "Index": 820
+        "Index": 1486
       }
     }
   ],
@@ -1636,8 +2068,8 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 58,
+    "Line": 101,
     "Column": 11,
-    "Index": 821
+    "Index": 1487
   }
 }

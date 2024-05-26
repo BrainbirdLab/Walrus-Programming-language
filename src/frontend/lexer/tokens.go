@@ -95,6 +95,8 @@ const (
 
 	// Other
 	STRUCT   				= "struct"
+	COMPOSE  				= "compose"
+	IMPLEMENT 				= "implement"
 	STATIC   				= "static"
 	ACCESS   				= "access modifier"
 	READONLY 				= "readonly"
@@ -102,32 +104,34 @@ const (
 
 // Reserved keywords
 var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
-	"let":      LET,
-	"const":    CONST,
-	"new":      NEW,
-	"mod":   	MODULE,
-	"import":   IMPORT,
-	"from":     FROM,
-	"fn":       FUNCTION,
-	"if":       IF,
-	"elf":      ELSEIF,
-	"els":      ELSE,
-	"foreach":  FOREACH,
-	"where":    WHERE,
-	"while":    WHILE,
-	"for":      FOR,
-	"export":   EXPORT,
-	"typeof":   TYPEOF,
-	"in":       IN,
-	"null":     NULL,
-	"true":     TRUE,
-	"false":    FALSE,
-	"struct":   STRUCT,
-	"static":   STATIC,
-	"pub":      ACCESS,
-	"priv":     ACCESS,
-	"readonly": READONLY,
-	"ret":      RETURN,
+	"let":      	LET,
+	"const":    	CONST,
+	"new":      	NEW,
+	"mod":   		MODULE,
+	"import":   	IMPORT,
+	"from":     	FROM,
+	"fn":       	FUNCTION,
+	"if":       	IF,
+	"elf":      	ELSEIF,
+	"els":      	ELSE,
+	"foreach":  	FOREACH,
+	"where":    	WHERE,
+	"while":    	WHILE,
+	"for":      	FOR,
+	"export":   	EXPORT,
+	"typeof":   	TYPEOF,
+	"in":       	IN,
+	"null":     	NULL,
+	"true":     	TRUE,
+	"false":    	FALSE,
+	"struct":   	STRUCT,
+	"compose":  	COMPOSE,
+	"impl":			IMPLEMENT,
+	"static":   	STATIC,
+	"pub":      	ACCESS,
+	"priv":     	ACCESS,
+	"readonly": 	READONLY,
+	"ret":      	RETURN,
 }
 
 func IsKeyword(tokenKind TOKEN_KIND) bool {

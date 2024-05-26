@@ -63,6 +63,7 @@ func stmt(kind lexer.TOKEN_KIND, stmt_fn statementHandler) {
 	stmtLookup[kind] = stmt_fn
 }
 
+
 func createTokenLookups() {
 
 	//literals & Identifiers
@@ -128,6 +129,7 @@ func createTokenLookups() {
 	stmt(lexer.IMPORT, parse_import_stmt)
 	stmt(lexer.IF, parse_if_statement)
 	stmt(lexer.STRUCT, parse_struct_decl_stmt)
+	stmt(lexer.IMPLEMENT, parse_implement_stmt)
 	stmt(lexer.OPEN_CURLY, parse_block)
 
 	//loops

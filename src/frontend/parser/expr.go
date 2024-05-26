@@ -140,7 +140,7 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 		tokenKind = p.currentTokenKind()
 
-		led_fn, exists := ledLookup[tokenKind]
+		led_fn, exists := ledLookup[tokenKind] 
 
 		if !exists {
 			msg := fmt.Sprintf("LED handler expected for token %s\n", tokenKind)

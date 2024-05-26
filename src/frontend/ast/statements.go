@@ -8,6 +8,7 @@ type ModuleStmt struct {
 	StartPos   lexer.Position
 	EndPos     lexer.Position
 }
+
 func (m ModuleStmt) node() {} // implements the Statement interface
 func (m ModuleStmt) GetPos() (lexer.Position, lexer.Position) {
 	return m.StartPos, m.EndPos
@@ -15,11 +16,11 @@ func (m ModuleStmt) GetPos() (lexer.Position, lexer.Position) {
 func (m ModuleStmt) _statement() {}
 
 type ImportStmt struct {
-	Kind       	NODE_TYPE
-	ModuleName	string
+	Kind        NODE_TYPE
+	ModuleName  string
 	Identifiers []string
-	StartPos   	lexer.Position
-	EndPos     	lexer.Position
+	StartPos    lexer.Position
+	EndPos      lexer.Position
 }
 
 func (i ImportStmt) node() {} // implements the Statement interface
@@ -101,14 +102,6 @@ func (r ReturnStmt) GetPos() (lexer.Position, lexer.Position) {
 }
 func (r ReturnStmt) _statement() {}
 
-
-
-
-
-
-
-
-
 type StructProperty struct {
 	IsStatic bool
 	IsPublic bool
@@ -119,9 +112,11 @@ type StructProperty struct {
 }
 
 type StructMethod struct {
+	ParentName string
 	IsStatic   bool
 	IsPublic   bool
 	Parameters map[string]Type
+	Block      BlockStmt
 	ReturnType Type
 	StartPos   lexer.Position
 	EndPos     lexer.Position
@@ -132,16 +127,30 @@ type StructDeclStatement struct {
 	StructName string
 	Properties map[string]StructProperty
 	Methods    map[string]StructMethod
+	ComposedOf []string
 	StartPos   lexer.Position
 	EndPos     lexer.Position
 }
+
 func (s StructDeclStatement) node() {}
 func (s StructDeclStatement) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
 func (s StructDeclStatement) _statement() {}
 
+type StructImplementStatement struct {
+	Kind       NODE_TYPE
+	StructName string
+	Methods    map[string]StructMethod
+	StartPos   lexer.Position
+	EndPos     lexer.Position
+}
 
+func (s StructImplementStatement) node() {}
+func (s StructImplementStatement) GetPos() (lexer.Position, lexer.Position) {
+	return s.StartPos, s.EndPos
+}
+func (s StructImplementStatement) _statement() {}
 
 type IfStmt struct {
 	Kind      NODE_TYPE
@@ -159,15 +168,16 @@ func (i IfStmt) GetPos() (lexer.Position, lexer.Position) {
 func (i IfStmt) _statement() {}
 
 type ForStmt struct {
-	Kind       NODE_TYPE
-	Variable   string
-	Init       Expression
-	Condition  Expression
-	Post	   Expression
-	Block      BlockStmt
-	StartPos   lexer.Position
-	EndPos     lexer.Position
+	Kind      NODE_TYPE
+	Variable  string
+	Init      Expression
+	Condition Expression
+	Post      Expression
+	Block     BlockStmt
+	StartPos  lexer.Position
+	EndPos    lexer.Position
 }
+
 func (f ForStmt) node() {}
 func (f ForStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
@@ -175,15 +185,16 @@ func (f ForStmt) GetPos() (lexer.Position, lexer.Position) {
 func (f ForStmt) _statement() {}
 
 type ForeachStmt struct {
-	Kind       		NODE_TYPE
-	Variable   		string
-	IndexVariable 	string
-	Iterable   		Expression
-	WhereClause 	Expression
-	Block      		BlockStmt
-	StartPos   		lexer.Position
-	EndPos     		lexer.Position
+	Kind          NODE_TYPE
+	Variable      string
+	IndexVariable string
+	Iterable      Expression
+	WhereClause   Expression
+	Block         BlockStmt
+	StartPos      lexer.Position
+	EndPos        lexer.Position
 }
+
 func (f ForeachStmt) node() {}
 func (f ForeachStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
