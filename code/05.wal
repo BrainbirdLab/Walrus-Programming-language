@@ -3,7 +3,7 @@ mod main;
 import "core:fmt";
 import { readFile, writeFile } from "core:io";
 
-import "array.wal";
+import "code:array";
 
 const x : i8 = 5;
 let a := 2;
