@@ -20,7 +20,7 @@ if a == 4 {
 
 struct Person {
     pub name: str;
-    pub readonly age: i8; // readonly field. Can't be changed after initialization
+    pub age: i8;
 }
 
 impl Person {
@@ -32,13 +32,18 @@ impl Person {
     }
 }
 
+struct Hero{
+    embed Person;
+    pub readonly HeroName: str; // readonly field. Cannot be changed after initialization
+}
+
 // A trait is a collection of methods that can be implemented by any type.
 trait SuperPower {
     fn fly();
     fn invisibility();
 }
 // Implementing the trait for the struct
-impl SuperPower for Person {
+impl SuperPower for Hero {
     fn fly() {
         print("Flying");
     }
@@ -48,20 +53,11 @@ impl SuperPower for Person {
 }
 
 
-struct Boss{
-    // Embedding the Person struct in the Boss struct. 
-    // All fields and methods of Person are now available in Boss
-    embed Person;
-    pub readonly salary: i32;
-}
+let p : Hero = Hero {name: "Bruce", age: 30, HeroName: "Batman"};
 
-let p : Person = Person { name: "John", age: 23 };
-
-p.age = 24;
 p.walk();
 p.talk();
-
-
+p.fly();
 
 
 for i := 0; i < 10; ++i {

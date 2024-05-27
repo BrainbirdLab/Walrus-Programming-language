@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 96,
+    "Line": 92,
     "Column": 11,
-    "Index": 1571
+    "Index": 1447
   },
   "FileName": "./../code/05.wal",
   "ModuleName": "main",
@@ -585,7 +585,7 @@
       "EndPos": {
         "Line": 24,
         "Column": 2,
-        "Index": 374
+        "Index": 308
       },
       "StructName": "Person",
       "Properties": {
@@ -603,7 +603,7 @@
           },
           "IsStatic": false,
           "IsPublic": true,
-          "ReadOnly": true,
+          "ReadOnly": false,
           "Type": {
             "Kind": "INTEGER",
             "BitSize": 8,
@@ -638,12 +638,12 @@
       "StartPos": {
         "Line": 26,
         "Column": 1,
-        "Index": 378
+        "Index": 312
       },
       "EndPos": {
         "Line": 33,
         "Column": 2,
-        "Index": 496
+        "Index": 430
       },
       "Impliments": {
         "Kind": "TRAIT",
@@ -659,12 +659,12 @@
           "StartPos": {
             "Line": 30,
             "Column": 5,
-            "Index": 448
+            "Index": 382
           },
           "EndPos": {
             "Line": 32,
             "Column": 6,
-            "Index": 493
+            "Index": 427
           },
           "FunctionName": "talk",
           "Parameters": {},
@@ -676,12 +676,12 @@
             "StartPos": {
               "Line": 30,
               "Column": 15,
-              "Index": 458
+              "Index": 392
             },
             "EndPos": {
               "Line": 32,
               "Column": 6,
-              "Index": 493
+              "Index": 427
             },
             "Body": [
               {
@@ -689,24 +689,24 @@
                 "StartPos": {
                   "Line": 31,
                   "Column": 14,
-                  "Index": 474
+                  "Index": 408
                 },
                 "EndPos": {
                   "Line": 31,
                   "Column": 25,
-                  "Index": 485
+                  "Index": 419
                 },
                 "Function": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
                     "Line": 31,
                     "Column": 9,
-                    "Index": 469
+                    "Index": 403
                   },
                   "EndPos": {
                     "Line": 31,
                     "Column": 14,
-                    "Index": 474
+                    "Index": 408
                   },
                   "Identifier": "print",
                   "Type": "infr"
@@ -717,12 +717,12 @@
                     "StartPos": {
                       "Line": 31,
                       "Column": 15,
-                      "Index": 475
+                      "Index": 409
                     },
                     "EndPos": {
                       "Line": 31,
                       "Column": 24,
-                      "Index": 484
+                      "Index": 418
                     },
                     "Value": "Talking",
                     "Type": "str"
@@ -740,12 +740,12 @@
           "StartPos": {
             "Line": 27,
             "Column": 5,
-            "Index": 397
+            "Index": 331
           },
           "EndPos": {
             "Line": 29,
             "Column": 6,
-            "Index": 442
+            "Index": 376
           },
           "FunctionName": "walk",
           "Parameters": {},
@@ -757,12 +757,12 @@
             "StartPos": {
               "Line": 27,
               "Column": 15,
-              "Index": 407
+              "Index": 341
             },
             "EndPos": {
               "Line": 29,
               "Column": 6,
-              "Index": 442
+              "Index": 376
             },
             "Body": [
               {
@@ -770,24 +770,24 @@
                 "StartPos": {
                   "Line": 28,
                   "Column": 14,
-                  "Index": 423
+                  "Index": 357
                 },
                 "EndPos": {
                   "Line": 28,
                   "Column": 25,
-                  "Index": 434
+                  "Index": 368
                 },
                 "Function": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
                     "Line": 28,
                     "Column": 9,
-                    "Index": 418
+                    "Index": 352
                   },
                   "EndPos": {
                     "Line": 28,
                     "Column": 14,
-                    "Index": 423
+                    "Index": 357
                   },
                   "Identifier": "print",
                   "Type": "infr"
@@ -798,12 +798,12 @@
                     "StartPos": {
                       "Line": 28,
                       "Column": 15,
-                      "Index": 424
+                      "Index": 358
                     },
                     "EndPos": {
                       "Line": 28,
                       "Column": 24,
-                      "Index": 433
+                      "Index": 367
                     },
                     "Value": "Walking",
                     "Type": "str"
@@ -819,257 +819,20 @@
       }
     },
     {
-      "Kind": "TRAIT_STATEMENT",
-      "StartPos": {
-        "Line": 36,
-        "Column": 1,
-        "Index": 576
-      },
-      "EndPos": {
-        "Line": 39,
-        "Column": 2,
-        "Index": 636
-      },
-      "TraitName": "SuperPower",
-      "Methods": {
-        "fly": {
-          "Kind": "FN_PROTOTYPE_STATEMENT",
-          "StartPos": {
-            "Line": 37,
-            "Column": 5,
-            "Index": 600
-          },
-          "EndPos": {
-            "Line": 37,
-            "Column": 14,
-            "Index": 609
-          },
-          "FunctionName": "",
-          "Parameters": null,
-          "ReturnType": null,
-          "IsStatic": false,
-          "IsPublic": false
-        },
-        "invisibility": {
-          "Kind": "FN_PROTOTYPE_STATEMENT",
-          "StartPos": {
-            "Line": 38,
-            "Column": 5,
-            "Index": 615
-          },
-          "EndPos": {
-            "Line": 38,
-            "Column": 23,
-            "Index": 633
-          },
-          "FunctionName": "",
-          "Parameters": null,
-          "ReturnType": null,
-          "IsStatic": false,
-          "IsPublic": false
-        }
-      }
-    },
-    {
-      "Kind": "IMPLEMENTS_STATEMENT",
-      "StartPos": {
-        "Line": 41,
-        "Column": 1,
-        "Index": 680
-      },
-      "EndPos": {
-        "Line": 48,
-        "Column": 2,
-        "Index": 821
-      },
-      "Impliments": {
-        "Kind": "TRAIT",
-        "Name": "SuperPower",
-        "For": {
-          "Kind": "STRUCT",
-          "Name": "Person"
-        }
-      },
-      "Methods": {
-        "fly": {
-          "Kind": "FN_DECLARATION_STATEMENT",
-          "StartPos": {
-            "Line": 42,
-            "Column": 5,
-            "Index": 714
-          },
-          "EndPos": {
-            "Line": 44,
-            "Column": 6,
-            "Index": 757
-          },
-          "FunctionName": "fly",
-          "Parameters": {},
-          "ReturnType": {
-            "Kind": ""
-          },
-          "Block": {
-            "Kind": "BLOCK_STATEMENT",
-            "StartPos": {
-              "Line": 42,
-              "Column": 14,
-              "Index": 723
-            },
-            "EndPos": {
-              "Line": 44,
-              "Column": 6,
-              "Index": 757
-            },
-            "Body": [
-              {
-                "Kind": "FUNCTION_CALL_EXPRESSION",
-                "StartPos": {
-                  "Line": 43,
-                  "Column": 14,
-                  "Index": 739
-                },
-                "EndPos": {
-                  "Line": 43,
-                  "Column": 24,
-                  "Index": 749
-                },
-                "Function": {
-                  "Kind": "IDENTIFIER",
-                  "StartPos": {
-                    "Line": 43,
-                    "Column": 9,
-                    "Index": 734
-                  },
-                  "EndPos": {
-                    "Line": 43,
-                    "Column": 14,
-                    "Index": 739
-                  },
-                  "Identifier": "print",
-                  "Type": "infr"
-                },
-                "Args": [
-                  {
-                    "Kind": "STRING_LITERAL",
-                    "StartPos": {
-                      "Line": 43,
-                      "Column": 15,
-                      "Index": 740
-                    },
-                    "EndPos": {
-                      "Line": 43,
-                      "Column": 23,
-                      "Index": 748
-                    },
-                    "Value": "Flying",
-                    "Type": "str"
-                  }
-                ]
-              }
-            ]
-          },
-          "StructName": "Person",
-          "IsPublic": false,
-          "IsStatic": false
-        },
-        "invisibility": {
-          "Kind": "FN_DECLARATION_STATEMENT",
-          "StartPos": {
-            "Line": 45,
-            "Column": 5,
-            "Index": 763
-          },
-          "EndPos": {
-            "Line": 47,
-            "Column": 6,
-            "Index": 818
-          },
-          "FunctionName": "invisibility",
-          "Parameters": {},
-          "ReturnType": {
-            "Kind": ""
-          },
-          "Block": {
-            "Kind": "BLOCK_STATEMENT",
-            "StartPos": {
-              "Line": 45,
-              "Column": 23,
-              "Index": 781
-            },
-            "EndPos": {
-              "Line": 47,
-              "Column": 6,
-              "Index": 818
-            },
-            "Body": [
-              {
-                "Kind": "FUNCTION_CALL_EXPRESSION",
-                "StartPos": {
-                  "Line": 46,
-                  "Column": 14,
-                  "Index": 797
-                },
-                "EndPos": {
-                  "Line": 46,
-                  "Column": 27,
-                  "Index": 810
-                },
-                "Function": {
-                  "Kind": "IDENTIFIER",
-                  "StartPos": {
-                    "Line": 46,
-                    "Column": 9,
-                    "Index": 792
-                  },
-                  "EndPos": {
-                    "Line": 46,
-                    "Column": 14,
-                    "Index": 797
-                  },
-                  "Identifier": "print",
-                  "Type": "infr"
-                },
-                "Args": [
-                  {
-                    "Kind": "STRING_LITERAL",
-                    "StartPos": {
-                      "Line": 46,
-                      "Column": 15,
-                      "Index": 798
-                    },
-                    "EndPos": {
-                      "Line": 46,
-                      "Column": 26,
-                      "Index": 809
-                    },
-                    "Value": "Invisible",
-                    "Type": "str"
-                  }
-                ]
-              }
-            ]
-          },
-          "StructName": "Person",
-          "IsPublic": false,
-          "IsStatic": false
-        }
-      }
-    },
-    {
       "Kind": "STRUCT_STATEMENT",
       "StartPos": {
-        "Line": 51,
+        "Line": 35,
         "Column": 1,
-        "Index": 827
+        "Index": 434
       },
       "EndPos": {
-        "Line": 56,
+        "Line": 38,
         "Column": 2,
-        "Index": 1016
+        "Index": 559
       },
-      "StructName": "Boss",
+      "StructName": "Hero",
       "Properties": {
-        "salary": {
+        "HeroName": {
           "Kind": "",
           "StartPos": {
             "Line": 0,
@@ -1085,9 +848,7 @@
           "IsPublic": true,
           "ReadOnly": true,
           "Type": {
-            "Kind": "INTEGER",
-            "BitSize": 32,
-            "IsSigned": true
+            "Kind": "STRING"
           }
         }
       },
@@ -1097,61 +858,313 @@
       ]
     },
     {
-      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "Kind": "TRAIT_STATEMENT",
       "StartPos": {
-        "Line": 58,
+        "Line": 41,
         "Column": 1,
-        "Index": 1020
+        "Index": 639
       },
       "EndPos": {
-        "Line": 58,
-        "Column": 51,
-        "Index": 1070
+        "Line": 44,
+        "Column": 2,
+        "Index": 699
+      },
+      "TraitName": "SuperPower",
+      "Methods": {
+        "fly": {
+          "Kind": "FN_PROTOTYPE_STATEMENT",
+          "StartPos": {
+            "Line": 42,
+            "Column": 5,
+            "Index": 663
+          },
+          "EndPos": {
+            "Line": 42,
+            "Column": 14,
+            "Index": 672
+          },
+          "FunctionName": "",
+          "Parameters": null,
+          "ReturnType": null,
+          "IsStatic": false,
+          "IsPublic": false
+        },
+        "invisibility": {
+          "Kind": "FN_PROTOTYPE_STATEMENT",
+          "StartPos": {
+            "Line": 43,
+            "Column": 5,
+            "Index": 678
+          },
+          "EndPos": {
+            "Line": 43,
+            "Column": 23,
+            "Index": 696
+          },
+          "FunctionName": "",
+          "Parameters": null,
+          "ReturnType": null,
+          "IsStatic": false,
+          "IsPublic": false
+        }
+      }
+    },
+    {
+      "Kind": "IMPLEMENTS_STATEMENT",
+      "StartPos": {
+        "Line": 46,
+        "Column": 1,
+        "Index": 743
+      },
+      "EndPos": {
+        "Line": 53,
+        "Column": 2,
+        "Index": 882
+      },
+      "Impliments": {
+        "Kind": "TRAIT",
+        "Name": "SuperPower",
+        "For": {
+          "Kind": "STRUCT",
+          "Name": "Hero"
+        }
+      },
+      "Methods": {
+        "fly": {
+          "Kind": "FN_DECLARATION_STATEMENT",
+          "StartPos": {
+            "Line": 47,
+            "Column": 5,
+            "Index": 775
+          },
+          "EndPos": {
+            "Line": 49,
+            "Column": 6,
+            "Index": 818
+          },
+          "FunctionName": "fly",
+          "Parameters": {},
+          "ReturnType": {
+            "Kind": ""
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 47,
+              "Column": 14,
+              "Index": 784
+            },
+            "EndPos": {
+              "Line": 49,
+              "Column": 6,
+              "Index": 818
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 48,
+                  "Column": 14,
+                  "Index": 800
+                },
+                "EndPos": {
+                  "Line": 48,
+                  "Column": 24,
+                  "Index": 810
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 48,
+                    "Column": 9,
+                    "Index": 795
+                  },
+                  "EndPos": {
+                    "Line": 48,
+                    "Column": 14,
+                    "Index": 800
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 48,
+                      "Column": 15,
+                      "Index": 801
+                    },
+                    "EndPos": {
+                      "Line": 48,
+                      "Column": 23,
+                      "Index": 809
+                    },
+                    "Value": "Flying",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "StructName": "Hero",
+          "IsPublic": false,
+          "IsStatic": false
+        },
+        "invisibility": {
+          "Kind": "FN_DECLARATION_STATEMENT",
+          "StartPos": {
+            "Line": 50,
+            "Column": 5,
+            "Index": 824
+          },
+          "EndPos": {
+            "Line": 52,
+            "Column": 6,
+            "Index": 879
+          },
+          "FunctionName": "invisibility",
+          "Parameters": {},
+          "ReturnType": {
+            "Kind": ""
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 50,
+              "Column": 23,
+              "Index": 842
+            },
+            "EndPos": {
+              "Line": 52,
+              "Column": 6,
+              "Index": 879
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 51,
+                  "Column": 14,
+                  "Index": 858
+                },
+                "EndPos": {
+                  "Line": 51,
+                  "Column": 27,
+                  "Index": 871
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 51,
+                    "Column": 9,
+                    "Index": 853
+                  },
+                  "EndPos": {
+                    "Line": 51,
+                    "Column": 14,
+                    "Index": 858
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 51,
+                      "Column": 15,
+                      "Index": 859
+                    },
+                    "EndPos": {
+                      "Line": 51,
+                      "Column": 26,
+                      "Index": 870
+                    },
+                    "Value": "Invisible",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "StructName": "Hero",
+          "IsPublic": false,
+          "IsStatic": false
+        }
+      }
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 56,
+        "Column": 1,
+        "Index": 888
+      },
+      "EndPos": {
+        "Line": 56,
+        "Column": 66,
+        "Index": 953
       },
       "IsConstant": false,
       "Identifier": "p",
       "Value": {
         "Kind": "STRUCT_LITERAL",
         "StartPos": {
-          "Line": 58,
-          "Column": 25,
-          "Index": 1044
+          "Line": 56,
+          "Column": 21,
+          "Index": 908
         },
         "EndPos": {
-          "Line": 58,
-          "Column": 50,
-          "Index": 1069
+          "Line": 56,
+          "Column": 65,
+          "Index": 952
         },
-        "StructName": "Person",
+        "StructName": "Hero",
         "Properties": {
+          "HeroName": {
+            "Kind": "STRING_LITERAL",
+            "StartPos": {
+              "Line": 56,
+              "Column": 56,
+              "Index": 943
+            },
+            "EndPos": {
+              "Line": 56,
+              "Column": 64,
+              "Index": 951
+            },
+            "Value": "Batman",
+            "Type": "str"
+          },
           "age": {
             "Kind": "NUMERIC_LITERAL",
             "StartPos": {
-              "Line": 58,
-              "Column": 46,
-              "Index": 1065
+              "Line": 56,
+              "Column": 42,
+              "Index": 929
             },
             "EndPos": {
-              "Line": 58,
-              "Column": 48,
-              "Index": 1067
+              "Line": 56,
+              "Column": 44,
+              "Index": 931
             },
-            "Value": 23,
+            "Value": 30,
             "Type": "i8"
           },
           "name": {
             "Kind": "STRING_LITERAL",
             "StartPos": {
-              "Line": 58,
-              "Column": 33,
-              "Index": 1052
+              "Line": 56,
+              "Column": 28,
+              "Index": 915
             },
             "EndPos": {
-              "Line": 58,
-              "Column": 39,
-              "Index": 1058
+              "Line": 56,
+              "Column": 35,
+              "Index": 922
             },
-            "Value": "John",
+            "Value": "Bruce",
             "Type": "str"
           }
         },
@@ -1159,101 +1172,44 @@
       },
       "ExplicitType": {
         "Kind": "USER_DEFINED",
-        "Name": "Person"
-      }
-    },
-    {
-      "Kind": "ASSIGNMENT_EXPRESSION",
-      "StartPos": {
-        "Line": 60,
-        "Column": 7,
-        "Index": 1080
-      },
-      "EndPos": {
-        "Line": 60,
-        "Column": 11,
-        "Index": 1084
-      },
-      "Assigne": {
-        "Kind": "IDENTIFIER",
-        "StartPos": {
-          "Line": 60,
-          "Column": 3,
-          "Index": 1076
-        },
-        "EndPos": {
-          "Line": 60,
-          "Column": 6,
-          "Index": 1079
-        },
-        "Identifier": "age",
-        "Type": "infr"
-      },
-      "Value": {
-        "Kind": "NUMERIC_LITERAL",
-        "StartPos": {
-          "Line": 60,
-          "Column": 9,
-          "Index": 1082
-        },
-        "EndPos": {
-          "Line": 60,
-          "Column": 11,
-          "Index": 1084
-        },
-        "Value": 24,
-        "Type": "i8"
-      },
-      "Operator": {
-        "Kind": "=",
-        "Value": "=",
-        "StartPos": {
-          "Line": 60,
-          "Column": 7,
-          "Index": 1080
-        },
-        "EndPos": {
-          "Line": 60,
-          "Column": 8,
-          "Index": 1081
-        }
+        "Name": "Hero"
       }
     },
     {
       "Kind": "FUNCTION_CALL_EXPRESSION",
       "StartPos": {
-        "Line": 61,
+        "Line": 58,
         "Column": 7,
-        "Index": 1093
+        "Index": 963
       },
       "EndPos": {
-        "Line": 61,
+        "Line": 58,
         "Column": 9,
-        "Index": 1095
+        "Index": 965
       },
       "Function": {
         "Kind": "STRUCT_PROPERTY",
         "StartPos": {
-          "Line": 61,
+          "Line": 58,
           "Column": 3,
-          "Index": 1089
+          "Index": 959
         },
         "EndPos": {
-          "Line": 61,
+          "Line": 58,
           "Column": 7,
-          "Index": 1093
+          "Index": 963
         },
         "Object": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 61,
+            "Line": 58,
             "Column": 1,
-            "Index": 1087
+            "Index": 957
           },
           "EndPos": {
-            "Line": 61,
+            "Line": 58,
             "Column": 2,
-            "Index": 1088
+            "Index": 958
           },
           "Identifier": "p",
           "Type": "infr"
@@ -1261,14 +1217,14 @@
         "Property": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 61,
+            "Line": 58,
             "Column": 3,
-            "Index": 1089
+            "Index": 959
           },
           "EndPos": {
-            "Line": 61,
+            "Line": 58,
             "Column": 7,
-            "Index": 1093
+            "Index": 963
           },
           "Identifier": "walk",
           "Type": "infr"
@@ -1279,38 +1235,38 @@
     {
       "Kind": "FUNCTION_CALL_EXPRESSION",
       "StartPos": {
-        "Line": 62,
+        "Line": 59,
         "Column": 7,
-        "Index": 1104
+        "Index": 974
       },
       "EndPos": {
-        "Line": 62,
+        "Line": 59,
         "Column": 9,
-        "Index": 1106
+        "Index": 976
       },
       "Function": {
         "Kind": "STRUCT_PROPERTY",
         "StartPos": {
-          "Line": 62,
+          "Line": 59,
           "Column": 3,
-          "Index": 1100
+          "Index": 970
         },
         "EndPos": {
-          "Line": 62,
+          "Line": 59,
           "Column": 7,
-          "Index": 1104
+          "Index": 974
         },
         "Object": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 62,
+            "Line": 59,
             "Column": 1,
-            "Index": 1098
+            "Index": 968
           },
           "EndPos": {
-            "Line": 62,
+            "Line": 59,
             "Column": 2,
-            "Index": 1099
+            "Index": 969
           },
           "Identifier": "p",
           "Type": "infr"
@@ -1318,14 +1274,14 @@
         "Property": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 62,
+            "Line": 59,
             "Column": 3,
-            "Index": 1100
+            "Index": 970
           },
           "EndPos": {
-            "Line": 62,
+            "Line": 59,
             "Column": 7,
-            "Index": 1104
+            "Index": 974
           },
           "Identifier": "talk",
           "Type": "infr"
@@ -1334,29 +1290,86 @@
       "Args": null
     },
     {
-      "Kind": "FOR_LOOP_STATEMENT",
+      "Kind": "FUNCTION_CALL_EXPRESSION",
       "StartPos": {
-        "Line": 67,
-        "Column": 1,
-        "Index": 1117
+        "Line": 60,
+        "Column": 6,
+        "Index": 984
       },
       "EndPos": {
-        "Line": 69,
+        "Line": 60,
+        "Column": 8,
+        "Index": 986
+      },
+      "Function": {
+        "Kind": "STRUCT_PROPERTY",
+        "StartPos": {
+          "Line": 60,
+          "Column": 3,
+          "Index": 981
+        },
+        "EndPos": {
+          "Line": 60,
+          "Column": 6,
+          "Index": 984
+        },
+        "Object": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 60,
+            "Column": 1,
+            "Index": 979
+          },
+          "EndPos": {
+            "Line": 60,
+            "Column": 2,
+            "Index": 980
+          },
+          "Identifier": "p",
+          "Type": "infr"
+        },
+        "Property": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 60,
+            "Column": 3,
+            "Index": 981
+          },
+          "EndPos": {
+            "Line": 60,
+            "Column": 6,
+            "Index": 984
+          },
+          "Identifier": "fly",
+          "Type": "infr"
+        }
+      },
+      "Args": null
+    },
+    {
+      "Kind": "FOR_LOOP_STATEMENT",
+      "StartPos": {
+        "Line": 63,
+        "Column": 1,
+        "Index": 993
+      },
+      "EndPos": {
+        "Line": 65,
         "Column": 2,
-        "Index": 1160
+        "Index": 1036
       },
       "Variable": "i",
       "Init": {
         "Kind": "NUMERIC_LITERAL",
         "StartPos": {
-          "Line": 67,
+          "Line": 63,
           "Column": 10,
-          "Index": 1126
+          "Index": 1002
         },
         "EndPos": {
-          "Line": 67,
+          "Line": 63,
           "Column": 11,
-          "Index": 1127
+          "Index": 1003
         },
         "Value": 0,
         "Type": "i8"
@@ -1364,40 +1377,40 @@
       "Condition": {
         "Kind": "BINARY_EXPRESSION",
         "StartPos": {
-          "Line": 67,
+          "Line": 63,
           "Column": 15,
-          "Index": 1131
+          "Index": 1007
         },
         "EndPos": {
-          "Line": 67,
+          "Line": 63,
           "Column": 19,
-          "Index": 1135
+          "Index": 1011
         },
         "Operator": {
           "Kind": "\u003c",
           "Value": "\u003c",
           "StartPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 15,
-            "Index": 1131
+            "Index": 1007
           },
           "EndPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 16,
-            "Index": 1132
+            "Index": 1008
           }
         },
         "Left": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 13,
-            "Index": 1129
+            "Index": 1005
           },
           "EndPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 14,
-            "Index": 1130
+            "Index": 1006
           },
           "Identifier": "i",
           "Type": "infr"
@@ -1405,14 +1418,14 @@
         "Right": {
           "Kind": "NUMERIC_LITERAL",
           "StartPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 17,
-            "Index": 1133
+            "Index": 1009
           },
           "EndPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 19,
-            "Index": 1135
+            "Index": 1011
           },
           "Value": 10,
           "Type": "i8"
@@ -1421,40 +1434,40 @@
       "Post": {
         "Kind": "UNARY_EXPRESSION",
         "StartPos": {
-          "Line": 67,
+          "Line": 63,
           "Column": 21,
-          "Index": 1137
+          "Index": 1013
         },
         "EndPos": {
-          "Line": 67,
+          "Line": 63,
           "Column": 24,
-          "Index": 1140
+          "Index": 1016
         },
         "Operator": {
           "Kind": "++",
           "Value": "++",
           "StartPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 21,
-            "Index": 1137
+            "Index": 1013
           },
           "EndPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 23,
-            "Index": 1139
+            "Index": 1015
           }
         },
         "Argument": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 23,
-            "Index": 1139
+            "Index": 1015
           },
           "EndPos": {
-            "Line": 67,
+            "Line": 63,
             "Column": 24,
-            "Index": 1140
+            "Index": 1016
           },
           "Identifier": "i",
           "Type": "infr"
@@ -1463,39 +1476,39 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 67,
+          "Line": 63,
           "Column": 25,
-          "Index": 1141
+          "Index": 1017
         },
         "EndPos": {
-          "Line": 69,
+          "Line": 65,
           "Column": 2,
-          "Index": 1160
+          "Index": 1036
         },
         "Body": [
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 68,
+              "Line": 64,
               "Column": 10,
-              "Index": 1153
+              "Index": 1029
             },
             "EndPos": {
-              "Line": 68,
+              "Line": 64,
               "Column": 13,
-              "Index": 1156
+              "Index": 1032
             },
             "Function": {
               "Kind": "IDENTIFIER",
               "StartPos": {
-                "Line": 68,
+                "Line": 64,
                 "Column": 5,
-                "Index": 1148
+                "Index": 1024
               },
               "EndPos": {
-                "Line": 68,
+                "Line": 64,
                 "Column": 10,
-                "Index": 1153
+                "Index": 1029
               },
               "Identifier": "print",
               "Type": "infr"
@@ -1504,14 +1517,14 @@
               {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 68,
+                  "Line": 64,
                   "Column": 11,
-                  "Index": 1154
+                  "Index": 1030
                 },
                 "EndPos": {
-                  "Line": 68,
+                  "Line": 64,
                   "Column": 12,
-                  "Index": 1155
+                  "Index": 1031
                 },
                 "Identifier": "i",
                 "Type": "infr"
@@ -1524,42 +1537,42 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 71,
+        "Line": 67,
         "Column": 1,
-        "Index": 1164
+        "Index": 1040
       },
       "EndPos": {
-        "Line": 71,
+        "Line": 67,
         "Column": 30,
-        "Index": 1193
+        "Index": 1069
       },
       "IsConstant": false,
       "Identifier": "array",
       "Value": {
         "Kind": "ARRAY_LITERALS",
         "StartPos": {
-          "Line": 71,
+          "Line": 67,
           "Column": 14,
-          "Index": 1177
+          "Index": 1053
         },
         "EndPos": {
-          "Line": 71,
+          "Line": 67,
           "Column": 29,
-          "Index": 1192
+          "Index": 1068
         },
         "Size": 5,
         "Elements": [
           {
             "Kind": "NUMERIC_LITERAL",
             "StartPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 15,
-              "Index": 1178
+              "Index": 1054
             },
             "EndPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 16,
-              "Index": 1179
+              "Index": 1055
             },
             "Value": 1,
             "Type": "i8"
@@ -1567,14 +1580,14 @@
           {
             "Kind": "NUMERIC_LITERAL",
             "StartPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 18,
-              "Index": 1181
+              "Index": 1057
             },
             "EndPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 19,
-              "Index": 1182
+              "Index": 1058
             },
             "Value": 2,
             "Type": "i8"
@@ -1582,14 +1595,14 @@
           {
             "Kind": "NUMERIC_LITERAL",
             "StartPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 21,
-              "Index": 1184
+              "Index": 1060
             },
             "EndPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 22,
-              "Index": 1185
+              "Index": 1061
             },
             "Value": 3,
             "Type": "i8"
@@ -1597,14 +1610,14 @@
           {
             "Kind": "NUMERIC_LITERAL",
             "StartPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 24,
-              "Index": 1187
+              "Index": 1063
             },
             "EndPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 25,
-              "Index": 1188
+              "Index": 1064
             },
             "Value": 4,
             "Type": "i8"
@@ -1612,14 +1625,14 @@
           {
             "Kind": "NUMERIC_LITERAL",
             "StartPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 27,
-              "Index": 1190
+              "Index": 1066
             },
             "EndPos": {
-              "Line": 71,
+              "Line": 67,
               "Column": 28,
-              "Index": 1191
+              "Index": 1067
             },
             "Value": 5,
             "Type": "i8"
@@ -1631,28 +1644,28 @@
     {
       "Kind": "FOREACH_LOOP_STATEMENT",
       "StartPos": {
-        "Line": 73,
+        "Line": 69,
         "Column": 1,
-        "Index": 1197
+        "Index": 1073
       },
       "EndPos": {
-        "Line": 76,
+        "Line": 72,
         "Column": 2,
-        "Index": 1291
+        "Index": 1167
       },
       "Variable": "arr",
       "IndexVariable": "i",
       "Iterable": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 73,
+          "Line": 69,
           "Column": 19,
-          "Index": 1215
+          "Index": 1091
         },
         "EndPos": {
-          "Line": 73,
+          "Line": 69,
           "Column": 24,
-          "Index": 1220
+          "Index": 1096
         },
         "Identifier": "array",
         "Type": "infr"
@@ -1661,14 +1674,14 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 73,
+          "Line": 69,
           "Column": 25,
-          "Index": 1221
+          "Index": 1097
         },
         "EndPos": {
-          "Line": 76,
+          "Line": 72,
           "Column": 2,
-          "Index": 1291
+          "Index": 1167
         },
         "Body": []
       }
@@ -1676,28 +1689,28 @@
     {
       "Kind": "FOREACH_LOOP_STATEMENT",
       "StartPos": {
-        "Line": 78,
+        "Line": 74,
         "Column": 1,
-        "Index": 1295
+        "Index": 1171
       },
       "EndPos": {
-        "Line": 85,
+        "Line": 81,
         "Column": 2,
-        "Index": 1453
+        "Index": 1329
       },
       "Variable": "val",
       "IndexVariable": "",
       "Iterable": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 78,
+          "Line": 74,
           "Column": 16,
-          "Index": 1310
+          "Index": 1186
         },
         "EndPos": {
-          "Line": 78,
+          "Line": 74,
           "Column": 21,
-          "Index": 1315
+          "Index": 1191
         },
         "Identifier": "array",
         "Type": "infr"
@@ -1705,66 +1718,66 @@
       "WhereClause": {
         "Kind": "BINARY_EXPRESSION",
         "StartPos": {
-          "Line": 78,
+          "Line": 74,
           "Column": 36,
-          "Index": 1330
+          "Index": 1206
         },
         "EndPos": {
-          "Line": 78,
+          "Line": 74,
           "Column": 40,
-          "Index": 1334
+          "Index": 1210
         },
         "Operator": {
           "Kind": "==",
           "Value": "==",
           "StartPos": {
-            "Line": 78,
+            "Line": 74,
             "Column": 36,
-            "Index": 1330
+            "Index": 1206
           },
           "EndPos": {
-            "Line": 78,
+            "Line": 74,
             "Column": 38,
-            "Index": 1332
+            "Index": 1208
           }
         },
         "Left": {
           "Kind": "BINARY_EXPRESSION",
           "StartPos": {
-            "Line": 78,
+            "Line": 74,
             "Column": 32,
-            "Index": 1326
+            "Index": 1202
           },
           "EndPos": {
-            "Line": 78,
+            "Line": 74,
             "Column": 35,
-            "Index": 1329
+            "Index": 1205
           },
           "Operator": {
             "Kind": "%",
             "Value": "%",
             "StartPos": {
-              "Line": 78,
+              "Line": 74,
               "Column": 32,
-              "Index": 1326
+              "Index": 1202
             },
             "EndPos": {
-              "Line": 78,
+              "Line": 74,
               "Column": 33,
-              "Index": 1327
+              "Index": 1203
             }
           },
           "Left": {
             "Kind": "IDENTIFIER",
             "StartPos": {
-              "Line": 78,
+              "Line": 74,
               "Column": 28,
-              "Index": 1322
+              "Index": 1198
             },
             "EndPos": {
-              "Line": 78,
+              "Line": 74,
               "Column": 31,
-              "Index": 1325
+              "Index": 1201
             },
             "Identifier": "val",
             "Type": "infr"
@@ -1772,14 +1785,14 @@
           "Right": {
             "Kind": "NUMERIC_LITERAL",
             "StartPos": {
-              "Line": 78,
+              "Line": 74,
               "Column": 34,
-              "Index": 1328
+              "Index": 1204
             },
             "EndPos": {
-              "Line": 78,
+              "Line": 74,
               "Column": 35,
-              "Index": 1329
+              "Index": 1205
             },
             "Value": 2,
             "Type": "i8"
@@ -1788,14 +1801,14 @@
         "Right": {
           "Kind": "NUMERIC_LITERAL",
           "StartPos": {
-            "Line": 78,
+            "Line": 74,
             "Column": 39,
-            "Index": 1333
+            "Index": 1209
           },
           "EndPos": {
-            "Line": 78,
+            "Line": 74,
             "Column": 40,
-            "Index": 1334
+            "Index": 1210
           },
           "Value": 0,
           "Type": "i8"
@@ -1804,91 +1817,91 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 78,
+          "Line": 74,
           "Column": 41,
-          "Index": 1335
+          "Index": 1211
         },
         "EndPos": {
-          "Line": 85,
+          "Line": 81,
           "Column": 2,
-          "Index": 1453
+          "Index": 1329
         },
         "Body": [
           {
             "Kind": "IF_STATEMENT",
             "StartPos": {
-              "Line": 82,
+              "Line": 78,
               "Column": 5,
-              "Index": 1407
+              "Index": 1283
             },
             "EndPos": {
-              "Line": 84,
+              "Line": 80,
               "Column": 6,
-              "Index": 1450
+              "Index": 1326
             },
             "Condition": {
               "Kind": "BINARY_EXPRESSION",
               "StartPos": {
-                "Line": 82,
+                "Line": 78,
                 "Column": 16,
-                "Index": 1418
+                "Index": 1294
               },
               "EndPos": {
-                "Line": 82,
+                "Line": 78,
                 "Column": 20,
-                "Index": 1422
+                "Index": 1298
               },
               "Operator": {
                 "Kind": "!=",
                 "Value": "!=",
                 "StartPos": {
-                  "Line": 82,
+                  "Line": 78,
                   "Column": 16,
-                  "Index": 1418
+                  "Index": 1294
                 },
                 "EndPos": {
-                  "Line": 82,
+                  "Line": 78,
                   "Column": 18,
-                  "Index": 1420
+                  "Index": 1296
                 }
               },
               "Left": {
                 "Kind": "BINARY_EXPRESSION",
                 "StartPos": {
-                  "Line": 82,
+                  "Line": 78,
                   "Column": 12,
-                  "Index": 1414
+                  "Index": 1290
                 },
                 "EndPos": {
-                  "Line": 82,
+                  "Line": 78,
                   "Column": 15,
-                  "Index": 1417
+                  "Index": 1293
                 },
                 "Operator": {
                   "Kind": "%",
                   "Value": "%",
                   "StartPos": {
-                    "Line": 82,
+                    "Line": 78,
                     "Column": 12,
-                    "Index": 1414
+                    "Index": 1290
                   },
                   "EndPos": {
-                    "Line": 82,
+                    "Line": 78,
                     "Column": 13,
-                    "Index": 1415
+                    "Index": 1291
                   }
                 },
                 "Left": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 82,
+                    "Line": 78,
                     "Column": 8,
-                    "Index": 1410
+                    "Index": 1286
                   },
                   "EndPos": {
-                    "Line": 82,
+                    "Line": 78,
                     "Column": 11,
-                    "Index": 1413
+                    "Index": 1289
                   },
                   "Identifier": "val",
                   "Type": "infr"
@@ -1896,14 +1909,14 @@
                 "Right": {
                   "Kind": "NUMERIC_LITERAL",
                   "StartPos": {
-                    "Line": 82,
+                    "Line": 78,
                     "Column": 14,
-                    "Index": 1416
+                    "Index": 1292
                   },
                   "EndPos": {
-                    "Line": 82,
+                    "Line": 78,
                     "Column": 15,
-                    "Index": 1417
+                    "Index": 1293
                   },
                   "Value": 2,
                   "Type": "i8"
@@ -1912,14 +1925,14 @@
               "Right": {
                 "Kind": "NUMERIC_LITERAL",
                 "StartPos": {
-                  "Line": 82,
+                  "Line": 78,
                   "Column": 19,
-                  "Index": 1421
+                  "Index": 1297
                 },
                 "EndPos": {
-                  "Line": 82,
+                  "Line": 78,
                   "Column": 20,
-                  "Index": 1422
+                  "Index": 1298
                 },
                 "Value": 0,
                 "Type": "i8"
@@ -1928,27 +1941,27 @@
             "Block": {
               "Kind": "BLOCK_STATEMENT",
               "StartPos": {
-                "Line": 82,
+                "Line": 78,
                 "Column": 21,
-                "Index": 1423
+                "Index": 1299
               },
               "EndPos": {
-                "Line": 84,
+                "Line": 80,
                 "Column": 6,
-                "Index": 1450
+                "Index": 1326
               },
               "Body": [
                 {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 83,
+                    "Line": 79,
                     "Column": 9,
-                    "Index": 1434
+                    "Index": 1310
                   },
                   "EndPos": {
-                    "Line": 83,
+                    "Line": 79,
                     "Column": 17,
-                    "Index": 1442
+                    "Index": 1318
                   },
                   "Identifier": "continue",
                   "Type": "infr"
@@ -1963,14 +1976,14 @@
     {
       "Kind": "FN_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 88,
+        "Line": 84,
         "Column": 1,
-        "Index": 1459
+        "Index": 1335
       },
       "EndPos": {
-        "Line": 90,
+        "Line": 86,
         "Column": 2,
-        "Index": 1506
+        "Index": 1382
       },
       "FunctionName": "mul",
       "Parameters": {
@@ -1993,65 +2006,65 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 88,
+          "Line": 84,
           "Column": 28,
-          "Index": 1486
+          "Index": 1362
         },
         "EndPos": {
-          "Line": 90,
+          "Line": 86,
           "Column": 2,
-          "Index": 1506
+          "Index": 1382
         },
         "Body": [
           {
             "Kind": "RETURN_STATEMENT",
             "StartPos": {
-              "Line": 89,
+              "Line": 85,
               "Column": 5,
-              "Index": 1493
+              "Index": 1369
             },
             "EndPos": {
-              "Line": 89,
+              "Line": 85,
               "Column": 15,
-              "Index": 1503
+              "Index": 1379
             },
             "Expression": {
               "Kind": "BINARY_EXPRESSION",
               "StartPos": {
-                "Line": 89,
+                "Line": 85,
                 "Column": 11,
-                "Index": 1499
+                "Index": 1375
               },
               "EndPos": {
-                "Line": 89,
+                "Line": 85,
                 "Column": 14,
-                "Index": 1502
+                "Index": 1378
               },
               "Operator": {
                 "Kind": "*",
                 "Value": "*",
                 "StartPos": {
-                  "Line": 89,
+                  "Line": 85,
                   "Column": 11,
-                  "Index": 1499
+                  "Index": 1375
                 },
                 "EndPos": {
-                  "Line": 89,
+                  "Line": 85,
                   "Column": 12,
-                  "Index": 1500
+                  "Index": 1376
                 }
               },
               "Left": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 89,
+                  "Line": 85,
                   "Column": 9,
-                  "Index": 1497
+                  "Index": 1373
                 },
                 "EndPos": {
-                  "Line": 89,
+                  "Line": 85,
                   "Column": 10,
-                  "Index": 1498
+                  "Index": 1374
                 },
                 "Identifier": "a",
                 "Type": "infr"
@@ -2059,14 +2072,14 @@
               "Right": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 89,
+                  "Line": 85,
                   "Column": 13,
-                  "Index": 1501
+                  "Index": 1377
                 },
                 "EndPos": {
-                  "Line": 89,
+                  "Line": 85,
                   "Column": 14,
-                  "Index": 1502
+                  "Index": 1378
                 },
                 "Identifier": "b",
                 "Type": "infr"
@@ -2079,14 +2092,14 @@
     {
       "Kind": "FN_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 92,
+        "Line": 88,
         "Column": 1,
-        "Index": 1510
+        "Index": 1386
       },
       "EndPos": {
-        "Line": 94,
+        "Line": 90,
         "Column": 2,
-        "Index": 1557
+        "Index": 1433
       },
       "FunctionName": "square",
       "Parameters": {
@@ -2104,51 +2117,51 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 92,
+          "Line": 88,
           "Column": 24,
-          "Index": 1533
+          "Index": 1409
         },
         "EndPos": {
-          "Line": 94,
+          "Line": 90,
           "Column": 2,
-          "Index": 1557
+          "Index": 1433
         },
         "Body": [
           {
             "Kind": "RETURN_STATEMENT",
             "StartPos": {
-              "Line": 93,
+              "Line": 89,
               "Column": 5,
-              "Index": 1540
+              "Index": 1416
             },
             "EndPos": {
-              "Line": 93,
+              "Line": 89,
               "Column": 19,
-              "Index": 1554
+              "Index": 1430
             },
             "Expression": {
               "Kind": "FUNCTION_CALL_EXPRESSION",
               "StartPos": {
-                "Line": 93,
+                "Line": 89,
                 "Column": 12,
-                "Index": 1547
+                "Index": 1423
               },
               "EndPos": {
-                "Line": 93,
+                "Line": 89,
                 "Column": 18,
-                "Index": 1553
+                "Index": 1429
               },
               "Function": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 93,
+                  "Line": 89,
                   "Column": 9,
-                  "Index": 1544
+                  "Index": 1420
                 },
                 "EndPos": {
-                  "Line": 93,
+                  "Line": 89,
                   "Column": 12,
-                  "Index": 1547
+                  "Index": 1423
                 },
                 "Identifier": "mul",
                 "Type": "infr"
@@ -2157,14 +2170,14 @@
                 {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 93,
+                    "Line": 89,
                     "Column": 13,
-                    "Index": 1548
+                    "Index": 1424
                   },
                   "EndPos": {
-                    "Line": 93,
+                    "Line": 89,
                     "Column": 14,
-                    "Index": 1549
+                    "Index": 1425
                   },
                   "Identifier": "a",
                   "Type": "infr"
@@ -2172,14 +2185,14 @@
                 {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 93,
+                    "Line": 89,
                     "Column": 16,
-                    "Index": 1551
+                    "Index": 1427
                   },
                   "EndPos": {
-                    "Line": 93,
+                    "Line": 89,
                     "Column": 17,
-                    "Index": 1552
+                    "Index": 1428
                   },
                   "Identifier": "a",
                   "Type": "infr"
@@ -2193,26 +2206,26 @@
     {
       "Kind": "FUNCTION_CALL_EXPRESSION",
       "StartPos": {
-        "Line": 96,
+        "Line": 92,
         "Column": 7,
-        "Index": 1567
+        "Index": 1443
       },
       "EndPos": {
-        "Line": 96,
+        "Line": 92,
         "Column": 10,
-        "Index": 1570
+        "Index": 1446
       },
       "Function": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 96,
+          "Line": 92,
           "Column": 1,
-          "Index": 1561
+          "Index": 1437
         },
         "EndPos": {
-          "Line": 96,
+          "Line": 92,
           "Column": 7,
-          "Index": 1567
+          "Index": 1443
         },
         "Identifier": "square",
         "Type": "infr"
@@ -2221,14 +2234,14 @@
         {
           "Kind": "NUMERIC_LITERAL",
           "StartPos": {
-            "Line": 96,
+            "Line": 92,
             "Column": 8,
-            "Index": 1568
+            "Index": 1444
           },
           "EndPos": {
-            "Line": 96,
+            "Line": 92,
             "Column": 9,
-            "Index": 1569
+            "Index": 1445
           },
           "Value": 5,
           "Type": "i8"
