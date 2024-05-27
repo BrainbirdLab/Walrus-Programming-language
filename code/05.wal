@@ -32,7 +32,7 @@ impl Person {
     }
 }
 
-// A trait is a collection of methods that can be implemented by a struct
+// A trait is a collection of methods that can be implemented by any type.
 trait SuperPower {
     fn fly();
     fn invisibility();
