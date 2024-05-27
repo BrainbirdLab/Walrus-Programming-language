@@ -121,12 +121,15 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 		var msg string
 		if lexer.IsKeyword(tokenKind) {
-			msg = fmt.Sprintf("NUD handler expected for keyword '%s'\n", tokenKind)
+			msg = fmt.Sprintf("Parser::Unexpected keyword '%s'\n", tokenKind)
 		} else {
-			msg = fmt.Sprintf("NUD handler expected for token '%s'\n", tokenKind)
+			msg = fmt.Sprintf("Parser::Unexpected token '%s'\n", tokenKind)
 		}
-		err := fmt.Sprintf("File: %s:%d:%d: %s\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, msg)
-		panic(err)
+		//err := fmt.Sprintf("File: %s:%d:%d: %s\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, msg)
+
+		p.MakeError(token.StartPos.Line, p.FilePath, token, msg).Display()
+
+		//panic(err)
 	}
 
 
@@ -139,9 +142,8 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 		led_fn, exists := ledLookup[tokenKind]
 
 		if !exists {
-			msg := fmt.Sprintf("LED handler expected for token %s\n", tokenKind)
-			err := fmt.Sprintf("File: %s:%d:%d: %s\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, msg)
-			panic(err)
+			msg := fmt.Sprintf("Parser::Unexpected token %s\n", tokenKind)
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), msg).Display()
 		}
 
 		left = led_fn(p, left, GetBP(p.currentTokenKind()))

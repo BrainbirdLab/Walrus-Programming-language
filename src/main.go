@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 	"walrus/frontend/parser"
+	"walrus/utils"
 )
 
 func main() {
@@ -40,5 +41,5 @@ func main() {
 	// time end
 	timeEnd := time.Now()
 
-	fmt.Printf("Time taken: %v\n", timeEnd.Sub(timeStart))
+	fmt.Print(utils.Colorize(utils.GREEN, fmt.Sprintf("Compiled succesfully in: %v\n", timeEnd.Sub(timeStart))))
 }

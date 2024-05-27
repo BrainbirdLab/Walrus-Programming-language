@@ -167,15 +167,37 @@ func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMs
 
 	var errStr string
 
+	var prvLines []string
+	var nxtLines []string
 	line := (*p.Lines)[lineNo-1]
+	maxWidth := len(fmt.Sprintf("%d", len(*p.Lines)))
+
+	if lineNo-1 > 0 {
+		// add the padding to each line
+		prvLines = (*p.Lines)[lineNo-2 : lineNo-1]
+
+		for i, l := range prvLines {
+			prvLines[i] = utils.Colorize(utils.GREY, fmt.Sprintf("%*d | ", maxWidth, lineNo-1+i)) + lexer.Highlight(l)
+		}
+	}
+
+	if lineNo+1 < len(*p.Lines) {
+		nxtLines = (*p.Lines)[lineNo : lineNo+1]
+
+		for i, l := range nxtLines {
+			nxtLines[i] = utils.Colorize(utils.GREY, fmt.Sprintf("%*d | ", maxWidth, lineNo+1+i)) + lexer.Highlight(l)
+		}
+	}
 
 	errStr += fmt.Sprintf("\n%s:%d:%d\n", filePath, token.StartPos.Line, token.StartPos.Column)
 
-	padding := fmt.Sprintf("%d | ", token.StartPos.Line)
+	padding := fmt.Sprintf("%*d | ", maxWidth, token.StartPos.Line)
 
+	errStr += strings.Join(prvLines, "\n") + "\n"
 	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:token.StartPos.Column-1]) + utils.Colorize(utils.RED, line[token.StartPos.Column-1:token.EndPos.Column-1]) + lexer.Highlight(line[token.EndPos.Column-1:]) + "\n"
 	errStr += strings.Repeat(" ", (token.StartPos.Column-1)+len(padding))
 	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column-token.StartPos.Column-1))))
+	errStr += strings.Join(nxtLines, "\n") + "\n"
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 
 	return &ErrorMessage{
