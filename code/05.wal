@@ -18,41 +18,43 @@ if a == 4 {
     b = a + 3;
 }
 
-struct Person {
-    pub name: str;
-    pub age: i8;
+struct Person { // struct definition is used to define a new type
+    pub name: str; // pub keyword is used to make the field public
+    pub age: i8; // i8 is a signed 8-bit integer. We can also use i16, i32, i64, i128
 }
 
-impl Person {
-    fn walk() {
+impl Person { // impl keyword is used to implement methods for the struct
+    pub fn walk() { // pub keyword is used to make the method public. All fields and methods are private by default
         print("Walking");
     }
-    fn talk() {
+    pub fn talk() {
         print("Talking");
     }
 }
 
 struct Hero{
+    // embed keyword is used to embed a struct into another struct. 
+    //This is similar to inheritance but Hero is not a subclass of Person
     embed Person;
     pub readonly HeroName: str; // readonly field. Cannot be changed after initialization
 }
 
 // A trait is a collection of methods that can be implemented by any type.
 trait SuperPower {
-    fn fly();
-    fn invisibility();
+    pub fn fly();
+    pub fn invisibility();
 }
 
 trait HighIQ {
-    fn genius();
+    pub fn genius();
 }
 
 // Implementing the trait for the struct
 impl SuperPower, HighIQ for Hero {
-    fn fly() {
+    pub fn fly() {
         print("Flying");
     }
-    fn invisibility() {
+    pub fn invisibility() {
         print("Invisible");
     }
 }
@@ -63,6 +65,9 @@ let p : Hero = Hero {name: "Bruce", age: 30, HeroName: "Batman"};
 p.walk();
 p.talk();
 p.fly();
+p.genius();
+
+
 
 
 for i := 0; i < 10; ++i {
