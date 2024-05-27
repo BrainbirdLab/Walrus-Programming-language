@@ -1,0 +1,1171 @@
+{
+  "Kind": "PROGRAM",
+  "StartPos": {
+    "Line": 1,
+    "Column": 1,
+    "Index": 0
+  },
+  "EndPos": {
+    "Line": 67,
+    "Column": 2,
+    "Index": 1080
+  },
+  "FileName": "./../code/structsAndTraits.wal",
+  "ModuleName": "",
+  "Imports": null,
+  "Contents": [
+    {
+      "Kind": "STRUCT_STATEMENT",
+      "StartPos": {
+        "Line": 3,
+        "Column": 1,
+        "Index": 4
+      },
+      "EndPos": {
+        "Line": 6,
+        "Column": 2,
+        "Index": 65
+      },
+      "StructName": "Charecter",
+      "Properties": {
+        "name": {
+          "Kind": "",
+          "StartPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "EndPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Type": {
+            "Kind": "STRING"
+          }
+        },
+        "score": {
+          "Kind": "",
+          "StartPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "EndPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Type": {
+            "Kind": "INTEGER",
+            "BitSize": 8,
+            "IsSigned": true
+          }
+        }
+      },
+      "Methods": null,
+      "Embeds": null
+    },
+    {
+      "Kind": "STRUCT_STATEMENT",
+      "StartPos": {
+        "Line": 8,
+        "Column": 1,
+        "Index": 69
+      },
+      "EndPos": {
+        "Line": 11,
+        "Column": 2,
+        "Index": 131
+      },
+      "StructName": "Hero",
+      "Properties": {
+        "heroType": {
+          "Kind": "",
+          "StartPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "EndPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Type": {
+            "Kind": "STRING"
+          }
+        }
+      },
+      "Methods": null,
+      "Embeds": [
+        "Charecter"
+      ]
+    },
+    {
+      "Kind": "STRUCT_STATEMENT",
+      "StartPos": {
+        "Line": 13,
+        "Column": 1,
+        "Index": 135
+      },
+      "EndPos": {
+        "Line": 16,
+        "Column": 2,
+        "Index": 203
+      },
+      "StructName": "Villain",
+      "Properties": {
+        "villainType": {
+          "Kind": "",
+          "StartPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "EndPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Type": {
+            "Kind": "STRING"
+          }
+        }
+      },
+      "Methods": null,
+      "Embeds": [
+        "Charecter"
+      ]
+    },
+    {
+      "Kind": "IMPLEMENTS_STATEMENT",
+      "StartPos": {
+        "Line": 18,
+        "Column": 1,
+        "Index": 207
+      },
+      "EndPos": {
+        "Line": 25,
+        "Column": 2,
+        "Index": 342
+      },
+      "Impliments": "Charecter",
+      "Traits": [
+        "Charecter"
+      ],
+      "Methods": {
+        "attack": {
+          "Kind": "FN_DECLARATION_STATEMENT",
+          "StartPos": {
+            "Line": 19,
+            "Column": 5,
+            "Index": 229
+          },
+          "EndPos": {
+            "Line": 21,
+            "Column": 6,
+            "Index": 281
+          },
+          "FunctionName": "attack",
+          "Parameters": {},
+          "ReturnType": {
+            "Kind": ""
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 19,
+              "Column": 20,
+              "Index": 244
+            },
+            "EndPos": {
+              "Line": 21,
+              "Column": 6,
+              "Index": 281
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 20,
+                  "Column": 14,
+                  "Index": 260
+                },
+                "EndPos": {
+                  "Line": 20,
+                  "Column": 27,
+                  "Index": 273
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 20,
+                    "Column": 9,
+                    "Index": 255
+                  },
+                  "EndPos": {
+                    "Line": 20,
+                    "Column": 14,
+                    "Index": 260
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 20,
+                      "Column": 15,
+                      "Index": 261
+                    },
+                    "EndPos": {
+                      "Line": 20,
+                      "Column": 26,
+                      "Index": 272
+                    },
+                    "Value": "Attacking",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "TypeToImplement": "Charecter",
+          "IsPublic": true,
+          "IsStatic": false
+        },
+        "defend": {
+          "Kind": "FN_DECLARATION_STATEMENT",
+          "StartPos": {
+            "Line": 22,
+            "Column": 5,
+            "Index": 287
+          },
+          "EndPos": {
+            "Line": 24,
+            "Column": 6,
+            "Index": 339
+          },
+          "FunctionName": "defend",
+          "Parameters": {},
+          "ReturnType": {
+            "Kind": ""
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 22,
+              "Column": 20,
+              "Index": 302
+            },
+            "EndPos": {
+              "Line": 24,
+              "Column": 6,
+              "Index": 339
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 23,
+                  "Column": 14,
+                  "Index": 318
+                },
+                "EndPos": {
+                  "Line": 23,
+                  "Column": 27,
+                  "Index": 331
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 23,
+                    "Column": 9,
+                    "Index": 313
+                  },
+                  "EndPos": {
+                    "Line": 23,
+                    "Column": 14,
+                    "Index": 318
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 23,
+                      "Column": 15,
+                      "Index": 319
+                    },
+                    "EndPos": {
+                      "Line": 23,
+                      "Column": 26,
+                      "Index": 330
+                    },
+                    "Value": "Defending",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "TypeToImplement": "Charecter",
+          "IsPublic": true,
+          "IsStatic": false
+        }
+      }
+    },
+    {
+      "Kind": "TRAIT_STATEMENT",
+      "StartPos": {
+        "Line": 27,
+        "Column": 1,
+        "Index": 346
+      },
+      "EndPos": {
+        "Line": 29,
+        "Column": 2,
+        "Index": 396
+      },
+      "TraitName": "SpecialAbility",
+      "Methods": {
+        "specialAttack": {
+          "Kind": "FN_PROTOTYPE_STATEMENT",
+          "StartPos": {
+            "Line": 28,
+            "Column": 5,
+            "Index": 374
+          },
+          "EndPos": {
+            "Line": 28,
+            "Column": 24,
+            "Index": 393
+          },
+          "FunctionName": "",
+          "Parameters": null,
+          "ReturnType": null,
+          "IsStatic": false,
+          "IsPublic": false
+        }
+      }
+    },
+    {
+      "Kind": "IMPLEMENTS_STATEMENT",
+      "StartPos": {
+        "Line": 31,
+        "Column": 1,
+        "Index": 400
+      },
+      "EndPos": {
+        "Line": 35,
+        "Column": 2,
+        "Index": 503
+      },
+      "Impliments": "Hero",
+      "Traits": [
+        "SpecialAbility"
+      ],
+      "Methods": {
+        "specialAttack": {
+          "Kind": "FN_DECLARATION_STATEMENT",
+          "StartPos": {
+            "Line": 32,
+            "Column": 5,
+            "Index": 436
+          },
+          "EndPos": {
+            "Line": 34,
+            "Column": 6,
+            "Index": 500
+          },
+          "FunctionName": "specialAttack",
+          "Parameters": {},
+          "ReturnType": {
+            "Kind": ""
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 32,
+              "Column": 27,
+              "Index": 458
+            },
+            "EndPos": {
+              "Line": 34,
+              "Column": 6,
+              "Index": 500
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 33,
+                  "Column": 14,
+                  "Index": 474
+                },
+                "EndPos": {
+                  "Line": 33,
+                  "Column": 32,
+                  "Index": 492
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 33,
+                    "Column": 9,
+                    "Index": 469
+                  },
+                  "EndPos": {
+                    "Line": 33,
+                    "Column": 14,
+                    "Index": 474
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 33,
+                      "Column": 15,
+                      "Index": 475
+                    },
+                    "EndPos": {
+                      "Line": 33,
+                      "Column": 31,
+                      "Index": 491
+                    },
+                    "Value": "Special Attack",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "TypeToImplement": "Hero",
+          "IsPublic": true,
+          "IsStatic": false
+        }
+      }
+    },
+    {
+      "Kind": "IMPLEMENTS_STATEMENT",
+      "StartPos": {
+        "Line": 37,
+        "Column": 1,
+        "Index": 507
+      },
+      "EndPos": {
+        "Line": 41,
+        "Column": 2,
+        "Index": 613
+      },
+      "Impliments": "Villain",
+      "Traits": [
+        "SpecialAbility"
+      ],
+      "Methods": {
+        "specialAttack": {
+          "Kind": "FN_DECLARATION_STATEMENT",
+          "StartPos": {
+            "Line": 38,
+            "Column": 5,
+            "Index": 546
+          },
+          "EndPos": {
+            "Line": 40,
+            "Column": 6,
+            "Index": 610
+          },
+          "FunctionName": "specialAttack",
+          "Parameters": {},
+          "ReturnType": {
+            "Kind": ""
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 38,
+              "Column": 27,
+              "Index": 568
+            },
+            "EndPos": {
+              "Line": 40,
+              "Column": 6,
+              "Index": 610
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 39,
+                  "Column": 14,
+                  "Index": 584
+                },
+                "EndPos": {
+                  "Line": 39,
+                  "Column": 32,
+                  "Index": 602
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 39,
+                    "Column": 9,
+                    "Index": 579
+                  },
+                  "EndPos": {
+                    "Line": 39,
+                    "Column": 14,
+                    "Index": 584
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 39,
+                      "Column": 15,
+                      "Index": 585
+                    },
+                    "EndPos": {
+                      "Line": 39,
+                      "Column": 31,
+                      "Index": 601
+                    },
+                    "Value": "Special Attack",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "TypeToImplement": "Villain",
+          "IsPublic": true,
+          "IsStatic": false
+        }
+      }
+    },
+    {
+      "Kind": "FN_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 43,
+        "Column": 1,
+        "Index": 617
+      },
+      "EndPos": {
+        "Line": 45,
+        "Column": 2,
+        "Index": 680
+      },
+      "FunctionName": "performAttack",
+      "Parameters": {
+        "t": {
+          "Kind": "USER_DEFINED",
+          "Name": "SpecialAbility"
+        }
+      },
+      "ReturnType": {
+        "Kind": ""
+      },
+      "Block": {
+        "Kind": "BLOCK_STATEMENT",
+        "StartPos": {
+          "Line": 43,
+          "Column": 36,
+          "Index": 652
+        },
+        "EndPos": {
+          "Line": 45,
+          "Column": 2,
+          "Index": 680
+        },
+        "Body": [
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 44,
+              "Column": 20,
+              "Index": 674
+            },
+            "EndPos": {
+              "Line": 44,
+              "Column": 22,
+              "Index": 676
+            },
+            "Function": {
+              "Kind": "STRUCT_PROPERTY",
+              "StartPos": {
+                "Line": 44,
+                "Column": 7,
+                "Index": 661
+              },
+              "EndPos": {
+                "Line": 44,
+                "Column": 20,
+                "Index": 674
+              },
+              "Object": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 44,
+                  "Column": 5,
+                  "Index": 659
+                },
+                "EndPos": {
+                  "Line": 44,
+                  "Column": 6,
+                  "Index": 660
+                },
+                "Identifier": "t",
+                "Type": "infr"
+              },
+              "Property": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 44,
+                  "Column": 7,
+                  "Index": 661
+                },
+                "EndPos": {
+                  "Line": 44,
+                  "Column": 20,
+                  "Index": 674
+                },
+                "Identifier": "specialAttack",
+                "Type": "infr"
+              }
+            },
+            "Args": null
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "FN_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 47,
+        "Column": 1,
+        "Index": 684
+      },
+      "EndPos": {
+        "Line": 67,
+        "Column": 2,
+        "Index": 1080
+      },
+      "FunctionName": "main",
+      "Parameters": {},
+      "ReturnType": {
+        "Kind": ""
+      },
+      "Block": {
+        "Kind": "BLOCK_STATEMENT",
+        "StartPos": {
+          "Line": 47,
+          "Column": 11,
+          "Index": 694
+        },
+        "EndPos": {
+          "Line": 67,
+          "Column": 2,
+          "Index": 1080
+        },
+        "Body": [
+          {
+            "Kind": "VARIABLE_DECLARATION_STATEMENT",
+            "StartPos": {
+              "Line": 48,
+              "Column": 5,
+              "Index": 701
+            },
+            "EndPos": {
+              "Line": 52,
+              "Column": 7,
+              "Index": 806
+            },
+            "IsConstant": false,
+            "Identifier": "hero",
+            "Value": {
+              "Kind": "STRUCT_LITERAL",
+              "StartPos": {
+                "Line": 48,
+                "Column": 22,
+                "Index": 718
+              },
+              "EndPos": {
+                "Line": 52,
+                "Column": 6,
+                "Index": 805
+              },
+              "StructName": "Hero",
+              "Properties": {
+                "heroType": {
+                  "Kind": "STRING_LITERAL",
+                  "StartPos": {
+                    "Line": 51,
+                    "Column": 19,
+                    "Index": 787
+                  },
+                  "EndPos": {
+                    "Line": 51,
+                    "Column": 30,
+                    "Index": 798
+                  },
+                  "Value": "Superhero",
+                  "Type": "str"
+                },
+                "name": {
+                  "Kind": "STRING_LITERAL",
+                  "StartPos": {
+                    "Line": 49,
+                    "Column": 15,
+                    "Index": 735
+                  },
+                  "EndPos": {
+                    "Line": 49,
+                    "Column": 25,
+                    "Index": 745
+                  },
+                  "Value": "Superman",
+                  "Type": "str"
+                },
+                "score": {
+                  "Kind": "NUMERIC_LITERAL",
+                  "StartPos": {
+                    "Line": 50,
+                    "Column": 16,
+                    "Index": 763
+                  },
+                  "EndPos": {
+                    "Line": 50,
+                    "Column": 19,
+                    "Index": 766
+                  },
+                  "Value": 100,
+                  "Type": "i8"
+                }
+              },
+              "Methods": {}
+            },
+            "ExplicitType": null
+          },
+          {
+            "Kind": "VARIABLE_DECLARATION_STATEMENT",
+            "StartPos": {
+              "Line": 53,
+              "Column": 5,
+              "Index": 812
+            },
+            "EndPos": {
+              "Line": 57,
+              "Column": 7,
+              "Index": 930
+            },
+            "IsConstant": false,
+            "Identifier": "villain",
+            "Value": {
+              "Kind": "STRUCT_LITERAL",
+              "StartPos": {
+                "Line": 53,
+                "Column": 28,
+                "Index": 835
+              },
+              "EndPos": {
+                "Line": 57,
+                "Column": 6,
+                "Index": 929
+              },
+              "StructName": "Villain",
+              "Properties": {
+                "name": {
+                  "Kind": "STRING_LITERAL",
+                  "StartPos": {
+                    "Line": 54,
+                    "Column": 15,
+                    "Index": 852
+                  },
+                  "EndPos": {
+                    "Line": 54,
+                    "Column": 27,
+                    "Index": 864
+                  },
+                  "Value": "Lex Luthor",
+                  "Type": "str"
+                },
+                "score": {
+                  "Kind": "NUMERIC_LITERAL",
+                  "StartPos": {
+                    "Line": 55,
+                    "Column": 16,
+                    "Index": 882
+                  },
+                  "EndPos": {
+                    "Line": 55,
+                    "Column": 18,
+                    "Index": 884
+                  },
+                  "Value": 50,
+                  "Type": "i8"
+                },
+                "villainType": {
+                  "Kind": "STRING_LITERAL",
+                  "StartPos": {
+                    "Line": 56,
+                    "Column": 22,
+                    "Index": 908
+                  },
+                  "EndPos": {
+                    "Line": 56,
+                    "Column": 36,
+                    "Index": 922
+                  },
+                  "Value": "Supervillain",
+                  "Type": "str"
+                }
+              },
+              "Methods": {}
+            },
+            "ExplicitType": null
+          },
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 58,
+              "Column": 16,
+              "Index": 947
+            },
+            "EndPos": {
+              "Line": 58,
+              "Column": 18,
+              "Index": 949
+            },
+            "Function": {
+              "Kind": "STRUCT_PROPERTY",
+              "StartPos": {
+                "Line": 58,
+                "Column": 10,
+                "Index": 941
+              },
+              "EndPos": {
+                "Line": 58,
+                "Column": 16,
+                "Index": 947
+              },
+              "Object": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 58,
+                  "Column": 5,
+                  "Index": 936
+                },
+                "EndPos": {
+                  "Line": 58,
+                  "Column": 9,
+                  "Index": 940
+                },
+                "Identifier": "hero",
+                "Type": "infr"
+              },
+              "Property": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 58,
+                  "Column": 10,
+                  "Index": 941
+                },
+                "EndPos": {
+                  "Line": 58,
+                  "Column": 16,
+                  "Index": 947
+                },
+                "Identifier": "attack",
+                "Type": "infr"
+              }
+            },
+            "Args": null
+          },
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 59,
+              "Column": 16,
+              "Index": 967
+            },
+            "EndPos": {
+              "Line": 59,
+              "Column": 18,
+              "Index": 969
+            },
+            "Function": {
+              "Kind": "STRUCT_PROPERTY",
+              "StartPos": {
+                "Line": 59,
+                "Column": 10,
+                "Index": 961
+              },
+              "EndPos": {
+                "Line": 59,
+                "Column": 16,
+                "Index": 967
+              },
+              "Object": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 59,
+                  "Column": 5,
+                  "Index": 956
+                },
+                "EndPos": {
+                  "Line": 59,
+                  "Column": 9,
+                  "Index": 960
+                },
+                "Identifier": "hero",
+                "Type": "infr"
+              },
+              "Property": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 59,
+                  "Column": 10,
+                  "Index": 961
+                },
+                "EndPos": {
+                  "Line": 59,
+                  "Column": 16,
+                  "Index": 967
+                },
+                "Identifier": "defend",
+                "Type": "infr"
+              }
+            },
+            "Args": null
+          },
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 62,
+              "Column": 19,
+              "Index": 994
+            },
+            "EndPos": {
+              "Line": 62,
+              "Column": 21,
+              "Index": 996
+            },
+            "Function": {
+              "Kind": "STRUCT_PROPERTY",
+              "StartPos": {
+                "Line": 62,
+                "Column": 13,
+                "Index": 988
+              },
+              "EndPos": {
+                "Line": 62,
+                "Column": 19,
+                "Index": 994
+              },
+              "Object": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 62,
+                  "Column": 5,
+                  "Index": 980
+                },
+                "EndPos": {
+                  "Line": 62,
+                  "Column": 12,
+                  "Index": 987
+                },
+                "Identifier": "villain",
+                "Type": "infr"
+              },
+              "Property": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 62,
+                  "Column": 13,
+                  "Index": 988
+                },
+                "EndPos": {
+                  "Line": 62,
+                  "Column": 19,
+                  "Index": 994
+                },
+                "Identifier": "attack",
+                "Type": "infr"
+              }
+            },
+            "Args": null
+          },
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 63,
+              "Column": 19,
+              "Index": 1017
+            },
+            "EndPos": {
+              "Line": 63,
+              "Column": 21,
+              "Index": 1019
+            },
+            "Function": {
+              "Kind": "STRUCT_PROPERTY",
+              "StartPos": {
+                "Line": 63,
+                "Column": 13,
+                "Index": 1011
+              },
+              "EndPos": {
+                "Line": 63,
+                "Column": 19,
+                "Index": 1017
+              },
+              "Object": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 63,
+                  "Column": 5,
+                  "Index": 1003
+                },
+                "EndPos": {
+                  "Line": 63,
+                  "Column": 12,
+                  "Index": 1010
+                },
+                "Identifier": "villain",
+                "Type": "infr"
+              },
+              "Property": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 63,
+                  "Column": 13,
+                  "Index": 1011
+                },
+                "EndPos": {
+                  "Line": 63,
+                  "Column": 19,
+                  "Index": 1017
+                },
+                "Identifier": "defend",
+                "Type": "infr"
+              }
+            },
+            "Args": null
+          },
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 65,
+              "Column": 18,
+              "Index": 1041
+            },
+            "EndPos": {
+              "Line": 65,
+              "Column": 24,
+              "Index": 1047
+            },
+            "Function": {
+              "Kind": "IDENTIFIER",
+              "StartPos": {
+                "Line": 65,
+                "Column": 5,
+                "Index": 1028
+              },
+              "EndPos": {
+                "Line": 65,
+                "Column": 18,
+                "Index": 1041
+              },
+              "Identifier": "performAttack",
+              "Type": "infr"
+            },
+            "Args": [
+              {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 65,
+                  "Column": 19,
+                  "Index": 1042
+                },
+                "EndPos": {
+                  "Line": 65,
+                  "Column": 23,
+                  "Index": 1046
+                },
+                "Identifier": "hero",
+                "Type": "infr"
+              }
+            ]
+          },
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 66,
+              "Column": 18,
+              "Index": 1067
+            },
+            "EndPos": {
+              "Line": 66,
+              "Column": 27,
+              "Index": 1076
+            },
+            "Function": {
+              "Kind": "IDENTIFIER",
+              "StartPos": {
+                "Line": 66,
+                "Column": 5,
+                "Index": 1054
+              },
+              "EndPos": {
+                "Line": 66,
+                "Column": 18,
+                "Index": 1067
+              },
+              "Identifier": "performAttack",
+              "Type": "infr"
+            },
+            "Args": [
+              {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 66,
+                  "Column": 19,
+                  "Index": 1068
+                },
+                "EndPos": {
+                  "Line": 66,
+                  "Column": 26,
+                  "Index": 1075
+                },
+                "Identifier": "villain",
+                "Type": "infr"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

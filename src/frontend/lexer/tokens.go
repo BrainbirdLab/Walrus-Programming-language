@@ -79,7 +79,7 @@ const (
 	FUNCTION 				= "fn"
 	IF       				= "if"
 	ELSEIF   				= "elf"
-	ELSE     				= "elf"
+	ELSE     				= "els"
 	FOREACH  				= "foreach"
 	WHERE					= "where"
 	WHILE    				= "while"

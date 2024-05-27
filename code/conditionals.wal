@@ -1,0 +1,17 @@
+
+
+
+
+
+
+
+let a := 2;
+let b := 3;
+
+if a > b {
+    print("a is greater than b");
+} elf a < b {
+    print("a is smaller than b");
+} els {
+    print("a is equal to b");
+}

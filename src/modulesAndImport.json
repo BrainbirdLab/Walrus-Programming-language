@@ -1,0 +1,51 @@
+{
+  "Kind": "PROGRAM",
+  "StartPos": {
+    "Line": 1,
+    "Column": 1,
+    "Index": 0
+  },
+  "EndPos": {
+    "Line": 4,
+    "Column": 48,
+    "Index": 79
+  },
+  "FileName": "./../code/modulesAndImport.wal",
+  "ModuleName": "main",
+  "Imports": [
+    {
+      "Kind": "IMPORT_STATEMENT",
+      "StartPos": {
+        "Line": 3,
+        "Column": 1,
+        "Index": 13
+      },
+      "EndPos": {
+        "Line": 3,
+        "Column": 18,
+        "Index": 30
+      },
+      "ModuleName": "io::fmt",
+      "Identifiers": []
+    },
+    {
+      "Kind": "IMPORT_STATEMENT",
+      "StartPos": {
+        "Line": 4,
+        "Column": 1,
+        "Index": 32
+      },
+      "EndPos": {
+        "Line": 4,
+        "Column": 48,
+        "Index": 79
+      },
+      "ModuleName": "core::fs",
+      "Identifiers": [
+        "readFile",
+        "writeFile"
+      ]
+    }
+  ],
+  "Contents": null
+}

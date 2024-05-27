@@ -648,6 +648,7 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 		}
 
 	} else {
-		panic("Expected for or foreach")
+		p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected for or foreach keyword").Display()
+		panic("-1")
 	}
 }

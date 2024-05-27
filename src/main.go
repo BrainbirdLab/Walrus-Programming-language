@@ -14,29 +14,39 @@ func main() {
 
 	timeStart := time.Now()
 
-	ast := parser.Parse("./../code/05.wal", false)
+	var files []string;
 
-	//store as file
-	file, err := os.Create("ast.json")
+	files = append(files, "modulesAndImport", "variables", "arrays", "conditionals", "loops", "structsAndTraits");
 
-	if err != nil {
-		panic(err)
+	for _, file := range files {
+
+		filename := fmt.Sprintf("./../code/%s.wal", file)
+
+		ast := parser.Parse(filename, false)
+	
+		//store as file
+		file, err := os.Create(file + ".json")
+	
+		if err != nil {
+			panic(err)
+		}
+	
+		//parse as string
+		astString, err := json.MarshalIndent(ast, "", "  ")
+	
+		if err != nil {
+			panic(err)
+		}
+	
+		_, err = file.Write(astString)
+	
+		if err != nil {
+			panic(err)
+		}
+	
+		file.Close()
 	}
 
-	//parse as string
-	astString, err := json.MarshalIndent(ast, "", "  ")
-
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = file.Write(astString)
-
-	if err != nil {
-		panic(err)
-	}
-
-	file.Close()
 
 	// time end
 	timeEnd := time.Now()

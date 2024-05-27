@@ -120,17 +120,15 @@ func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token
 	kind := token.Kind
 
 	if kind != expectedKind {
-
-		fmt.Printf("%s:%d:%d: Expected %s but received %s instead\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, expectedKind, kind)
-
 		if err == nil {
-			panic(p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)))
+			fmt.Print(p.currentToken(), p.FilePath, token, expectedKind, kind)
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)).Display()
 		} else {
 			if errMsg, ok := err.(string); ok {
-				panic(p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, errMsg))
+				p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, errMsg).Display()
 			} else {
 				// Handle error if it's not a string
-				panic(p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, "An unexpected error occurred"))
+				p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, "An unexpected error occurred").Display()
 			}
 		}
 	}

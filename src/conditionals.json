@@ -1,0 +1,400 @@
+{
+  "Kind": "PROGRAM",
+  "StartPos": {
+    "Line": 1,
+    "Column": 1,
+    "Index": 0
+  },
+  "EndPos": {
+    "Line": 17,
+    "Column": 2,
+    "Index": 180
+  },
+  "FileName": "./../code/conditionals.wal",
+  "ModuleName": "",
+  "Imports": null,
+  "Contents": [
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 8,
+        "Column": 1,
+        "Index": 14
+      },
+      "EndPos": {
+        "Line": 8,
+        "Column": 12,
+        "Index": 25
+      },
+      "IsConstant": false,
+      "Identifier": "a",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 8,
+          "Column": 10,
+          "Index": 23
+        },
+        "EndPos": {
+          "Line": 8,
+          "Column": 11,
+          "Index": 24
+        },
+        "Value": 2,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 9,
+        "Column": 1,
+        "Index": 27
+      },
+      "EndPos": {
+        "Line": 9,
+        "Column": 12,
+        "Index": 38
+      },
+      "IsConstant": false,
+      "Identifier": "b",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 9,
+          "Column": 10,
+          "Index": 36
+        },
+        "EndPos": {
+          "Line": 9,
+          "Column": 11,
+          "Index": 37
+        },
+        "Value": 3,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "IF_STATEMENT",
+      "StartPos": {
+        "Line": 11,
+        "Column": 1,
+        "Index": 42
+      },
+      "EndPos": {
+        "Line": 13,
+        "Column": 2,
+        "Index": 90
+      },
+      "Condition": {
+        "Kind": "BINARY_EXPRESSION",
+        "StartPos": {
+          "Line": 11,
+          "Column": 6,
+          "Index": 47
+        },
+        "EndPos": {
+          "Line": 11,
+          "Column": 9,
+          "Index": 50
+        },
+        "Operator": {
+          "Kind": "\u003e",
+          "Value": "\u003e",
+          "StartPos": {
+            "Line": 11,
+            "Column": 6,
+            "Index": 47
+          },
+          "EndPos": {
+            "Line": 11,
+            "Column": 7,
+            "Index": 48
+          }
+        },
+        "Left": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 11,
+            "Column": 4,
+            "Index": 45
+          },
+          "EndPos": {
+            "Line": 11,
+            "Column": 5,
+            "Index": 46
+          },
+          "Identifier": "a",
+          "Type": "infr"
+        },
+        "Right": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 11,
+            "Column": 8,
+            "Index": 49
+          },
+          "EndPos": {
+            "Line": 11,
+            "Column": 9,
+            "Index": 50
+          },
+          "Identifier": "b",
+          "Type": "infr"
+        }
+      },
+      "Block": {
+        "Kind": "BLOCK_STATEMENT",
+        "StartPos": {
+          "Line": 11,
+          "Column": 10,
+          "Index": 51
+        },
+        "EndPos": {
+          "Line": 13,
+          "Column": 2,
+          "Index": 90
+        },
+        "Body": [
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 12,
+              "Column": 10,
+              "Index": 63
+            },
+            "EndPos": {
+              "Line": 12,
+              "Column": 33,
+              "Index": 86
+            },
+            "Function": {
+              "Kind": "IDENTIFIER",
+              "StartPos": {
+                "Line": 12,
+                "Column": 5,
+                "Index": 58
+              },
+              "EndPos": {
+                "Line": 12,
+                "Column": 10,
+                "Index": 63
+              },
+              "Identifier": "print",
+              "Type": "infr"
+            },
+            "Args": [
+              {
+                "Kind": "STRING_LITERAL",
+                "StartPos": {
+                  "Line": 12,
+                  "Column": 11,
+                  "Index": 64
+                },
+                "EndPos": {
+                  "Line": 12,
+                  "Column": 32,
+                  "Index": 85
+                },
+                "Value": "a is greater than b",
+                "Type": "str"
+              }
+            ]
+          }
+        ]
+      },
+      "Alternate": {
+        "Kind": "IF_STATEMENT",
+        "StartPos": {
+          "Line": 13,
+          "Column": 3,
+          "Index": 91
+        },
+        "EndPos": {
+          "Line": 15,
+          "Column": 2,
+          "Index": 140
+        },
+        "Condition": {
+          "Kind": "BINARY_EXPRESSION",
+          "StartPos": {
+            "Line": 13,
+            "Column": 9,
+            "Index": 97
+          },
+          "EndPos": {
+            "Line": 13,
+            "Column": 12,
+            "Index": 100
+          },
+          "Operator": {
+            "Kind": "\u003c",
+            "Value": "\u003c",
+            "StartPos": {
+              "Line": 13,
+              "Column": 9,
+              "Index": 97
+            },
+            "EndPos": {
+              "Line": 13,
+              "Column": 10,
+              "Index": 98
+            }
+          },
+          "Left": {
+            "Kind": "IDENTIFIER",
+            "StartPos": {
+              "Line": 13,
+              "Column": 7,
+              "Index": 95
+            },
+            "EndPos": {
+              "Line": 13,
+              "Column": 8,
+              "Index": 96
+            },
+            "Identifier": "a",
+            "Type": "infr"
+          },
+          "Right": {
+            "Kind": "IDENTIFIER",
+            "StartPos": {
+              "Line": 13,
+              "Column": 11,
+              "Index": 99
+            },
+            "EndPos": {
+              "Line": 13,
+              "Column": 12,
+              "Index": 100
+            },
+            "Identifier": "b",
+            "Type": "infr"
+          }
+        },
+        "Block": {
+          "Kind": "BLOCK_STATEMENT",
+          "StartPos": {
+            "Line": 13,
+            "Column": 13,
+            "Index": 101
+          },
+          "EndPos": {
+            "Line": 15,
+            "Column": 2,
+            "Index": 140
+          },
+          "Body": [
+            {
+              "Kind": "FUNCTION_CALL_EXPRESSION",
+              "StartPos": {
+                "Line": 14,
+                "Column": 10,
+                "Index": 113
+              },
+              "EndPos": {
+                "Line": 14,
+                "Column": 33,
+                "Index": 136
+              },
+              "Function": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 14,
+                  "Column": 5,
+                  "Index": 108
+                },
+                "EndPos": {
+                  "Line": 14,
+                  "Column": 10,
+                  "Index": 113
+                },
+                "Identifier": "print",
+                "Type": "infr"
+              },
+              "Args": [
+                {
+                  "Kind": "STRING_LITERAL",
+                  "StartPos": {
+                    "Line": 14,
+                    "Column": 11,
+                    "Index": 114
+                  },
+                  "EndPos": {
+                    "Line": 14,
+                    "Column": 32,
+                    "Index": 135
+                  },
+                  "Value": "a is smaller than b",
+                  "Type": "str"
+                }
+              ]
+            }
+          ]
+        },
+        "Alternate": {
+          "Kind": "BLOCK_STATEMENT",
+          "StartPos": {
+            "Line": 15,
+            "Column": 7,
+            "Index": 145
+          },
+          "EndPos": {
+            "Line": 17,
+            "Column": 2,
+            "Index": 180
+          },
+          "Body": [
+            {
+              "Kind": "FUNCTION_CALL_EXPRESSION",
+              "StartPos": {
+                "Line": 16,
+                "Column": 10,
+                "Index": 157
+              },
+              "EndPos": {
+                "Line": 16,
+                "Column": 29,
+                "Index": 176
+              },
+              "Function": {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 16,
+                  "Column": 5,
+                  "Index": 152
+                },
+                "EndPos": {
+                  "Line": 16,
+                  "Column": 10,
+                  "Index": 157
+                },
+                "Identifier": "print",
+                "Type": "infr"
+              },
+              "Args": [
+                {
+                  "Kind": "STRING_LITERAL",
+                  "StartPos": {
+                    "Line": 16,
+                    "Column": 11,
+                    "Index": 158
+                  },
+                  "EndPos": {
+                    "Line": 16,
+                    "Column": 28,
+                    "Index": 175
+                  },
+                  "Value": "a is equal to b",
+                  "Type": "str"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

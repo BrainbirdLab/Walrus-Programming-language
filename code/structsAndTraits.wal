@@ -1,0 +1,67 @@
+
+
+struct Charecter {
+    pub name: str;
+    pub score: i8;
+}
+
+struct Hero {
+    embed Charecter;
+    pub heroType: str;
+}
+
+struct Villain {
+    embed Charecter;
+    pub villainType: str;
+}
+
+impl Charecter {
+    pub fn attack(){
+        print("Attacking");
+    }
+    pub fn defend(){
+        print("Defending");
+    }
+}
+
+trait SpecialAbility {
+    fn specialAttack();
+}
+
+impl SpecialAbility for Hero {
+    pub fn specialAttack(){
+        print("Special Attack");
+    }
+}
+
+impl SpecialAbility for Villain {
+    pub fn specialAttack(){
+        print("Special Attack");
+    }
+}
+
+fn performAttack(t: SpecialAbility){
+    t.specialAttack();
+}
+
+fn main() {
+    let hero := Hero {
+        name: "Superman",
+        score: 100,
+        heroType: "Superhero"
+    };
+    let villain := Villain {
+        name: "Lex Luthor",
+        score: 50,
+        villainType: "Supervillain"
+    };
+    hero.attack();
+    hero.defend();
+
+
+    villain.attack();
+    villain.defend();
+
+    performAttack(hero);
+    performAttack(villain);
+}

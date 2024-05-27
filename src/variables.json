@@ -1,0 +1,316 @@
+{
+  "Kind": "PROGRAM",
+  "StartPos": {
+    "Line": 1,
+    "Column": 1,
+    "Index": 0
+  },
+  "EndPos": {
+    "Line": 6,
+    "Column": 16,
+    "Index": 80
+  },
+  "FileName": "./../code/variables.wal",
+  "ModuleName": "",
+  "Imports": null,
+  "Contents": [
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 1,
+        "Column": 1,
+        "Index": 0
+      },
+      "EndPos": {
+        "Line": 1,
+        "Column": 24,
+        "Index": 23
+      },
+      "IsConstant": false,
+      "Identifier": "a",
+      "Value": {
+        "Kind": "BINARY_EXPRESSION",
+        "StartPos": {
+          "Line": 1,
+          "Column": 16,
+          "Index": 15
+        },
+        "EndPos": {
+          "Line": 1,
+          "Column": 23,
+          "Index": 22
+        },
+        "Operator": {
+          "Kind": "+",
+          "Value": "+",
+          "StartPos": {
+            "Line": 1,
+            "Column": 16,
+            "Index": 15
+          },
+          "EndPos": {
+            "Line": 1,
+            "Column": 17,
+            "Index": 16
+          }
+        },
+        "Left": {
+          "Kind": "NUMERIC_LITERAL",
+          "StartPos": {
+            "Line": 1,
+            "Column": 14,
+            "Index": 13
+          },
+          "EndPos": {
+            "Line": 1,
+            "Column": 15,
+            "Index": 14
+          },
+          "Value": 1,
+          "Type": "i8"
+        },
+        "Right": {
+          "Kind": "BINARY_EXPRESSION",
+          "StartPos": {
+            "Line": 1,
+            "Column": 20,
+            "Index": 19
+          },
+          "EndPos": {
+            "Line": 1,
+            "Column": 23,
+            "Index": 22
+          },
+          "Operator": {
+            "Kind": "*",
+            "Value": "*",
+            "StartPos": {
+              "Line": 1,
+              "Column": 20,
+              "Index": 19
+            },
+            "EndPos": {
+              "Line": 1,
+              "Column": 21,
+              "Index": 20
+            }
+          },
+          "Left": {
+            "Kind": "NUMERIC_LITERAL",
+            "StartPos": {
+              "Line": 1,
+              "Column": 18,
+              "Index": 17
+            },
+            "EndPos": {
+              "Line": 1,
+              "Column": 19,
+              "Index": 18
+            },
+            "Value": 5,
+            "Type": "i8"
+          },
+          "Right": {
+            "Kind": "NUMERIC_LITERAL",
+            "StartPos": {
+              "Line": 1,
+              "Column": 22,
+              "Index": 21
+            },
+            "EndPos": {
+              "Line": 1,
+              "Column": 23,
+              "Index": 22
+            },
+            "Value": 4,
+            "Type": "i8"
+          }
+        }
+      },
+      "ExplicitType": {
+        "Kind": "INTEGER",
+        "BitSize": 8,
+        "IsSigned": true
+      }
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 2,
+        "Column": 1,
+        "Index": 25
+      },
+      "EndPos": {
+        "Line": 2,
+        "Column": 22,
+        "Index": 46
+      },
+      "IsConstant": false,
+      "Identifier": "b",
+      "Value": {
+        "Kind": "BINARY_EXPRESSION",
+        "StartPos": {
+          "Line": 2,
+          "Column": 18,
+          "Index": 42
+        },
+        "EndPos": {
+          "Line": 2,
+          "Column": 21,
+          "Index": 45
+        },
+        "Operator": {
+          "Kind": "\u003e",
+          "Value": "\u003e",
+          "StartPos": {
+            "Line": 2,
+            "Column": 18,
+            "Index": 42
+          },
+          "EndPos": {
+            "Line": 2,
+            "Column": 19,
+            "Index": 43
+          }
+        },
+        "Left": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 2,
+            "Column": 16,
+            "Index": 40
+          },
+          "EndPos": {
+            "Line": 2,
+            "Column": 17,
+            "Index": 41
+          },
+          "Identifier": "a",
+          "Type": "infr"
+        },
+        "Right": {
+          "Kind": "NUMERIC_LITERAL",
+          "StartPos": {
+            "Line": 2,
+            "Column": 20,
+            "Index": 44
+          },
+          "EndPos": {
+            "Line": 2,
+            "Column": 21,
+            "Index": 45
+          },
+          "Value": 9,
+          "Type": "i8"
+        }
+      },
+      "ExplicitType": {
+        "Kind": "BOOLEAN"
+      }
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 4,
+        "Column": 1,
+        "Index": 50
+      },
+      "EndPos": {
+        "Line": 4,
+        "Column": 12,
+        "Index": 61
+      },
+      "IsConstant": false,
+      "Identifier": "c",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 4,
+          "Column": 10,
+          "Index": 59
+        },
+        "EndPos": {
+          "Line": 4,
+          "Column": 11,
+          "Index": 60
+        },
+        "Value": 8,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 6,
+        "Column": 1,
+        "Index": 65
+      },
+      "EndPos": {
+        "Line": 6,
+        "Column": 16,
+        "Index": 80
+      },
+      "IsConstant": false,
+      "Identifier": "d",
+      "Value": {
+        "Kind": "BINARY_EXPRESSION",
+        "StartPos": {
+          "Line": 6,
+          "Column": 12,
+          "Index": 76
+        },
+        "EndPos": {
+          "Line": 6,
+          "Column": 15,
+          "Index": 79
+        },
+        "Operator": {
+          "Kind": "+",
+          "Value": "+",
+          "StartPos": {
+            "Line": 6,
+            "Column": 12,
+            "Index": 76
+          },
+          "EndPos": {
+            "Line": 6,
+            "Column": 13,
+            "Index": 77
+          }
+        },
+        "Left": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 6,
+            "Column": 10,
+            "Index": 74
+          },
+          "EndPos": {
+            "Line": 6,
+            "Column": 11,
+            "Index": 75
+          },
+          "Identifier": "a",
+          "Type": "infr"
+        },
+        "Right": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 6,
+            "Column": 14,
+            "Index": 78
+          },
+          "EndPos": {
+            "Line": 6,
+            "Column": 15,
+            "Index": 79
+          },
+          "Identifier": "c",
+          "Type": "infr"
+        }
+      },
+      "ExplicitType": null
+    }
+  ]
+}
