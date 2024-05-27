@@ -1,6 +1,8 @@
 package ast
 
-import "walrus/frontend/lexer"
+import (
+	"walrus/frontend/lexer"
+)
 
 type ModuleStmt struct {
 	BaseStmt
@@ -197,3 +199,27 @@ func (f ForeachStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
 func (f ForeachStmt) _statement() {}
+
+type WhileLoopStmt struct {
+	BaseStmt
+	Condition 	Expression
+	Block 		BlockStmt
+}
+func (w WhileLoopStmt) node() {}
+func (w WhileLoopStmt) GetPos() (lexer.Position, lexer.Position) {
+	return w.StartPos, w.EndPos
+}
+func (w WhileLoopStmt) _statement() {}
+
+
+type SwitchCaseStmt struct {
+	BaseStmt
+	Variable 	string
+	Cases 		map[string]BlockStmt
+	Default		BlockStmt
+}
+func (s SwitchCaseStmt) node() {}
+func (s SwitchCaseStmt) GetPos() (lexer.Position, lexer.Position) {
+	return s.StartPos, s.EndPos
+}
+func (s SwitchCaseStmt) _statement() {}

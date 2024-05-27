@@ -121,9 +121,9 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 		var msg string
 		if lexer.IsKeyword(tokenKind) {
-			msg = fmt.Sprintf("Parser::Unexpected keyword '%s'\n", tokenKind)
+			msg = fmt.Sprintf("Parser:NUD:Unexpected keyword '%s'\n", tokenKind)
 		} else {
-			msg = fmt.Sprintf("Parser::Unexpected token '%s'\n", tokenKind)
+			msg = fmt.Sprintf("Parser:NUD:Unexpected token '%s'\n", tokenKind)
 		}
 		//err := fmt.Sprintf("File: %s:%d:%d: %s\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, msg)
 
@@ -142,7 +142,7 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 		led_fn, exists := ledLookup[tokenKind]
 
 		if !exists {
-			msg := fmt.Sprintf("Parser::Unexpected token %s\n", tokenKind)
+			msg := fmt.Sprintf("Parser:LED:Unexpected token %s\n", tokenKind)
 			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), msg).Display()
 		}
 

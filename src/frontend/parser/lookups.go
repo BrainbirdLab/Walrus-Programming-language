@@ -126,15 +126,18 @@ func createTokenLookups() {
 	stmt(lexer.LET, parse_var_decl_stmt)
 	stmt(lexer.MODULE, parse_module_stmt)
 	stmt(lexer.IMPORT, parse_import_stmt)
-	stmt(lexer.IF, parse_if_statement)
 	stmt(lexer.STRUCT, parse_struct_decl_stmt)
 	stmt(lexer.TRAIT, parse_trait_decl_stmt)
 	stmt(lexer.IMPLEMENT, parse_implement_stmt)
-	stmt(lexer.OPEN_CURLY, parse_block)
-
+	stmt(lexer.OPEN_CURLY, parse_block_stmt)
+	
+	//conditionals
+	stmt(lexer.IF, parse_if_statement)
+	stmt(lexer.SWITCH, parse_switch_case_stmt)
 	//loops
 	stmt(lexer.FOR, parse_for_loop_stmt)
 	stmt(lexer.FOREACH, parse_for_loop_stmt)
+	stmt(lexer.WHILE, parse_while_loop_stmt)
 
 	//function
 	stmt(lexer.FUNCTION, parse_function_decl_stmt)

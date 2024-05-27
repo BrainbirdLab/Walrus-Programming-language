@@ -77,6 +77,14 @@ const (
 	IMPORT   				= "import"
 	FROM     				= "from"
 	FUNCTION 				= "fn"
+
+	SWITCH					= "switch"
+	CASE					= "case"
+	DEFAULT					= "default"
+
+	BREAK					= "break"
+	CONTINUE				= "continue"
+
 	IF       				= "if"
 	ELSEIF   				= "elf"
 	ELSE     				= "els"
@@ -113,6 +121,11 @@ var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
 	"import":   	IMPORT,
 	"from":     	FROM,
 	"fn":       	FUNCTION,
+	"switch":		SWITCH,
+	"case":			CASE,
+	"default":		DEFAULT,
+	"break":		BREAK,
+	"continue":		CONTINUE,
 	"if":       	IF,
 	"elf":      	ELSEIF,
 	"els":      	ELSE,

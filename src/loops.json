@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 30,
+    "Line": 36,
     "Column": 2,
-    "Index": 470
+    "Index": 523
   },
   "FileName": "./../code/loops.wal",
   "ModuleName": "",
@@ -601,7 +601,7 @@
       "EndPos": {
         "Line": 30,
         "Column": 2,
-        "Index": 470
+        "Index": 472
       },
       "Variable": "val",
       "IndexVariable": "",
@@ -729,7 +729,7 @@
         "EndPos": {
           "Line": 30,
           "Column": 2,
-          "Index": 470
+          "Index": 472
         },
         "Body": [
           {
@@ -742,7 +742,7 @@
             "EndPos": {
               "Line": 29,
               "Column": 6,
-              "Index": 467
+              "Index": 469
             },
             "Condition": {
               "Kind": "BINARY_EXPRESSION",
@@ -853,27 +853,172 @@
               "EndPos": {
                 "Line": 29,
                 "Column": 6,
-                "Index": 467
+                "Index": 469
               },
-              "Body": [
-                {
-                  "Kind": "IDENTIFIER",
-                  "StartPos": {
-                    "Line": 28,
-                    "Column": 9,
-                    "Index": 451
-                  },
-                  "EndPos": {
-                    "Line": 28,
-                    "Column": 17,
-                    "Index": 459
-                  },
-                  "Identifier": "continue",
-                  "Type": "infr"
-                }
-              ]
+              "Body": []
             },
             "Alternate": null
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 32,
+        "Column": 1,
+        "Index": 476
+      },
+      "EndPos": {
+        "Line": 32,
+        "Column": 13,
+        "Index": 488
+      },
+      "IsConstant": false,
+      "Identifier": "x",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 32,
+          "Column": 10,
+          "Index": 485
+        },
+        "EndPos": {
+          "Line": 32,
+          "Column": 12,
+          "Index": 487
+        },
+        "Value": 10,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "WHILE_STATEMENT",
+      "StartPos": {
+        "Line": 34,
+        "Column": 1,
+        "Index": 492
+      },
+      "EndPos": {
+        "Line": 36,
+        "Column": 2,
+        "Index": 523
+      },
+      "Condition": {
+        "Kind": "BINARY_EXPRESSION",
+        "StartPos": {
+          "Line": 34,
+          "Column": 9,
+          "Index": 500
+        },
+        "EndPos": {
+          "Line": 34,
+          "Column": 12,
+          "Index": 503
+        },
+        "Operator": {
+          "Kind": "\u003e",
+          "Value": "\u003e",
+          "StartPos": {
+            "Line": 34,
+            "Column": 9,
+            "Index": 500
+          },
+          "EndPos": {
+            "Line": 34,
+            "Column": 10,
+            "Index": 501
+          }
+        },
+        "Left": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 34,
+            "Column": 7,
+            "Index": 498
+          },
+          "EndPos": {
+            "Line": 34,
+            "Column": 8,
+            "Index": 499
+          },
+          "Identifier": "x",
+          "Type": "infr"
+        },
+        "Right": {
+          "Kind": "NUMERIC_LITERAL",
+          "StartPos": {
+            "Line": 34,
+            "Column": 11,
+            "Index": 502
+          },
+          "EndPos": {
+            "Line": 34,
+            "Column": 12,
+            "Index": 503
+          },
+          "Value": 0,
+          "Type": "i8"
+        }
+      },
+      "Block": {
+        "Kind": "BLOCK_STATEMENT",
+        "StartPos": {
+          "Line": 34,
+          "Column": 13,
+          "Index": 504
+        },
+        "EndPos": {
+          "Line": 36,
+          "Column": 2,
+          "Index": 523
+        },
+        "Body": [
+          {
+            "Kind": "FUNCTION_CALL_EXPRESSION",
+            "StartPos": {
+              "Line": 35,
+              "Column": 10,
+              "Index": 516
+            },
+            "EndPos": {
+              "Line": 35,
+              "Column": 13,
+              "Index": 519
+            },
+            "Function": {
+              "Kind": "IDENTIFIER",
+              "StartPos": {
+                "Line": 35,
+                "Column": 5,
+                "Index": 511
+              },
+              "EndPos": {
+                "Line": 35,
+                "Column": 10,
+                "Index": 516
+              },
+              "Identifier": "print",
+              "Type": "infr"
+            },
+            "Args": [
+              {
+                "Kind": "IDENTIFIER",
+                "StartPos": {
+                  "Line": 35,
+                  "Column": 11,
+                  "Index": 517
+                },
+                "EndPos": {
+                  "Line": 35,
+                  "Column": 12,
+                  "Index": 518
+                },
+                "Identifier": "x",
+                "Type": "infr"
+              }
+            ]
           }
         ]
       }

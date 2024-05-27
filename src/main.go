@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 	"walrus/frontend/parser"
 	"walrus/utils"
@@ -14,18 +15,28 @@ func main() {
 
 	timeStart := time.Now()
 
-	var files []string;
+	targetDir := "./../code"
 
-	files = append(files, "modulesAndImport", "variables", "arrays", "conditionals", "loops", "structsAndTraits");
+	dir, err := os.ReadDir(targetDir)
 
-	for _, file := range files {
+	if err != nil {
+		panic(err)
+	}
 
-		filename := fmt.Sprintf("./../code/%s.wal", file)
+	for _, file := range dir {
+
+		sf := strings.Split(file.Name(), ".")
+
+		if file.IsDir() || sf[len(sf)-1] != "wal"{
+			continue
+		}
+
+		filename := targetDir + "/" + file.Name()
 
 		ast := parser.Parse(filename, false)
 	
 		//store as file
-		file, err := os.Create(file + ".json")
+		file, err := os.Create(sf[0] + ".json")
 	
 		if err != nil {
 			panic(err)

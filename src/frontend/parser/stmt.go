@@ -141,7 +141,11 @@ func parse_var_decl_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_block(p *Parser) ast.Statement {
+func parse_block_stmt(p *Parser) ast.Statement {
+	return parse_block(p)
+}
+
+func parse_block(p *Parser) ast.BlockStmt {
 
 	start := p.expect(lexer.OPEN_CURLY).StartPos
 
@@ -184,7 +188,7 @@ func parse_function_decl_stmt(p *Parser) ast.Statement {
 
 	// parse block
 	//type assertion from ast.Statement to ast.BlockStmt
-	functionBody := parse_block(p).(ast.BlockStmt)
+	functionBody := parse_block(p)
 
 	end := functionBody.EndPos
 
@@ -532,7 +536,7 @@ func parse_if_statement(p *Parser) ast.Statement {
 
 	condition := parse_expr(p, ASSIGNMENT) // using assignment as the lowest binding power
 
-	consequentBlock := parse_block(p).(ast.BlockStmt)
+	consequentBlock := parse_block(p)
 
 	var alternate ast.Statement
 
@@ -555,6 +559,52 @@ func parse_if_statement(p *Parser) ast.Statement {
 		Condition: condition,
 		Block:     consequentBlock,
 		Alternate: alternate,
+	}
+}
+
+func parse_switch_case_stmt(p *Parser) ast.Statement {
+
+	start := p.advance().StartPos //skip the switch keyword
+
+	variable := p.expect(lexer.IDENTIFIER).Value
+
+	p.expect(lexer.OPEN_CURLY)
+	
+	cases := map[string]ast.BlockStmt{}
+	defaultCase := ast.BlockStmt{}
+	
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY && p.currentTokenKind() != lexer.DEFAULT {
+		
+		p.expect(lexer.CASE)
+		
+		var caseType string
+		
+		for p.currentTokenKind() != lexer.OPEN_CURLY {
+			caseType += p.advance().Value
+		}
+
+		block := parse_block(p)
+
+		cases[caseType] = block
+	}
+
+	if p.currentTokenKind() == lexer.DEFAULT{
+		p.advance()
+		defaultCase = parse_block(p)
+	}
+
+
+	end := p.expect(lexer.CLOSE_CURLY).EndPos
+
+	return ast.SwitchCaseStmt{
+		BaseStmt: ast.BaseStmt{
+			Kind: ast.SWITCH_CASE_STATEMENT,
+			StartPos: start,
+			EndPos: end,
+		},
+		Variable: variable,
+		Cases: cases,
+		Default: defaultCase,
 	}
 }
 
@@ -582,7 +632,7 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 		//parse the post
 		post := parse_expr(p, ASSIGNMENT)
 
-		block := parse_block(p).(ast.BlockStmt)
+		block := parse_block(p)
 
 		end := block.EndPos
 
@@ -630,7 +680,7 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 			whereCause = parse_expr(p, ASSIGNMENT)
 		}
 
-		block := parse_block(p).(ast.BlockStmt)
+		block := parse_block(p)
 
 		end := block.EndPos
 
@@ -650,5 +700,26 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 	} else {
 		p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected for or foreach keyword").Display()
 		panic("-1")
+	}
+}
+
+func parse_while_loop_stmt(p *Parser) ast.Statement {
+
+	start := p.advance().StartPos // skip the for token
+
+	cond := parse_expr(p, ASSIGNMENT)
+
+	block := parse_block(p)
+
+	_, end := block.GetPos()
+
+	return ast.WhileLoopStmt{
+		BaseStmt: ast.BaseStmt{
+			Kind: ast.WHILE_STATEMENT,
+			StartPos: start,
+			EndPos: end,
+		},
+		Condition: cond,
+		Block: block,
 	}
 }

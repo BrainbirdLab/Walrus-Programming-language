@@ -1,0 +1,107 @@
+{
+  "Kind": "PROGRAM",
+  "StartPos": {
+    "Line": 1,
+    "Column": 1,
+    "Index": 0
+  },
+  "EndPos": {
+    "Line": 16,
+    "Column": 1,
+    "Index": 138
+  },
+  "FileName": "./../code/switchCase.wal",
+  "ModuleName": "",
+  "Imports": null,
+  "Contents": [
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 3,
+        "Column": 1,
+        "Index": 4
+      },
+      "EndPos": {
+        "Line": 3,
+        "Column": 12,
+        "Index": 15
+      },
+      "IsConstant": false,
+      "Identifier": "a",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 3,
+          "Column": 10,
+          "Index": 13
+        },
+        "EndPos": {
+          "Line": 3,
+          "Column": 11,
+          "Index": 14
+        },
+        "Value": 2,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "SWITCH_CASE_STATEMENT",
+      "StartPos": {
+        "Line": 5,
+        "Column": 1,
+        "Index": 19
+      },
+      "EndPos": {
+        "Line": 15,
+        "Column": 2,
+        "Index": 136
+      },
+      "Variable": "a",
+      "Cases": {
+        "1": {
+          "Kind": "BLOCK_STATEMENT",
+          "StartPos": {
+            "Line": 6,
+            "Column": 12,
+            "Index": 42
+          },
+          "EndPos": {
+            "Line": 8,
+            "Column": 6,
+            "Index": 62
+          },
+          "Body": []
+        },
+        "2+5": {
+          "Kind": "BLOCK_STATEMENT",
+          "StartPos": {
+            "Line": 9,
+            "Column": 16,
+            "Index": 79
+          },
+          "EndPos": {
+            "Line": 11,
+            "Column": 6,
+            "Index": 99
+          },
+          "Body": []
+        }
+      },
+      "Default": {
+        "Kind": "BLOCK_STATEMENT",
+        "StartPos": {
+          "Line": 12,
+          "Column": 13,
+          "Index": 113
+        },
+        "EndPos": {
+          "Line": 14,
+          "Column": 6,
+          "Index": 133
+        },
+        "Body": []
+      }
+    }
+  ]
+}

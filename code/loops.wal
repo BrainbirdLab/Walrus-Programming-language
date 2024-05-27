@@ -25,6 +25,12 @@ foreach val in array where val % 2 == 0 {
     
     //similar to,
     if val % 2 != 0 {
-        continue;
+        //continue;
     }
+}
+
+let x := 10;
+
+while x > 0 {
+    print(x);
 }
