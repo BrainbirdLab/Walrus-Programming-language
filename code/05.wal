@@ -42,8 +42,13 @@ trait SuperPower {
     fn fly();
     fn invisibility();
 }
+
+trait HighIQ {
+    fn genius();
+}
+
 // Implementing the trait for the struct
-impl SuperPower for Hero {
+impl SuperPower, HighIQ for Hero {
     fn fly() {
         print("Flying");
     }

@@ -94,7 +94,7 @@ func (r ReturnStmt) GetPos() (lexer.Position, lexer.Position) {
 }
 func (r ReturnStmt) _statement() {}
 
-type StructProperty struct {
+type Property struct {
 	BaseStmt
 	IsStatic bool
 	IsPublic bool
@@ -105,7 +105,7 @@ type StructProperty struct {
 type StructDeclStatement struct {
 	BaseStmt
 	StructName string
-	Properties map[string]StructProperty
+	Properties map[string]Property
 	Methods    map[string]FunctionPrototype
 	Embeds     []string
 }
@@ -116,7 +116,7 @@ func (s StructDeclStatement) GetPos() (lexer.Position, lexer.Position) {
 }
 func (s StructDeclStatement) _statement() {}
 
-type TraitMethod struct {
+type Method struct {
 	BaseStmt
 	FunctionPrototype
 	IsStatic bool
@@ -125,7 +125,7 @@ type TraitMethod struct {
 type TraitDeclStatement struct {
 	BaseStmt
 	TraitName string
-	Methods   map[string]TraitMethod
+	Methods   map[string]Method
 }
 
 func (t TraitDeclStatement) node() {}
@@ -137,14 +137,15 @@ func (t TraitDeclStatement) _statement() {}
 type MethodImplementStmt struct {
 	BaseStmt
 	FunctionDeclStmt
-	StructName string
-	IsPublic   bool
-	IsStatic   bool
+	TypeToImplement string
+	IsPublic   		bool
+	IsStatic   		bool
 }
 
 type ImplementStatement struct {
 	BaseStmt
-	Impliments Type
+	Impliments string
+	Traits     []string
 	Methods    map[string]MethodImplementStmt
 }
 

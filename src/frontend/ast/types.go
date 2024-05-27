@@ -86,7 +86,7 @@ func (s StructType) _type() {}
 type TraitType struct {
 	Kind     	DATA_TYPE
 	Name		string
-	For 		Type
+	For 		string
 }
 func (t TraitType) _type() {}
 

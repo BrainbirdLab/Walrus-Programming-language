@@ -235,7 +235,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 
 	p.expect(lexer.STRUCT)
 
-	properties := map[string]ast.StructProperty{}
+	properties := map[string]ast.Property{}
 	structName := p.expect(lexer.IDENTIFIER).Value
 	var embeds []string
 
@@ -289,7 +289,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 					panic(fmt.Sprintf("Property %s already declared", propname))
 				}
 
-				properties[propname] = ast.StructProperty{
+				properties[propname] = ast.Property{
 					IsStatic: IsStatic,
 					IsPublic: IsPublic,
 					ReadOnly: ReadOnly,
@@ -341,7 +341,7 @@ func parse_trait_decl_stmt(p *Parser) ast.Statement {
 
 	p.expect(lexer.OPEN_CURLY)
 
-	methods := map[string]ast.TraitMethod{}
+	methods := map[string]ast.Method{}
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
 
@@ -365,7 +365,7 @@ func parse_trait_decl_stmt(p *Parser) ast.Statement {
 
 		method := parse_function_prototype(p)
 
-		traitMethod := ast.TraitMethod{
+		traitMethod := ast.Method{
 			BaseStmt: ast.BaseStmt{
 				Kind:     ast.FN_PROTOTYPE_STATEMENT,
 				StartPos: method.StartPos,
@@ -392,7 +392,6 @@ func parse_trait_decl_stmt(p *Parser) ast.Statement {
 }
 
 func parse_function_prototype(p *Parser) ast.FunctionPrototype {
-
 
 	start := p.expect(lexer.FUNCTION).StartPos
 
@@ -428,17 +427,26 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 	//advance impl token
 	start := p.advance().StartPos
 
-	//parse the struct/trait name
-	Name := p.expect(lexer.IDENTIFIER).Value
+	var traits []string
 
-	var structName string
+	var TypeToImplement string
 
+	// syntax: impl A, B, C for T { ... } or impl A for T { ... } or impl T { ... }
+	if p.currentTokenKind() == lexer.IDENTIFIER {
+		traits = append(traits, p.expect(lexer.IDENTIFIER).Value)
+	}
+
+	//parse the trait names
+	for p.currentTokenKind() == lexer.COMMA {
+		p.advance()
+		traits = append(traits, p.expect(lexer.IDENTIFIER).Value)
+	}
 
 	if p.currentTokenKind() == lexer.FOR {
 		p.advance()
-		structName = p.expect(lexer.IDENTIFIER).Value
+		TypeToImplement = p.expect(lexer.IDENTIFIER).Value
 	} else {
-		structName = Name
+		TypeToImplement = traits[0]
 	}
 
 	p.expect(lexer.OPEN_CURLY)
@@ -473,7 +481,7 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 				EndPos:   method.EndPos,
 			},
 			FunctionDeclStmt: method,
-			StructName:       structName,
+			TypeToImplement:  TypeToImplement,
 			IsPublic:         isPublic,
 			IsStatic:         isStatic,
 		}
@@ -487,15 +495,9 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 			StartPos: start,
 			EndPos:   end,
 		},
-		Impliments: ast.TraitType{
-			Kind: ast.TRAIT,
-			Name: Name,
-			For:  ast.StructType{
-				Kind: ast.STRUCT,
-				Name: structName,
-			},
-		},
-		Methods:    methods,
+		Impliments: TypeToImplement,
+		Traits:    traits,
+		Methods: methods,
 	}
 }
 
