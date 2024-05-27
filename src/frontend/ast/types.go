@@ -16,8 +16,12 @@ const (
 	// Derived Types
 	ARRAY 			= "ARRAY"
 
-	// User Defined Types
-	USER_DEFINED 	= "USER_DEFINED"
+	STRUCT 			= "STRUCT"
+	TRAIT			= "TRAIT"
+	ENUM			= "ENUM"
+
+	//User Defined Types
+	USER_DEFINED	= "USER_DEFINED"
 )
 
 type IntegerType struct {
@@ -72,6 +76,25 @@ type ArrayType struct {
 }
 
 func (a ArrayType) _type() {}
+
+type StructType struct {
+	Kind     DATA_TYPE
+	Name	 string
+}
+func (s StructType) _type() {}
+
+type TraitType struct {
+	Kind     	DATA_TYPE
+	Name		string
+	For 		Type
+}
+func (t TraitType) _type() {}
+
+type EnumType struct {
+	Kind     DATA_TYPE
+	Fields   map[string]Type
+}
+func (e EnumType) _type() {}
 
 type UserDefinedType struct {
 	Kind     DATA_TYPE

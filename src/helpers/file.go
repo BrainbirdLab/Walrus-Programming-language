@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 	"strings"
-	"rexlang/utils"
+	"walrus/utils"
 )
 
 func GetCodePreview(source string, start int, end int, line int) (string, string) {

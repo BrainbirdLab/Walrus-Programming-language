@@ -2,9 +2,9 @@ package evaluator
 
 import (
 	"fmt"
-	"rexlang/frontend/ast"
-	"rexlang/frontend/typechecker"
-	"rexlang/helpers"
+	"walrus/frontend/ast"
+	"walrus/frontend/typechecker"
+	"walrus/helpers"
 )
 
 func Evaluate_idenitifierExpr(expr ast.IdentifierExpr, env *typechecker.Environment) typechecker.RuntimeValue {

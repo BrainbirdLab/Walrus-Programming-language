@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"rexlang/frontend/ast"
-	"rexlang/frontend/lexer"
+	"walrus/frontend/ast"
+	"walrus/frontend/lexer"
 )
 
 type BINDING_POWER int
@@ -62,7 +62,6 @@ func nud(kind lexer.TOKEN_KIND, nud_fn NUDHandler) {
 func stmt(kind lexer.TOKEN_KIND, stmt_fn statementHandler) {
 	stmtLookup[kind] = stmt_fn
 }
-
 
 func createTokenLookups() {
 
@@ -129,6 +128,7 @@ func createTokenLookups() {
 	stmt(lexer.IMPORT, parse_import_stmt)
 	stmt(lexer.IF, parse_if_statement)
 	stmt(lexer.STRUCT, parse_struct_decl_stmt)
+	stmt(lexer.TRAIT, parse_trait_decl_stmt)
 	stmt(lexer.IMPLEMENT, parse_implement_stmt)
 	stmt(lexer.OPEN_CURLY, parse_block)
 

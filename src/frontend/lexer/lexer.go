@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-	"rexlang/utils"
 	"strings"
+	"walrus/utils"
 	//"github.com/sanity-io/litter"
 )
 
@@ -52,7 +52,6 @@ func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 	lex.FilePath = file
 	lex.Lines = strings.Split(source, "\n")
 
-
 	for !lex.at_eof() {
 
 		matched := false
@@ -75,7 +74,7 @@ func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 
 			errStr := fmt.Sprintf("\n%s:%d:%d\n", lex.FilePath, lex.Pos.Line, lex.Pos.Column)
 			errStr += utils.Colorize(utils.GREY, padding) + Highlight(lex.Lines[lex.Pos.Line]) + "\n"
-			errStr += utils.Colorize(utils.BOLD_RED, (strings.Repeat(" ", (lex.Pos.Column - 1) + len(padding)) + "^\n"))
+			errStr += utils.Colorize(utils.BOLD_RED, (strings.Repeat(" ", (lex.Pos.Column-1)+len(padding)) + "^\n"))
 			errStr += fmt.Sprintf("At line %d: Unexpected character: '%c'", lex.Pos.Line, lex.at())
 			fmt.Println(errStr)
 
@@ -140,11 +139,11 @@ func createLexer(source *string) *Lexer {
 		},
 		patterns: []regexPattern{
 			//{regexp.MustCompile(`\n`), skipHandler}, // newlines
-			{regexp.MustCompile(`\s+`), skipHandler},                      // whitespace
-			{regexp.MustCompile(`\/\/.*`), skipHandler},                   // single line comments
-			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler},         // multi line comments
-			{regexp.MustCompile(`"[^"]*"`), stringHandler},                // string literals
-			{regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`), numberHandler},    // decimal numbers
+			{regexp.MustCompile(`\s+`), skipHandler},                          // whitespace
+			{regexp.MustCompile(`\/\/.*`), skipHandler},                       // single line comments
+			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler},             // multi line comments
+			{regexp.MustCompile(`"[^"]*"`), stringHandler},                    // string literals
+			{regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`), numberHandler},        // decimal numbers
 			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), identifierHandler}, // identifiers
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
 			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},
@@ -220,9 +219,9 @@ func numberHandler(lex *Lexer, regex *regexp.Regexp) {
 func stringHandler(lex *Lexer, regex *regexp.Regexp) {
 
 	match := regex.FindString(lex.remainder())
-	
+
 	//exclude the quotes
-	stringLiteral := match[1:len(match)-1]
+	stringLiteral := match[1 : len(match)-1]
 
 	start := lex.Pos
 	lex.advanceN(match)

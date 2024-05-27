@@ -1,4 +1,4 @@
-module rexlang
+module walrus
 
 go 1.20
 

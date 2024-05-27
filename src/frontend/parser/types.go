@@ -3,9 +3,9 @@ package parser
 import (
 	"fmt"
 	"os"
-	"rexlang/frontend/ast"
-	"rexlang/frontend/lexer"
-	"rexlang/utils"
+	"walrus/frontend/ast"
+	"walrus/frontend/lexer"
+	"walrus/utils"
 )
 
 // Null denoted. Expect nothing to the left of the token
@@ -79,8 +79,8 @@ func parse_data_type(p *Parser) ast.Type {
 			Name: value,
 		}
 		/*
-		p.MakeError(identifier.StartPos.Line, p.FilePath, identifier, fmt.Sprintf("Unknown data type '%s'\n", value)).AddHint("You can use primitives types like i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, f32, f64, bool, char, str, or arrays of them").Display()
-		panic("Error while parsing")
+			p.MakeError(identifier.StartPos.Line, p.FilePath, identifier, fmt.Sprintf("Unknown data type '%s'\n", value)).AddHint("You can use primitives types like i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, f32, f64, bool, char, str, or arrays of them").Display()
+			panic("Error while parsing")
 		*/
 	}
 }

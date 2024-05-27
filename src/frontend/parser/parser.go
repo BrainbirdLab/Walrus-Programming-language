@@ -5,9 +5,9 @@ import (
 	"os"
 
 	//"path/filepath"
-	"rexlang/frontend/ast"
-	"rexlang/frontend/lexer"
-	"rexlang/utils"
+	"walrus/frontend/ast"
+	"walrus/frontend/lexer"
+	"walrus/utils"
 	"strings"
 )
 
@@ -66,16 +66,19 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 	end := tokens[len(tokens)-1].EndPos
 
 	return ast.ProgramStmt{
+		BaseStmt: ast.BaseStmt{
+			Kind: ast.PROGRAM,
+			StartPos: lexer.Position{
+				Line:   1,
+				Column: 1,
+				Index: 0,
+			},
+			EndPos: end,
+		},
 		ModuleName: moduleName,
 		Imports:    imports,
 		Contents:   contents,
 		FileName:   filePath,
-		StartPos: lexer.Position{
-			Line:   1,
-			Column: 1,
-			Index:  0,
-		},
-		EndPos: end,
 	}
 }
 
@@ -166,7 +169,6 @@ func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMs
 
 	line := (*p.Lines)[lineNo-1]
 
-	//fmt.Printf("Token start: %v, end: %v\n", token.StartPos, token.EndPos)
 	errStr += fmt.Sprintf("\n%s:%d:%d\n", filePath, token.StartPos.Line, token.StartPos.Column)
 
 	padding := fmt.Sprintf("%d | ", token.StartPos.Line)

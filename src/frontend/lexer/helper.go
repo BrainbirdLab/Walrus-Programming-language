@@ -3,7 +3,7 @@ package lexer
 import (
 	"strings"
 
-	"rexlang/utils"
+	"walrus/utils"
 )
 
 func Highlight(line string) string {

@@ -1,14 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"time"
-	"encoding/json"
-	"rexlang/frontend/parser"
-	"github.com/sanity-io/litter"
+	"walrus/frontend/parser"
 )
-
 
 func main() {
 	// time start
@@ -18,13 +16,11 @@ func main() {
 	ast := parser.Parse("./../code/05.wal", false)
 
 	//store as file
-	file, err := os.Create("ast.json");
+	file, err := os.Create("ast.json")
 
 	if err != nil {
 		panic(err)
 	}
-
-	litter.Dump(ast)
 
 	//parse as string
 	astString, err := json.MarshalIndent(ast, "", "  ")

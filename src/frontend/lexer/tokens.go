@@ -96,6 +96,7 @@ const (
 	// Other
 	STRUCT   				= "struct"
 	EMBED	  				= "embed"
+	TRAIT	  				= "trait"
 	IMPLEMENT 				= "implement"
 	OVERRIDE 				= "override"
 	STATIC   				= "static"
@@ -127,6 +128,7 @@ var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
 	"false":    	FALSE,
 	"struct":   	STRUCT,
 	"embed":  		EMBED,
+	"trait":		TRAIT,
 	"impl":			IMPLEMENT,
 	"override": 	OVERRIDE,
 	"static":   	STATIC,

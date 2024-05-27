@@ -3,9 +3,9 @@ package parser
 import (
 	"fmt"
 	"os"
-	"rexlang/frontend/ast"
-	"rexlang/frontend/lexer"
-	"rexlang/utils"
+	"walrus/frontend/ast"
+	"walrus/frontend/lexer"
+	"walrus/utils"
 )
 
 func parse_node(p *Parser) ast.Node {
@@ -14,7 +14,6 @@ func parse_node(p *Parser) ast.Node {
 	stmt_fn, exists := stmtLookup[p.currentTokenKind()]
 
 	if exists {
-		fmt.Printf("parse_node: stmt_fn: %v\n", stmt_fn)
 		return stmt_fn(p)
 	}
 
@@ -35,10 +34,12 @@ func parse_module_stmt(p *Parser) ast.Statement {
 	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.ModuleStmt{
-		Kind:       ast.MODULE_STATEMENT,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.MODULE_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
 		ModuleName: moduleName,
-		StartPos:   start,
-		EndPos:     end,
 	}
 }
 
@@ -76,11 +77,13 @@ func parse_import_stmt(p *Parser) ast.Statement {
 	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.ImportStmt{
-		Kind:        ast.IMPORT_STATEMENT,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.IMPORT_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
 		Identifiers: identifiers,
 		ModuleName:  moduleName,
-		StartPos:    start,
-		EndPos:      end,
 	}
 }
 
@@ -126,19 +129,20 @@ func parse_var_decl_stmt(p *Parser) ast.Statement {
 	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.VariableDclStml{
-		Kind:         ast.VARIABLE_DECLARATION_STATEMENT,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.VARIABLE_DECLARATION_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
 		IsConstant:   isConstant,
 		Identifier:   varName,
 		Value:        assignedValue,
 		ExplicitType: explicitType,
-		StartPos:     start,
-		EndPos:       end,
 	}
 }
 
 func parse_block(p *Parser) ast.Statement {
 
-	fmt.Printf("Current token kind: %s\n", p.currentTokenKind())
 	start := p.expect(lexer.OPEN_CURLY).StartPos
 
 	body := make([]ast.Node, 0)
@@ -150,10 +154,12 @@ func parse_block(p *Parser) ast.Statement {
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
 	return ast.BlockStmt{
-		Kind:     ast.BLOCK_STATEMENT,
-		Body:     body,
-		StartPos: start,
-		EndPos:   end,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.BLOCK_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
+		Body: body,
 	}
 }
 
@@ -183,13 +189,17 @@ func parse_function_decl_stmt(p *Parser) ast.Statement {
 	end := functionBody.EndPos
 
 	return ast.FunctionDeclStmt{
-		Kind:         ast.FN_DECLARATION_STATEMENT,
-		FunctionName: functionName,
-		Parameters:   params,
-		Block:        functionBody,
-		ReturnType:   explicitReturnType,
-		StartPos:     start,
-		EndPos:       end,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.FN_DECLARATION_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
+		FunctionPrototype: ast.FunctionPrototype{
+			FunctionName: functionName,
+			Parameters:   params,
+			ReturnType:   explicitReturnType,
+		},
+		Block: functionBody,
 	}
 }
 
@@ -210,10 +220,12 @@ func parse_return_stmt(p *Parser) ast.Statement {
 	end := p.expect(lexer.SEMI_COLON).EndPos
 
 	return ast.ReturnStmt{
-		Kind:       ast.RETURN_STATEMENT,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.RETURN_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
 		Expression: value,
-		StartPos:   start,
-		EndPos:     end,
 	}
 }
 
@@ -308,39 +320,34 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
 	return ast.StructDeclStatement{
-		Kind:       ast.STRUCT_DECLARATION_STATEMENT,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.STRUCT_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
 		Properties: properties,
 		Embeds:     embeds,
 		StructName: structName,
-		StartPos:   start,
-		EndPos:     end,
 	}
 }
 
-func parse_implement_stmt(p *Parser) ast.Statement {
+func parse_trait_decl_stmt(p *Parser) ast.Statement {
 
-	//advance impl token
-	start := p.advance().StartPos
+	start := p.currentToken().StartPos
 
-	//parse the struct name
-	structName := p.expect(lexer.IDENTIFIER).Value
+	p.advance() //pass the trait token
+
+	traitName := p.expect(lexer.IDENTIFIER).Value
 
 	p.expect(lexer.OPEN_CURLY)
 
-	methods := map[string]ast.StructMethod{}
+	methods := map[string]ast.TraitMethod{}
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
 
-		start := p.currentToken().StartPos
-
-		override := false
+		//parse access modifier
 		isPublic := false
 		isStatic := false
-
-		if p.currentTokenKind() == lexer.OVERRIDE {
-			override = true
-			p.advance()
-		}
 
 		if p.currentTokenKind() == lexer.ACCESS {
 			if p.currentToken().Value == "pub" {
@@ -349,6 +356,108 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 			p.advance()
 		}
 
+		if p.currentTokenKind() == lexer.STATIC {
+			isStatic = true
+			p.advance()
+		}
+
+		// parse the method prototype: fn <name> (params) -> return_type; or fn <name> (params); <- void return type
+
+		method := parse_function_prototype(p)
+
+		traitMethod := ast.TraitMethod{
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.FN_PROTOTYPE_STATEMENT,
+				StartPos: method.StartPos,
+				EndPos:   method.EndPos,
+			},
+			IsPublic: isPublic,
+			IsStatic: isStatic,
+		}
+
+		methods[method.FunctionName] = traitMethod
+	}
+
+	end := p.expect(lexer.CLOSE_CURLY).EndPos
+
+	return ast.TraitDeclStatement{
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.TRAIT_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
+		TraitName: traitName,
+		Methods:   methods,
+	}
+}
+
+func parse_function_prototype(p *Parser) ast.FunctionPrototype {
+
+
+	start := p.expect(lexer.FUNCTION).StartPos
+
+	Name := p.expect(lexer.IDENTIFIER).Value
+
+	Parameters := parse_params(p)
+
+	var ReturnType ast.Type
+
+	if p.currentTokenKind() == lexer.ARROW {
+		p.advance()
+		ReturnType = parse_type(p, DEFAULT_BP)
+	} else {
+		ReturnType = ast.VoidType{}
+	}
+
+	end := p.expect(lexer.SEMI_COLON).EndPos
+
+	return ast.FunctionPrototype{
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.FN_PROTOTYPE_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
+		FunctionName: Name,
+		Parameters:   Parameters,
+		ReturnType:   ReturnType,
+	}
+}
+
+func parse_implement_stmt(p *Parser) ast.Statement {
+
+	//advance impl token
+	start := p.advance().StartPos
+
+	//parse the struct/trait name
+	Name := p.expect(lexer.IDENTIFIER).Value
+
+	var structName string
+
+
+	if p.currentTokenKind() == lexer.FOR {
+		p.advance()
+		structName = p.expect(lexer.IDENTIFIER).Value
+	} else {
+		structName = Name
+	}
+
+	p.expect(lexer.OPEN_CURLY)
+
+	methods := map[string]ast.MethodImplementStmt{}
+
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+
+		start := p.currentToken().StartPos
+
+		isPublic := false
+		isStatic := false
+
+		if p.currentTokenKind() == lexer.ACCESS {
+			if p.currentToken().Value == "pub" {
+				isPublic = true
+			}
+			p.advance()
+		}
 
 		if p.currentTokenKind() == lexer.STATIC {
 			isStatic = true
@@ -357,25 +466,36 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 
 		method := parse_function_decl_stmt(p).(ast.FunctionDeclStmt)
 
-		methods[method.FunctionName] = ast.StructMethod{
-			ParentName: structName,
-			Overrides: 	override,
-			IsPublic:   isPublic,
-			IsStatic:   isStatic,
-			Method:    	method,
-			StartPos:   start,
-			EndPos:     method.EndPos,
+		methods[method.FunctionName] = ast.MethodImplementStmt{
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.FN_DECLARATION_STATEMENT,
+				StartPos: start,
+				EndPos:   method.EndPos,
+			},
+			FunctionDeclStmt: method,
+			StructName:       structName,
+			IsPublic:         isPublic,
+			IsStatic:         isStatic,
 		}
 	}
 
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
-	return ast.StructImplementStatement{
-		Kind:       ast.STRUCT_IMPLEMENT_STATEMENT,
-		StructName: structName,
+	return ast.ImplementStatement{
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.IMPLEMENTS_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
+		Impliments: ast.TraitType{
+			Kind: ast.TRAIT,
+			Name: Name,
+			For:  ast.StructType{
+				Kind: ast.STRUCT,
+				Name: structName,
+			},
+		},
 		Methods:    methods,
-		StartPos:   start,
-		EndPos:     end,
 	}
 }
 
@@ -406,17 +526,11 @@ func parse_params(p *Parser) map[string]ast.Type {
 
 func parse_if_statement(p *Parser) ast.Statement {
 
-	fmt.Printf("parse_if_statement\n")
-
 	start := p.advance().StartPos
 
 	condition := parse_expr(p, ASSIGNMENT) // using assignment as the lowest binding power
 
-	fmt.Printf("condition: %v\n", condition)
-
 	consequentBlock := parse_block(p).(ast.BlockStmt)
-
-	fmt.Printf("consequentBlock: %v\n", consequentBlock)
 
 	var alternate ast.Statement
 
@@ -431,12 +545,14 @@ func parse_if_statement(p *Parser) ast.Statement {
 	}
 
 	return ast.IfStmt{
-		Kind:      ast.IF_STATEMENT,
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.IF_STATEMENT,
+			StartPos: start,
+			EndPos:   consequentBlock.EndPos,
+		},
 		Condition: condition,
 		Block:     consequentBlock,
 		Alternate: alternate,
-		StartPos:  start,
-		EndPos:    consequentBlock.EndPos,
 	}
 }
 
@@ -464,21 +580,21 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 		//parse the post
 		post := parse_expr(p, ASSIGNMENT)
 
-		fmt.Printf("init: %s=%s, condition: %v, post: %v\n", identifier, init, condition, post)
-
 		block := parse_block(p).(ast.BlockStmt)
 
 		end := block.EndPos
 
 		return ast.ForStmt{
-			Kind:      ast.FOR_STATEMENT,
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.FOR_LOOP_STATEMENT,
+				StartPos: start,
+				EndPos:   end,
+			},
 			Variable:  identifier,
 			Init:      init,
 			Condition: condition,
 			Post:      post,
 			Block:     block,
-			StartPos:  start,
-			EndPos:    end,
 		}
 
 	} else if loopKind == lexer.FOREACH {
@@ -517,14 +633,16 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 		end := block.EndPos
 
 		return ast.ForeachStmt{
-			Kind:          ast.FOREACH_LOOP_STATEMENT,
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.FOREACH_LOOP_STATEMENT,
+				StartPos: start,
+				EndPos:   end,
+			},
 			Variable:      identifier,
 			IndexVariable: indexVar,
 			Iterable:      arr,
 			WhereClause:   whereCause,
 			Block:         block,
-			StartPos:      start,
-			EndPos:        end,
 		}
 
 	} else {

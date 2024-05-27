@@ -20,46 +20,40 @@ if a == 4 {
 
 struct Person {
     pub name: str;
-    pub readonly age: i8;
-    // No method declaration
+    pub readonly age: i8; // readonly field. Can't be changed after initialization
 }
 
 impl Person {
-    pub fn constructor(name: str, age: i8) {
-        print("Person created");
+    fn walk() {
+        print("Walking");
     }
-
-    pub fn walk() {
-        print("Person is walking");
+    fn talk() {
+        print("Talking");
     }
+}
 
-    pub fn talk() {
-        print("Person is talking");
+// A trait is a collection of methods that can be implemented by a struct
+trait SuperPower {
+    fn fly();
+    fn invisibility();
+}
+// Implementing the trait for the struct
+impl SuperPower for Person {
+    fn fly() {
+        print("Flying");
+    }
+    fn invisibility() {
+        print("Invisible");
     }
 }
 
 
 struct Boss{
+    // Embedding the Person struct in the Boss struct. 
+    // All fields and methods of Person are now available in Boss
     embed Person;
     pub readonly salary: i32;
 }
-
-
-impl Boss {
-    
-    override pub fn constructor(name: str, age: i8, salary: i32) {
-        print("Boss created");
-    }
-
-    pub fn walk() {
-        print("Boss is walking");
-    }
-
-    pub fn talk() {
-        print("Boss is talking");
-    }
-}
-
 
 let p : Person = Person { name: "John", age: 23 };
 
