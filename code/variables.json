@@ -7,8 +7,8 @@
   },
   "EndPos": {
     "Line": 4,
-    "Column": 16,
-    "Index": 65
+    "Column": 14,
+    "Index": 63
   },
   "FileName": "./../code/variables.wal",
   "ModuleName": "",
@@ -217,13 +217,13 @@
       },
       "EndPos": {
         "Line": 4,
-        "Column": 16,
-        "Index": 65
+        "Column": 14,
+        "Index": 63
       },
-      "IsConstant": false,
-      "Identifier": "d",
+      "IsConstant": true,
+      "Identifier": "a",
       "Value": {
-        "Kind": "BINARY_EXPRESSION",
+        "Kind": "NUMERIC_LITERAL",
         "StartPos": {
           "Line": 4,
           "Column": 12,
@@ -231,53 +231,11 @@
         },
         "EndPos": {
           "Line": 4,
-          "Column": 15,
-          "Index": 64
+          "Column": 13,
+          "Index": 62
         },
-        "Operator": {
-          "Kind": "+",
-          "Value": "+",
-          "StartPos": {
-            "Line": 4,
-            "Column": 12,
-            "Index": 61
-          },
-          "EndPos": {
-            "Line": 4,
-            "Column": 13,
-            "Index": 62
-          }
-        },
-        "Left": {
-          "Kind": "IDENTIFIER",
-          "StartPos": {
-            "Line": 4,
-            "Column": 10,
-            "Index": 59
-          },
-          "EndPos": {
-            "Line": 4,
-            "Column": 11,
-            "Index": 60
-          },
-          "Identifier": "a",
-          "Type": "infr"
-        },
-        "Right": {
-          "Kind": "IDENTIFIER",
-          "StartPos": {
-            "Line": 4,
-            "Column": 14,
-            "Index": 63
-          },
-          "EndPos": {
-            "Line": 4,
-            "Column": 15,
-            "Index": 64
-          },
-          "Identifier": "c",
-          "Type": "infr"
-        }
+        "Value": 9,
+        "Type": "i8"
       },
       "ExplicitType": null
     }

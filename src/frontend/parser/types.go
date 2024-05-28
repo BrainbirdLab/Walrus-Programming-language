@@ -106,8 +106,12 @@ func parse_type(p *Parser, bp BINDING_POWER) ast.Type {
 		//panic(fmt.Sprintf("TYPE NUD handler expected for token %s\n", tokenKind))
 		err := p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), fmt.Sprintf("Unexpected token %s\n", tokenKind))
 
-		err.AddHint("Follow `let x := 10` syntax or")
-		err.AddHint("Use primitive types like i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, f32, f64, bool, char, str, or arrays of them")
+		err.AddHint("Follow ", TEXT_HINT)
+		err.AddHint("let x := 10", CODE_HINT)
+		err.AddHint(" syntax or", TEXT_HINT)
+		err.AddHint("Use primitive types like ", TEXT_HINT)
+		err.AddHint("i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, f32, f64, bool, char, str", CODE_HINT)
+		err.AddHint(" or arrays of them", TEXT_HINT)
 		err.Display()
 
 		os.Exit(1)

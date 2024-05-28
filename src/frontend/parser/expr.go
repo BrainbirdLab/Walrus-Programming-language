@@ -128,8 +128,6 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 		//err := fmt.Sprintf("File: %s:%d:%d: %s\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, msg)
 
 		p.MakeError(token.StartPos.Line, p.FilePath, token, msg).Display()
-
-		//panic(err)
 	}
 
 
@@ -295,8 +293,7 @@ func parse_var_assignment_expr(p *Parser, left ast.Expression, bp BINDING_POWER)
 
 	default:
 		errMsg := "Cannot assign to a non-identifier\n"
-		p.MakeError(start.Line, p.FilePath, p.previousToken(), errMsg).AddHint("Expected an identifier").Display()
-		panic(errMsg)
+		p.MakeError(start.Line, p.FilePath, p.previousToken(), errMsg).AddHint("Expected an identifier", TEXT_HINT).Display()
 	}
 
 	operator := p.advance()

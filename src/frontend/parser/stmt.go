@@ -102,20 +102,15 @@ func parse_var_decl_stmt(p *Parser) ast.Statement {
 	varName := p.expectError(lexer.IDENTIFIER, errMsg).Value
 
 	//p.expectError(lexer.COLON, "Expected type or value after variable name")
-	if p.currentTokenKind() != lexer.COLON {
-		// then we expect wallrus
-		p.expect(lexer.WALRUS)
-		// then we expect value
-		if p.currentTokenKind() == lexer.SEMI_COLON {
-			panic("Expected value after := operator")
-		}
+	if p.currentTokenKind() == lexer.WALRUS {
+		p.advance()
 
 		assignedValue = parse_expr(p, DEFAULT_BP)
 
 		if assignedValue == nil {
-			panic("Expected value after := operator")
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected value after := operator").Display()
 		}
-	} else {
+	} else if p.currentTokenKind() == lexer.COLON {
 		// then we expect type
 		p.advance()
 		explicitType = parse_type(p, DEFAULT_BP)
@@ -124,6 +119,15 @@ func parse_var_decl_stmt(p *Parser) ast.Statement {
 			p.advance()
 			assignedValue = parse_expr(p, DEFAULT_BP)
 		}
+	} else {
+		if p.currentTokenKind() == lexer.ASSIGNMENT {
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Invalid token").AddHint("Use ':=' instead\n", TEXT_HINT).Display()
+		}
+		p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected value or type").AddHint("You can declare a variable by\n", TEXT_HINT).AddHint(" let x : i8 = 4;", CODE_HINT).AddHint("\nor,", TEXT_HINT).AddHint("\n let x := 4;", CODE_HINT).Display()
+	}
+
+	if isConstant && assignedValue == nil {
+		p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected value").AddHint("Constants must have a value while declaration", TEXT_HINT).Display()
 	}
 
 	end := p.expect(lexer.SEMI_COLON).EndPos
@@ -335,9 +339,10 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 
 			p.expect(lexer.SEMI_COLON)
 		} else {
-			err := fmt.Sprintf("Expected access modifier or embed keyword, got %s", p.currentToken().Value)
 
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), err).AddHint("Try adding access modifier to the property.").AddHint("Or to embed a struct, use the embed keyword.").Display()
+			err := "Expected access modifier or embed keyword"
+
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), err).AddHint("Try adding access modifier - ", TEXT_HINT).AddHint("pub or priv", CODE_HINT).AddHint(" to the property.\n", TEXT_HINT).AddHint("Or,\nTo embed a struct, use the ", TEXT_HINT).AddHint("embed", CODE_HINT).AddHint(" keyword.", TEXT_HINT).Display()
 
 			os.Exit(1)
 		}

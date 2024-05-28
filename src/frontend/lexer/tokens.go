@@ -161,6 +161,11 @@ func IsNumber(tokenKind TOKEN_KIND) bool {
 	return regexp.MatchString(string(tokenKind))
 }
 
+func IsBuiltInType(tokenKind TOKEN_KIND) bool {
+	regexp := regexp.MustCompile(`i8|i16|i32|i64|i128|f32|f64|bool|str|chr`)
+	return regexp.MatchString(string(tokenKind))
+}
+
 // Define token types
 type Token struct {
 	Kind     TOKEN_KIND
