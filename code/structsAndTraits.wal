@@ -30,13 +30,19 @@ trait SpecialAbility {
 
 impl SpecialAbility for Hero {
     pub fn specialAttack(){
-        print("Special Attack");
+        print("Special Attack  for Hero");
     }
 }
 
 impl SpecialAbility for Villain {
     pub fn specialAttack(){
-        print("Special Attack");
+        print("Special Attack Villain");
+    }
+}
+
+impl SpecialAbility for i8 {
+    pub fn bitSize() -> i8 {
+        //
     }
 }
 

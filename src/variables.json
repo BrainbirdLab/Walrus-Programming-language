@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 6,
+    "Line": 4,
     "Column": 16,
-    "Index": 80
+    "Index": 65
   },
   "FileName": "./../code/variables.wal",
   "ModuleName": "",
@@ -217,79 +217,48 @@
       },
       "EndPos": {
         "Line": 4,
-        "Column": 12,
-        "Index": 61
-      },
-      "IsConstant": false,
-      "Identifier": "c",
-      "Value": {
-        "Kind": "NUMERIC_LITERAL",
-        "StartPos": {
-          "Line": 4,
-          "Column": 10,
-          "Index": 59
-        },
-        "EndPos": {
-          "Line": 4,
-          "Column": 11,
-          "Index": 60
-        },
-        "Value": 8,
-        "Type": "i8"
-      },
-      "ExplicitType": null
-    },
-    {
-      "Kind": "VARIABLE_DECLARATION_STATEMENT",
-      "StartPos": {
-        "Line": 6,
-        "Column": 1,
-        "Index": 65
-      },
-      "EndPos": {
-        "Line": 6,
         "Column": 16,
-        "Index": 80
+        "Index": 65
       },
       "IsConstant": false,
       "Identifier": "d",
       "Value": {
         "Kind": "BINARY_EXPRESSION",
         "StartPos": {
-          "Line": 6,
+          "Line": 4,
           "Column": 12,
-          "Index": 76
+          "Index": 61
         },
         "EndPos": {
-          "Line": 6,
+          "Line": 4,
           "Column": 15,
-          "Index": 79
+          "Index": 64
         },
         "Operator": {
           "Kind": "+",
           "Value": "+",
           "StartPos": {
-            "Line": 6,
+            "Line": 4,
             "Column": 12,
-            "Index": 76
+            "Index": 61
           },
           "EndPos": {
-            "Line": 6,
+            "Line": 4,
             "Column": 13,
-            "Index": 77
+            "Index": 62
           }
         },
         "Left": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 6,
+            "Line": 4,
             "Column": 10,
-            "Index": 74
+            "Index": 59
           },
           "EndPos": {
-            "Line": 6,
+            "Line": 4,
             "Column": 11,
-            "Index": 75
+            "Index": 60
           },
           "Identifier": "a",
           "Type": "infr"
@@ -297,14 +266,14 @@
         "Right": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 6,
+            "Line": 4,
             "Column": 14,
-            "Index": 78
+            "Index": 63
           },
           "EndPos": {
-            "Line": 6,
+            "Line": 4,
             "Column": 15,
-            "Index": 79
+            "Index": 64
           },
           "Identifier": "c",
           "Type": "infr"

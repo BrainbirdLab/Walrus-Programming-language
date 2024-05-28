@@ -58,6 +58,7 @@ func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 
 		for _, pattern := range lex.patterns {
 
+
 			loc := pattern.regex.FindStringIndex(lex.remainder())
 
 			if loc != nil && loc[0] == 0 {
@@ -116,13 +117,13 @@ func (lex *Lexer) at_eof() bool {
 }
 
 func defaultHandler(kind TOKEN_KIND, value string) regexHandler {
-	return func(lex *Lexer, regex *regexp.Regexp) {
 
+	
+	return func(lex *Lexer, regex *regexp.Regexp) {
+		
 		start := lex.Pos
 		lex.advanceN(value)
 		end := lex.Pos
-
-		//line := lex.getLineNum(start)
 
 		lex.push(NewToken(kind, value, start, end))
 	}
@@ -143,7 +144,7 @@ func createLexer(source *string) *Lexer {
 			{regexp.MustCompile(`\/\/.*`), skipHandler},                       // single line comments
 			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler},             // multi line comments
 			{regexp.MustCompile(`"[^"]*"`), stringHandler},                    // string literals
-			{regexp.MustCompile(`[0-9]+(?:\.[0-9]*)?`), numberHandler},        // decimal numbers
+			{regexp.MustCompile(`[0-9]+(?:\.[0-9]+)?`), numberHandler},        // decimal numbers
 			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), identifierHandler}, // identifiers
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
 			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},

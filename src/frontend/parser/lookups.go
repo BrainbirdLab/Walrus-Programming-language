@@ -96,7 +96,7 @@ func createTokenLookups() {
 	led(lexer.OR, LOGICAL, parse_binary_expr)
 
 	// Range
-	led(lexer.DOT_DOT, PRIMARY, parse_binary_expr)
+	led(lexer.DOT_DOT, LOGICAL, parse_binary_expr)
 
 	// Member
 	led(lexer.DOT, MEMBER, parse_property_expr)
@@ -130,7 +130,7 @@ func createTokenLookups() {
 	stmt(lexer.TRAIT, parse_trait_decl_stmt)
 	stmt(lexer.IMPLEMENT, parse_implement_stmt)
 	stmt(lexer.OPEN_CURLY, parse_block_stmt)
-	
+
 	//conditionals
 	stmt(lexer.IF, parse_if_statement)
 	stmt(lexer.SWITCH, parse_switch_case_stmt)
@@ -142,4 +142,7 @@ func createTokenLookups() {
 	//function
 	stmt(lexer.FUNCTION, parse_function_decl_stmt)
 	stmt(lexer.RETURN, parse_return_stmt)
+
+	stmt(lexer.CONTINUE, parse_continue_stmt)
+	stmt(lexer.BREAK, parse_break_stmt)
 }

@@ -233,6 +233,28 @@ func parse_return_stmt(p *Parser) ast.Statement {
 	}
 }
 
+func parse_break_stmt(p *Parser) ast.Statement {
+	return parse_breakout_stmt(p)
+}
+
+func parse_continue_stmt(p *Parser) ast.Statement {
+	return parse_breakout_stmt(p)
+}
+
+func parse_breakout_stmt(p *Parser) ast.Statement {
+
+	start := p.advance().StartPos
+	end := p.expect(lexer.SEMI_COLON).EndPos
+
+	return ast.BreakStmt{
+		BaseStmt: ast.BaseStmt{
+			Kind: ast.BREAK_STATEMENT,
+			StartPos: start,
+			EndPos: end,
+		},
+	}
+}
+
 func parse_struct_decl_stmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
@@ -446,8 +468,8 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 		traits = append(traits, p.expect(lexer.IDENTIFIER).Value)
 	}
 
-	if p.currentTokenKind() == lexer.FOR {
-		p.advance()
+	if p.currentTokenKind() != lexer.OPEN_CURLY {
+		p.expect(lexer.FOR)
 		TypeToImplement = p.expect(lexer.IDENTIFIER).Value
 	} else {
 		TypeToImplement = traits[0]
@@ -500,8 +522,8 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 			EndPos:   end,
 		},
 		Impliments: TypeToImplement,
-		Traits:    traits,
-		Methods: methods,
+		Traits:     traits,
+		Methods:    methods,
 	}
 }
 
@@ -569,16 +591,16 @@ func parse_switch_case_stmt(p *Parser) ast.Statement {
 	variable := p.expect(lexer.IDENTIFIER).Value
 
 	p.expect(lexer.OPEN_CURLY)
-	
+
 	cases := map[string]ast.BlockStmt{}
 	defaultCase := ast.BlockStmt{}
-	
+
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY && p.currentTokenKind() != lexer.DEFAULT {
-		
+
 		p.expect(lexer.CASE)
-		
+
 		var caseType string
-		
+
 		for p.currentTokenKind() != lexer.OPEN_CURLY {
 			caseType += p.advance().Value
 		}
@@ -588,23 +610,22 @@ func parse_switch_case_stmt(p *Parser) ast.Statement {
 		cases[caseType] = block
 	}
 
-	if p.currentTokenKind() == lexer.DEFAULT{
+	if p.currentTokenKind() == lexer.DEFAULT {
 		p.advance()
 		defaultCase = parse_block(p)
 	}
-
 
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
 	return ast.SwitchCaseStmt{
 		BaseStmt: ast.BaseStmt{
-			Kind: ast.SWITCH_CASE_STATEMENT,
+			Kind:     ast.SWITCH_CASE_STATEMENT,
 			StartPos: start,
-			EndPos: end,
+			EndPos:   end,
 		},
 		Variable: variable,
-		Cases: cases,
-		Default: defaultCase,
+		Cases:    cases,
+		Default:  defaultCase,
 	}
 }
 
@@ -674,9 +695,8 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 
 		var whereCause ast.Expression
 
-		if p.currentTokenKind() == lexer.WHERE {
-			p.advance()
-
+		if p.currentTokenKind() != lexer.OPEN_CURLY {
+			p.expect(lexer.WHERE)
 			whereCause = parse_expr(p, ASSIGNMENT)
 		}
 
@@ -715,11 +735,11 @@ func parse_while_loop_stmt(p *Parser) ast.Statement {
 
 	return ast.WhileLoopStmt{
 		BaseStmt: ast.BaseStmt{
-			Kind: ast.WHILE_STATEMENT,
+			Kind:     ast.WHILE_STATEMENT,
 			StartPos: start,
-			EndPos: end,
+			EndPos:   end,
 		},
 		Condition: cond,
-		Block: block,
+		Block:     block,
 	}
 }

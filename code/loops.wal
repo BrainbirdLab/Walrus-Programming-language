@@ -9,11 +9,12 @@ let array := [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 foreach v, i in array {
     fmt.Println(v, i);
 }
-/*
+
+
 foreach i in 0..10 {
     fmt.Println(i);
 }
-*/
+
 
 foreach arr, i in array {
     // i is the index
@@ -25,7 +26,7 @@ foreach val in array where val % 2 == 0 {
     
     //similar to,
     if val % 2 != 0 {
-        //continue;
+        continue;
     }
 }
 

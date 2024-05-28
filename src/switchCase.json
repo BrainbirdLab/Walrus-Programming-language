@@ -8,7 +8,7 @@
   "EndPos": {
     "Line": 16,
     "Column": 1,
-    "Index": 138
+    "Index": 136
   },
   "FileName": "./../code/switchCase.wal",
   "ModuleName": "",
@@ -55,21 +55,21 @@
       "EndPos": {
         "Line": 15,
         "Column": 2,
-        "Index": 136
+        "Index": 134
       },
       "Variable": "a",
       "Cases": {
-        "1": {
+        "": {
           "Kind": "BLOCK_STATEMENT",
           "StartPos": {
             "Line": 6,
-            "Column": 12,
-            "Index": 42
+            "Column": 10,
+            "Index": 40
           },
           "EndPos": {
             "Line": 8,
             "Column": 6,
-            "Index": 62
+            "Index": 60
           },
           "Body": []
         },
@@ -78,12 +78,12 @@
           "StartPos": {
             "Line": 9,
             "Column": 16,
-            "Index": 79
+            "Index": 77
           },
           "EndPos": {
             "Line": 11,
             "Column": 6,
-            "Index": 99
+            "Index": 97
           },
           "Body": []
         }
@@ -93,12 +93,12 @@
         "StartPos": {
           "Line": 12,
           "Column": 13,
-          "Index": 113
+          "Index": 111
         },
         "EndPos": {
           "Line": 14,
           "Column": 6,
-          "Index": 133
+          "Index": 131
         },
         "Body": []
       }

@@ -3,7 +3,7 @@
 let a := 2;
 
 switch a {
-    case 1 {
+    case {
         //
     }
     case 2 + 5 {

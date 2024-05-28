@@ -96,6 +96,24 @@ func (r ReturnStmt) GetPos() (lexer.Position, lexer.Position) {
 }
 func (r ReturnStmt) _statement() {}
 
+type BreakStmt struct {
+	BaseStmt
+}
+func (b BreakStmt) node() {}
+func (b BreakStmt) GetPos() (lexer.Position, lexer.Position) {
+	return b.StartPos, b.EndPos
+}
+func (b BreakStmt) _statement() {}
+
+type ContinueStmt struct {
+	BaseStmt
+}
+func (c ContinueStmt) node() {}
+func (c ContinueStmt) GetPos() (lexer.Position, lexer.Position) {
+	return c.StartPos, c.EndPos
+}
+func (c ContinueStmt) _statement() {}
+
 type Property struct {
 	BaseStmt
 	IsStatic bool

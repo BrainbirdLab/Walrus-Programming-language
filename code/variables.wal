@@ -1,6 +1,4 @@
 let a : i8 = 1 + 5 * 4;
 let b : bool = a > 9;
 
-let c := 8;
-
 let d := a + c;

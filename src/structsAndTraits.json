@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 67,
+    "Line": 73,
     "Column": 2,
-    "Index": 1080
+    "Index": 1182
   },
   "FileName": "./../code/structsAndTraits.wal",
   "ModuleName": "",
@@ -375,7 +375,7 @@
       "EndPos": {
         "Line": 35,
         "Column": 2,
-        "Index": 503
+        "Index": 513
       },
       "Impliments": "Hero",
       "Traits": [
@@ -392,7 +392,7 @@
           "EndPos": {
             "Line": 34,
             "Column": 6,
-            "Index": 500
+            "Index": 510
           },
           "FunctionName": "specialAttack",
           "Parameters": {},
@@ -409,7 +409,7 @@
             "EndPos": {
               "Line": 34,
               "Column": 6,
-              "Index": 500
+              "Index": 510
             },
             "Body": [
               {
@@ -421,8 +421,8 @@
                 },
                 "EndPos": {
                   "Line": 33,
-                  "Column": 32,
-                  "Index": 492
+                  "Column": 42,
+                  "Index": 502
                 },
                 "Function": {
                   "Kind": "IDENTIFIER",
@@ -449,10 +449,10 @@
                     },
                     "EndPos": {
                       "Line": 33,
-                      "Column": 31,
-                      "Index": 491
+                      "Column": 41,
+                      "Index": 501
                     },
-                    "Value": "Special Attack",
+                    "Value": "Special Attack  for Hero",
                     "Type": "str"
                   }
                 ]
@@ -470,12 +470,12 @@
       "StartPos": {
         "Line": 37,
         "Column": 1,
-        "Index": 507
+        "Index": 517
       },
       "EndPos": {
         "Line": 41,
         "Column": 2,
-        "Index": 613
+        "Index": 631
       },
       "Impliments": "Villain",
       "Traits": [
@@ -487,12 +487,12 @@
           "StartPos": {
             "Line": 38,
             "Column": 5,
-            "Index": 546
+            "Index": 556
           },
           "EndPos": {
             "Line": 40,
             "Column": 6,
-            "Index": 610
+            "Index": 628
           },
           "FunctionName": "specialAttack",
           "Parameters": {},
@@ -504,12 +504,12 @@
             "StartPos": {
               "Line": 38,
               "Column": 27,
-              "Index": 568
+              "Index": 578
             },
             "EndPos": {
               "Line": 40,
               "Column": 6,
-              "Index": 610
+              "Index": 628
             },
             "Body": [
               {
@@ -517,24 +517,24 @@
                 "StartPos": {
                   "Line": 39,
                   "Column": 14,
-                  "Index": 584
+                  "Index": 594
                 },
                 "EndPos": {
                   "Line": 39,
-                  "Column": 32,
-                  "Index": 602
+                  "Column": 40,
+                  "Index": 620
                 },
                 "Function": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
                     "Line": 39,
                     "Column": 9,
-                    "Index": 579
+                    "Index": 589
                   },
                   "EndPos": {
                     "Line": 39,
                     "Column": 14,
-                    "Index": 584
+                    "Index": 594
                   },
                   "Identifier": "print",
                   "Type": "infr"
@@ -545,14 +545,14 @@
                     "StartPos": {
                       "Line": 39,
                       "Column": 15,
-                      "Index": 585
+                      "Index": 595
                     },
                     "EndPos": {
                       "Line": 39,
-                      "Column": 31,
-                      "Index": 601
+                      "Column": 39,
+                      "Index": 619
                     },
-                    "Value": "Special Attack",
+                    "Value": "Special Attack Villain",
                     "Type": "str"
                   }
                 ]
@@ -566,16 +566,72 @@
       }
     },
     {
-      "Kind": "FN_DECLARATION_STATEMENT",
+      "Kind": "IMPLEMENTS_STATEMENT",
       "StartPos": {
         "Line": 43,
         "Column": 1,
-        "Index": 617
+        "Index": 635
       },
       "EndPos": {
-        "Line": 45,
+        "Line": 47,
         "Column": 2,
-        "Index": 680
+        "Index": 715
+      },
+      "Impliments": "i8",
+      "Traits": [
+        "SpecialAbility"
+      ],
+      "Methods": {
+        "bitSize": {
+          "Kind": "FN_DECLARATION_STATEMENT",
+          "StartPos": {
+            "Line": 44,
+            "Column": 5,
+            "Index": 669
+          },
+          "EndPos": {
+            "Line": 46,
+            "Column": 6,
+            "Index": 712
+          },
+          "FunctionName": "bitSize",
+          "Parameters": {},
+          "ReturnType": {
+            "Kind": "INTEGER",
+            "BitSize": 8,
+            "IsSigned": true
+          },
+          "Block": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 44,
+              "Column": 28,
+              "Index": 692
+            },
+            "EndPos": {
+              "Line": 46,
+              "Column": 6,
+              "Index": 712
+            },
+            "Body": []
+          },
+          "TypeToImplement": "i8",
+          "IsPublic": true,
+          "IsStatic": false
+        }
+      }
+    },
+    {
+      "Kind": "FN_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 49,
+        "Column": 1,
+        "Index": 719
+      },
+      "EndPos": {
+        "Line": 51,
+        "Column": 2,
+        "Index": 782
       },
       "FunctionName": "performAttack",
       "Parameters": {
@@ -590,51 +646,51 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 43,
+          "Line": 49,
           "Column": 36,
-          "Index": 652
+          "Index": 754
         },
         "EndPos": {
-          "Line": 45,
+          "Line": 51,
           "Column": 2,
-          "Index": 680
+          "Index": 782
         },
         "Body": [
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 44,
+              "Line": 50,
               "Column": 20,
-              "Index": 674
+              "Index": 776
             },
             "EndPos": {
-              "Line": 44,
+              "Line": 50,
               "Column": 22,
-              "Index": 676
+              "Index": 778
             },
             "Function": {
               "Kind": "STRUCT_PROPERTY",
               "StartPos": {
-                "Line": 44,
+                "Line": 50,
                 "Column": 7,
-                "Index": 661
+                "Index": 763
               },
               "EndPos": {
-                "Line": 44,
+                "Line": 50,
                 "Column": 20,
-                "Index": 674
+                "Index": 776
               },
               "Object": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 44,
+                  "Line": 50,
                   "Column": 5,
-                  "Index": 659
+                  "Index": 761
                 },
                 "EndPos": {
-                  "Line": 44,
+                  "Line": 50,
                   "Column": 6,
-                  "Index": 660
+                  "Index": 762
                 },
                 "Identifier": "t",
                 "Type": "infr"
@@ -642,14 +698,14 @@
               "Property": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 44,
+                  "Line": 50,
                   "Column": 7,
-                  "Index": 661
+                  "Index": 763
                 },
                 "EndPos": {
-                  "Line": 44,
+                  "Line": 50,
                   "Column": 20,
-                  "Index": 674
+                  "Index": 776
                 },
                 "Identifier": "specialAttack",
                 "Type": "infr"
@@ -663,14 +719,14 @@
     {
       "Kind": "FN_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 47,
+        "Line": 53,
         "Column": 1,
-        "Index": 684
+        "Index": 786
       },
       "EndPos": {
-        "Line": 67,
+        "Line": 73,
         "Column": 2,
-        "Index": 1080
+        "Index": 1182
       },
       "FunctionName": "main",
       "Parameters": {},
@@ -680,55 +736,55 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 47,
+          "Line": 53,
           "Column": 11,
-          "Index": 694
+          "Index": 796
         },
         "EndPos": {
-          "Line": 67,
+          "Line": 73,
           "Column": 2,
-          "Index": 1080
+          "Index": 1182
         },
         "Body": [
           {
             "Kind": "VARIABLE_DECLARATION_STATEMENT",
             "StartPos": {
-              "Line": 48,
+              "Line": 54,
               "Column": 5,
-              "Index": 701
+              "Index": 803
             },
             "EndPos": {
-              "Line": 52,
+              "Line": 58,
               "Column": 7,
-              "Index": 806
+              "Index": 908
             },
             "IsConstant": false,
             "Identifier": "hero",
             "Value": {
               "Kind": "STRUCT_LITERAL",
               "StartPos": {
-                "Line": 48,
+                "Line": 54,
                 "Column": 22,
-                "Index": 718
+                "Index": 820
               },
               "EndPos": {
-                "Line": 52,
+                "Line": 58,
                 "Column": 6,
-                "Index": 805
+                "Index": 907
               },
               "StructName": "Hero",
               "Properties": {
                 "heroType": {
                   "Kind": "STRING_LITERAL",
                   "StartPos": {
-                    "Line": 51,
+                    "Line": 57,
                     "Column": 19,
-                    "Index": 787
+                    "Index": 889
                   },
                   "EndPos": {
-                    "Line": 51,
+                    "Line": 57,
                     "Column": 30,
-                    "Index": 798
+                    "Index": 900
                   },
                   "Value": "Superhero",
                   "Type": "str"
@@ -736,14 +792,14 @@
                 "name": {
                   "Kind": "STRING_LITERAL",
                   "StartPos": {
-                    "Line": 49,
+                    "Line": 55,
                     "Column": 15,
-                    "Index": 735
+                    "Index": 837
                   },
                   "EndPos": {
-                    "Line": 49,
+                    "Line": 55,
                     "Column": 25,
-                    "Index": 745
+                    "Index": 847
                   },
                   "Value": "Superman",
                   "Type": "str"
@@ -751,14 +807,14 @@
                 "score": {
                   "Kind": "NUMERIC_LITERAL",
                   "StartPos": {
-                    "Line": 50,
+                    "Line": 56,
                     "Column": 16,
-                    "Index": 763
+                    "Index": 865
                   },
                   "EndPos": {
-                    "Line": 50,
+                    "Line": 56,
                     "Column": 19,
-                    "Index": 766
+                    "Index": 868
                   },
                   "Value": 100,
                   "Type": "i8"
@@ -771,42 +827,42 @@
           {
             "Kind": "VARIABLE_DECLARATION_STATEMENT",
             "StartPos": {
-              "Line": 53,
+              "Line": 59,
               "Column": 5,
-              "Index": 812
+              "Index": 914
             },
             "EndPos": {
-              "Line": 57,
+              "Line": 63,
               "Column": 7,
-              "Index": 930
+              "Index": 1032
             },
             "IsConstant": false,
             "Identifier": "villain",
             "Value": {
               "Kind": "STRUCT_LITERAL",
               "StartPos": {
-                "Line": 53,
+                "Line": 59,
                 "Column": 28,
-                "Index": 835
+                "Index": 937
               },
               "EndPos": {
-                "Line": 57,
+                "Line": 63,
                 "Column": 6,
-                "Index": 929
+                "Index": 1031
               },
               "StructName": "Villain",
               "Properties": {
                 "name": {
                   "Kind": "STRING_LITERAL",
                   "StartPos": {
-                    "Line": 54,
+                    "Line": 60,
                     "Column": 15,
-                    "Index": 852
+                    "Index": 954
                   },
                   "EndPos": {
-                    "Line": 54,
+                    "Line": 60,
                     "Column": 27,
-                    "Index": 864
+                    "Index": 966
                   },
                   "Value": "Lex Luthor",
                   "Type": "str"
@@ -814,14 +870,14 @@
                 "score": {
                   "Kind": "NUMERIC_LITERAL",
                   "StartPos": {
-                    "Line": 55,
+                    "Line": 61,
                     "Column": 16,
-                    "Index": 882
+                    "Index": 984
                   },
                   "EndPos": {
-                    "Line": 55,
+                    "Line": 61,
                     "Column": 18,
-                    "Index": 884
+                    "Index": 986
                   },
                   "Value": 50,
                   "Type": "i8"
@@ -829,14 +885,14 @@
                 "villainType": {
                   "Kind": "STRING_LITERAL",
                   "StartPos": {
-                    "Line": 56,
+                    "Line": 62,
                     "Column": 22,
-                    "Index": 908
+                    "Index": 1010
                   },
                   "EndPos": {
-                    "Line": 56,
+                    "Line": 62,
                     "Column": 36,
-                    "Index": 922
+                    "Index": 1024
                   },
                   "Value": "Supervillain",
                   "Type": "str"
@@ -849,38 +905,38 @@
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 58,
+              "Line": 64,
               "Column": 16,
-              "Index": 947
+              "Index": 1049
             },
             "EndPos": {
-              "Line": 58,
+              "Line": 64,
               "Column": 18,
-              "Index": 949
+              "Index": 1051
             },
             "Function": {
               "Kind": "STRUCT_PROPERTY",
               "StartPos": {
-                "Line": 58,
+                "Line": 64,
                 "Column": 10,
-                "Index": 941
+                "Index": 1043
               },
               "EndPos": {
-                "Line": 58,
+                "Line": 64,
                 "Column": 16,
-                "Index": 947
+                "Index": 1049
               },
               "Object": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 58,
+                  "Line": 64,
                   "Column": 5,
-                  "Index": 936
+                  "Index": 1038
                 },
                 "EndPos": {
-                  "Line": 58,
+                  "Line": 64,
                   "Column": 9,
-                  "Index": 940
+                  "Index": 1042
                 },
                 "Identifier": "hero",
                 "Type": "infr"
@@ -888,14 +944,14 @@
               "Property": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 58,
+                  "Line": 64,
                   "Column": 10,
-                  "Index": 941
+                  "Index": 1043
                 },
                 "EndPos": {
-                  "Line": 58,
+                  "Line": 64,
                   "Column": 16,
-                  "Index": 947
+                  "Index": 1049
                 },
                 "Identifier": "attack",
                 "Type": "infr"
@@ -906,38 +962,38 @@
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 59,
+              "Line": 65,
               "Column": 16,
-              "Index": 967
+              "Index": 1069
             },
             "EndPos": {
-              "Line": 59,
+              "Line": 65,
               "Column": 18,
-              "Index": 969
+              "Index": 1071
             },
             "Function": {
               "Kind": "STRUCT_PROPERTY",
               "StartPos": {
-                "Line": 59,
+                "Line": 65,
                 "Column": 10,
-                "Index": 961
+                "Index": 1063
               },
               "EndPos": {
-                "Line": 59,
+                "Line": 65,
                 "Column": 16,
-                "Index": 967
+                "Index": 1069
               },
               "Object": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 59,
+                  "Line": 65,
                   "Column": 5,
-                  "Index": 956
+                  "Index": 1058
                 },
                 "EndPos": {
-                  "Line": 59,
+                  "Line": 65,
                   "Column": 9,
-                  "Index": 960
+                  "Index": 1062
                 },
                 "Identifier": "hero",
                 "Type": "infr"
@@ -945,14 +1001,14 @@
               "Property": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 59,
+                  "Line": 65,
                   "Column": 10,
-                  "Index": 961
+                  "Index": 1063
                 },
                 "EndPos": {
-                  "Line": 59,
+                  "Line": 65,
                   "Column": 16,
-                  "Index": 967
+                  "Index": 1069
                 },
                 "Identifier": "defend",
                 "Type": "infr"
@@ -963,38 +1019,38 @@
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 62,
+              "Line": 68,
               "Column": 19,
-              "Index": 994
+              "Index": 1096
             },
             "EndPos": {
-              "Line": 62,
+              "Line": 68,
               "Column": 21,
-              "Index": 996
+              "Index": 1098
             },
             "Function": {
               "Kind": "STRUCT_PROPERTY",
               "StartPos": {
-                "Line": 62,
+                "Line": 68,
                 "Column": 13,
-                "Index": 988
+                "Index": 1090
               },
               "EndPos": {
-                "Line": 62,
+                "Line": 68,
                 "Column": 19,
-                "Index": 994
+                "Index": 1096
               },
               "Object": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 62,
+                  "Line": 68,
                   "Column": 5,
-                  "Index": 980
+                  "Index": 1082
                 },
                 "EndPos": {
-                  "Line": 62,
+                  "Line": 68,
                   "Column": 12,
-                  "Index": 987
+                  "Index": 1089
                 },
                 "Identifier": "villain",
                 "Type": "infr"
@@ -1002,14 +1058,14 @@
               "Property": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 62,
+                  "Line": 68,
                   "Column": 13,
-                  "Index": 988
+                  "Index": 1090
                 },
                 "EndPos": {
-                  "Line": 62,
+                  "Line": 68,
                   "Column": 19,
-                  "Index": 994
+                  "Index": 1096
                 },
                 "Identifier": "attack",
                 "Type": "infr"
@@ -1020,38 +1076,38 @@
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 63,
+              "Line": 69,
               "Column": 19,
-              "Index": 1017
+              "Index": 1119
             },
             "EndPos": {
-              "Line": 63,
+              "Line": 69,
               "Column": 21,
-              "Index": 1019
+              "Index": 1121
             },
             "Function": {
               "Kind": "STRUCT_PROPERTY",
               "StartPos": {
-                "Line": 63,
+                "Line": 69,
                 "Column": 13,
-                "Index": 1011
+                "Index": 1113
               },
               "EndPos": {
-                "Line": 63,
+                "Line": 69,
                 "Column": 19,
-                "Index": 1017
+                "Index": 1119
               },
               "Object": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 63,
+                  "Line": 69,
                   "Column": 5,
-                  "Index": 1003
+                  "Index": 1105
                 },
                 "EndPos": {
-                  "Line": 63,
+                  "Line": 69,
                   "Column": 12,
-                  "Index": 1010
+                  "Index": 1112
                 },
                 "Identifier": "villain",
                 "Type": "infr"
@@ -1059,14 +1115,14 @@
               "Property": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 63,
+                  "Line": 69,
                   "Column": 13,
-                  "Index": 1011
+                  "Index": 1113
                 },
                 "EndPos": {
-                  "Line": 63,
+                  "Line": 69,
                   "Column": 19,
-                  "Index": 1017
+                  "Index": 1119
                 },
                 "Identifier": "defend",
                 "Type": "infr"
@@ -1077,26 +1133,26 @@
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 65,
+              "Line": 71,
               "Column": 18,
-              "Index": 1041
+              "Index": 1143
             },
             "EndPos": {
-              "Line": 65,
+              "Line": 71,
               "Column": 24,
-              "Index": 1047
+              "Index": 1149
             },
             "Function": {
               "Kind": "IDENTIFIER",
               "StartPos": {
-                "Line": 65,
+                "Line": 71,
                 "Column": 5,
-                "Index": 1028
+                "Index": 1130
               },
               "EndPos": {
-                "Line": 65,
+                "Line": 71,
                 "Column": 18,
-                "Index": 1041
+                "Index": 1143
               },
               "Identifier": "performAttack",
               "Type": "infr"
@@ -1105,14 +1161,14 @@
               {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 65,
+                  "Line": 71,
                   "Column": 19,
-                  "Index": 1042
+                  "Index": 1144
                 },
                 "EndPos": {
-                  "Line": 65,
+                  "Line": 71,
                   "Column": 23,
-                  "Index": 1046
+                  "Index": 1148
                 },
                 "Identifier": "hero",
                 "Type": "infr"
@@ -1122,26 +1178,26 @@
           {
             "Kind": "FUNCTION_CALL_EXPRESSION",
             "StartPos": {
-              "Line": 66,
+              "Line": 72,
               "Column": 18,
-              "Index": 1067
+              "Index": 1169
             },
             "EndPos": {
-              "Line": 66,
+              "Line": 72,
               "Column": 27,
-              "Index": 1076
+              "Index": 1178
             },
             "Function": {
               "Kind": "IDENTIFIER",
               "StartPos": {
-                "Line": 66,
+                "Line": 72,
                 "Column": 5,
-                "Index": 1054
+                "Index": 1156
               },
               "EndPos": {
-                "Line": 66,
+                "Line": 72,
                 "Column": 18,
-                "Index": 1067
+                "Index": 1169
               },
               "Identifier": "performAttack",
               "Type": "infr"
@@ -1150,14 +1206,14 @@
               {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 66,
+                  "Line": 72,
                   "Column": 19,
-                  "Index": 1068
+                  "Index": 1170
                 },
                 "EndPos": {
-                  "Line": 66,
+                  "Line": 72,
                   "Column": 26,
-                  "Index": 1075
+                  "Index": 1177
                 },
                 "Identifier": "villain",
                 "Type": "infr"
