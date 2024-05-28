@@ -183,10 +183,6 @@ func (token Token) isOneOfMany(expectedTokens ...TOKEN_KIND) bool {
 // Debug prints a debug representation of the token
 func (token Token) Debug() {
 
-	if (token.Value == DOT_DOT) {
-		fmt.Println("Found..................")
-	}
-
 	if token.isOneOfMany(IDENTIFIER, NUMBER, STRING) {
 		fmt.Printf("%s (%s)\n", token.Kind, token.Value)
 	} else {

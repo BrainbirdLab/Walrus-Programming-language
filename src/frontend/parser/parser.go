@@ -121,8 +121,7 @@ func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token
 
 	if kind != expectedKind {
 		if err == nil {
-			fmt.Print(p.currentToken(), p.FilePath, token, expectedKind, kind)
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, fmt.Sprintf("Expected %s but received %s instead\n", expectedKind, kind)).Display()
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, fmt.Sprintf("Unexpected %s '%s'", kind, token.Value)).AddHint(fmt.Sprintf("How about trying '%s' instead?", expectedKind)).Display()
 		} else {
 			if errMsg, ok := err.(string); ok {
 				p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, errMsg).Display()
@@ -151,10 +150,10 @@ func (e *ErrorMessage) AddHint(hint string) *ErrorMessage {
 }
 
 func (e *ErrorMessage) Display() {
-	fmt.Println(e.Message)
+	fmt.Print(e.Message)
 	// hints
 	for _, hint := range e.hints {
-		fmt.Printf("Hint: %s\n", hint)
+		fmt.Print(utils.Colorize( utils.ORANGE, (fmt.Sprintf("Hint: %s\n", hint))))
 	}
 	os.Exit(1)
 }
@@ -187,7 +186,7 @@ func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMs
 		}
 	}
 
-	errStr += fmt.Sprintf("\n%s:%d:%d\n", filePath, token.StartPos.Line, token.StartPos.Column)
+	errStr += fmt.Sprintf("\nIn file: %s:%d:%d\n", filePath, token.StartPos.Line, token.StartPos.Column)
 
 	padding := fmt.Sprintf("%*d | ", maxWidth, token.StartPos.Line)
 
