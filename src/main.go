@@ -36,7 +36,7 @@ func main() {
 		ast := parser.Parse(filename, false)
 	
 		//store as file
-		file, err := os.Create(sf[0] + ".json")
+		file, err := os.Create( targetDir + "/" + sf[0] + ".json")
 	
 		if err != nil {
 			panic(err)
