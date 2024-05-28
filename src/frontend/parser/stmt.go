@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"os"
+	"strings"
 	"walrus/frontend/ast"
 	"walrus/frontend/lexer"
 	"walrus/utils"
@@ -608,6 +609,10 @@ func parse_switch_case_stmt(p *Parser) ast.Statement {
 
 		for p.currentTokenKind() != lexer.OPEN_CURLY {
 			caseType += p.advance().Value
+		}
+
+		if len(strings.Trim(caseType, " ")) < 1 {
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected at lease 1 expression for case").Display()
 		}
 
 		block := parse_block(p)
