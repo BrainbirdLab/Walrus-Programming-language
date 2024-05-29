@@ -38,3 +38,4 @@ if a > 50 {
 - [x] funtions
 - [x] error print
 - [x] function call
+- [x] conditionals (if, else if, else)
