@@ -34,8 +34,12 @@ if a > 50 {
 ### Parser
 - [x] Var declare
 - [x] Var assign
+- [x] arrays
 - [x] Infer type from value
 - [x] funtions
 - [x] error print
 - [x] function call
 - [x] conditionals (if, else if, else)
+- [x] loops (for, foreach, while)
+- [x] structs & traits
+- [x] error print
