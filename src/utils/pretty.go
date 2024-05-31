@@ -23,9 +23,6 @@ const (
 
 func Colorize(color, text string) string {
 
-	//check the format
-	//regex := regexp.MustCompile(`\033\[([0-9]+)([;]*)m`)
-
 	regex := regexp.MustCompile(`\033\[[0-9]{1,3}[0-9;]*m`)
 
 	//panic if the color is not valid
