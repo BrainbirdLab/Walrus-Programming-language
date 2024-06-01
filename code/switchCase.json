@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 16,
+    "Line": 18,
     "Column": 1,
-    "Index": 141
+    "Index": 198
   },
   "FileName": "./../code/switchCase.wal",
   "ModuleName": "",
@@ -46,62 +46,340 @@
       "ExplicitType": null
     },
     {
-      "Kind": "SWITCH_CASE_STATEMENT",
+      "Kind": "SWITCH_STATEMENT",
       "StartPos": {
         "Line": 5,
         "Column": 1,
         "Index": 19
       },
       "EndPos": {
-        "Line": 15,
-        "Column": 2,
-        "Index": 139
+        "Line": 18,
+        "Column": 1,
+        "Index": 198
       },
-      "Variable": "a",
-      "Cases": {
-        "2+5": {
-          "Kind": "BLOCK_STATEMENT",
-          "StartPos": {
-            "Line": 9,
-            "Column": 16,
-            "Index": 82
-          },
-          "EndPos": {
-            "Line": 11,
-            "Column": 6,
-            "Index": 102
-          },
-          "Body": []
+      "Discriminant": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 5,
+          "Column": 8,
+          "Index": 26
         },
-        "6,7": {
-          "Kind": "BLOCK_STATEMENT",
+        "EndPos": {
+          "Line": 5,
+          "Column": 9,
+          "Index": 27
+        },
+        "Identifier": "a",
+        "Type": "infr"
+      },
+      "Cases": [
+        {
+          "Kind": "SWITCH_CASE_STATEMENT",
           "StartPos": {
             "Line": 6,
-            "Column": 15,
-            "Index": 45
+            "Column": 5,
+            "Index": 35
           },
           "EndPos": {
             "Line": 8,
             "Column": 6,
-            "Index": 65
+            "Index": 88
           },
-          "Body": []
+          "Consequent": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 6,
+              "Column": 15,
+              "Index": 45
+            },
+            "EndPos": {
+              "Line": 8,
+              "Column": 6,
+              "Index": 88
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 7,
+                  "Column": 14,
+                  "Index": 61
+                },
+                "EndPos": {
+                  "Line": 7,
+                  "Column": 33,
+                  "Index": 80
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 7,
+                    "Column": 9,
+                    "Index": 56
+                  },
+                  "EndPos": {
+                    "Line": 7,
+                    "Column": 14,
+                    "Index": 61
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 7,
+                      "Column": 15,
+                      "Index": 62
+                    },
+                    "EndPos": {
+                      "Line": 7,
+                      "Column": 32,
+                      "Index": 79
+                    },
+                    "Value": "Case for 6 or 7",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "Test": {
+            "Kind": "NUMERIC_LITERAL",
+            "StartPos": {
+              "Line": 6,
+              "Column": 10,
+              "Index": 40
+            },
+            "EndPos": {
+              "Line": 6,
+              "Column": 11,
+              "Index": 41
+            },
+            "Value": 6,
+            "Type": "i8"
+          }
+        },
+        {
+          "Kind": "SWITCH_CASE_STATEMENT",
+          "StartPos": {
+            "Line": 6,
+            "Column": 5,
+            "Index": 35
+          },
+          "EndPos": {
+            "Line": 8,
+            "Column": 6,
+            "Index": 88
+          },
+          "Consequent": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 6,
+              "Column": 15,
+              "Index": 45
+            },
+            "EndPos": {
+              "Line": 8,
+              "Column": 6,
+              "Index": 88
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 7,
+                  "Column": 14,
+                  "Index": 61
+                },
+                "EndPos": {
+                  "Line": 7,
+                  "Column": 33,
+                  "Index": 80
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 7,
+                    "Column": 9,
+                    "Index": 56
+                  },
+                  "EndPos": {
+                    "Line": 7,
+                    "Column": 14,
+                    "Index": 61
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 7,
+                      "Column": 15,
+                      "Index": 62
+                    },
+                    "EndPos": {
+                      "Line": 7,
+                      "Column": 32,
+                      "Index": 79
+                    },
+                    "Value": "Case for 6 or 7",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "Test": {
+            "Kind": "NUMERIC_LITERAL",
+            "StartPos": {
+              "Line": 6,
+              "Column": 13,
+              "Index": 43
+            },
+            "EndPos": {
+              "Line": 6,
+              "Column": 14,
+              "Index": 44
+            },
+            "Value": 7,
+            "Type": "i8"
+          }
+        },
+        {
+          "Kind": "SWITCH_CASE_STATEMENT",
+          "StartPos": {
+            "Line": 9,
+            "Column": 5,
+            "Index": 94
+          },
+          "EndPos": {
+            "Line": 11,
+            "Column": 6,
+            "Index": 143
+          },
+          "Consequent": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 9,
+              "Column": 16,
+              "Index": 105
+            },
+            "EndPos": {
+              "Line": 11,
+              "Column": 6,
+              "Index": 143
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 10,
+                  "Column": 14,
+                  "Index": 121
+                },
+                "EndPos": {
+                  "Line": 10,
+                  "Column": 28,
+                  "Index": 135
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 10,
+                    "Column": 9,
+                    "Index": 116
+                  },
+                  "EndPos": {
+                    "Line": 10,
+                    "Column": 14,
+                    "Index": 121
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 10,
+                      "Column": 15,
+                      "Index": 122
+                    },
+                    "EndPos": {
+                      "Line": 10,
+                      "Column": 27,
+                      "Index": 134
+                    },
+                    "Value": "Case for 7",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "Test": {
+            "Kind": "BINARY_EXPRESSION",
+            "StartPos": {
+              "Line": 9,
+              "Column": 12,
+              "Index": 101
+            },
+            "EndPos": {
+              "Line": 9,
+              "Column": 15,
+              "Index": 104
+            },
+            "Operator": {
+              "Kind": "+",
+              "Value": "+",
+              "StartPos": {
+                "Line": 9,
+                "Column": 12,
+                "Index": 101
+              },
+              "EndPos": {
+                "Line": 9,
+                "Column": 13,
+                "Index": 102
+              }
+            },
+            "Left": {
+              "Kind": "NUMERIC_LITERAL",
+              "StartPos": {
+                "Line": 9,
+                "Column": 10,
+                "Index": 99
+              },
+              "EndPos": {
+                "Line": 9,
+                "Column": 11,
+                "Index": 100
+              },
+              "Value": 2,
+              "Type": "i8"
+            },
+            "Right": {
+              "Kind": "NUMERIC_LITERAL",
+              "StartPos": {
+                "Line": 9,
+                "Column": 14,
+                "Index": 103
+              },
+              "EndPos": {
+                "Line": 9,
+                "Column": 15,
+                "Index": 104
+              },
+              "Value": 5,
+              "Type": "i8"
+            }
+          }
         }
-      },
-      "Default": {
-        "Kind": "BLOCK_STATEMENT",
-        "StartPos": {
-          "Line": 12,
-          "Column": 13,
-          "Index": 116
-        },
-        "EndPos": {
-          "Line": 14,
-          "Column": 6,
-          "Index": 136
-        },
-        "Body": []
-      }
+      ]
     }
   ]
 }

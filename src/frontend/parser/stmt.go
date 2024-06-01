@@ -3,7 +3,6 @@ package parser
 import (
 	"fmt"
 	"os"
-	"strings"
 	"walrus/frontend/ast"
 	"walrus/frontend/lexer"
 	"walrus/utils"
@@ -253,9 +252,9 @@ func parse_breakout_stmt(p *Parser) ast.Statement {
 
 	return ast.BreakStmt{
 		BaseStmt: ast.BaseStmt{
-			Kind: ast.BREAK_STATEMENT,
+			Kind:     ast.BREAK_STATEMENT,
 			StartPos: start,
-			EndPos: end,
+			EndPos:   end,
 		},
 	}
 }
@@ -592,52 +591,86 @@ func parse_if_statement(p *Parser) ast.Statement {
 
 func parse_switch_case_stmt(p *Parser) ast.Statement {
 
-	start := p.advance().StartPos //skip the switch keyword
+	/*
+			syntax
 
-	variable := p.expect(lexer.IDENTIFIER).Value
+			let a := 2;
+
+		switch a {
+			case 6, 7 {
+				//
+			}
+			case 2 + 5 {
+				//
+			}
+			default {
+				//
+			}
+		}
+	*/
+
+	start := p.advance().StartPos // pass the switch token
+
+	discriminant := parse_expr(p, ASSIGNMENT)
 
 	p.expect(lexer.OPEN_CURLY)
 
-	cases := map[string]ast.BlockStmt{}
-	defaultCase := ast.BlockStmt{}
+	cases := []ast.SwitchCase{}
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY && p.currentTokenKind() != lexer.DEFAULT {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
 
-		p.expect(lexer.CASE)
-
-		var caseType string
-
-		for p.currentTokenKind() != lexer.OPEN_CURLY {
-			caseType += p.advance().Value
-		}
-
-		if len(strings.Trim(caseType, " ")) < 1 {
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected at lease 1 expression for case").Display()
-		}
+		caseStart := p.currentToken().StartPos
+		
+		tests := parse_case_stmt(p)
 
 		block := parse_block(p)
 
-		cases[caseType] = block
-	}
-
-	if p.currentTokenKind() == lexer.DEFAULT {
-		p.advance()
-		defaultCase = parse_block(p)
+		//consider every test as a case
+		for _, test := range tests {
+			cases = append(cases, ast.SwitchCase{
+				BaseStmt: ast.BaseStmt{
+					Kind:     ast.CASE_STATEMENT,
+					StartPos: caseStart,
+					EndPos:   block.EndPos,
+				},
+				Test:  test,
+				Consequent: block,
+			})
+		}
 	}
 
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
-	return ast.SwitchCaseStmt{
+	return ast.SwitchStmt{
 		BaseStmt: ast.BaseStmt{
-			Kind:     ast.SWITCH_CASE_STATEMENT,
+			Kind:     ast.SWITCH_STATEMENT,
 			StartPos: start,
 			EndPos:   end,
 		},
-		Variable: variable,
-		Cases:    cases,
-		Default:  defaultCase,
+		Discriminant: discriminant,
+		Cases:       cases,
 	}
 }
+
+func parse_case_stmt(p *Parser) []ast.Expression {
+
+	p.expect(lexer.CASE)
+
+	tests := []ast.Expression{}
+
+	for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY {
+		test := parse_expr(p, ASSIGNMENT)
+
+		tests = append(tests, test)
+
+		if p.currentTokenKind() == lexer.COMMA {
+			p.advance()
+		}
+	}
+
+	return tests
+}
+
 
 func parse_for_loop_stmt(p *Parser) ast.Statement {
 

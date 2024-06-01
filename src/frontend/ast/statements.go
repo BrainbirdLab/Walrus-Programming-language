@@ -99,6 +99,7 @@ func (r ReturnStmt) _statement() {}
 type BreakStmt struct {
 	BaseStmt
 }
+
 func (b BreakStmt) node() {}
 func (b BreakStmt) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
@@ -108,6 +109,7 @@ func (b BreakStmt) _statement() {}
 type ContinueStmt struct {
 	BaseStmt
 }
+
 func (c ContinueStmt) node() {}
 func (c ContinueStmt) GetPos() (lexer.Position, lexer.Position) {
 	return c.StartPos, c.EndPos
@@ -158,8 +160,8 @@ type MethodImplementStmt struct {
 	BaseStmt
 	FunctionDeclStmt
 	TypeToImplement string
-	IsPublic   		bool
-	IsStatic   		bool
+	IsPublic        bool
+	IsStatic        bool
 }
 
 type ImplementStatement struct {
@@ -220,24 +222,30 @@ func (f ForeachStmt) _statement() {}
 
 type WhileLoopStmt struct {
 	BaseStmt
-	Condition 	Expression
-	Block 		BlockStmt
+	Condition Expression
+	Block     BlockStmt
 }
+
 func (w WhileLoopStmt) node() {}
 func (w WhileLoopStmt) GetPos() (lexer.Position, lexer.Position) {
 	return w.StartPos, w.EndPos
 }
 func (w WhileLoopStmt) _statement() {}
 
-
-type SwitchCaseStmt struct {
+type SwitchCase struct {
 	BaseStmt
-	Variable 	string
-	Cases 		map[string]BlockStmt
-	Default		BlockStmt
+	Consequent BlockStmt
+	Test 	 Expression
 }
-func (s SwitchCaseStmt) node() {}
-func (s SwitchCaseStmt) GetPos() (lexer.Position, lexer.Position) {
+
+type SwitchStmt struct {
+	BaseStmt
+	Discriminant Expression
+	Cases       []SwitchCase
+}
+
+func (s SwitchStmt) node() {}
+func (s SwitchStmt) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s SwitchCaseStmt) _statement() {}
+func (s SwitchStmt) _statement() {}

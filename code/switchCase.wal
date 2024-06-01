@@ -4,12 +4,14 @@ let a := 2;
 
 switch a {
     case 6, 7 {
-        //
+        print("Case for 6 or 7");
     }
     case 2 + 5 {
-        //
+        print("Case for 7");
     }
+    /*
     default {
         //
     }
+    */
 }
