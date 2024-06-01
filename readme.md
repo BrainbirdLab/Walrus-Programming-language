@@ -42,4 +42,10 @@ if a > 50 {
 - [x] conditionals (if, else if, else)
 - [x] loops (for, foreach, while)
 - [x] structs & traits
-- [x] error print
+- [x] switch case
+
+### Semantic Analyzer
+- [ ] in progress
+
+### Code Generator
+- [ ] in progress

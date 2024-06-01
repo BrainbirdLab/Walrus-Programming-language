@@ -9,9 +9,7 @@ switch a {
     case 2 + 5 {
         print("Case for 7");
     }
-    /*
     default {
-        //
+        print("Default case");
     }
-    */
 }

@@ -591,85 +591,92 @@ func parse_if_statement(p *Parser) ast.Statement {
 
 func parse_switch_case_stmt(p *Parser) ast.Statement {
 
-	/*
-			syntax
+    start := p.advance().StartPos // pass the switch token
 
-			let a := 2;
+    discriminant := parse_expr(p, ASSIGNMENT)
 
-		switch a {
-			case 6, 7 {
-				//
-			}
-			case 2 + 5 {
-				//
-			}
-			default {
-				//
-			}
-		}
-	*/
+    p.expect(lexer.OPEN_CURLY)
 
-	start := p.advance().StartPos // pass the switch token
+    cases := []ast.SwitchCase{}
+    var defaultCase *ast.SwitchCase = nil
 
-	discriminant := parse_expr(p, ASSIGNMENT)
+    for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
 
-	p.expect(lexer.OPEN_CURLY)
+        caseStart := p.currentToken().StartPos
+        
+        if p.currentTokenKind() == lexer.CASE {
+            tests := parse_case_stmt(p)
+            block := parse_block(p)
 
-	cases := []ast.SwitchCase{}
+            for _, test := range tests {
+                cases = append(cases, ast.SwitchCase{
+                    BaseStmt: ast.BaseStmt{
+                        Kind:     ast.SWITCH_CASE_STATEMENT,
+                        StartPos: caseStart,
+                        EndPos:   block.EndPos,
+                    },
+                    Test:      test,
+                    Consequent: block,
+                })
+            }
+        } else if p.currentTokenKind() == lexer.DEFAULT {
+            defaultCase = parse_default_case(p)
+        } else {
+            p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Unexpected token: '" + p.currentToken().Value + "'").AddHint("Switch can have only ", TEXT_HINT).AddHint("case or default", CODE_HINT).AddHint(" keyword", TEXT_HINT).Display()
+			panic("-1")
+        }
+    }
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+    if defaultCase != nil {
+        cases = append(cases, *defaultCase)
+    }
 
-		caseStart := p.currentToken().StartPos
-		
-		tests := parse_case_stmt(p)
+    end := p.expect(lexer.CLOSE_CURLY).EndPos
 
-		block := parse_block(p)
-
-		//consider every test as a case
-		for _, test := range tests {
-			cases = append(cases, ast.SwitchCase{
-				BaseStmt: ast.BaseStmt{
-					Kind:     ast.CASE_STATEMENT,
-					StartPos: caseStart,
-					EndPos:   block.EndPos,
-				},
-				Test:  test,
-				Consequent: block,
-			})
-		}
-	}
-
-	end := p.expect(lexer.CLOSE_CURLY).EndPos
-
-	return ast.SwitchStmt{
-		BaseStmt: ast.BaseStmt{
-			Kind:     ast.SWITCH_STATEMENT,
-			StartPos: start,
-			EndPos:   end,
-		},
-		Discriminant: discriminant,
-		Cases:       cases,
-	}
+    return ast.SwitchStmt{
+        BaseStmt: ast.BaseStmt{
+            Kind:     ast.SWITCH_STATEMENT,
+            StartPos: start,
+            EndPos:   end,
+        },
+        Discriminant: discriminant,
+        Cases:        cases,
+    }
 }
 
 func parse_case_stmt(p *Parser) []ast.Expression {
+    p.expect(lexer.CASE)
 
-	p.expect(lexer.CASE)
+    tests := []ast.Expression{}
 
-	tests := []ast.Expression{}
+    for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY {
+        test := parse_expr(p, ASSIGNMENT)
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY {
-		test := parse_expr(p, ASSIGNMENT)
+        tests = append(tests, test)
 
-		tests = append(tests, test)
+        if p.currentTokenKind() == lexer.COMMA {
+            p.advance()
+        }
+    }
 
-		if p.currentTokenKind() == lexer.COMMA {
-			p.advance()
-		}
-	}
-
-	return tests
+    return tests
 }
+
+func parse_default_case(p *Parser) *ast.SwitchCase {
+    defaultStart := p.advance().StartPos // pass the default token
+    block := parse_block(p)
+
+    return &ast.SwitchCase{
+        BaseStmt: ast.BaseStmt{
+            Kind:     ast.DEFAULT_CASE_STATEMENT,
+            StartPos: defaultStart,
+            EndPos:   block.EndPos,
+        },
+        Test:      nil,
+        Consequent: block,
+    }
+}
+
 
 
 func parse_for_loop_stmt(p *Parser) ast.Statement {

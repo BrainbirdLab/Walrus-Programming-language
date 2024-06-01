@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 18,
+    "Line": 16,
     "Column": 1,
-    "Index": 198
+    "Index": 202
   },
   "FileName": "./../code/switchCase.wal",
   "ModuleName": "",
@@ -53,9 +53,9 @@
         "Index": 19
       },
       "EndPos": {
-        "Line": 18,
-        "Column": 1,
-        "Index": 198
+        "Line": 15,
+        "Column": 2,
+        "Index": 200
       },
       "Discriminant": {
         "Kind": "IDENTIFIER",
@@ -378,6 +378,80 @@
               "Type": "i8"
             }
           }
+        },
+        {
+          "Kind": "DEFAULT_CASE_STATEMENT",
+          "StartPos": {
+            "Line": 12,
+            "Column": 5,
+            "Index": 149
+          },
+          "EndPos": {
+            "Line": 14,
+            "Column": 6,
+            "Index": 197
+          },
+          "Consequent": {
+            "Kind": "BLOCK_STATEMENT",
+            "StartPos": {
+              "Line": 12,
+              "Column": 13,
+              "Index": 157
+            },
+            "EndPos": {
+              "Line": 14,
+              "Column": 6,
+              "Index": 197
+            },
+            "Body": [
+              {
+                "Kind": "FUNCTION_CALL_EXPRESSION",
+                "StartPos": {
+                  "Line": 13,
+                  "Column": 14,
+                  "Index": 173
+                },
+                "EndPos": {
+                  "Line": 13,
+                  "Column": 30,
+                  "Index": 189
+                },
+                "Function": {
+                  "Kind": "IDENTIFIER",
+                  "StartPos": {
+                    "Line": 13,
+                    "Column": 9,
+                    "Index": 168
+                  },
+                  "EndPos": {
+                    "Line": 13,
+                    "Column": 14,
+                    "Index": 173
+                  },
+                  "Identifier": "print",
+                  "Type": "infr"
+                },
+                "Args": [
+                  {
+                    "Kind": "STRING_LITERAL",
+                    "StartPos": {
+                      "Line": 13,
+                      "Column": 15,
+                      "Index": 174
+                    },
+                    "EndPos": {
+                      "Line": 13,
+                      "Column": 29,
+                      "Index": 188
+                    },
+                    "Value": "Default case",
+                    "Type": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          "Test": null
         }
       ]
     }
