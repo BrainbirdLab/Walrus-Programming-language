@@ -4,24 +4,24 @@ type DATA_TYPE string
 
 const (
 	// Primitive Types
-	VOID DATA_TYPE 	= "VOID"
+	VOID DATA_TYPE = "VOID"
 
-	INTEGER   		= "INTEGER"
-	FLOATING  		= "FLOATING"
-	BOOLEAN   		= "BOOLEAN"
-	STRING    		= "STRING"
-	CHARACTER 		= "CHARECTER"
-	NULL      		= "NULL"
+	INTEGER   = "INTEGER"
+	FLOATING  = "FLOATING"
+	BOOLEAN   = "BOOLEAN"
+	STRING    = "STRING"
+	CHARACTER = "CHARECTER"
+	NULL      = "NULL"
 
 	// Derived Types
-	ARRAY 			= "ARRAY"
+	ARRAY = "ARRAY"
 
-	STRUCT 			= "STRUCT"
-	TRAIT			= "TRAIT"
-	ENUM			= "ENUM"
+	STRUCT = "STRUCT"
+	TRAIT  = "TRAIT"
+	ENUM   = "ENUM"
 
 	//User Defined Types
-	USER_DEFINED	= "USER_DEFINED"
+	USER_DEFINED = "USER_DEFINED"
 )
 
 type IntegerType struct {
@@ -30,44 +30,58 @@ type IntegerType struct {
 	IsSigned bool
 }
 
-func (i IntegerType) _type() {}
+func (i IntegerType) iType() {
+	// empty method implements the Type interface
+}
 
 type FloatingType struct {
-	Kind     DATA_TYPE
-	BitSize  uint8
+	Kind    DATA_TYPE
+	BitSize uint8
 }
 
-func (f FloatingType) _type() {}
+func (f FloatingType) iType() {
+	// empty method implements the Type interface
+}
 
 type BooleanType struct {
-	Kind     DATA_TYPE
+	Kind DATA_TYPE
 }
 
-func (b BooleanType) _type() {}
+func (b BooleanType) iType() {
+	// empty method implements the Type interface
+}
 
 type StringType struct {
-	Kind     DATA_TYPE
+	Kind DATA_TYPE
 }
 
-func (s StringType) _type() {}
+func (s StringType) iType() {
+	// empty method implements the Type interface
+}
 
 type CharecterType struct {
-	Kind     DATA_TYPE
+	Kind DATA_TYPE
 }
 
-func (c CharecterType) _type() {}
+func (c CharecterType) iType() {
+	// empty method implements the Type interface
+}
 
 type NullType struct {
-	Kind     DATA_TYPE
+	Kind DATA_TYPE
 }
 
-func (n NullType) _type() {}
+func (n NullType) iType() {
+	// empty method implements the Type interface
+}
 
 type VoidType struct {
-	Kind     DATA_TYPE
+	Kind DATA_TYPE
 }
 
-func (v VoidType) _type() {}
+func (v VoidType) iType() {
+	// empty method implements the Type interface
+}
 
 type ArrayType struct {
 	Kind        DATA_TYPE
@@ -75,29 +89,43 @@ type ArrayType struct {
 	Size        int
 }
 
-func (a ArrayType) _type() {}
+func (a ArrayType) iType() {
+	// empty method implements the Type interface
+}
 
 type StructType struct {
-	Kind     DATA_TYPE
-	Name	 string
+	Kind DATA_TYPE
+	Name string
 }
-func (s StructType) _type() {}
+
+func (s StructType) iType() {
+	// empty method implements the Type interface
+}
 
 type TraitType struct {
-	Kind     	DATA_TYPE
-	Name		string
-	For 		string
+	Kind DATA_TYPE
+	Name string
+	For  string
 }
-func (t TraitType) _type() {}
+
+func (t TraitType) iType() {
+	// empty method implements the Type interface
+}
 
 type EnumType struct {
-	Kind     DATA_TYPE
-	Fields   map[string]Type
+	Kind   DATA_TYPE
+	Fields map[string]Type
 }
-func (e EnumType) _type() {}
+
+func (e EnumType) iType() {
+	// empty method implements the Type interface
+}
 
 type UserDefinedType struct {
-	Kind     DATA_TYPE
-	Name     string
+	Kind DATA_TYPE
+	Name string
 }
-func (u UserDefinedType) _type() {}
+
+func (u UserDefinedType) iType() {
+	// empty method implements the Type interface
+}

@@ -9,13 +9,13 @@ type ModuleStmt struct {
 	ModuleName string
 }
 
-func (m ModuleStmt) node() {
+func (m ModuleStmt) iNode() {
 	// empty method implements the Node interface
 } // implements the Statement interface
 func (m ModuleStmt) GetPos() (lexer.Position, lexer.Position) {
 	return m.StartPos, m.EndPos
 }
-func (m ModuleStmt) _statement() {
+func (m ModuleStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -25,13 +25,13 @@ type ImportStmt struct {
 	Identifiers []string
 }
 
-func (i ImportStmt) node() {
+func (i ImportStmt) iNode() {
 	// empty method implements the Node interface
 } // implements the Statement interface
 func (i ImportStmt) GetPos() (lexer.Position, lexer.Position) {
 	return i.StartPos, i.EndPos
 }
-func (i ImportStmt) _statement() {
+func (i ImportStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -43,13 +43,13 @@ type ProgramStmt struct {
 	Contents   []Node
 }
 
-func (p ProgramStmt) node() {
+func (p ProgramStmt) iNode() {
 	// empty method implements the Node interface
 } // implements the Statement interface
 func (p ProgramStmt) GetPos() (lexer.Position, lexer.Position) {
 	return p.StartPos, p.EndPos
 }
-func (p ProgramStmt) _statement() {
+func (p ProgramStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -58,13 +58,13 @@ type BlockStmt struct {
 	Body []Node
 }
 
-func (b BlockStmt) node() {
+func (b BlockStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (b BlockStmt) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
-func (b BlockStmt) _statement() {
+func (b BlockStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -76,13 +76,13 @@ type VariableDclStml struct {
 	ExplicitType Type
 }
 
-func (v VariableDclStml) node() {
+func (v VariableDclStml) iNode() {
 	// empty method implements the Node interface
 }
 func (v VariableDclStml) GetPos() (lexer.Position, lexer.Position) {
 	return v.StartPos, v.EndPos
 }
-func (v VariableDclStml) _statement() {
+func (v VariableDclStml) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -99,13 +99,13 @@ type FunctionDeclStmt struct {
 	Block BlockStmt
 }
 
-func (f FunctionDeclStmt) node() {
+func (f FunctionDeclStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (f FunctionDeclStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
-func (f FunctionDeclStmt) _statement() {
+func (f FunctionDeclStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -114,13 +114,13 @@ type ReturnStmt struct {
 	Expression Expression
 }
 
-func (r ReturnStmt) node() {
+func (r ReturnStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (r ReturnStmt) GetPos() (lexer.Position, lexer.Position) {
 	return r.StartPos, r.EndPos
 }
-func (r ReturnStmt) _statement() {
+func (r ReturnStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -128,13 +128,13 @@ type BreakStmt struct {
 	BaseStmt
 }
 
-func (b BreakStmt) node() {
+func (b BreakStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (b BreakStmt) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
-func (b BreakStmt) _statement() {
+func (b BreakStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -142,13 +142,13 @@ type ContinueStmt struct {
 	BaseStmt
 }
 
-func (c ContinueStmt) node() {
+func (c ContinueStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (c ContinueStmt) GetPos() (lexer.Position, lexer.Position) {
 	return c.StartPos, c.EndPos
 }
-func (c ContinueStmt) _statement() {
+func (c ContinueStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -168,13 +168,13 @@ type StructDeclStatement struct {
 	Embeds     []string
 }
 
-func (s StructDeclStatement) node() {
+func (s StructDeclStatement) iNode() {
 	// empty method implements the Node interface
 }
 func (s StructDeclStatement) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s StructDeclStatement) _statement() {
+func (s StructDeclStatement) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -190,13 +190,13 @@ type TraitDeclStatement struct {
 	Methods   map[string]Method
 }
 
-func (t TraitDeclStatement) node() {
+func (t TraitDeclStatement) iNode() {
 	// empty method implements the Node interface
 }
 func (t TraitDeclStatement) GetPos() (lexer.Position, lexer.Position) {
 	return t.StartPos, t.EndPos
 }
-func (t TraitDeclStatement) _statement() {
+func (t TraitDeclStatement) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -215,13 +215,13 @@ type ImplementStatement struct {
 	Methods    map[string]MethodImplementStmt
 }
 
-func (s ImplementStatement) node() {
+func (s ImplementStatement) iNode() {
 	// empty method implements the Node interface
 }
 func (s ImplementStatement) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s ImplementStatement) _statement() {
+func (s ImplementStatement) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -232,13 +232,13 @@ type IfStmt struct {
 	Alternate interface{}
 }
 
-func (i IfStmt) node() {
+func (i IfStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (i IfStmt) GetPos() (lexer.Position, lexer.Position) {
 	return i.StartPos, i.EndPos
 }
-func (i IfStmt) _statement() {
+func (i IfStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -251,13 +251,13 @@ type ForStmt struct {
 	Block     BlockStmt
 }
 
-func (f ForStmt) node() {
+func (f ForStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (f ForStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
-func (f ForStmt) _statement() {
+func (f ForStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -270,13 +270,13 @@ type ForeachStmt struct {
 	Block         BlockStmt
 }
 
-func (f ForeachStmt) node() {
+func (f ForeachStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (f ForeachStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
-func (f ForeachStmt) _statement() {
+func (f ForeachStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -286,13 +286,13 @@ type WhileLoopStmt struct {
 	Block     BlockStmt
 }
 
-func (w WhileLoopStmt) node() {
+func (w WhileLoopStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (w WhileLoopStmt) GetPos() (lexer.Position, lexer.Position) {
 	return w.StartPos, w.EndPos
 }
-func (w WhileLoopStmt) _statement() {
+func (w WhileLoopStmt) iStatement() {
 	// empty method implements the Statement interface
 }
 
@@ -308,12 +308,12 @@ type SwitchStmt struct {
 	Cases        []SwitchCase
 }
 
-func (s SwitchStmt) node() {
+func (s SwitchStmt) iNode() {
 	// empty method implements the Node interface
 }
 func (s SwitchStmt) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s SwitchStmt) _statement() {
+func (s SwitchStmt) iStatement() {
 	// empty method implements the Statement interface
 }

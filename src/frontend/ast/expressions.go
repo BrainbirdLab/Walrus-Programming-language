@@ -11,13 +11,13 @@ type BinaryExpr struct {
 	Right    Expression
 }
 
-func (b BinaryExpr) node() {
+func (b BinaryExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (b BinaryExpr) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
-func (b BinaryExpr) _expression() {
+func (b BinaryExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -27,13 +27,13 @@ type UnaryExpr struct {
 	Argument Expression
 }
 
-func (u UnaryExpr) node() {
+func (u UnaryExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (u UnaryExpr) GetPos() (lexer.Position, lexer.Position) {
 	return u.StartPos, u.EndPos
 }
-func (u UnaryExpr) _expression() {
+func (u UnaryExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -43,13 +43,13 @@ type IdentifierExpr struct {
 	Type       string
 }
 
-func (i IdentifierExpr) node() {
+func (i IdentifierExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (i IdentifierExpr) GetPos() (lexer.Position, lexer.Position) {
 	return i.StartPos, i.EndPos
 }
-func (i IdentifierExpr) _expression() {
+func (i IdentifierExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -59,13 +59,13 @@ type NumericLiteral struct {
 	Type  string
 }
 
-func (n NumericLiteral) node() {
+func (n NumericLiteral) iNode() {
 	// empty method implements the Node interface
 }
 func (n NumericLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return n.StartPos, n.EndPos
 }
-func (n NumericLiteral) _expression() {
+func (n NumericLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -75,13 +75,13 @@ type StringLiteral struct {
 	Type  string
 }
 
-func (s StringLiteral) node() {
+func (s StringLiteral) iNode() {
 	// empty method implements the Node interface
 }
 func (s StringLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s StringLiteral) _expression() {
+func (s StringLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -91,13 +91,13 @@ type BooleanLiteral struct {
 	Type  string
 }
 
-func (b BooleanLiteral) node() {
+func (b BooleanLiteral) iNode() {
 	// empty method implements the Node interface
 }
 func (b BooleanLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
-func (b BooleanLiteral) _expression() {
+func (b BooleanLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -107,13 +107,13 @@ type NullLiteral struct {
 	Type  string
 }
 
-func (n NullLiteral) node() {
+func (n NullLiteral) iNode() {
 	// empty method implements the Node interface
 }
 func (n NullLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return n.StartPos, n.EndPos
 }
-func (n NullLiteral) _expression() {
+func (n NullLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -123,13 +123,13 @@ type VoidExpr struct {
 	Type  string
 }
 
-func (v VoidExpr) node() {
+func (v VoidExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (v VoidExpr) GetPos() (lexer.Position, lexer.Position) {
 	return lexer.Position{}, lexer.Position{}
 }
-func (v VoidExpr) _expression() {
+func (v VoidExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -140,13 +140,13 @@ type AssignmentExpr struct {
 	Operator lexer.Token
 }
 
-func (a AssignmentExpr) node() {
+func (a AssignmentExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (a AssignmentExpr) GetPos() (lexer.Position, lexer.Position) {
 	return a.StartPos, a.EndPos
 }
-func (a AssignmentExpr) _expression() {
+func (a AssignmentExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -156,13 +156,13 @@ type FunctionCallExpr struct {
 	Args     []Expression
 }
 
-func (c FunctionCallExpr) node() {
+func (c FunctionCallExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (c FunctionCallExpr) GetPos() (lexer.Position, lexer.Position) {
 	return c.StartPos, c.EndPos
 }
-func (c FunctionCallExpr) _expression() {
+func (c FunctionCallExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -173,13 +173,13 @@ type StructInstantiationExpr struct {
 	Methods    map[string]FunctionDeclStmt
 }
 
-func (s StructInstantiationExpr) node() {
+func (s StructInstantiationExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (s StructInstantiationExpr) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s StructInstantiationExpr) _expression() {
+func (s StructInstantiationExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -189,13 +189,13 @@ type StructPropertyExpr struct {
 	Property IdentifierExpr
 }
 
-func (s StructPropertyExpr) node() {
+func (s StructPropertyExpr) iNode() {
 	// empty method implements the Node interface
 }
 func (s StructPropertyExpr) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s StructPropertyExpr) _expression() {
+func (s StructPropertyExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -205,12 +205,12 @@ type ArrayLiterals struct {
 	Elements []Expression
 }
 
-func (a ArrayLiterals) node() {
+func (a ArrayLiterals) iNode() {
 	// empty method implements the Node interface
 }
 func (a ArrayLiterals) GetPos() (lexer.Position, lexer.Position) {
 	return a.StartPos, a.EndPos
 }
-func (a ArrayLiterals) _expression() {
+func (a ArrayLiterals) iExpression() {
 	// empty method implements the Expression interface
 }

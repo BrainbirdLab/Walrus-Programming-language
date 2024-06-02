@@ -5,10 +5,10 @@ import (
 	"os"
 
 	//"path/filepath"
+	"strings"
 	"walrus/frontend/ast"
 	"walrus/frontend/lexer"
 	"walrus/utils"
-	"strings"
 )
 
 type Parser struct {
@@ -50,7 +50,7 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 	var contents []ast.Node
 
 	for parser.hasTokens() {
-		stmt := parse_node(parser)
+		stmt := parseNode(parser)
 
 		switch v := stmt.(type) {
 		case ast.ModuleStmt:
@@ -71,7 +71,7 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 			StartPos: lexer.Position{
 				Line:   1,
 				Column: 1,
-				Index: 0,
+				Index:  0,
 			},
 			EndPos: end,
 		},
@@ -217,7 +217,7 @@ func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMs
 	errStr += strings.Join(prvLines, "\n") + "\n"
 	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:token.StartPos.Column-1]) + utils.Colorize(utils.RED, line[token.StartPos.Column-1:token.EndPos.Column-1]) + lexer.Highlight(line[token.EndPos.Column-1:]) + "\n"
 	errStr += strings.Repeat(" ", (token.StartPos.Column-1)+len(padding))
-	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column - token.StartPos.Column - 1))))
+	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column-token.StartPos.Column-1))))
 	errStr += strings.Join(nxtLines, "\n") + "\n"
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 

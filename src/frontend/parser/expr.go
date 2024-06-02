@@ -8,23 +8,23 @@ import (
 	"walrus/helpers"
 )
 
-// parse_binary_expr parses a binary expression, given the left-hand side expression
+// parseBinaryExpr parses a binary expression, given the left-hand side expression
 // and the current binding power. It advances the parser to the next token,
-// parses the right-hand side expression, and returns an AST node representing
+// parses the right-hand side expression, and returns an AST iNode representing
 // the binary expression.
-func parse_binary_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parseBinaryExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
 
 	start := p.currentToken().StartPos
 
 	operatorToken := p.advance()
 
-	right := parse_expr(p, bp)
+	right := parseExpr(p, bp)
 
 	_, end := right.GetPos()
 
 	return ast.BinaryExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.BINARY_EXPRESSION,
+			Kind:     ast.BINARY_EXPRESSION,
 			StartPos: start,
 			EndPos:   end,
 		},
@@ -34,11 +34,11 @@ func parse_binary_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Exp
 	}
 }
 
-// parse_call_expr parses a function call expression, including the function name and its arguments.
+// parses a function call expression, including the function name and its arguments.
 // It expects the current token to be an opening parenthesis, and it will parse the arguments
 // until it encounters a closing parenthesis. The function returns an ast.FunctionCallExpr
 // representing the parsed function call.
-func parse_call_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
 
 	start := p.currentToken().StartPos
 
@@ -48,7 +48,7 @@ func parse_call_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expre
 
 	for p.currentTokenKind() != lexer.CLOSE_PAREN {
 		//parse the arguments
-		argument := parse_expr(p, DEFAULT_BP)
+		argument := parseExpr(p, DEFAULT_BP)
 		arguments = append(arguments, argument)
 
 		if p.currentTokenKind() == lexer.COMMA {
@@ -60,7 +60,7 @@ func parse_call_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expre
 
 	return ast.FunctionCallExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.FUNCTION_CALL_EXPRESSION,
+			Kind:     ast.FUNCTION_CALL_EXPRESSION,
 			StartPos: start,
 			EndPos:   end,
 		},
@@ -69,7 +69,7 @@ func parse_call_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expre
 	}
 }
 
-func parse_property_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parsePropertyExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
 
 	p.expect(lexer.DOT)
 
@@ -77,7 +77,7 @@ func parse_property_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.E
 
 	property := ast.IdentifierExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.IDENTIFIER,
+			Kind:     ast.IDENTIFIER,
 			StartPos: identifier.StartPos,
 			EndPos:   identifier.EndPos,
 		},
@@ -89,7 +89,7 @@ func parse_property_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.E
 
 	return ast.StructPropertyExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.STRUCT_PROPERTY,
+			Kind:     ast.STRUCT_PROPERTY,
 			StartPos: start,
 			EndPos:   property.EndPos,
 		},
@@ -98,12 +98,12 @@ func parse_property_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.E
 	}
 }
 
-// parse_expr parses an expression with the given binding power.
+// parseExpr parses an expression with the given binding power.
 // It first parses the NUD (Null Denotation) of the expression,
 // then continues to parse the LED (Left Denotation) of the expression
 // until the binding power of the current token is less than or equal to the given binding power.
 // The parsed expression is returned as an ast.Expression.
-func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
+func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 	// Fist parse the NUD
 	token := p.currentToken()
@@ -112,10 +112,10 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 	if tokenKind == lexer.IDENTIFIER && p.nextToken().Kind == lexer.OPEN_CURLY && (p.previousToken().Kind == lexer.WALRUS || p.previousToken().Kind == lexer.ASSIGNMENT) {
 		// Function call
-		return parse_struct_instantiation_expr(p, parse_primary_expr(p))
+		return parseStructInstantiationExpr(p, parsePrimaryExpr(p))
 	}
 
-	nud_fn, exists := nudLookup[tokenKind]
+	nudFunction, exists := nudLookup[tokenKind]
 
 	if !exists {
 
@@ -130,30 +130,29 @@ func parse_expr(p *Parser, bp BINDING_POWER) ast.Expression {
 		p.MakeError(token.StartPos.Line, p.FilePath, token, msg).Display()
 	}
 
-
-	left := nud_fn(p)
+	left := nudFunction(p)
 
 	for GetBP(p.currentTokenKind()) > bp {
 
 		tokenKind = p.currentTokenKind()
 
-		led_fn, exists := ledLookup[tokenKind]
+		ledFunction, exists := ledLookup[tokenKind]
 
 		if !exists {
 			msg := fmt.Sprintf("Parser:LED:Unexpected token %s\n", tokenKind)
 			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), msg).Display()
 		}
 
-		left = led_fn(p, left, GetBP(p.currentTokenKind()))
+		left = ledFunction(p, left, GetBP(p.currentTokenKind()))
 	}
 
 	return left
 }
 
-// parse_primary_expr parses a primary expression in the input stream.
+// parsePrimaryExpr parses a primary expression in the input stream.
 // It handles numeric literals, string literals, identifiers, boolean literals, and null literals.
 // If the current token does not match any of these types, it panics with an error message.
-func parse_primary_expr(p *Parser) ast.Expression {
+func parsePrimaryExpr(p *Parser) ast.Expression {
 
 	startpos := p.currentToken().StartPos
 
@@ -164,27 +163,27 @@ func parse_primary_expr(p *Parser) ast.Expression {
 		number, _ := strconv.ParseFloat(p.advance().Value, 64)
 		return ast.NumericLiteral{
 			BaseStmt: ast.BaseStmt{
-				Kind:    ast.NUMERIC_LITERAL,
+				Kind:     ast.NUMERIC_LITERAL,
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value:    number,
-			Type:     "i8",
+			Value: number,
+			Type:  "i8",
 		}
 	case lexer.STRING:
 		return ast.StringLiteral{
 			BaseStmt: ast.BaseStmt{
-				Kind:    ast.STRING_LITERAL,
+				Kind:     ast.STRING_LITERAL,
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value:    p.advance().Value,
-			Type:     "str",
+			Value: p.advance().Value,
+			Type:  "str",
 		}
 	case lexer.IDENTIFIER:
 		return ast.IdentifierExpr{
 			BaseStmt: ast.BaseStmt{
-				Kind:    ast.IDENTIFIER,
+				Kind:     ast.IDENTIFIER,
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
@@ -195,34 +194,34 @@ func parse_primary_expr(p *Parser) ast.Expression {
 		p.advance()
 		return ast.BooleanLiteral{
 			BaseStmt: ast.BaseStmt{
-				Kind:    ast.BOOLEAN_LITERAL,
+				Kind:     ast.BOOLEAN_LITERAL,
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value:    true,
-			Type:     "bool",
+			Value: true,
+			Type:  "bool",
 		}
 	case lexer.FALSE:
 		p.advance()
 		return ast.BooleanLiteral{
 			BaseStmt: ast.BaseStmt{
-				Kind:    ast.BOOLEAN_LITERAL,
+				Kind:     ast.BOOLEAN_LITERAL,
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value:    false,
-			Type:     "bool",
+			Value: false,
+			Type:  "bool",
 		}
 	case lexer.NULL:
 		p.advance()
 		return ast.NullLiteral{
 			BaseStmt: ast.BaseStmt{
-				Kind:    ast.NULL_LITERAL,
+				Kind:     ast.NULL_LITERAL,
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value:    "null",
-			Type:     "null",
+			Value: "null",
+			Type:  "null",
 		}
 
 	default:
@@ -230,32 +229,32 @@ func parse_primary_expr(p *Parser) ast.Expression {
 	}
 }
 
-// parse_grouping_expr parses a grouping expression, which is an expression
+// parseGroupingExpr parses a grouping expression, which is an expression
 // enclosed in parentheses. It expects the opening parenthesis, parses the
 // expression inside, and then expects the closing parenthesis.
-func parse_grouping_expr(p *Parser) ast.Expression {
+func parseGroupingExpr(p *Parser) ast.Expression {
 	p.expect(lexer.OPEN_PAREN)
-	expression := parse_expr(p, DEFAULT_BP)
+	expression := parseExpr(p, DEFAULT_BP)
 	p.expect(lexer.CLOSE_PAREN)
 	return expression
 }
 
-// parse_prefix_expr parses a prefix expression, which consists of a unary operator
+// parsePrefixExpr parses a prefix expression, which consists of a unary operator
 // followed by an expression. It returns an ast.UnaryExpr representing the parsed
 // prefix expression.
-func parse_prefix_expr(p *Parser) ast.Expression {
+func parsePrefixExpr(p *Parser) ast.Expression {
 
 	startpos := p.currentToken().StartPos
 
 	operator := p.advance()
 
-	expr := parse_expr(p, UNARY)
+	expr := parseExpr(p, UNARY)
 
 	_, endpos := expr.GetPos()
 
 	return ast.UnaryExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.UNARY_EXPRESSION,
+			Kind:     ast.UNARY_EXPRESSION,
 			StartPos: startpos,
 			EndPos:   endpos,
 		},
@@ -264,17 +263,16 @@ func parse_prefix_expr(p *Parser) ast.Expression {
 	}
 }
 
-
-// parse_unary_expr parses a unary expression from the input stream.
+// parseUnaryExpr parses a unary expression from the input stream.
 // It returns the parsed expression as an ast.Expression.
-func parse_unary_expr(p *Parser) ast.Expression {
-	return parse_prefix_expr(p)
+func parseUnaryExpr(p *Parser) ast.Expression {
+	return parsePrefixExpr(p)
 }
 
-// parse_var_assignment_expr parses a variable assignment expression. It takes a Parser, a left-hand side expression, and a binding power.
+// parseVarAssignmentExpr parses a variable assignment expression. It takes a Parser, a left-hand side expression, and a binding power.
 // If the left-hand side is an identifier, it creates an AssignmentExpr with the identifier, the assignment operator, and the right-hand side expression.
 // If the left-hand side is not an identifier, it panics with an error message.
-func parse_var_assignment_expr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parseVarAssignmentExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
 	// Check if left is an Identifier
 
 	start := p.currentToken().StartPos
@@ -298,13 +296,13 @@ func parse_var_assignment_expr(p *Parser, left ast.Expression, bp BINDING_POWER)
 
 	operator := p.advance()
 
-	right := parse_expr(p, bp)
+	right := parseExpr(p, bp)
 
 	_, end := right.GetPos()
 
 	return ast.AssignmentExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.ASSIGNMENT_EXPRESSION,
+			Kind:     ast.ASSIGNMENT_EXPRESSION,
 			StartPos: start,
 			EndPos:   end,
 		},
@@ -314,10 +312,10 @@ func parse_var_assignment_expr(p *Parser, left ast.Expression, bp BINDING_POWER)
 	}
 }
 
-// parse_struct_instantiation_expr parses a struct instantiation expression, which creates a new instance of a struct.
+// parseStructInstantiationExpr parses a struct instantiation expression, which creates a new instance of a struct.
 // It expects the left-hand side to be an identifier representing the struct type, followed by a block of property assignments
 // enclosed in curly braces. The function returns an ast.StructInstantiationExpr representing the parsed expression.
-func parse_struct_instantiation_expr(p *Parser, left ast.Expression) ast.Expression {
+func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression {
 
 	start := p.currentToken().StartPos
 
@@ -332,7 +330,7 @@ func parse_struct_instantiation_expr(p *Parser, left ast.Expression) ast.Express
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
 		var propName = p.expect(lexer.IDENTIFIER).Value
 		p.expect(lexer.COLON)
-		expr := parse_expr(p, LOGICAL)
+		expr := parseExpr(p, LOGICAL)
 
 		properties[propName] = expr
 
@@ -345,7 +343,7 @@ func parse_struct_instantiation_expr(p *Parser, left ast.Expression) ast.Express
 
 	return ast.StructInstantiationExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.STRUCT_LITERAL,
+			Kind:     ast.STRUCT_LITERAL,
 			StartPos: start,
 			EndPos:   end,
 		},
@@ -355,10 +353,10 @@ func parse_struct_instantiation_expr(p *Parser, left ast.Expression) ast.Express
 	}
 }
 
-// parse_array_expr parses an array expression in the input stream.
+// parseArrayExpr parses an array expression in the input stream.
 // It expects the opening '[' bracket, parses the array elements,
-// and returns an ast.ArrayLiterals node representing the array.
-func parse_array_expr(p *Parser) ast.Expression {
+// and returns an ast.ArrayLiterals iNode representing the array.
+func parseArrayExpr(p *Parser) ast.Expression {
 
 	start := p.currentToken().StartPos
 
@@ -367,7 +365,7 @@ func parse_array_expr(p *Parser) ast.Expression {
 	elements := []ast.Expression{}
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_BRACKET {
-		elements = append(elements, parse_expr(p, PRIMARY))
+		elements = append(elements, parseExpr(p, PRIMARY))
 		if p.currentTokenKind() != lexer.CLOSE_BRACKET {
 			p.expect(lexer.COMMA)
 		}
@@ -377,7 +375,7 @@ func parse_array_expr(p *Parser) ast.Expression {
 
 	return ast.ArrayLiterals{
 		BaseStmt: ast.BaseStmt{
-			Kind:    ast.ARRAY_LITERALS,
+			Kind:     ast.ARRAY_LITERALS,
 			StartPos: start,
 			EndPos:   end,
 		},

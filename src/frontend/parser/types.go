@@ -22,23 +22,17 @@ var type_bp_lu = type_bp_lookup{}
 var type_nud_lu = type_nud_lookup{}
 var type_led_lu = type_led_lookup{}
 
-/*
-func type_led(kind lexer.TOKEN_KIND, bp BINDING_POWER, led_fn type_led_handler) {
-	type_bp_lu[kind] = bp
-	type_led_lu[kind] = led_fn
-}
-*/
 
-func type_nud(kind lexer.TOKEN_KIND, nud_fn type_nud_handler) {
+func typeNUD(kind lexer.TOKEN_KIND, nud_fn type_nud_handler) {
 	type_nud_lu[kind] = nud_fn
 }
 
 func createTokenTypesLookups() {
-	type_nud(lexer.IDENTIFIER, parse_data_type)
-	type_nud(lexer.OPEN_BRACKET, parse_array_type)
+	typeNUD(lexer.IDENTIFIER, parseDataType)
+	typeNUD(lexer.OPEN_BRACKET, parseArrayType)
 }
 
-func parse_data_type(p *Parser) ast.Type {
+func parseDataType(p *Parser) ast.Type {
 	identifier := p.expect(lexer.IDENTIFIER)
 
 	value := identifier.Value
@@ -85,22 +79,22 @@ func parse_data_type(p *Parser) ast.Type {
 	}
 }
 
-func parse_array_type(p *Parser) ast.Type {
+func parseArrayType(p *Parser) ast.Type {
 
 	p.advance()
 	p.expect(lexer.CLOSE_BRACKET)
 
-	elemType := parse_type(p, DEFAULT_BP)
+	elemType := parseType(p, DEFAULT_BP)
 
 	return ast.ArrayType{
 		ElementType: elemType,
 	}
 }
 
-func parse_type(p *Parser, bp BINDING_POWER) ast.Type {
+func parseType(p *Parser, bp BINDING_POWER) ast.Type {
 	// Fist parse the NUD
 	tokenKind := p.currentTokenKind()
-	nud_fn, exists := type_nud_lu[tokenKind]
+	nudFunction, exists := type_nud_lu[tokenKind]
 
 	if !exists {
 		//panic(fmt.Sprintf("TYPE NUD handler expected for token %s\n", tokenKind))
@@ -118,19 +112,19 @@ func parse_type(p *Parser, bp BINDING_POWER) ast.Type {
 		//return nil
 	}
 
-	left := nud_fn(p)
+	left := nudFunction(p)
 
 	for type_bp_lu[p.currentTokenKind()] > bp {
 
 		tokenKind := p.currentTokenKind()
 
-		led_fn, exists := type_led_lu[tokenKind]
+		ledFunction, exists := type_led_lu[tokenKind]
 
 		if !exists {
 			panic(fmt.Sprintf("TYPE LED handler expected for token %s\n", tokenKind))
 		}
 
-		left = led_fn(p, left, type_bp_lu[p.currentTokenKind()])
+		left = ledFunction(p, left, type_bp_lu[p.currentTokenKind()])
 	}
 
 	return left

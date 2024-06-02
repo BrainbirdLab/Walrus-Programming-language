@@ -8,7 +8,7 @@ import (
 	"walrus/utils"
 )
 
-func parse_node(p *Parser) ast.Node {
+func parseNode(p *Parser) ast.Node {
 
 	// can be a statement or an expression
 	stmt_fn, exists := stmtLookup[p.currentTokenKind()]
@@ -18,13 +18,13 @@ func parse_node(p *Parser) ast.Node {
 	}
 
 	// if not a statement, then it must be an expression
-	expr := parse_expr(p, DEFAULT_BP)
+	expr := parseExpr(p, DEFAULT_BP)
 
 	p.expect(lexer.SEMI_COLON)
 
 	return expr
 }
-func parse_module_stmt(p *Parser) ast.Statement {
+func parseModuleStmt(p *Parser) ast.Statement {
 	start := p.currentToken().StartPos
 
 	p.advance() // skip MODULE token
@@ -43,7 +43,7 @@ func parse_module_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_import_stmt(p *Parser) ast.Statement {
+func parseImportStmt(p *Parser) ast.Statement {
 	start := p.currentToken().StartPos
 	//advaced to the next token
 	p.advance()
@@ -87,7 +87,7 @@ func parse_import_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_var_decl_stmt(p *Parser) ast.Statement {
+func parseVarDeclStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -105,7 +105,7 @@ func parse_var_decl_stmt(p *Parser) ast.Statement {
 	if p.currentTokenKind() == lexer.WALRUS {
 		p.advance()
 
-		assignedValue = parse_expr(p, DEFAULT_BP)
+		assignedValue = parseExpr(p, DEFAULT_BP)
 
 		if assignedValue == nil {
 			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected value after := operator").Display()
@@ -113,11 +113,11 @@ func parse_var_decl_stmt(p *Parser) ast.Statement {
 	} else if p.currentTokenKind() == lexer.COLON {
 		// then we expect type
 		p.advance()
-		explicitType = parse_type(p, DEFAULT_BP)
+		explicitType = parseType(p, DEFAULT_BP)
 		if p.currentTokenKind() == lexer.ASSIGNMENT {
 			// then we expect assignment
 			p.advance()
-			assignedValue = parse_expr(p, DEFAULT_BP)
+			assignedValue = parseExpr(p, DEFAULT_BP)
 		}
 	} else {
 		if p.currentTokenKind() == lexer.ASSIGNMENT {
@@ -145,18 +145,18 @@ func parse_var_decl_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_block_stmt(p *Parser) ast.Statement {
-	return parse_block(p)
+func parseBlockStmt(p *Parser) ast.Statement {
+	return parseBlock(p)
 }
 
-func parse_block(p *Parser) ast.BlockStmt {
+func parseBlock(p *Parser) ast.BlockStmt {
 
 	start := p.expect(lexer.OPEN_CURLY).StartPos
 
 	body := make([]ast.Node, 0)
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
-		body = append(body, parse_node(p))
+		body = append(body, parseNode(p))
 	}
 
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
@@ -171,7 +171,7 @@ func parse_block(p *Parser) ast.BlockStmt {
 	}
 }
 
-func parse_function_decl_stmt(p *Parser) ast.Statement {
+func parseFunctionDeclStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -179,20 +179,20 @@ func parse_function_decl_stmt(p *Parser) ast.Statement {
 
 	functionName := p.expect(lexer.IDENTIFIER).Value
 	//parse parameters
-	params := parse_params(p)
+	params := parseParams(p)
 
 	// if there is a ARROW token, then we have explicit return type. else we have implicit return type of void
 	var explicitReturnType ast.Type
 	if p.currentTokenKind() == lexer.ARROW {
 		p.advance()
-		explicitReturnType = parse_type(p, DEFAULT_BP)
+		explicitReturnType = parseType(p, DEFAULT_BP)
 	} else {
 		explicitReturnType = ast.VoidType{}
 	}
 
 	// parse block
 	//type assertion from ast.Statement to ast.BlockStmt
-	functionBody := parse_block(p)
+	functionBody := parseBlock(p)
 
 	end := functionBody.EndPos
 
@@ -211,7 +211,7 @@ func parse_function_decl_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_return_stmt(p *Parser) ast.Statement {
+func parseReturnStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -220,7 +220,7 @@ func parse_return_stmt(p *Parser) ast.Statement {
 	var value ast.Expression
 
 	if p.currentTokenKind() != lexer.SEMI_COLON {
-		value = parse_expr(p, DEFAULT_BP)
+		value = parseExpr(p, DEFAULT_BP)
 	} else {
 		value = ast.VoidExpr{}
 	}
@@ -237,15 +237,15 @@ func parse_return_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_break_stmt(p *Parser) ast.Statement {
-	return parse_breakout_stmt(p)
+func parseBreakStmt(p *Parser) ast.Statement {
+	return parseBreakoutStmt(p)
 }
 
-func parse_continue_stmt(p *Parser) ast.Statement {
-	return parse_breakout_stmt(p)
+func parseContinueStmt(p *Parser) ast.Statement {
+	return parseBreakoutStmt(p)
 }
 
-func parse_breakout_stmt(p *Parser) ast.Statement {
+func parseBreakoutStmt(p *Parser) ast.Statement {
 
 	start := p.advance().StartPos
 	end := p.expect(lexer.SEMI_COLON).EndPos
@@ -259,7 +259,7 @@ func parse_breakout_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_struct_decl_stmt(p *Parser) ast.Statement {
+func parseStructDeclStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -310,7 +310,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 
 				p.advance()
 
-				propertyType := parse_type(p, DEFAULT_BP)
+				propertyType := parseType(p, DEFAULT_BP)
 
 				p.expect(lexer.SEMI_COLON)
 
@@ -362,7 +362,7 @@ func parse_struct_decl_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_trait_decl_stmt(p *Parser) ast.Statement {
+func parseTraitDeclStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -394,7 +394,7 @@ func parse_trait_decl_stmt(p *Parser) ast.Statement {
 
 		// parse the method prototype: fn <name> (params) -> return_type; or fn <name> (params); <- void return type
 
-		method := parse_function_prototype(p)
+		method := parseFunctionPrototype(p)
 
 		traitMethod := ast.Method{
 			BaseStmt: ast.BaseStmt{
@@ -422,19 +422,19 @@ func parse_trait_decl_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_function_prototype(p *Parser) ast.FunctionPrototype {
+func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 
 	start := p.expect(lexer.FUNCTION).StartPos
 
 	Name := p.expect(lexer.IDENTIFIER).Value
 
-	Parameters := parse_params(p)
+	Parameters := parseParams(p)
 
 	var ReturnType ast.Type
 
 	if p.currentTokenKind() == lexer.ARROW {
 		p.advance()
-		ReturnType = parse_type(p, DEFAULT_BP)
+		ReturnType = parseType(p, DEFAULT_BP)
 	} else {
 		ReturnType = ast.VoidType{}
 	}
@@ -453,7 +453,7 @@ func parse_function_prototype(p *Parser) ast.FunctionPrototype {
 	}
 }
 
-func parse_implement_stmt(p *Parser) ast.Statement {
+func parseImplementStmt(p *Parser) ast.Statement {
 
 	//advance impl token
 	start := p.advance().StartPos
@@ -503,7 +503,7 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 			p.advance()
 		}
 
-		method := parse_function_decl_stmt(p).(ast.FunctionDeclStmt)
+		method := parseFunctionDeclStmt(p).(ast.FunctionDeclStmt)
 
 		methods[method.FunctionName] = ast.MethodImplementStmt{
 			BaseStmt: ast.BaseStmt{
@@ -532,7 +532,7 @@ func parse_implement_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_params(p *Parser) map[string]ast.Type {
+func parseParams(p *Parser) map[string]ast.Type {
 	params := map[string]ast.Type{}
 	//while )
 	p.advance() // pass the open paren
@@ -544,7 +544,7 @@ func parse_params(p *Parser) map[string]ast.Type {
 
 		p.expect(lexer.COLON)
 
-		paramType := parse_type(p, DEFAULT_BP)
+		paramType := parseType(p, DEFAULT_BP)
 
 		//add to the map
 		params[paramName] = paramType
@@ -557,23 +557,23 @@ func parse_params(p *Parser) map[string]ast.Type {
 	return params
 }
 
-func parse_if_statement(p *Parser) ast.Statement {
+func parseIfStatement(p *Parser) ast.Statement {
 
 	start := p.advance().StartPos
 
-	condition := parse_expr(p, ASSIGNMENT) // using assignment as the lowest binding power
+	condition := parseExpr(p, ASSIGNMENT) // using assignment as the lowest binding power
 
-	consequentBlock := parse_block(p)
+	consequentBlock := parseBlock(p)
 
 	var alternate ast.Statement
 
 	if p.currentTokenKind() == lexer.ELSE {
 		p.advance() //pass the else
-		block := parse_block(p)
+		block := parseBlock(p)
 		alternate = block
 	} else if p.currentTokenKind() == lexer.ELSEIF {
 		//p.advance()
-		stmt := parse_if_statement(p)
+		stmt := parseIfStatement(p)
 		alternate = stmt
 	}
 
@@ -589,97 +589,95 @@ func parse_if_statement(p *Parser) ast.Statement {
 	}
 }
 
-func parse_switch_case_stmt(p *Parser) ast.Statement {
+func parseSwitchCaseStmt(p *Parser) ast.Statement {
 
-    start := p.advance().StartPos // pass the switch token
+	start := p.advance().StartPos // pass the switch token
 
-    discriminant := parse_expr(p, ASSIGNMENT)
+	discriminant := parseExpr(p, ASSIGNMENT)
 
-    p.expect(lexer.OPEN_CURLY)
+	p.expect(lexer.OPEN_CURLY)
 
-    cases := []ast.SwitchCase{}
-    var defaultCase *ast.SwitchCase = nil
+	cases := []ast.SwitchCase{}
+	var defaultCase *ast.SwitchCase = nil
 
-    for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
 
-        caseStart := p.currentToken().StartPos
-        
-        if p.currentTokenKind() == lexer.CASE {
-            tests := parse_case_stmt(p)
-            block := parse_block(p)
+		caseStart := p.currentToken().StartPos
 
-            for _, test := range tests {
-                cases = append(cases, ast.SwitchCase{
-                    BaseStmt: ast.BaseStmt{
-                        Kind:     ast.SWITCH_CASE_STATEMENT,
-                        StartPos: caseStart,
-                        EndPos:   block.EndPos,
-                    },
-                    Test:      test,
-                    Consequent: block,
-                })
-            }
-        } else if p.currentTokenKind() == lexer.DEFAULT {
-            defaultCase = parse_default_case(p)
-        } else {
-            p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Unexpected token: '" + p.currentToken().Value + "'").AddHint("Switch can have only ", TEXT_HINT).AddHint("case or default", CODE_HINT).AddHint(" keyword", TEXT_HINT).Display()
+		if p.currentTokenKind() == lexer.CASE {
+			tests := parseCaseStmt(p)
+			block := parseBlock(p)
+
+			for _, test := range tests {
+				cases = append(cases, ast.SwitchCase{
+					BaseStmt: ast.BaseStmt{
+						Kind:     ast.SWITCH_CASE_STATEMENT,
+						StartPos: caseStart,
+						EndPos:   block.EndPos,
+					},
+					Test:       test,
+					Consequent: block,
+				})
+			}
+		} else if p.currentTokenKind() == lexer.DEFAULT {
+			defaultCase = parseDefaultCase(p)
+		} else {
+			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Unexpected token: '"+p.currentToken().Value+"'").AddHint("Switch can have only ", TEXT_HINT).AddHint("case or default", CODE_HINT).AddHint(" keyword", TEXT_HINT).Display()
 			panic("-1")
-        }
-    }
+		}
+	}
 
-    if defaultCase != nil {
-        cases = append(cases, *defaultCase)
-    }
+	if defaultCase != nil {
+		cases = append(cases, *defaultCase)
+	}
 
-    end := p.expect(lexer.CLOSE_CURLY).EndPos
+	end := p.expect(lexer.CLOSE_CURLY).EndPos
 
-    return ast.SwitchStmt{
-        BaseStmt: ast.BaseStmt{
-            Kind:     ast.SWITCH_STATEMENT,
-            StartPos: start,
-            EndPos:   end,
-        },
-        Discriminant: discriminant,
-        Cases:        cases,
-    }
+	return ast.SwitchStmt{
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.SWITCH_STATEMENT,
+			StartPos: start,
+			EndPos:   end,
+		},
+		Discriminant: discriminant,
+		Cases:        cases,
+	}
 }
 
-func parse_case_stmt(p *Parser) []ast.Expression {
-    p.expect(lexer.CASE)
+func parseCaseStmt(p *Parser) []ast.Expression {
+	p.expect(lexer.CASE)
 
-    tests := []ast.Expression{}
+	tests := []ast.Expression{}
 
-    for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY {
-        test := parse_expr(p, ASSIGNMENT)
+	for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY {
+		test := parseExpr(p, ASSIGNMENT)
 
-        tests = append(tests, test)
+		tests = append(tests, test)
 
-        if p.currentTokenKind() == lexer.COMMA {
-            p.advance()
-        }
-    }
+		if p.currentTokenKind() == lexer.COMMA {
+			p.advance()
+		}
+	}
 
-    return tests
+	return tests
 }
 
-func parse_default_case(p *Parser) *ast.SwitchCase {
-    defaultStart := p.advance().StartPos // pass the default token
-    block := parse_block(p)
+func parseDefaultCase(p *Parser) *ast.SwitchCase {
+	defaultStart := p.advance().StartPos // pass the default token
+	block := parseBlock(p)
 
-    return &ast.SwitchCase{
-        BaseStmt: ast.BaseStmt{
-            Kind:     ast.DEFAULT_CASE_STATEMENT,
-            StartPos: defaultStart,
-            EndPos:   block.EndPos,
-        },
-        Test:      nil,
-        Consequent: block,
-    }
+	return &ast.SwitchCase{
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.DEFAULT_CASE_STATEMENT,
+			StartPos: defaultStart,
+			EndPos:   block.EndPos,
+		},
+		Test:       nil,
+		Consequent: block,
+	}
 }
 
-
-
-func parse_for_loop_stmt(p *Parser) ast.Statement {
+func parseForLoopStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
@@ -691,19 +689,19 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 	if loopKind == lexer.FOR {
 		p.expect(lexer.WALRUS)
 
-		init := parse_expr(p, ASSIGNMENT)
+		init := parseExpr(p, ASSIGNMENT)
 
 		p.expect(lexer.SEMI_COLON)
 
 		//parse the condition
-		condition := parse_expr(p, ASSIGNMENT)
+		condition := parseExpr(p, ASSIGNMENT)
 
 		p.expect(lexer.SEMI_COLON)
 
 		//parse the post
-		post := parse_expr(p, ASSIGNMENT)
+		post := parseExpr(p, ASSIGNMENT)
 
-		block := parse_block(p)
+		block := parseBlock(p)
 
 		end := block.EndPos
 
@@ -741,16 +739,16 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 
 		//parse the array
 
-		arr := parse_expr(p, ASSIGNMENT)
+		arr := parseExpr(p, ASSIGNMENT)
 
 		var whereCause ast.Expression
 
 		if p.currentTokenKind() != lexer.OPEN_CURLY {
 			p.expect(lexer.WHERE)
-			whereCause = parse_expr(p, ASSIGNMENT)
+			whereCause = parseExpr(p, ASSIGNMENT)
 		}
 
-		block := parse_block(p)
+		block := parseBlock(p)
 
 		end := block.EndPos
 
@@ -773,13 +771,13 @@ func parse_for_loop_stmt(p *Parser) ast.Statement {
 	}
 }
 
-func parse_while_loop_stmt(p *Parser) ast.Statement {
+func parseWhileLoopStmt(p *Parser) ast.Statement {
 
 	start := p.advance().StartPos // skip the for token
 
-	cond := parse_expr(p, ASSIGNMENT)
+	cond := parseExpr(p, ASSIGNMENT)
 
-	block := parse_block(p)
+	block := parseBlock(p)
 
 	_, end := block.GetPos()
 

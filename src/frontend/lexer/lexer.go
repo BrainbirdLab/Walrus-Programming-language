@@ -52,7 +52,7 @@ func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 	lex.FilePath = file
 	lex.Lines = strings.Split(source, "\n")
 
-	for !lex.at_eof() {
+	for !lex.atEOF() {
 
 		matched := false
 
@@ -112,7 +112,7 @@ func (lex *Lexer) remainder() string {
 	return (*(lex.source))[lex.Pos.Index:]
 }
 
-func (lex *Lexer) at_eof() bool {
+func (lex *Lexer) atEOF() bool {
 	return lex.Pos.Index >= len(*(lex.source))
 }
 
