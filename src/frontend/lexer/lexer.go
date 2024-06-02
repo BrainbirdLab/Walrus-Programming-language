@@ -83,7 +83,7 @@ func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 		}
 	}
 
-	lex.push(NewToken(EOF, "EOF", lex.Pos, lex.Pos))
+	lex.push(NewToken(EOF, "End of file", lex.Pos, lex.Pos))
 
 	//litter.Dump(lex.Tokens)
 	if debug {
