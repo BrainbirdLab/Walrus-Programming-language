@@ -273,63 +273,13 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
 
-		var IsStatic bool
-		var IsPublic bool
-		var ReadOnly bool
-		var propname string
-
 		//property
 		if p.currentTokenKind() == lexer.ACCESS {
 
-			if p.currentToken().Value == "pub" {
-				IsPublic = true
-			} else {
-				IsPublic = false
-			}
-
-			p.advance() //pass the access modifier
-
-			if p.currentTokenKind() == lexer.STATIC {
-				IsStatic = true
-				p.advance()
-			} else {
-				IsStatic = false
-			}
-
-			if p.currentTokenKind() == lexer.READONLY {
-				ReadOnly = true
-				p.advance()
-			} else {
-				ReadOnly = false
-			}
-
-			propname = p.expect(lexer.IDENTIFIER).Value
-
-			if p.currentTokenKind() == lexer.COLON {
-				//then its a property
-
-				p.advance()
-
-				propertyType := parseType(p, DEFAULT_BP)
-
-				p.expect(lexer.SEMI_COLON)
-
-				//check if already exists
-				if _, exists := properties[propname]; exists {
-					panic(fmt.Sprintf("Property %s already declared", propname))
-				}
-
-				properties[propname] = ast.Property{
-					IsStatic: IsStatic,
-					IsPublic: IsPublic,
-					ReadOnly: ReadOnly,
-					Type:     propertyType,
-					//Value: nil,
-				}
-
-			}
+			properties = handleAccessModifier(p, properties)
 
 			continue
+
 		} else if p.currentTokenKind() == lexer.EMBED {
 			p.advance()
 			//parse the structname to be embeded into this struct
@@ -360,6 +310,69 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 		Embeds:     embeds,
 		StructName: structName,
 	}
+}
+
+func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[string]ast.Property {
+
+
+	var isStatic bool
+	var isPublic bool
+	var readOnly bool
+
+	if p.currentToken().Value == "pub" {
+		isPublic = true
+	} else {
+		isPublic = false
+	}
+
+	p.advance() //pass the access modifier
+
+	if p.currentTokenKind() == lexer.STATIC {
+		isStatic = true
+		p.advance()
+	} else {
+		isStatic = false
+	}
+
+	if p.currentTokenKind() == lexer.READONLY {
+		readOnly = true
+		p.advance()
+	} else {
+		readOnly = false
+	}
+
+	prop := p.expect(lexer.IDENTIFIER)
+
+	if p.currentTokenKind() == lexer.COLON {
+		//then its a property
+
+		p.advance()
+
+		propertyType := parseType(p, DEFAULT_BP)
+
+		p.expect(lexer.SEMI_COLON)
+
+		//check if already exists
+		if _, exists := properties[prop.Value]; exists {
+			//panic(fmt.Sprintf("Property %s already declared", propName))
+			lineNo := prop.StartPos.Line
+			filePath := p.FilePath
+
+			errMsg := fmt.Sprintf("Property %s already declared", prop.Value)
+
+			p.MakeError(lineNo, filePath, prop, errMsg).AddHint("Try removing the duplicate", TEXT_HINT).Display()
+		}
+
+		properties[prop.Value] = ast.Property{
+			IsStatic: isStatic,
+			IsPublic: isPublic,
+			ReadOnly: readOnly,
+			Type:     propertyType,
+			//Value: nil,
+		}
+	}
+
+	return properties
 }
 
 func parseTraitDeclStmt(p *Parser) ast.Statement {

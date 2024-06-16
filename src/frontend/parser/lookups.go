@@ -50,17 +50,17 @@ func GetBP(kind lexer.TOKEN_KIND) BINDING_POWER {
 	}
 }
 
-func led(kind lexer.TOKEN_KIND, bp BINDING_POWER, led_fn LEDHandler) {
+func led(kind lexer.TOKEN_KIND, bp BINDING_POWER, handleLED LEDHandler) {
 	bpLookupMap[kind] = bp
-	ledLookup[kind] = led_fn
+	ledLookup[kind] = handleLED
 }
 
-func nud(kind lexer.TOKEN_KIND, nud_fn NUDHandler) {
-	nudLookup[kind] = nud_fn
+func nud(kind lexer.TOKEN_KIND, handleNullDenotation NUDHandler) {
+	nudLookup[kind] = handleNullDenotation
 }
 
-func stmt(kind lexer.TOKEN_KIND, stmt_fn statementHandler) {
-	stmtLookup[kind] = stmt_fn
+func stmt(kind lexer.TOKEN_KIND, handleStatement statementHandler) {
+	stmtLookup[kind] = handleStatement
 }
 
 func createTokenLookups() {

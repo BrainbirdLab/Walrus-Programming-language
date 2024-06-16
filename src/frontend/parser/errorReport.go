@@ -90,8 +90,7 @@ func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMs
 	errStr += strings.Join(prvLines, "\n") + "\n"
 	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:token.StartPos.Column-1]) + utils.Colorize(utils.RED, line[token.StartPos.Column-1 : token.EndPos.Column-1]) + lexer.Highlight(line[token.EndPos.Column-1 : ]) + "\n"
 	errStr += strings.Repeat(" ", (token.StartPos.Column-1)+len(padding))
-	fmt.Printf("Start: %d, End: %d, diff: %d\n", token.StartPos.Column, token.EndPos.Column, token.EndPos.Column-token.StartPos.Column)
-	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", token.EndPos.Column - token.StartPos.Column))))
+	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", (token.EndPos.Column - token.StartPos.Column) - 1))))
 	errStr += strings.Join(nxtLines, "\n") + "\n"
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 

@@ -23,8 +23,8 @@ var type_nud_lu = type_nud_lookup{}
 var type_led_lu = type_led_lookup{}
 
 
-func typeNUD(kind lexer.TOKEN_KIND, nud_fn type_nud_handler) {
-	type_nud_lu[kind] = nud_fn
+func typeNUD(kind lexer.TOKEN_KIND, handleTypeNud type_nud_handler) {
+	type_nud_lu[kind] = handleTypeNud
 }
 
 func createTokenTypesLookups() {
