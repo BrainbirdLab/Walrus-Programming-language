@@ -9,22 +9,22 @@ import (
 )
 
 // Null denoted. Expect nothing to the left of the token
-type type_nud_handler func(p *Parser) ast.Type
+type typeNudNandlerType func(p *Parser) ast.Type
 
 // Left denoted. Expect something to the left of the token
-type type_led_handler func(p *Parser, left ast.Type, bp BINDING_POWER) ast.Type
+type typeLedHandlerType func(p *Parser, left ast.Type, bp BINDING_POWER) ast.Type
 
-type type_nud_lookup map[lexer.TOKEN_KIND]type_nud_handler
-type type_led_lookup map[lexer.TOKEN_KIND]type_led_handler
-type type_bp_lookup map[lexer.TOKEN_KIND]BINDING_POWER
+type typeNudLookupType map[lexer.TOKEN_KIND]typeNudNandlerType
+type typeLedLookupType map[lexer.TOKEN_KIND]typeLedHandlerType
+type typeBpLookupType map[lexer.TOKEN_KIND]BINDING_POWER
 
-var type_bp_lu = type_bp_lookup{}
-var type_nud_lu = type_nud_lookup{}
-var type_led_lu = type_led_lookup{}
+var typeBindindLookup = typeBpLookupType{}
+var typeNudLookup = typeNudLookupType{}
+var typeLedLookup = typeLedLookupType{}
 
 
-func typeNUD(kind lexer.TOKEN_KIND, handleTypeNud type_nud_handler) {
-	type_nud_lu[kind] = handleTypeNud
+func typeNUD(kind lexer.TOKEN_KIND, handleTypeNud typeNudNandlerType) {
+	typeNudLookup[kind] = handleTypeNud
 }
 
 func createTokenTypesLookups() {
@@ -94,7 +94,7 @@ func parseArrayType(p *Parser) ast.Type {
 func parseType(p *Parser, bp BINDING_POWER) ast.Type {
 	// Fist parse the NUD
 	tokenKind := p.currentTokenKind()
-	nudFunction, exists := type_nud_lu[tokenKind]
+	nudFunction, exists := typeNudLookup[tokenKind]
 
 	if !exists {
 		//panic(fmt.Sprintf("TYPE NUD handler expected for token %s\n", tokenKind))
@@ -114,17 +114,17 @@ func parseType(p *Parser, bp BINDING_POWER) ast.Type {
 
 	left := nudFunction(p)
 
-	for type_bp_lu[p.currentTokenKind()] > bp {
+	for typeBindindLookup[p.currentTokenKind()] > bp {
 
 		tokenKind := p.currentTokenKind()
 
-		ledFunction, exists := type_led_lu[tokenKind]
+		ledFunction, exists := typeLedLookup[tokenKind]
 
 		if !exists {
 			panic(fmt.Sprintf("TYPE LED handler expected for token %s\n", tokenKind))
 		}
 
-		left = ledFunction(p, left, type_bp_lu[p.currentTokenKind()])
+		left = ledFunction(p, left, typeBindindLookup[p.currentTokenKind()])
 	}
 
 	return left
