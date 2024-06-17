@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 	"walrus/frontend/parser"
+	"walrus/typechecker"
 	"walrus/utils"
 )
 
@@ -15,7 +16,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	targetDir := "./../code"
+	targetDir := "./../code/test"
 
 	dir, err := os.ReadDir(targetDir)
 
@@ -33,7 +34,9 @@ func main() {
 
 		filename := targetDir + "/" + file.Name()
 
-		ast := parser.Parse(filename, false)
+		parserMachine := parser.NewParser(filename, false)
+
+		ast := parserMachine.Parse()
 	
 		//store as file
 		file, err := os.Create( targetDir + "/" + sf[0] + ".json")
@@ -56,6 +59,16 @@ func main() {
 		}
 	
 		file.Close()
+
+		env := typechecker.NewEnvironment(nil, parserMachine)
+
+		env.DeclareVariable("true", typechecker.MAKE_BOOL(true), true)
+		env.DeclareVariable("false", typechecker.MAKE_BOOL(false), true)
+		env.DeclareVariable("null", typechecker.MAKE_NULL(), true)
+
+		result := typechecker.Evaluate(ast, env)
+
+		fmt.Printf("Result: %v\n", result)
 	}
 
 

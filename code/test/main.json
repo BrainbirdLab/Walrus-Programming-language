@@ -1,0 +1,242 @@
+{
+  "Kind": "PROGRAM",
+  "StartPos": {
+    "Line": 1,
+    "Column": 1,
+    "Index": 0
+  },
+  "EndPos": {
+    "Line": 10,
+    "Column": 2,
+    "Index": 97
+  },
+  "FileName": "./../code/test/main.wal",
+  "ModuleName": "",
+  "Imports": null,
+  "Contents": [
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 2,
+        "Column": 1,
+        "Index": 2
+      },
+      "EndPos": {
+        "Line": 2,
+        "Column": 12,
+        "Index": 13
+      },
+      "IsConstant": false,
+      "Identifier": "a",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 2,
+          "Column": 10,
+          "Index": 11
+        },
+        "EndPos": {
+          "Line": 2,
+          "Column": 11,
+          "Index": 12
+        },
+        "Value": 1,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 3,
+        "Column": 1,
+        "Index": 15
+      },
+      "EndPos": {
+        "Line": 3,
+        "Column": 12,
+        "Index": 26
+      },
+      "IsConstant": false,
+      "Identifier": "b",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 3,
+          "Column": 10,
+          "Index": 24
+        },
+        "EndPos": {
+          "Line": 3,
+          "Column": 11,
+          "Index": 25
+        },
+        "Value": 2,
+        "Type": "i8"
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 4,
+        "Column": 1,
+        "Index": 28
+      },
+      "EndPos": {
+        "Line": 4,
+        "Column": 16,
+        "Index": 43
+      },
+      "IsConstant": false,
+      "Identifier": "c",
+      "Value": {
+        "Kind": "BINARY_EXPRESSION",
+        "StartPos": {
+          "Line": 4,
+          "Column": 12,
+          "Index": 39
+        },
+        "EndPos": {
+          "Line": 4,
+          "Column": 15,
+          "Index": 42
+        },
+        "Operator": {
+          "Kind": "+",
+          "Value": "+",
+          "StartPos": {
+            "Line": 4,
+            "Column": 12,
+            "Index": 39
+          },
+          "EndPos": {
+            "Line": 4,
+            "Column": 13,
+            "Index": 40
+          }
+        },
+        "Left": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 4,
+            "Column": 10,
+            "Index": 37
+          },
+          "EndPos": {
+            "Line": 4,
+            "Column": 11,
+            "Index": 38
+          },
+          "Identifier": "a",
+          "Type": "infr"
+        },
+        "Right": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 4,
+            "Column": 14,
+            "Index": 41
+          },
+          "EndPos": {
+            "Line": 4,
+            "Column": 15,
+            "Index": 42
+          },
+          "Identifier": "b",
+          "Type": "infr"
+        }
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "ASSIGNMENT_EXPRESSION",
+      "StartPos": {
+        "Line": 6,
+        "Column": 3,
+        "Index": 49
+      },
+      "EndPos": {
+        "Line": 6,
+        "Column": 7,
+        "Index": 53
+      },
+      "Assigne": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 6,
+          "Column": 1,
+          "Index": 47
+        },
+        "EndPos": {
+          "Line": 6,
+          "Column": 2,
+          "Index": 48
+        },
+        "Identifier": "a",
+        "Type": "infr"
+      },
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 6,
+          "Column": 5,
+          "Index": 51
+        },
+        "EndPos": {
+          "Line": 6,
+          "Column": 7,
+          "Index": 53
+        },
+        "Value": 20,
+        "Type": "i8"
+      },
+      "Operator": {
+        "Kind": "=",
+        "Value": "=",
+        "StartPos": {
+          "Line": 6,
+          "Column": 3,
+          "Index": 49
+        },
+        "EndPos": {
+          "Line": 6,
+          "Column": 4,
+          "Index": 50
+        }
+      }
+    },
+    {
+      "Kind": "FN_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 8,
+        "Column": 1,
+        "Index": 58
+      },
+      "EndPos": {
+        "Line": 10,
+        "Column": 2,
+        "Index": 97
+      },
+      "FunctionName": "main",
+      "Parameters": {},
+      "ReturnType": {
+        "Kind": ""
+      },
+      "Block": {
+        "Kind": "BLOCK_STATEMENT",
+        "StartPos": {
+          "Line": 8,
+          "Column": 10,
+          "Index": 67
+        },
+        "EndPos": {
+          "Line": 10,
+          "Column": 2,
+          "Index": 97
+        },
+        "Body": []
+      }
+    }
+  ]
+}

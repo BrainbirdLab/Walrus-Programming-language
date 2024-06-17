@@ -98,7 +98,7 @@ func parseType(p *Parser, bp BINDING_POWER) ast.Type {
 
 	if !exists {
 		//panic(fmt.Sprintf("TYPE NUD handler expected for token %s\n", tokenKind))
-		err := p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), fmt.Sprintf("Unexpected token %s\n", tokenKind))
+		err := MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, fmt.Sprintf("Unexpected token %s\n", tokenKind))
 
 		err.AddHint("Follow ", TEXT_HINT)
 		err.AddHint("let x := 10", CODE_HINT)

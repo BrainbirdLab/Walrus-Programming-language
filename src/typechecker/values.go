@@ -1,5 +1,10 @@
 package typechecker
 
+import (
+	"fmt"
+	"walrus/frontend/ast"
+)
+
 type RuntimeValue interface{
 	_val()
 }
@@ -46,6 +51,14 @@ type VoidValue struct {
 }
 func (v VoidValue) _val() {}
 
+
+type FunctionValue struct {
+	Name 			string
+	Parameters 		map[string]ast.Type
+	Body 			ast.BlockStmt
+}
+func (f FunctionValue) _val() {}
+
 func MAKE_INT(value int, size uint8) IntegerValue {
 	return IntegerValue{Value: value, Size: size, Type: "INTEGER"}
 }
@@ -72,4 +85,27 @@ func MAKE_NULL() NullValue {
 
 func MAKE_VOID() VoidValue {
 	return VoidValue{Type: "VOID"}
+}
+
+func IsTruthy(value RuntimeValue) bool {
+	if value == nil {
+		return false
+	}
+
+	switch value := value.(type) {
+	case IntegerValue:
+		return value.Value != 0
+	case FloatValue:
+		return value.Value != 0
+	case BooleanValue:
+		return value.Value
+	case StringValue:
+		return value.Value != ""
+	case CharacterValue:
+		return value.Value != 0
+	case NullValue, VoidValue:
+		return false
+	default:
+		panic(fmt.Sprintf("unsupported type %T", value))
+	}
 }

@@ -14,8 +14,7 @@ type Parser struct {
 	FilePath string
 }
 
-func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
-
+func NewParser(fileSrc string, debugMode bool) *Parser {
 	//read file and file data
 
 	bytes, err := os.ReadFile(fileSrc)
@@ -41,12 +40,17 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 		FilePath: filePath,
 	}
 
+	return parser
+}
+
+func (p *Parser) Parse() ast.ProgramStmt {
+
 	var moduleName string
 	var imports []ast.ImportStmt
 	var contents []ast.Node
 
-	for parser.hasTokens() {
-		stmt := parseNode(parser)
+	for p.hasTokens() {
+		stmt := parseNode(p)
 
 		switch v := stmt.(type) {
 		case ast.ModuleStmt:
@@ -59,7 +63,7 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 
 	}
 
-	end := tokens[len(tokens)-1].EndPos
+	end := p.tokens[len(p.tokens)-1].EndPos
 
 	return ast.ProgramStmt{
 		BaseStmt: ast.BaseStmt{
@@ -74,7 +78,7 @@ func Parse(fileSrc string, debugMode bool) ast.ProgramStmt {
 		ModuleName: moduleName,
 		Imports:    imports,
 		Contents:   contents,
-		FileName:   filePath,
+		FileName:   p.FilePath,
 	}
 }
 
@@ -117,13 +121,13 @@ func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token
 
 	if kind != expectedKind {
 		if err == nil {
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, fmt.Sprintf("Unexpected '%s' at line %d", token.Value, token.StartPos.Line)).AddHint(fmt.Sprintf("How about trying '%s' instead?", expectedKind), TEXT_HINT).Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, fmt.Sprintf("Unexpected '%s' at line %d", token.Value, token.StartPos.Line)).AddHint(fmt.Sprintf("How about trying '%s' instead?", expectedKind), TEXT_HINT).Display()
 		} else {
 			if errMsg, ok := err.(string); ok {
-				p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, errMsg).Display()
+				MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, errMsg).Display()
 			} else {
 				// Handle error if it's not a string
-				p.MakeError(p.currentToken().StartPos.Line, p.FilePath, token, "An unexpected error occurred").Display()
+				MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, "An unexpected error occurred").Display()
 			}
 		}
 	}

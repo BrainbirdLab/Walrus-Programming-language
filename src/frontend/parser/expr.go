@@ -127,7 +127,7 @@ func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
 		}
 		//err := fmt.Sprintf("File: %s:%d:%d: %s\n", p.FilePath, token.StartPos.Line, token.StartPos.Column, msg)
 
-		p.MakeError(token.StartPos.Line, p.FilePath, token, msg).Display()
+		MakeError(p, token.StartPos.Line, p.FilePath, token.StartPos, token.EndPos, msg).Display()
 	}
 
 	left := nudFunction(p)
@@ -140,7 +140,7 @@ func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 		if !exists {
 			msg := fmt.Sprintf("Parser:LED:Unexpected token %s\n", tokenKind)
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), msg).Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, msg).Display()
 		}
 
 		left = ledFunction(p, left, GetBP(p.currentTokenKind()))
@@ -291,7 +291,7 @@ func parseVarAssignmentExpr(p *Parser, left ast.Expression, bp BINDING_POWER) as
 
 	default:
 		errMsg := "Cannot assign to a non-identifier\n"
-		p.MakeError(start.Line, p.FilePath, p.previousToken(), errMsg).AddHint("Expected an identifier", TEXT_HINT).Display()
+		MakeError(p, start.Line, p.FilePath, p.previousToken().StartPos, p.previousToken().EndPos, errMsg).AddHint("Expected an identifier", TEXT_HINT).Display()
 	}
 
 	operator := p.advance()

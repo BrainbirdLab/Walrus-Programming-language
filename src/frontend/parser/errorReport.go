@@ -55,7 +55,7 @@ func makePadding(width, line int) string {
 	return fmt.Sprintf("%*d | ", width, line)
 }
 
-func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMsg string) *ErrorMessage {
+func MakeError(p *Parser, lineNo int, filePath string, startPos lexer.Position, endPos lexer.Position, errMsg string) *ErrorMessage {
 
 	// decorate the error with ~~~~~ under the error line
 
@@ -83,14 +83,14 @@ func (p *Parser) MakeError(lineNo int, filePath string, token lexer.Token, errMs
 		}
 	}
 
-	errStr += fmt.Sprintf("\nIn file: %s:%d:%d\n", filePath, token.StartPos.Line, token.StartPos.Column)
+	errStr += fmt.Sprintf("\nIn file: %s:%d:%d\n", filePath, startPos.Line, startPos.Column)
 
-	padding := makePadding(maxWidth, token.StartPos.Line)
+	padding := makePadding(maxWidth, startPos.Line)
 
 	errStr += strings.Join(prvLines, "\n") + "\n"
-	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:token.StartPos.Column-1]) + utils.Colorize(utils.RED, line[token.StartPos.Column-1 : token.EndPos.Column-1]) + lexer.Highlight(line[token.EndPos.Column-1 : ]) + "\n"
-	errStr += strings.Repeat(" ", (token.StartPos.Column-1)+len(padding))
-	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", (token.EndPos.Column - token.StartPos.Column) - 1))))
+	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:startPos.Column-1]) + utils.Colorize(utils.RED, line[startPos.Column-1 : endPos.Column-1]) + lexer.Highlight(line[endPos.Column-1 : ]) + "\n"
+	errStr += strings.Repeat(" ", (startPos.Column-1)+len(padding))
+	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", (endPos.Column - startPos.Column) - 1))))
 	errStr += strings.Join(nxtLines, "\n") + "\n"
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 

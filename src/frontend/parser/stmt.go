@@ -108,7 +108,7 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 		assignedValue = parseExpr(p, DEFAULT_BP)
 
 		if assignedValue == nil {
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected value after := operator").Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Expected value after := operator").Display()
 		}
 	} else if p.currentTokenKind() == lexer.COLON {
 		// then we expect type
@@ -121,13 +121,13 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 		}
 	} else {
 		if p.currentTokenKind() == lexer.ASSIGNMENT {
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Invalid token").AddHint("Use ':=' instead\n", TEXT_HINT).Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Invalid token").AddHint("Use ':=' instead\n", TEXT_HINT).Display()
 		}
-		p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected value or type").AddHint("You can declare a variable by\n", TEXT_HINT).AddHint(" let x : i8 = 4;", CODE_HINT).AddHint("\nor,", TEXT_HINT).AddHint("\n let x := 4;", CODE_HINT).Display()
+		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Expected value or type").AddHint("You can declare a variable by\n", TEXT_HINT).AddHint(" let x : i8 = 4;", CODE_HINT).AddHint("\nor,", TEXT_HINT).AddHint("\n let x := 4;", CODE_HINT).Display()
 	}
 
 	if isConstant && assignedValue == nil {
-		p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected value").AddHint("Constants must have a value while declaration", TEXT_HINT).Display()
+		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Expected value").AddHint("Constants must have a value while declaration", TEXT_HINT).Display()
 	}
 
 	end := p.expect(lexer.SEMI_COLON).EndPos
@@ -292,7 +292,7 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 
 			err := "Expected access modifier or embed keyword"
 
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), err).AddHint("Try adding access modifier - ", TEXT_HINT).AddHint("pub or priv", CODE_HINT).AddHint(" to the property.\n", TEXT_HINT).AddHint("Or,\nTo embed a struct, use the ", TEXT_HINT).AddHint("embed", CODE_HINT).AddHint(" keyword.", TEXT_HINT).Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath,p.currentToken().StartPos, p.currentToken().EndPos, err).AddHint("Try adding access modifier - ", TEXT_HINT).AddHint("pub or priv", CODE_HINT).AddHint(" to the property.\n", TEXT_HINT).AddHint("Or,\nTo embed a struct, use the ", TEXT_HINT).AddHint("embed", CODE_HINT).AddHint(" keyword.", TEXT_HINT).Display()
 
 			os.Exit(1)
 		}
@@ -360,7 +360,7 @@ func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[str
 
 			errMsg := fmt.Sprintf("Property %s already declared", prop.Value)
 
-			p.MakeError(lineNo, filePath, prop, errMsg).AddHint("Try removing the duplicate", TEXT_HINT).Display()
+			MakeError(p, lineNo, filePath, prop.StartPos, prop.EndPos, errMsg).AddHint("Try removing the duplicate", TEXT_HINT).Display()
 		}
 
 		properties[prop.Value] = ast.Property{
@@ -635,7 +635,7 @@ func parseSwitchCaseStmt(p *Parser) ast.Statement {
 		} else if p.currentTokenKind() == lexer.DEFAULT {
 			defaultCase = parseDefaultCase(p)
 		} else {
-			p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Unexpected token: '"+p.currentToken().Value+"'").AddHint("Switch can have only ", TEXT_HINT).AddHint("case or default", CODE_HINT).AddHint(" keyword", TEXT_HINT).Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Unexpected token: '"+p.currentToken().Value+"'").AddHint("Switch can have only ", TEXT_HINT).AddHint("case or default", CODE_HINT).AddHint(" keyword", TEXT_HINT).Display()
 			panic("-1")
 		}
 	}
@@ -779,7 +779,7 @@ func parseForLoopStmt(p *Parser) ast.Statement {
 		}
 
 	} else {
-		p.MakeError(p.currentToken().StartPos.Line, p.FilePath, p.currentToken(), "Expected for or foreach keyword").Display()
+		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Expected for or foreach keyword").Display()
 		panic("-1")
 	}
 }
