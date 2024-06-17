@@ -2,7 +2,7 @@ package typechecker
 
 import (
 	"fmt"
-
+	"errors"
 	"walrus/frontend/ast"
 	"walrus/frontend/parser"
 )
@@ -23,9 +23,9 @@ func NewEnvironment(parent *Environment, p *parser.Parser) *Environment {
 	}
 }
 
-func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstant bool) RuntimeValue {
+func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstant bool) (RuntimeValue, error) {
 	if e.variables[name] != nil {
-		panic(fmt.Sprintf("Variable %s already declared in this scope\n", name))
+		return nil, errors.New(fmt.Sprintf("Variable %s already declared in this scope\n", name))
 	}
 
 	e.variables[name] = value
@@ -34,10 +34,11 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 		e.constants[name] = true
 	}
 
-	return value
+	return value, nil
 }
 
 func (e *Environment) AssignVariable(name string, value RuntimeValue) RuntimeValue {
+	
 	env := e.ResolveVariable(name)
 
 	if env.constants[name] {

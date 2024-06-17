@@ -2,6 +2,7 @@ package typechecker
 
 import (
 	"walrus/frontend/ast"
+	"walrus/frontend/parser"
 	"walrus/helpers"
 )
 
@@ -26,7 +27,12 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		value = MAKE_NULL()
 	}
 
-	return env.DeclareVariable(stmt.Identifier, value, stmt.IsConstant)
+	val, err := env.DeclareVariable(stmt.Identifier, value, stmt.IsConstant)
+	if err != nil {
+		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.StartPos, stmt.EndPos, err.Error()).Display()
+	}
+
+	return val
 }
 
 func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue {

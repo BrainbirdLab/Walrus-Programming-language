@@ -8,3 +8,5 @@ a = 20;
 fn main(){
     // this is a comment
 }
+
+let main := 10;

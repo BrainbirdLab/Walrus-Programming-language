@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 10,
-    "Column": 2,
-    "Index": 97
+    "Line": 12,
+    "Column": 16,
+    "Index": 116
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -237,6 +237,37 @@
         },
         "Body": []
       }
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 12,
+        "Column": 1,
+        "Index": 101
+      },
+      "EndPos": {
+        "Line": 12,
+        "Column": 16,
+        "Index": 116
+      },
+      "IsConstant": false,
+      "Identifier": "main",
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 12,
+          "Column": 13,
+          "Index": 113
+        },
+        "EndPos": {
+          "Line": 12,
+          "Column": 15,
+          "Index": 115
+        },
+        "Value": 10,
+        "Type": "i8"
+      },
+      "ExplicitType": null
     }
   ]
 }
