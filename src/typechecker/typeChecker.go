@@ -31,15 +31,31 @@ func GetRuntimeType(runtimeValue RuntimeValue) string {
 func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 	switch node := astNode.(type) {
 	case ast.NumericLiteral:
-		return IntegerValue{
-			Type:  "int",
-			Value: int(node.Value),
-			Size:  64,
+
+		// Check if the number is an integer or a float
+		if node.Value == float64(int(node.Value)) {
+			return IntegerValue{
+				Type:  "int",
+				Value: int(node.Value),
+				Size:  32,
+			}
+		} else {
+			return FloatValue{
+				Type:  "float",
+				Value: node.Value,
+				Size:  32,
+			}
 		}
+
 	case ast.StringLiteral:
 		return StringValue{
 			Type:  "string",
 			Value: node.Value,
+		}
+	case ast.CharacterLiteral:
+		return CharacterValue{
+			Type:  "char",
+			Value: node.Value[0],
 		}
 	case ast.BooleanLiteral:
 		return BooleanValue{

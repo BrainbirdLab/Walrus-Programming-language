@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 8,
-    "Column": 9,
-    "Index": 70
+    "Line": 11,
+    "Column": 14,
+    "Index": 115
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -334,6 +334,92 @@
           "Index": 66
         }
       }
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 10,
+        "Column": 1,
+        "Index": 74
+      },
+      "EndPos": {
+        "Line": 10,
+        "Column": 27,
+        "Index": 100
+      },
+      "IsConstant": true,
+      "Identifier": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 10,
+          "Column": 7,
+          "Index": 80
+        },
+        "EndPos": {
+          "Line": 10,
+          "Column": 9,
+          "Index": 82
+        },
+        "Identifier": "PI"
+      },
+      "Value": {
+        "Kind": "NUMERIC_LITERAL",
+        "StartPos": {
+          "Line": 10,
+          "Column": 13,
+          "Index": 86
+        },
+        "EndPos": {
+          "Line": 10,
+          "Column": 26,
+          "Index": 99
+        },
+        "Value": 3.14159265359
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 11,
+        "Column": 1,
+        "Index": 102
+      },
+      "EndPos": {
+        "Line": 11,
+        "Column": 14,
+        "Index": 115
+      },
+      "IsConstant": false,
+      "Identifier": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 11,
+          "Column": 5,
+          "Index": 106
+        },
+        "EndPos": {
+          "Line": 11,
+          "Column": 6,
+          "Index": 107
+        },
+        "Identifier": "x"
+      },
+      "Value": {
+        "Kind": "CHARACTER_LITERAL",
+        "StartPos": {
+          "Line": 11,
+          "Column": 10,
+          "Index": 111
+        },
+        "EndPos": {
+          "Line": 11,
+          "Column": 13,
+          "Index": 114
+        },
+        "Value": "s"
+      },
+      "ExplicitType": null
     }
   ]
 }

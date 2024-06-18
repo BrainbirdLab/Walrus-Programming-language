@@ -235,7 +235,8 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 	assigneValue, err := env.GetRuntimeValue(assignNode.Assigne.Identifier)
 
 	if err != nil {
-		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Assigne.StartPos, assignNode.Assigne.EndPos, err.Error()).Display()
+		valStart, valEnd := assignNode.Value.GetPos()
+		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, valStart, valEnd, err.Error()).Display()
 	}
 
 	value := Evaluate(assignNode.Value, env)
@@ -246,13 +247,16 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 
 			err = fmt.Errorf("invalid operation between %v and %v", assigneValue, value)
 
-			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.StartPos, assignNode.EndPos, err.Error()).Display()
+			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Operator.StartPos, assignNode.Operator.EndPos, err.Error()).Display()
 		}
 
 		value, err = evaluateNumericExpr(assigneValue.(IntegerValue), value.(IntegerValue), assignNode.Operator)
 
 		if err != nil {
-			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Operator.StartPos, assignNode.Operator.EndPos, err.Error()).Display()
+
+			valStart, valEnd := assignNode.Value.GetPos()
+
+			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, valStart, valEnd, err.Error()).Display()
 		}
 	}
 

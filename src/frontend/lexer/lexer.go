@@ -144,6 +144,7 @@ func createLexer(source *string) *Lexer {
 			{regexp.MustCompile(`\/\/.*`), skipHandler},                       // single line comments
 			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler},             // multi line comments
 			{regexp.MustCompile(`"[^"]*"`), stringHandler},                    // string literals
+			{regexp.MustCompile(`'[^']'`), characterHandler},                     // character literals
 			{regexp.MustCompile(`[0-9]+(?:\.[0-9]+)?`), numberHandler},        // decimal numbers
 			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), identifierHandler}, // identifiers
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
@@ -229,6 +230,20 @@ func stringHandler(lex *Lexer, regex *regexp.Regexp) {
 	end := lex.Pos
 
 	lex.push(NewToken(STRING, stringLiteral, start, end))
+}
+
+func characterHandler(lex *Lexer, regex *regexp.Regexp) {
+
+	match := regex.FindString(lex.remainder())
+
+	//exclude the quotes
+	characterLiteral := match[1 : len(match)-1]
+
+	start := lex.Pos
+	lex.advanceN(match)
+	end := lex.Pos
+
+	lex.push(NewToken(CHARACTER, characterLiteral, start, end))
 }
 
 func skipHandler(lex *Lexer, regex *regexp.Regexp) {

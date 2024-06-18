@@ -82,6 +82,21 @@ func (s StringLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 
+type CharacterLiteral struct {
+	BaseStmt
+	Value string
+}
+
+func (c CharacterLiteral) iNode() {
+	// empty method implements the Node interface
+}
+func (c CharacterLiteral) GetPos() (lexer.Position, lexer.Position) {
+	return c.StartPos, c.EndPos
+}
+func (c CharacterLiteral) iExpression() {
+	// empty method implements the Expression interface
+}
+
 type BooleanLiteral struct {
 	BaseStmt
 	Value bool

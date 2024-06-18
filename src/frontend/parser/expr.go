@@ -177,6 +177,15 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 			},
 			Value: p.advance().Value,
 		}
+	case lexer.CHARACTER:
+		return ast.CharacterLiteral{
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.CHARACTER_LITERAL,
+				StartPos: startpos,
+				EndPos:   endpos,
+			},
+			Value: p.advance().Value,
+		}
 	case lexer.IDENTIFIER:
 		return ast.IdentifierExpr{
 			BaseStmt: ast.BaseStmt{
