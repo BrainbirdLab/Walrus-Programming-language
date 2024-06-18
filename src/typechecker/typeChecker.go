@@ -28,22 +28,30 @@ func GetRuntimeType(runtimeValue RuntimeValue) string {
 	}
 }
 
-func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
+func Evaluate(astNode ast.Node, explicitSize uint8, env *Environment) RuntimeValue {
+
 	switch node := astNode.(type) {
+
 	case ast.NumericLiteral:
+
+		size := uint8(32)
+		if explicitSize != 0 {
+			size = explicitSize
+		}
 
 		// Check if the number is an integer or a float
 		if node.Value == float64(int(node.Value)) {
 			return IntegerValue{
 				Type:  "int",
 				Value: int(node.Value),
-				Size:  32,
+				Size:  size,
 			}
 		} else {
+
 			return FloatValue{
 				Type:  "float",
 				Value: node.Value,
-				Size:  32,
+				Size:  size,
 			}
 		}
 

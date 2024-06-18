@@ -26,7 +26,7 @@ func EvaluateIdenitifierExpr(expr ast.IdentifierExpr, env *Environment) RuntimeV
 
 func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue {
 
-	expr := Evaluate(unary.Argument, env)
+	expr := Evaluate(unary.Argument, 0, env)
 
 	switch unary.Operator.Value {
 	case "-", "+":
@@ -90,8 +90,8 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 
 func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
-	left := Evaluate(binop.Left, env)
-	right := Evaluate(binop.Right, env)
+	left := Evaluate(binop.Left, 0, env)
+	right := Evaluate(binop.Right, 0, env)
 
 	var leftType, rightType string
 
@@ -239,7 +239,7 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, valStart, valEnd, err.Error()).Display()
 	}
 
-	value := Evaluate(assignNode.Value, env)
+	value := Evaluate(assignNode.Value, 0, env)
 
 	switch assignNode.Operator.Kind {
 	case lexer.PLUS_EQUALS, lexer.MINUS_EQUALS, lexer.TIMES_EQUALS, lexer.DIVIDE_EQUALS, lexer.MODULO_EQUALS:

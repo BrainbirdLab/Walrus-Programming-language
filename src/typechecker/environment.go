@@ -23,6 +23,7 @@ func NewEnvironment(parent *Environment, p *parser.Parser) *Environment {
 }
 
 func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstant bool) (RuntimeValue, error) {
+
 	if e.variables[name] != nil {
 		return nil, fmt.Errorf("variable %s already declared in this scope", name)
 	}

@@ -1,6 +1,7 @@
 package typechecker
 
 import (
+	"fmt"
 	"walrus/frontend/ast"
 	"walrus/frontend/parser"
 	"walrus/helpers"
@@ -11,7 +12,7 @@ func EvaluateProgramBlock(block ast.ProgramStmt, env *Environment) RuntimeValue 
 	var lastEvaluated RuntimeValue = MAKE_NULL()
 
 	for _, stmt := range block.Contents {
-		lastEvaluated = Evaluate(stmt, env)
+		lastEvaluated = Evaluate(stmt, 0, env)
 	}
 
 	return lastEvaluated
@@ -21,11 +22,27 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 
 	var value RuntimeValue
 
+	var explicitSize uint8
+
+	if stmt.ExplicitType != nil {
+
+		fmt.Printf("Explicit type: %v\n", stmt.ExplicitType)
+
+		switch t := stmt.ExplicitType.(type) {
+		case ast.IntegerType:
+			explicitSize = t.BitSize
+		case ast.FloatingType:
+			explicitSize = t.BitSize
+		}
+	}
+
 	if stmt.Value != nil {
-		value = Evaluate(stmt.Value, env)
+		value = Evaluate(stmt.Value, explicitSize, env)
 	} else {
 		value = MAKE_NULL()
 	}
+
+
 
 	val, err := env.DeclareVariable(stmt.Identifier.Identifier, value, stmt.IsConstant)
 
@@ -38,21 +55,21 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 
 func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue {
 
-	condition := Evaluate(astNode.Condition, env)
+	condition := Evaluate(astNode.Condition, 0, env)
 
 	if IsTruthy(condition) {
-		return Evaluate(astNode.Block, env)
+		return Evaluate(astNode.Block, 0, env)
 	} else {
 		for astNode.Alternate != nil && helpers.TypesMatchT[ast.IfStmt](astNode.Alternate) {
 			alt := astNode.Alternate.(ast.IfStmt)
-			condition = Evaluate(alt.Condition, env)
+			condition = Evaluate(alt.Condition, 0, env)
 			if IsTruthy(condition) {
-				return Evaluate(alt.Block, env)
+				return Evaluate(alt.Block, 0, env)
 			}
 		}
 
 		if astNode.Alternate != nil && helpers.TypesMatchT[ast.BlockStmt](astNode.Alternate) {
-			return Evaluate(astNode.Alternate.(ast.BlockStmt), env)
+			return Evaluate(astNode.Alternate.(ast.BlockStmt), 0, env)
 		}
 	}
 
