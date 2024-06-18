@@ -19,6 +19,7 @@ const (
 	STRUCT = "STRUCT"
 	TRAIT  = "TRAIT"
 	ENUM   = "ENUM"
+	FUNCTION = "FUNCTION"
 
 	//User Defined Types
 	USER_DEFINED = "USER_DEFINED"
@@ -128,4 +129,47 @@ type UserDefinedType struct {
 
 func (u UserDefinedType) iType() {
 	// empty method implements the Type interface
+}
+
+type FunctionType struct {
+	Kind DATA_TYPE
+	FunctionName 	IdentifierExpr
+	Parameters  	[]FunctionParameter
+	ReturnType   	Type
+}
+
+func (f FunctionType) iType() {
+	// empty method implements the Type interface
+}
+
+
+
+func GetType(t Type) DATA_TYPE {
+	switch t.(type) {
+	case IntegerType:
+		return INTEGER
+	case FloatingType:
+		return FLOATING
+	case BooleanType:
+		return BOOLEAN
+	case StringType:
+		return STRING
+	case CharecterType:
+		return CHARACTER
+	case NullType:
+		return NULL
+	case VoidType:
+		return VOID
+	case ArrayType:
+		return ARRAY
+	case StructType:
+		return STRUCT
+	case TraitType:
+		return TRAIT
+	case EnumType:
+		return ENUM
+	case UserDefinedType:
+		return USER_DEFINED
+	}
+	return "UNKNOWN"
 }

@@ -2,7 +2,6 @@ package typechecker
 
 import (
 	"fmt"
-	"errors"
 	"walrus/frontend/ast"
 	"walrus/frontend/parser"
 )
@@ -25,7 +24,7 @@ func NewEnvironment(parent *Environment, p *parser.Parser) *Environment {
 
 func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstant bool) (RuntimeValue, error) {
 	if e.variables[name] != nil {
-		return nil, errors.New(fmt.Sprintf("Variable %s already declared in this scope\n", name))
+		return nil, fmt.Errorf("variable %s already declared in this scope", name)
 	}
 
 	e.variables[name] = value
@@ -37,22 +36,26 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 	return value, nil
 }
 
-func (e *Environment) AssignVariable(name string, value RuntimeValue) RuntimeValue {
+func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeValue, error) {
 	
-	env := e.ResolveVariable(name)
+	env, err := e.ResolveVariable(name)
+
+	if err != nil {
+		return nil, err
+	}
 
 	if env.constants[name] {
-		panic(fmt.Sprintf("Cannot assign value to constant %s", name))
+		return nil, fmt.Errorf("cannot assign value to constant %s", name)
 	}
 
 	env.variables[name] = value
 
-	return value
+	return value, nil
 }
 
-func (e *Environment) DeclareFunction(name string, parameters map[string]ast.Type, body ast.BlockStmt) RuntimeValue {
+func (e *Environment) DeclareFunction(name string, parameters []ast.FunctionParameter, body ast.BlockStmt) (RuntimeValue, error) {
 	if e.variables[name] != nil {
-		panic(fmt.Sprintf("Identifier (Function) %s already declared in this scope\n", name))
+		return nil, fmt.Errorf("identifier (function) %s already declared in this scope", name)
 	}
 
 	e.variables[name] = FunctionValue{
@@ -61,24 +64,31 @@ func (e *Environment) DeclareFunction(name string, parameters map[string]ast.Typ
 		Body:       body,
 	}
 
-	return e.variables[name]
+	return e.variables[name], nil
 }
 
-func (e *Environment) ResolveVariable(name string) *Environment {
+func (e *Environment) ResolveVariable(name string) (*Environment, error) {
+
 	if _, ok := e.variables[name]; ok {
-		return e
+		return e, nil
 	}
 
 	if e.parent != nil {
-		panic(fmt.Sprintf("Variable %s was not declared in this scope\n", name))
+		//panic(fmt.Sprintf("Variable %s was not declared in this scope\n", name))
+		return nil, fmt.Errorf("variable %s was not declared in this scope", name)
 	}
 
 	return e.parent.ResolveVariable(name)
 }
 
-func (e *Environment) GetRuntimeValue(name string) RuntimeValue {
-	env := e.ResolveVariable(name)
-	return env.variables[name]
+func (e *Environment) GetRuntimeValue(name string) (RuntimeValue, error) {
+	env, err := e.ResolveVariable(name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return env.variables[name], nil
 }
 
 func (e *Environment) HasVariable(name string) bool {

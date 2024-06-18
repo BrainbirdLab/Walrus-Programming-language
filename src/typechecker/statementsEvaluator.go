@@ -27,9 +27,10 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		value = MAKE_NULL()
 	}
 
-	val, err := env.DeclareVariable(stmt.Identifier, value, stmt.IsConstant)
+	val, err := env.DeclareVariable(stmt.Identifier.Identifier, value, stmt.IsConstant)
+
 	if err != nil {
-		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.StartPos, stmt.EndPos, err.Error()).Display()
+		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.Identifier.StartPos, stmt.Identifier.EndPos, err.Error()).Display()
 	}
 
 	return val
@@ -59,5 +60,11 @@ func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue 
 }
 
 func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment) RuntimeValue {
-	return env.DeclareFunction(stmt.FunctionName, stmt.Parameters, stmt.Block)
+	runtimeVal, err := env.DeclareFunction(stmt.FunctionName.Identifier, stmt.Parameters, stmt.Block)
+
+	if err != nil {
+		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.FunctionName.StartPos, stmt.FunctionName.EndPos, err.Error()).Display()
+	}
+
+	return runtimeVal
 }

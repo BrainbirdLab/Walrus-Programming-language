@@ -82,7 +82,6 @@ func parsePropertyExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Exp
 			EndPos:   identifier.EndPos,
 		},
 		Identifier: identifier.Value,
-		Type:       "infr",
 	}
 
 	start := property.StartPos
@@ -168,7 +167,6 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				EndPos:   endpos,
 			},
 			Value: number,
-			Type:  "i8",
 		}
 	case lexer.STRING:
 		return ast.StringLiteral{
@@ -178,7 +176,6 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				EndPos:   endpos,
 			},
 			Value: p.advance().Value,
-			Type:  "str",
 		}
 	case lexer.IDENTIFIER:
 		return ast.IdentifierExpr{
@@ -188,7 +185,6 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				EndPos:   endpos,
 			},
 			Identifier: p.advance().Value,
-			Type:       "infr",
 		}
 	case lexer.TRUE:
 		p.advance()
@@ -199,7 +195,6 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				EndPos:   endpos,
 			},
 			Value: true,
-			Type:  "bool",
 		}
 	case lexer.FALSE:
 		p.advance()
@@ -210,7 +205,6 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				EndPos:   endpos,
 			},
 			Value: false,
-			Type:  "bool",
 		}
 	case lexer.NULL:
 		p.advance()
@@ -221,7 +215,6 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				EndPos:   endpos,
 			},
 			Value: "null",
-			Type:  "null",
 		}
 
 	default:

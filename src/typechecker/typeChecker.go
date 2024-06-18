@@ -5,6 +5,29 @@ import (
 	"walrus/frontend/ast"
 )
 
+func GetRuntimeType(runtimeValue RuntimeValue) string {
+	switch runtimeValue.(type) {
+	case IntegerValue:
+		return "int"
+	case FloatValue:
+		return "float"
+	case BooleanValue:
+		return "bool"
+	case StringValue:
+		return "string"
+	case CharacterValue:
+		return "char"
+	case NullValue:
+		return "null"
+	case VoidValue:
+		return "void"
+	case FunctionValue:
+		return "function"
+	default:
+		panic(fmt.Sprintf("This runtime value is not implemented yet: %v", runtimeValue))
+	}
+}
+
 func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 	switch node := astNode.(type) {
 	case ast.NumericLiteral:

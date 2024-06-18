@@ -3,10 +3,6 @@ let a := 1;
 let b := 2;
 let c := a + b;
 
-a = 20;
+a = 20 + b;
 
-fn main(){
-    // this is a comment
-}
-
-let main := 10;
+b += 10;

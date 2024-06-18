@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 12,
-    "Column": 16,
-    "Index": 116
+    "Line": 8,
+    "Column": 9,
+    "Index": 70
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -27,7 +27,20 @@
         "Index": 13
       },
       "IsConstant": false,
-      "Identifier": "a",
+      "Identifier": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 2,
+          "Column": 5,
+          "Index": 6
+        },
+        "EndPos": {
+          "Line": 2,
+          "Column": 6,
+          "Index": 7
+        },
+        "Identifier": "a"
+      },
       "Value": {
         "Kind": "NUMERIC_LITERAL",
         "StartPos": {
@@ -40,8 +53,7 @@
           "Column": 11,
           "Index": 12
         },
-        "Value": 1,
-        "Type": "i8"
+        "Value": 1
       },
       "ExplicitType": null
     },
@@ -58,7 +70,20 @@
         "Index": 26
       },
       "IsConstant": false,
-      "Identifier": "b",
+      "Identifier": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 3,
+          "Column": 5,
+          "Index": 19
+        },
+        "EndPos": {
+          "Line": 3,
+          "Column": 6,
+          "Index": 20
+        },
+        "Identifier": "b"
+      },
       "Value": {
         "Kind": "NUMERIC_LITERAL",
         "StartPos": {
@@ -71,8 +96,7 @@
           "Column": 11,
           "Index": 25
         },
-        "Value": 2,
-        "Type": "i8"
+        "Value": 2
       },
       "ExplicitType": null
     },
@@ -89,7 +113,20 @@
         "Index": 43
       },
       "IsConstant": false,
-      "Identifier": "c",
+      "Identifier": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 4,
+          "Column": 5,
+          "Index": 32
+        },
+        "EndPos": {
+          "Line": 4,
+          "Column": 6,
+          "Index": 33
+        },
+        "Identifier": "c"
+      },
       "Value": {
         "Kind": "BINARY_EXPRESSION",
         "StartPos": {
@@ -128,8 +165,7 @@
             "Column": 11,
             "Index": 38
           },
-          "Identifier": "a",
-          "Type": "infr"
+          "Identifier": "a"
         },
         "Right": {
           "Kind": "IDENTIFIER",
@@ -143,8 +179,7 @@
             "Column": 15,
             "Index": 42
           },
-          "Identifier": "b",
-          "Type": "infr"
+          "Identifier": "b"
         }
       },
       "ExplicitType": null
@@ -158,8 +193,8 @@
       },
       "EndPos": {
         "Line": 6,
-        "Column": 7,
-        "Index": 53
+        "Column": 11,
+        "Index": 57
       },
       "Assigne": {
         "Kind": "IDENTIFIER",
@@ -173,23 +208,62 @@
           "Column": 2,
           "Index": 48
         },
-        "Identifier": "a",
-        "Type": "infr"
+        "Identifier": "a"
       },
       "Value": {
-        "Kind": "NUMERIC_LITERAL",
+        "Kind": "BINARY_EXPRESSION",
         "StartPos": {
           "Line": 6,
-          "Column": 5,
-          "Index": 51
+          "Column": 8,
+          "Index": 54
         },
         "EndPos": {
           "Line": 6,
-          "Column": 7,
-          "Index": 53
+          "Column": 11,
+          "Index": 57
         },
-        "Value": 20,
-        "Type": "i8"
+        "Operator": {
+          "Kind": "+",
+          "Value": "+",
+          "StartPos": {
+            "Line": 6,
+            "Column": 8,
+            "Index": 54
+          },
+          "EndPos": {
+            "Line": 6,
+            "Column": 9,
+            "Index": 55
+          }
+        },
+        "Left": {
+          "Kind": "NUMERIC_LITERAL",
+          "StartPos": {
+            "Line": 6,
+            "Column": 5,
+            "Index": 51
+          },
+          "EndPos": {
+            "Line": 6,
+            "Column": 7,
+            "Index": 53
+          },
+          "Value": 20
+        },
+        "Right": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 6,
+            "Column": 10,
+            "Index": 56
+          },
+          "EndPos": {
+            "Line": 6,
+            "Column": 11,
+            "Index": 57
+          },
+          "Identifier": "b"
+        }
       },
       "Operator": {
         "Kind": "=",
@@ -207,67 +281,59 @@
       }
     },
     {
-      "Kind": "FN_DECLARATION_STATEMENT",
+      "Kind": "ASSIGNMENT_EXPRESSION",
       "StartPos": {
         "Line": 8,
-        "Column": 1,
-        "Index": 58
+        "Column": 3,
+        "Index": 64
       },
       "EndPos": {
-        "Line": 10,
-        "Column": 2,
-        "Index": 97
+        "Line": 8,
+        "Column": 8,
+        "Index": 69
       },
-      "FunctionName": "main",
-      "Parameters": {},
-      "ReturnType": {
-        "Kind": ""
-      },
-      "Block": {
-        "Kind": "BLOCK_STATEMENT",
+      "Assigne": {
+        "Kind": "IDENTIFIER",
         "StartPos": {
           "Line": 8,
-          "Column": 10,
-          "Index": 67
+          "Column": 1,
+          "Index": 62
         },
         "EndPos": {
-          "Line": 10,
+          "Line": 8,
           "Column": 2,
-          "Index": 97
+          "Index": 63
         },
-        "Body": []
-      }
-    },
-    {
-      "Kind": "VARIABLE_DECLARATION_STATEMENT",
-      "StartPos": {
-        "Line": 12,
-        "Column": 1,
-        "Index": 101
+        "Identifier": "b"
       },
-      "EndPos": {
-        "Line": 12,
-        "Column": 16,
-        "Index": 116
-      },
-      "IsConstant": false,
-      "Identifier": "main",
       "Value": {
         "Kind": "NUMERIC_LITERAL",
         "StartPos": {
-          "Line": 12,
-          "Column": 13,
-          "Index": 113
+          "Line": 8,
+          "Column": 6,
+          "Index": 67
         },
         "EndPos": {
-          "Line": 12,
-          "Column": 15,
-          "Index": 115
+          "Line": 8,
+          "Column": 8,
+          "Index": 69
         },
-        "Value": 10,
-        "Type": "i8"
+        "Value": 10
       },
-      "ExplicitType": null
+      "Operator": {
+        "Kind": "+=",
+        "Value": "+=",
+        "StartPos": {
+          "Line": 8,
+          "Column": 3,
+          "Index": 64
+        },
+        "EndPos": {
+          "Line": 8,
+          "Column": 5,
+          "Index": 66
+        }
+      }
     }
   ]
 }

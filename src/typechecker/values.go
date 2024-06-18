@@ -54,7 +54,7 @@ func (v VoidValue) _val() {}
 
 type FunctionValue struct {
 	Name 			string
-	Parameters 		map[string]ast.Type
+	Parameters 		[]ast.FunctionParameter
 	Body 			ast.BlockStmt
 }
 func (f FunctionValue) _val() {}

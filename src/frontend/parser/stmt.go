@@ -99,7 +99,16 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 	//varName := p.expectError(lexer.IDENTIFIER, "Expected identifier after " + (isConstant ? "const" : "let")  ).Value
 	errMsg := fmt.Sprintf("Expected identifier after %s", utils.IF(isConstant, "const", "let"))
 
-	varName := p.expectError(lexer.IDENTIFIER, errMsg).Value
+	variable := p.expectError(lexer.IDENTIFIER, errMsg)
+
+	value := ast.IdentifierExpr{
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.IDENTIFIER,
+			StartPos: variable.StartPos,
+			EndPos:   variable.EndPos,
+		},
+		Identifier: variable.Value,
+	}
 
 	//p.expectError(lexer.COLON, "Expected type or value after variable name")
 	if p.currentTokenKind() == lexer.WALRUS {
@@ -139,7 +148,7 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 			EndPos:   end,
 		},
 		IsConstant:   isConstant,
-		Identifier:   varName,
+		Identifier:   value,
 		Value:        assignedValue,
 		ExplicitType: explicitType,
 	}
@@ -177,7 +186,17 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 
 	p.expect(lexer.FUNCTION)
 
-	functionName := p.expect(lexer.IDENTIFIER).Value
+	function := p.expect(lexer.IDENTIFIER)
+
+	functionName := ast.IdentifierExpr{
+		BaseStmt: ast.BaseStmt{
+			Kind:     ast.IDENTIFIER,
+			StartPos: function.StartPos,
+			EndPos:   function.EndPos,
+		},
+		Identifier: function.Value,
+	}
+
 	//parse parameters
 	params := parseParams(p)
 
@@ -419,7 +438,7 @@ func parseTraitDeclStmt(p *Parser) ast.Statement {
 			IsStatic: isStatic,
 		}
 
-		methods[method.FunctionName] = traitMethod
+		methods[method.FunctionName.Identifier] = traitMethod
 	}
 
 	end := p.expect(lexer.CLOSE_CURLY).EndPos
@@ -439,7 +458,7 @@ func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 
 	start := p.expect(lexer.FUNCTION).StartPos
 
-	Name := p.expect(lexer.IDENTIFIER).Value
+	function := p.expect(lexer.IDENTIFIER)
 
 	Parameters := parseParams(p)
 
@@ -460,7 +479,14 @@ func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 			StartPos: start,
 			EndPos:   end,
 		},
-		FunctionName: Name,
+		FunctionName: ast.IdentifierExpr{
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.IDENTIFIER,
+				StartPos: function.StartPos,
+				EndPos:   function.EndPos,
+			},
+			Identifier: function.Value,
+		},
 		Parameters:   Parameters,
 		ReturnType:   ReturnType,
 	}
@@ -518,7 +544,7 @@ func parseImplementStmt(p *Parser) ast.Statement {
 
 		method := parseFunctionDeclStmt(p).(ast.FunctionDeclStmt)
 
-		methods[method.FunctionName] = ast.MethodImplementStmt{
+		methods[method.FunctionName.Identifier] = ast.MethodImplementStmt{
 			BaseStmt: ast.BaseStmt{
 				Kind:     ast.FN_DECLARATION_STATEMENT,
 				StartPos: start,
@@ -545,22 +571,39 @@ func parseImplementStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseParams(p *Parser) map[string]ast.Type {
-	params := map[string]ast.Type{}
+func parseParams(p *Parser) []ast.FunctionParameter {
+	params := []ast.FunctionParameter{}
 	//while )
 	p.advance() // pass the open paren
 
 	//parse the parameters
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_PAREN {
 
-		paramName := p.expect(lexer.IDENTIFIER).Value
+		param := p.expect(lexer.IDENTIFIER)
 
 		p.expect(lexer.COLON)
 
 		paramType := parseType(p, DEFAULT_BP)
 
 		//add to the map
-		params[paramName] = paramType
+		params = append(params, ast.FunctionParameter{
+			BaseStmt: ast.BaseStmt{
+				Kind:     	ast.FUNCTION_PARAMETER,
+				StartPos: 	param.StartPos,
+				EndPos:   	param.EndPos,
+			},
+			Identifier:	 	ast.IdentifierExpr{
+				BaseStmt: ast.BaseStmt{
+					Kind:     ast.IDENTIFIER,
+					StartPos: param.StartPos,
+					EndPos:   param.EndPos,
+				},
+				Identifier: param.Value,
+			},
+			IsVariadic: 	false,
+			Type:          	paramType,
+			DefaultVal:   	nil,
+		})
 
 		if p.currentTokenKind() != lexer.CLOSE_PAREN {
 			p.expect(lexer.COMMA)

@@ -71,7 +71,7 @@ func (b BlockStmt) iStatement() {
 type VariableDclStml struct {
 	BaseStmt
 	IsConstant   bool
-	Identifier   string
+	Identifier   IdentifierExpr
 	Value        Expression
 	ExplicitType Type
 }
@@ -86,11 +86,19 @@ func (v VariableDclStml) iStatement() {
 	// empty method implements the Statement interface
 }
 
+type FunctionParameter struct {
+	BaseStmt
+	IsVariadic bool
+	Identifier  IdentifierExpr
+	Type        Type
+	DefaultVal  Expression
+}
+
 type FunctionPrototype struct {
 	BaseStmt
-	FunctionName string
-	Parameters   map[string]Type
-	ReturnType   Type
+	FunctionName 	IdentifierExpr
+	Parameters  	[]FunctionParameter
+	ReturnType   	Type
 }
 
 type FunctionDeclStmt struct {

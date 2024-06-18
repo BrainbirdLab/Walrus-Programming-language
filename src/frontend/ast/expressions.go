@@ -40,7 +40,6 @@ func (u UnaryExpr) iExpression() {
 type IdentifierExpr struct {
 	BaseStmt
 	Identifier string
-	Type       string
 }
 
 func (i IdentifierExpr) iNode() {
@@ -56,7 +55,6 @@ func (i IdentifierExpr) iExpression() {
 type NumericLiteral struct {
 	BaseStmt
 	Value float64
-	Type  string
 }
 
 func (n NumericLiteral) iNode() {
@@ -72,7 +70,6 @@ func (n NumericLiteral) iExpression() {
 type StringLiteral struct {
 	BaseStmt
 	Value string
-	Type  string
 }
 
 func (s StringLiteral) iNode() {
@@ -88,7 +85,6 @@ func (s StringLiteral) iExpression() {
 type BooleanLiteral struct {
 	BaseStmt
 	Value bool
-	Type  string
 }
 
 func (b BooleanLiteral) iNode() {
@@ -104,7 +100,6 @@ func (b BooleanLiteral) iExpression() {
 type NullLiteral struct {
 	BaseStmt
 	Value string
-	Type  string
 }
 
 func (n NullLiteral) iNode() {
@@ -120,7 +115,6 @@ func (n NullLiteral) iExpression() {
 type VoidExpr struct {
 	Kind  NODE_TYPE
 	Value string
-	Type  string
 }
 
 func (v VoidExpr) iNode() {

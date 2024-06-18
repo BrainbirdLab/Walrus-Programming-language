@@ -15,10 +15,17 @@ func EvaluateIdenitifierExpr(expr ast.IdentifierExpr, env *Environment) RuntimeV
 
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, msg).Display()
 	}
-	return env.GetRuntimeValue(expr.Identifier)
+	runtimeVal, err := env.GetRuntimeValue(expr.Identifier)
+
+	if err != nil {	
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, err.Error()).Display()
+	}
+
+	return runtimeVal
 }
 
 func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue {
+
 	expr := Evaluate(unary.Argument, env)
 
 	switch unary.Operator.Value {
@@ -86,113 +93,213 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 	left := Evaluate(binop.Left, env)
 	right := Evaluate(binop.Right, env)
 
+	var leftType, rightType string
+
+	leftType = GetRuntimeType(left)
+	rightType = GetRuntimeType(right)
+
+	errMsg := fmt.Sprintf("Unsupported binary operation between %v and %v", leftType, rightType)
+
+	errorProducer := parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg)
+
 	switch binop.Operator.Value {
 	case "+", "-", "*", "/":
 		if helpers.TypesMatchT[IntegerValue](left) && helpers.TypesMatchT[IntegerValue](right) {
 			// Numeric expr
-			return evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator.Value)
+			val, err := evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			return val
+
 		} else if helpers.ContainsIn([]string{"==", "!="}, binop.Operator.Value) {
 			// eval string expr
-			return evaluateStringExpr(left.(StringValue), right.(StringValue), binop.Operator.Value)
+			val, err := evaluateStringExpr(left.(StringValue), right.(StringValue), binop.Operator)
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			return val
 		} else if binop.Operator.Value == "+" && helpers.TypesMatchT[StringValue](left) && helpers.TypesMatchT[StringValue](right) {
 			// eval string concat
-			return evaluateStringConcat(left.(StringValue), right.(StringValue))
+			val, err := evaluateStringConcat(left.(StringValue), right.(StringValue))
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			return val
 		} else {
-			panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
+
+			errorProducer.Display()
+
+			return nil
 		}
 
 	case "==", "!=", ">", "<", ">=", "<=":
 		if helpers.TypesMatchT[IntegerValue](left) && helpers.TypesMatchT[IntegerValue](right) {
 			// Logical expr
-			return evaluateLogicalExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator.Value)
+			val, err := evaluateLogicalExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			return val
 		} else if binop.Operator.Value == "==" || binop.Operator.Value == "!=" {
 			// bool expr
-			return evaluateBoolExpr(left.(BooleanValue), right.(BooleanValue), binop.Operator.Value)
+			val, err := evaluateBoolExpr(left.(BooleanValue), right.(BooleanValue), binop.Operator)
+
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			return val
 		} else {
-			panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
+			//panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
+			errorProducer.Display()
+
+			return nil
 		}
 
 	case "+=", "-=", "*=", "/=", "%=":
 		if !helpers.TypesMatchT[ast.IdentifierExpr](binop.Left) || !helpers.TypesMatchT[IntegerValue](right) {
-			panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
+			//panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
+			errorProducer.Display()
+
+			return nil
 		}
 
 		if env.HasVariable((binop.Left).(ast.IdentifierExpr).Identifier) {
-			return env.AssignVariable((binop.Left).(ast.IdentifierExpr).Identifier, evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator.Value[:1]))
+
+			exprVal, err := evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			runtimeVal, err := env.AssignVariable((binop.Left).(ast.IdentifierExpr).Identifier, exprVal)
+
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+			
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			return runtimeVal
 		} else {
-			return evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator.Value[:1])
+			val, err := evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+
+			if err != nil {
+				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+			}
+
+			return val
 		}
 
 	case "&&", "||":
-		return evaluateLogicalExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator.Value)
+		val, err := evaluateLogicalExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+
+		if err != nil {
+			parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
+		}
+
+		return val
 
 	default:
-		panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
+		//panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
+		errorProducer.Display()
+
+		return nil
 	}
 }
 
 func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) RuntimeValue {
 
+	var err error
+
 	if assignNode.Assigne.Kind != ast.IDENTIFIER {
-		panic(fmt.Sprintf("Invalid left-hand side in assignment expression %v", assignNode.Assigne))
+		err = fmt.Errorf("invalid left-hand side in assignment expression %v", assignNode.Assigne)
+		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Assigne.StartPos, assignNode.Assigne.EndPos, err.Error()).Display()
 	}
 
 	//if assigne is any of "false", "true", "null";
 	if helpers.ContainsIn([]string{"false", "true", "null"}, assignNode.Assigne.Identifier) {
-		panic(fmt.Sprintf("Cannot assign to built-in constant %v", assignNode.Assigne.Identifier))
+		err = fmt.Errorf("cannot assign to built-in constant %v", assignNode.Assigne.Identifier)
+		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Assigne.StartPos, assignNode.Assigne.EndPos, err.Error()).Display()
 	}
 
-	assigneValue := env.GetRuntimeValue(assignNode.Assigne.Identifier)
+	assigneValue, err := env.GetRuntimeValue(assignNode.Assigne.Identifier)
+
+	if err != nil {
+		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Assigne.StartPos, assignNode.Assigne.EndPos, err.Error()).Display()
+	}
 
 	value := Evaluate(assignNode.Value, env)
 
 	switch assignNode.Operator.Kind {
 	case lexer.PLUS_EQUALS, lexer.MINUS_EQUALS, lexer.TIMES_EQUALS, lexer.DIVIDE_EQUALS, lexer.MODULO_EQUALS:
 		if !helpers.TypesMatchT[IntegerValue](assigneValue) || !helpers.TypesMatchT[IntegerValue](value) {
-			panic(fmt.Sprintf("Invalid operation between %v and %v", assigneValue, value))
+
+			err = fmt.Errorf("invalid operation between %v and %v", assigneValue, value)
+
+			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.StartPos, assignNode.EndPos, err.Error()).Display()
 		}
 
-		value = evaluateNumericExpr(assigneValue.(IntegerValue), value.(IntegerValue), assignNode.Operator.Value[:1])
+		value, err = evaluateNumericExpr(assigneValue.(IntegerValue), value.(IntegerValue), assignNode.Operator)
+
+		if err != nil {
+			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Operator.StartPos, assignNode.Operator.EndPos, err.Error()).Display()
+		}
 	}
 
-	return env.AssignVariable(assignNode.Assigne.Identifier, value)
+	runtimeVal, err := env.AssignVariable(assignNode.Assigne.Identifier, value)
+
+	if err != nil {
+		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.StartPos, assignNode.EndPos, err.Error()).Display()
+	}
+
+	return runtimeVal
 }
 
-func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator string) RuntimeValue {
+func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
 	result := 0
 
-	switch operator {
-	case "+":
+	switch operator.Value {
+	case "+", "+=":
 		result = left.Value + right.Value
-	case "-":
+	case "-", "-=":
 		result = left.Value - right.Value
-	case "*":
+	case "*", "*=":
 		result = left.Value * right.Value
-	case "/":
+	case "/", "/=":
 		if right.Value == 0 {
-			panic("Division by zero is forbidden")
+			return nil, fmt.Errorf("division by zero is forbidden")
 		}
 		result = left.Value / right.Value
-	case "%":
+	case "%", "%=":
 		if right.Value == 0 {
-			panic("Division by zero is forbidden")
+			return nil, fmt.Errorf("division by zero is forbidden")
 		}
 		result = left.Value % right.Value
 	default:
-		panic(fmt.Sprintf("Unsupported operator %v", operator))
+		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
 
 	return IntegerValue{
 		Type:  "int",
 		Value: result,
-	}
+	}, nil
 }
 
-func evaluateLogicalExpr(left IntegerValue, right IntegerValue, operator string) RuntimeValue {
+func evaluateLogicalExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
 
 	result := false
 
-	switch operator {
+	switch operator.Value {
 	case "==":
 		result = left.Value == right.Value
 	case "!=":
@@ -210,21 +317,21 @@ func evaluateLogicalExpr(left IntegerValue, right IntegerValue, operator string)
 	case "||":
 		result = left.Value != 0 || right.Value != 0
 	default:
-		panic(fmt.Sprintf("Unsupported operator %v", operator))
+		return nil, fmt.Errorf("cannot evaluate logical expression. unsupported operator %v", operator.Value)
 	}
 
 	return BooleanValue{
 		Type:  "bool",
 		Value: result,
-	}
+	}, nil
 }
 
-func evaluateBoolExpr(left RuntimeValue, right RuntimeValue, operator string) RuntimeValue {
+func evaluateBoolExpr(left RuntimeValue, right RuntimeValue, operator lexer.Token) (RuntimeValue, error) {
 	result := false
 
 	sameType := helpers.TypesMatch(left, right)
 
-	switch operator {
+	switch operator.Value {
 	case "==":
 		if sameType {
 			result = left == right
@@ -250,36 +357,36 @@ func evaluateBoolExpr(left RuntimeValue, right RuntimeValue, operator string) Ru
 			result = IsTruthy(left) || IsTruthy(right)
 		}
 	default:
-		panic(fmt.Sprintf("Unsupported operator %v", operator))
+		return nil, fmt.Errorf("cannot evaluate boolean expression. unsupported operator %v", operator)
 	}
 
 	return BooleanValue{
 		Type:  "bool",
 		Value: result,
-	}
+	}, nil
 }
 
-func evaluateStringExpr(left StringValue, right StringValue, operator string) RuntimeValue {
+func evaluateStringExpr(left StringValue, right StringValue, operator lexer.Token) (RuntimeValue, error) {
 	result := false
 
-	switch operator {
+	switch operator.Value {
 	case "==":
 		result = left.Value == right.Value
 	case "!=":
 		result = left.Value != right.Value
 	default:
-		panic(fmt.Sprintf("Unsupported operator %v", operator))
+		return nil, fmt.Errorf("cannot evaluate string operation. unsupported operator %v", operator)
 	}
 
 	return BooleanValue{
 		Type:  "bool",
 		Value: result,
-	}
+	}, nil
 }
 
-func evaluateStringConcat(left StringValue, right StringValue) RuntimeValue {
+func evaluateStringConcat(left StringValue, right StringValue) (RuntimeValue, error) {
 	return StringValue{
 		Type:  "string",
 		Value: left.Value + right.Value,
-	}
+	}, nil
 }
