@@ -66,7 +66,7 @@ func main() {
 		env.DeclareVariable("false", typechecker.MAKE_BOOL(false), true)
 		env.DeclareVariable("null", typechecker.MAKE_NULL(), true)
 
-		result := typechecker.Evaluate(ast, 0, env)
+		result := typechecker.Evaluate(ast, env)
 
 		fmt.Printf("Result: %v\n", result)
 	}

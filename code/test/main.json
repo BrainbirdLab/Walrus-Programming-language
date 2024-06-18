@@ -7,8 +7,8 @@
   },
   "EndPos": {
     "Line": 13,
-    "Column": 19,
-    "Index": 142
+    "Column": 20,
+    "Index": 143
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -433,8 +433,8 @@
       },
       "EndPos": {
         "Line": 13,
-        "Column": 19,
-        "Index": 142
+        "Column": 20,
+        "Index": 143
       },
       "IsConstant": true,
       "Identifier": {
@@ -455,20 +455,18 @@
         "Kind": "NUMERIC_LITERAL",
         "StartPos": {
           "Line": 13,
-          "Column": 16,
-          "Index": 139
+          "Column": 17,
+          "Index": 140
         },
         "EndPos": {
           "Line": 13,
-          "Column": 18,
-          "Index": 141
+          "Column": 19,
+          "Index": 142
         },
         "Value": 23
       },
       "ExplicitType": {
-        "Kind": "INTEGER",
-        "BitSize": 8,
-        "IsSigned": true
+        "Kind": "STRING"
       }
     }
   ]

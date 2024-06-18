@@ -10,4 +10,4 @@ b += 10;
 let x := 's';
 const PI : f64 = 3.14159265359;
 
-const i : i8 = 23;
+const i : str = 23;

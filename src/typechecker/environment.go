@@ -27,7 +27,7 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 	if e.variables[name] != nil {
 		return nil, fmt.Errorf("variable %s already declared in this scope", name)
 	}
-
+	
 	e.variables[name] = value
 
 	if isConstant {
