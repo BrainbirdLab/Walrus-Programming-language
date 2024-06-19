@@ -40,6 +40,15 @@ func parseBinaryExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expre
 // representing the parsed function call.
 func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
 
+	//try to convert the left expression to a function
+
+	function, err := left.(ast.IdentifierExpr)
+
+	if !err {
+		start, end := left.GetPos()
+		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, start, end, "Cannot call a non-function").Display()
+	}
+
 	start := p.currentToken().StartPos
 
 	p.expect(lexer.OPEN_PAREN_TOKEN)
@@ -64,7 +73,7 @@ func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Express
 			StartPos: start,
 			EndPos:   end,
 		},
-		Function: left,
+		Function: function,
 		Args:     arguments,
 	}
 }

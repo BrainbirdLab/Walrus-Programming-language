@@ -13,5 +13,6 @@ fn add(a: i32, b: i32) -> i32 {
 
 let x := 's';
 const PI : f32 = 3.14159265359;
-let num : i32 = 10.00;
+let num : f32 = 10.00;
 
+let sum := add(10, 21);

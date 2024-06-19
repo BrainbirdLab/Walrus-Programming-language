@@ -67,10 +67,16 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 		return EvaluateBinaryExpr(node, env)
 	case ast.IdentifierExpr:
 		return EvaluateIdenitifierExpr(node, env)
+	case ast.BlockStmt:
+		return EvaluateBlockStmt(node, env)
 	case ast.IfStmt:
 		return EvaluateControlFlowStmt(node, env)
 	case ast.FunctionDeclStmt:
 		return EvaluateFunctionDeclarationStmt(node, env)
+	case ast.FunctionCallExpr:
+		return EvaluateFunctionCallExpr(node, env)
+	case ast.ReturnStmt:
+		return EvaluateReturnStmt(node, env)
 	default:
 		panic(fmt.Sprintf("This ast node is not implemented yet: %v", node))
 	}

@@ -73,6 +73,7 @@ func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeVa
 }
 
 func (e *Environment) DeclareFunction(name string, parameters []ast.FunctionParameter, body ast.BlockStmt) (RuntimeValue, error) {
+	
 	if e.variables[name] != nil {
 		return nil, fmt.Errorf("identifier (function) %s already declared in this scope", name)
 	}

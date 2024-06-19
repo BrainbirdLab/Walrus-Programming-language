@@ -7,8 +7,8 @@
   },
   "EndPos": {
     "Line": 18,
-    "Column": 1,
-    "Index": 202
+    "Column": 24,
+    "Index": 225
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -657,10 +657,97 @@
         "BitSize": 32
       },
       "ExplicitType": {
-        "Kind": "integer",
-        "BitSize": 32,
-        "IsSigned": true
+        "Kind": "float",
+        "BitSize": 32
       }
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 18,
+        "Column": 1,
+        "Index": 202
+      },
+      "EndPos": {
+        "Line": 18,
+        "Column": 24,
+        "Index": 225
+      },
+      "IsConstant": false,
+      "Identifier": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 18,
+          "Column": 5,
+          "Index": 206
+        },
+        "EndPos": {
+          "Line": 18,
+          "Column": 8,
+          "Index": 209
+        },
+        "Identifier": "sum"
+      },
+      "Value": {
+        "Kind": "FUNCTION_CALL_EXPRESSION",
+        "StartPos": {
+          "Line": 18,
+          "Column": 15,
+          "Index": 216
+        },
+        "EndPos": {
+          "Line": 18,
+          "Column": 23,
+          "Index": 224
+        },
+        "Function": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 18,
+            "Column": 12,
+            "Index": 213
+          },
+          "EndPos": {
+            "Line": 18,
+            "Column": 15,
+            "Index": 216
+          },
+          "Identifier": "add"
+        },
+        "Args": [
+          {
+            "Kind": "INTEGER_LITERAL",
+            "StartPos": {
+              "Line": 18,
+              "Column": 16,
+              "Index": 217
+            },
+            "EndPos": {
+              "Line": 18,
+              "Column": 18,
+              "Index": 219
+            },
+            "Value": "10",
+            "BitSize": 32
+          },
+          {
+            "Kind": "INTEGER_LITERAL",
+            "StartPos": {
+              "Line": 18,
+              "Column": 20,
+              "Index": 221
+            },
+            "EndPos": {
+              "Line": 18,
+              "Column": 22,
+              "Index": 223
+            },
+            "Value": "21",
+            "BitSize": 32
+          }
+        ]
+      },
+      "ExplicitType": null
     }
   ]
 }

@@ -162,7 +162,7 @@ func (a AssignmentExpr) iExpression() {
 
 type FunctionCallExpr struct {
 	BaseStmt
-	Function Expression
+	Function IdentifierExpr
 	Args     []Expression
 }
 

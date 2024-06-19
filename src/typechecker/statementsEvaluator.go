@@ -119,6 +119,18 @@ func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, sta
 	}
 }
 
+func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
+	
+	var lastEvaluated RuntimeValue = MAKE_NULL()
+
+	for _, stmt := range block.Body {
+		lastEvaluated = Evaluate(stmt, env)
+	}
+
+	return lastEvaluated
+
+}
+
 func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue {
 
 	condition := Evaluate(astNode.Condition, env)
@@ -150,4 +162,44 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 	}
 
 	return runtimeVal
+}
+
+func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) RuntimeValue {
+
+	// check if the function is defined
+	funcName := expr.Function.Identifier
+
+	
+	if  env.variables[funcName] == nil {
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Function.StartPos, expr.Function.EndPos, fmt.Sprintf("function '%s' is not defined", funcName)).Display()
+	}
+	
+	function := env.variables[funcName].(FunctionValue)
+
+	args := expr.Args
+
+	params := function.Parameters
+	body := function.Body
+
+	// create a new environment for the function
+	newEnv := NewEnvironment(env, env.parser)
+
+	for i := 0; i < len(params); i++ {
+		param := params[i]
+		arg := args[i]
+
+		if param.Type != nil {
+			start, end := arg.GetPos()
+			checkTypes(env.parser, param.Type, Evaluate(arg, env), start, end)
+		}
+		
+		newEnv.DeclareVariable(param.Identifier.Identifier, Evaluate(arg, env), false)
+	}
+
+	return Evaluate(body, newEnv)
+}
+
+
+func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
+	return Evaluate(stmt.Expression, env)
 }
