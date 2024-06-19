@@ -58,7 +58,6 @@ func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 
 		for _, pattern := range lex.patterns {
 
-
 			loc := pattern.regex.FindStringIndex(lex.remainder())
 
 			if loc != nil && loc[0] == 0 {
@@ -83,7 +82,7 @@ func Tokenize(source, file string, debug bool) ([]Token, *[]string) {
 		}
 	}
 
-	lex.push(NewToken(EOF, "End of file", lex.Pos, lex.Pos))
+	lex.push(NewToken(EOF_TOKEN, "End of file", lex.Pos, lex.Pos))
 
 	//litter.Dump(lex.Tokens)
 	if debug {
@@ -118,9 +117,8 @@ func (lex *Lexer) atEOF() bool {
 
 func defaultHandler(kind TOKEN_KIND, value string) regexHandler {
 
-	
 	return func(lex *Lexer, regex *regexp.Regexp) {
-		
+
 		start := lex.Pos
 		lex.advanceN(value)
 		end := lex.Pos
@@ -144,46 +142,46 @@ func createLexer(source *string) *Lexer {
 			{regexp.MustCompile(`\/\/.*`), skipHandler},                       // single line comments
 			{regexp.MustCompile(`\/\*[\s\S]*?\*\/`), skipHandler},             // multi line comments
 			{regexp.MustCompile(`"[^"]*"`), stringHandler},                    // string literals
-			{regexp.MustCompile(`'[^']'`), characterHandler},                     // character literals
+			{regexp.MustCompile(`'[^']'`), characterHandler},                  // character literals
 			{regexp.MustCompile(`[0-9]+(?:\.[0-9]+)?`), numberHandler},        // decimal numbers
 			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), identifierHandler}, // identifiers
-			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
-			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},
-			{regexp.MustCompile(`\{`), defaultHandler(OPEN_CURLY, "{")},
-			{regexp.MustCompile(`\}`), defaultHandler(CLOSE_CURLY, "}")},
-			{regexp.MustCompile(`\(`), defaultHandler(OPEN_PAREN, "(")},
-			{regexp.MustCompile(`\)`), defaultHandler(CLOSE_PAREN, ")")},
-			{regexp.MustCompile(`==`), defaultHandler(EQUALS, "==")},
-			{regexp.MustCompile(`!=`), defaultHandler(NOT_EQUALS, "!=")},
-			{regexp.MustCompile(`=`), defaultHandler(ASSIGNMENT, "=")},
-			{regexp.MustCompile(`:=`), defaultHandler(WALRUS, ":=")},
-			{regexp.MustCompile(`!`), defaultHandler(NOT, "!")},
-			{regexp.MustCompile(`<=`), defaultHandler(LESS_EQUALS, "<=")},
-			{regexp.MustCompile(`<`), defaultHandler(LESS, "<")},
-			{regexp.MustCompile(`>=`), defaultHandler(GREATER_EQUALS, ">=")},
-			{regexp.MustCompile(`>`), defaultHandler(GREATER, ">")},
-			{regexp.MustCompile(`\|\|`), defaultHandler(OR, "||")},
-			{regexp.MustCompile(`&&`), defaultHandler(AND, "&&")},
-			{regexp.MustCompile(`\.\.`), defaultHandler(DOT_DOT, "..")},
-			{regexp.MustCompile(`\.`), defaultHandler(DOT, ".")},
-			{regexp.MustCompile(`;`), defaultHandler(SEMI_COLON, ";")},
-			{regexp.MustCompile(`:`), defaultHandler(COLON, ":")},
+			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET_TOKEN, "[")},
+			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET_TOKEN, "]")},
+			{regexp.MustCompile(`\{`), defaultHandler(OPEN_CURLY_TOKEN, "{")},
+			{regexp.MustCompile(`\}`), defaultHandler(CLOSE_CURLY_TOKEN, "}")},
+			{regexp.MustCompile(`\(`), defaultHandler(OPEN_PAREN_TOKEN, "(")},
+			{regexp.MustCompile(`\)`), defaultHandler(CLOSE_PAREN_TOKEN, ")")},
+			{regexp.MustCompile(`==`), defaultHandler(EQUALS_TOKEN, "==")},
+			{regexp.MustCompile(`!=`), defaultHandler(NOT_EQUALS_TOKEN, "!=")},
+			{regexp.MustCompile(`=`), defaultHandler(ASSIGNMENT_TOKEN, "=")},
+			{regexp.MustCompile(`:=`), defaultHandler(WALRUS_TOKEN, ":=")},
+			{regexp.MustCompile(`!`), defaultHandler(NOT_TOKEN, "!")},
+			{regexp.MustCompile(`<=`), defaultHandler(LESS_EQUALS_TOKEN, "<=")},
+			{regexp.MustCompile(`<`), defaultHandler(LESS_TOKEN, "<")},
+			{regexp.MustCompile(`>=`), defaultHandler(GREATER_EQUALS_TOKEN, ">=")},
+			{regexp.MustCompile(`>`), defaultHandler(GREATER_TOKEN, ">")},
+			{regexp.MustCompile(`\|\|`), defaultHandler(OR_TOKEN, "||")},
+			{regexp.MustCompile(`&&`), defaultHandler(AND_TOKEN, "&&")},
+			{regexp.MustCompile(`\.\.`), defaultHandler(DOT_DOT_TOKEN, "..")},
+			{regexp.MustCompile(`\.`), defaultHandler(DOT_TOKEN, ".")},
+			{regexp.MustCompile(`;`), defaultHandler(SEMI_COLON_TOKEN, ";")},
+			{regexp.MustCompile(`:`), defaultHandler(COLON_TOKEN, ":")},
 			//{regexp.MustCompile(`\?\?=`), defaultHandler(NULLISH_ASSIGNMENT, "??=")},
-			{regexp.MustCompile(`->`), defaultHandler(ARROW, "->")},
-			{regexp.MustCompile(`\?`), defaultHandler(QUESTION, "?")},
-			{regexp.MustCompile(`,`), defaultHandler(COMMA, ",")},
-			{regexp.MustCompile(`\+\+`), defaultHandler(PLUS_PLUS, "++")},
-			{regexp.MustCompile(`--`), defaultHandler(MINUS_MINUS, "--")},
-			{regexp.MustCompile(`\+=`), defaultHandler(PLUS_EQUALS, "+=")},
-			{regexp.MustCompile(`-=`), defaultHandler(MINUS_EQUALS, "-=")},
-			{regexp.MustCompile(`\*=`), defaultHandler(TIMES_EQUALS, "*=")},
-			{regexp.MustCompile(`/=`), defaultHandler(DIVIDE_EQUALS, "/=")},
-			{regexp.MustCompile(`%=`), defaultHandler(MODULO_EQUALS, "%=")},
-			{regexp.MustCompile(`\+`), defaultHandler(PLUS, "+")},
-			{regexp.MustCompile(`-`), defaultHandler(MINUS, "-")},
-			{regexp.MustCompile(`/`), defaultHandler(DIVIDE, "/")},
-			{regexp.MustCompile(`\*`), defaultHandler(TIMES, "*")},
-			{regexp.MustCompile(`%`), defaultHandler(MODULO, "%")},
+			{regexp.MustCompile(`->`), defaultHandler(ARROW_TOKEN, "->")},
+			{regexp.MustCompile(`\?`), defaultHandler(QUESTION_TOKEN, "?")},
+			{regexp.MustCompile(`,`), defaultHandler(COMMA_TOKEN, ",")},
+			{regexp.MustCompile(`\+\+`), defaultHandler(PLUS_PLUS_TOKEN, "++")},
+			{regexp.MustCompile(`--`), defaultHandler(MINUS_MINUS_TOKEN, "--")},
+			{regexp.MustCompile(`\+=`), defaultHandler(PLUS_EQUALS_TOKEN, "+=")},
+			{regexp.MustCompile(`-=`), defaultHandler(MINUS_EQUALS_TOKEN, "-=")},
+			{regexp.MustCompile(`\*=`), defaultHandler(TIMES_EQUALS_TOKEN, "*=")},
+			{regexp.MustCompile(`/=`), defaultHandler(DIVIDE_EQUALS_TOKEN, "/=")},
+			{regexp.MustCompile(`%=`), defaultHandler(MODULO_EQUALS_TOKEN, "%=")},
+			{regexp.MustCompile(`\+`), defaultHandler(PLUS_TOKEN, "+")},
+			{regexp.MustCompile(`-`), defaultHandler(MINUS_TOKEN, "-")},
+			{regexp.MustCompile(`/`), defaultHandler(DIVIDE_TOKEN, "/")},
+			{regexp.MustCompile(`\*`), defaultHandler(TIMES_TOKEN, "*")},
+			{regexp.MustCompile(`%`), defaultHandler(MODULO_TOKEN, "%")},
 		},
 	}
 
@@ -201,7 +199,7 @@ func identifierHandler(lex *Lexer, regex *regexp.Regexp) {
 	if kind, exists := reservedLookup[identifier]; exists {
 		lex.push(NewToken(kind, identifier, start, end))
 	} else {
-		lex.push(NewToken(IDENTIFIER, identifier, start, end))
+		lex.push(NewToken(IDENTIFIER_TOKEN, identifier, start, end))
 	}
 
 }
@@ -215,7 +213,12 @@ func numberHandler(lex *Lexer, regex *regexp.Regexp) {
 
 	end := lex.Pos
 
-	lex.push(NewToken(NUMBER, match, start, end))
+	//find the number is a float or an integer
+	if strings.Contains(match, ".") {
+		lex.push(NewToken(FLOATING_TOKEN, match, start, end))
+	} else {
+		lex.push(NewToken(INTEGER_TOKEN, match, start, end))
+	}
 }
 
 func stringHandler(lex *Lexer, regex *regexp.Regexp) {
@@ -229,7 +232,7 @@ func stringHandler(lex *Lexer, regex *regexp.Regexp) {
 	lex.advanceN(match)
 	end := lex.Pos
 
-	lex.push(NewToken(STRING, stringLiteral, start, end))
+	lex.push(NewToken(STRING_TOKEN, stringLiteral, start, end))
 }
 
 func characterHandler(lex *Lexer, regex *regexp.Regexp) {
@@ -243,7 +246,7 @@ func characterHandler(lex *Lexer, regex *regexp.Regexp) {
 	lex.advanceN(match)
 	end := lex.Pos
 
-	lex.push(NewToken(CHARACTER, characterLiteral, start, end))
+	lex.push(NewToken(CHARACTER_TOKEN, characterLiteral, start, end))
 }
 
 func skipHandler(lex *Lexer, regex *regexp.Regexp) {

@@ -66,84 +66,85 @@ func stmt(kind lexer.TOKEN_KIND, handleStatement statementHandler) {
 func createTokenLookups() {
 
 	//literals & Identifiers
-	nud(lexer.NUMBER, parsePrimaryExpr)
-	nud(lexer.STRING, parsePrimaryExpr)
-	nud(lexer.CHARACTER, parsePrimaryExpr)
-	nud(lexer.IDENTIFIER, parsePrimaryExpr)
-	nud(lexer.TRUE, parsePrimaryExpr)
-	nud(lexer.FALSE, parsePrimaryExpr)
-	nud(lexer.NULL, parsePrimaryExpr)
+	nud(lexer.INTEGER_TOKEN, parsePrimaryExpr)
+	nud(lexer.FLOATING_TOKEN, parsePrimaryExpr)
+	nud(lexer.STRING_TOKEN, parsePrimaryExpr)
+	nud(lexer.CHARACTER_TOKEN, parsePrimaryExpr)
+	nud(lexer.IDENTIFIER_TOKEN, parsePrimaryExpr)
+	nud(lexer.TRUE_TOKEN, parsePrimaryExpr)
+	nud(lexer.FALSE_TOKEN, parsePrimaryExpr)
+	nud(lexer.NULL_TOKEN, parsePrimaryExpr)
 
-	nud(lexer.OPEN_PAREN, parseGroupingExpr)
+	nud(lexer.OPEN_PAREN_TOKEN, parseGroupingExpr)
 
 	//unary / prefix
-	nud(lexer.MINUS, parsePrefixExpr)
-	nud(lexer.PLUS, parsePrefixExpr)
-	nud(lexer.PLUS_PLUS, parseUnaryExpr)
-	nud(lexer.MINUS_MINUS, parseUnaryExpr)
-	nud(lexer.NOT, parseUnaryExpr)
-	nud(lexer.OPEN_BRACKET, parseArrayExpr)
+	nud(lexer.MINUS_TOKEN, parsePrefixExpr)
+	nud(lexer.PLUS_TOKEN, parsePrefixExpr)
+	nud(lexer.PLUS_PLUS_TOKEN, parseUnaryExpr)
+	nud(lexer.MINUS_MINUS_TOKEN, parseUnaryExpr)
+	nud(lexer.NOT_TOKEN, parseUnaryExpr)
+	nud(lexer.OPEN_BRACKET_TOKEN, parseArrayExpr)
 
 	// Assignment
-	led(lexer.ASSIGNMENT, ASSIGNMENT, parseVarAssignmentExpr)
-	led(lexer.PLUS_EQUALS, ASSIGNMENT, parseVarAssignmentExpr)
-	led(lexer.MINUS_EQUALS, ASSIGNMENT, parseVarAssignmentExpr)
-	led(lexer.TIMES_EQUALS, ASSIGNMENT, parseVarAssignmentExpr)
-	led(lexer.DIVIDE_EQUALS, ASSIGNMENT, parseVarAssignmentExpr)
-	led(lexer.MODULO_EQUALS, ASSIGNMENT, parseVarAssignmentExpr)
+	led(lexer.ASSIGNMENT_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
+	led(lexer.PLUS_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
+	led(lexer.MINUS_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
+	led(lexer.TIMES_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
+	led(lexer.DIVIDE_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
+	led(lexer.MODULO_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
 
 	// Logical operations
-	led(lexer.AND, LOGICAL, parseBinaryExpr)
-	led(lexer.OR, LOGICAL, parseBinaryExpr)
+	led(lexer.AND_TOKEN, LOGICAL, parseBinaryExpr)
+	led(lexer.OR_TOKEN, LOGICAL, parseBinaryExpr)
 
 	// Range
-	led(lexer.DOT_DOT, LOGICAL, parseBinaryExpr)
+	led(lexer.DOT_DOT_TOKEN, LOGICAL, parseBinaryExpr)
 
 	// Member
-	led(lexer.DOT, MEMBER, parsePropertyExpr)
+	led(lexer.DOT_TOKEN, MEMBER, parsePropertyExpr)
 
 	// Relational
-	led(lexer.LESS, RELATIONAL, parseBinaryExpr)
-	led(lexer.LESS_EQUALS, RELATIONAL, parseBinaryExpr)
-	led(lexer.GREATER, RELATIONAL, parseBinaryExpr)
-	led(lexer.GREATER_EQUALS, RELATIONAL, parseBinaryExpr)
-	led(lexer.EQUALS, RELATIONAL, parseBinaryExpr)
-	led(lexer.NOT_EQUALS, RELATIONAL, parseBinaryExpr)
+	led(lexer.LESS_TOKEN, RELATIONAL, parseBinaryExpr)
+	led(lexer.LESS_EQUALS_TOKEN, RELATIONAL, parseBinaryExpr)
+	led(lexer.GREATER_TOKEN, RELATIONAL, parseBinaryExpr)
+	led(lexer.GREATER_EQUALS_TOKEN, RELATIONAL, parseBinaryExpr)
+	led(lexer.EQUALS_TOKEN, RELATIONAL, parseBinaryExpr)
+	led(lexer.NOT_EQUALS_TOKEN, RELATIONAL, parseBinaryExpr)
 
 	// Additive & Multiplicative
-	led(lexer.PLUS, ADDITIVE, parseBinaryExpr)
-	led(lexer.MINUS, ADDITIVE, parseBinaryExpr)
+	led(lexer.PLUS_TOKEN, ADDITIVE, parseBinaryExpr)
+	led(lexer.MINUS_TOKEN, ADDITIVE, parseBinaryExpr)
 
-	led(lexer.TIMES, MULTIPLICATIVE, parseBinaryExpr)
-	led(lexer.DIVIDE, MULTIPLICATIVE, parseBinaryExpr)
-	led(lexer.MODULO, MULTIPLICATIVE, parseBinaryExpr)
+	led(lexer.TIMES_TOKEN, MULTIPLICATIVE, parseBinaryExpr)
+	led(lexer.DIVIDE_TOKEN, MULTIPLICATIVE, parseBinaryExpr)
+	led(lexer.MODULO_TOKEN, MULTIPLICATIVE, parseBinaryExpr)
 
 	//call
-	led(lexer.OPEN_PAREN, CALL, parseCallExpr)
+	led(lexer.OPEN_PAREN_TOKEN, CALL, parseCallExpr)
 
 	// Statements
-	stmt(lexer.CONST, parseVarDeclStmt)
-	stmt(lexer.LET, parseVarDeclStmt)
+	stmt(lexer.CONST_TOKEN, parseVarDeclStmt)
+	stmt(lexer.LET_TOKEN, parseVarDeclStmt)
 
-	stmt(lexer.MODULE, parseModuleStmt)
-	stmt(lexer.IMPORT, parseImportStmt)
-	stmt(lexer.STRUCT, parseStructDeclStmt)
-	stmt(lexer.TRAIT, parseTraitDeclStmt)
-	stmt(lexer.IMPLEMENT, parseImplementStmt)
-	stmt(lexer.OPEN_CURLY, parseBlockStmt)
+	stmt(lexer.MODULE_TOKEN, parseModuleStmt)
+	stmt(lexer.IMPORT_TOKEN, parseImportStmt)
+	stmt(lexer.STRUCT_TOKEN, parseStructDeclStmt)
+	stmt(lexer.TRAIT_TOKEN, parseTraitDeclStmt)
+	stmt(lexer.IMPLEMENT_TOKEN, parseImplementStmt)
+	stmt(lexer.OPEN_CURLY_TOKEN, parseBlockStmt)
 
 	//conditionals
-	stmt(lexer.IF, parseIfStatement)
-	stmt(lexer.SWITCH, parseSwitchCaseStmt)
+	stmt(lexer.IF_TOKEN, parseIfStatement)
+	stmt(lexer.SWITCH_TOKEN, parseSwitchCaseStmt)
 	//loops
-	stmt(lexer.FOR, parseForLoopStmt)
-	stmt(lexer.FOREACH, parseForLoopStmt)
-	stmt(lexer.WHILE, parseWhileLoopStmt)
+	stmt(lexer.FOR_TOKEN, parseForLoopStmt)
+	stmt(lexer.FOREACH_TOKEN, parseForLoopStmt)
+	stmt(lexer.WHILE_TOKEN, parseWhileLoopStmt)
 
 	//function
-	stmt(lexer.FUNCTION, parseFunctionDeclStmt)
-	stmt(lexer.RETURN, parseReturnStmt)
+	stmt(lexer.FUNCTION_TOKEN, parseFunctionDeclStmt)
+	stmt(lexer.RETURN_TOKEN, parseReturnStmt)
 
-	stmt(lexer.CONTINUE, parseContinueStmt)
-	stmt(lexer.BREAK, parseBreakStmt)
+	stmt(lexer.CONTINUE_TOKEN, parseContinueStmt)
+	stmt(lexer.BREAK_TOKEN, parseBreakStmt)
 }

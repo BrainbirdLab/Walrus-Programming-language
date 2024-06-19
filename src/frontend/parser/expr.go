@@ -42,21 +42,21 @@ func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Express
 
 	start := p.currentToken().StartPos
 
-	p.expect(lexer.OPEN_PAREN)
+	p.expect(lexer.OPEN_PAREN_TOKEN)
 
 	var arguments []ast.Expression
 
-	for p.currentTokenKind() != lexer.CLOSE_PAREN {
+	for p.currentTokenKind() != lexer.CLOSE_PAREN_TOKEN {
 		//parse the arguments
 		argument := parseExpr(p, DEFAULT_BP)
 		arguments = append(arguments, argument)
 
-		if p.currentTokenKind() == lexer.COMMA {
+		if p.currentTokenKind() == lexer.COMMA_TOKEN {
 			p.advance()
 		}
 	}
 
-	end := p.expect(lexer.CLOSE_PAREN).EndPos
+	end := p.expect(lexer.CLOSE_PAREN_TOKEN).EndPos
 
 	return ast.FunctionCallExpr{
 		BaseStmt: ast.BaseStmt{
@@ -71,9 +71,9 @@ func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Express
 
 func parsePropertyExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
 
-	p.expect(lexer.DOT)
+	p.expect(lexer.DOT_TOKEN)
 
-	identifier := p.expect(lexer.IDENTIFIER)
+	identifier := p.expect(lexer.IDENTIFIER_TOKEN)
 
 	property := ast.IdentifierExpr{
 		BaseStmt: ast.BaseStmt{
@@ -109,7 +109,7 @@ func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 	tokenKind := token.Kind
 
-	if tokenKind == lexer.IDENTIFIER && p.nextToken().Kind == lexer.OPEN_CURLY && (p.previousToken().Kind == lexer.WALRUS || p.previousToken().Kind == lexer.ASSIGNMENT) {
+	if tokenKind == lexer.IDENTIFIER_TOKEN && p.nextToken().Kind == lexer.OPEN_CURLY_TOKEN && (p.previousToken().Kind == lexer.WALRUS_TOKEN || p.previousToken().Kind == lexer.ASSIGNMENT_TOKEN) {
 		// Function call
 		return parseStructInstantiationExpr(p, parsePrimaryExpr(p))
 	}
@@ -158,17 +158,73 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 	endpos := p.currentToken().EndPos
 
 	switch p.currentTokenKind() {
-	case lexer.NUMBER:
-		number, _ := strconv.ParseFloat(p.advance().Value, 64)
+	case lexer.INTEGER_TOKEN:
+
+		// A 32-bit integer can store upto -2,147,483,648 to 2,147,483,647
+		// it is nearly 10 digits long
+		// the raw value is stored as a string
+		// so we need to convert it to a number along with the proper size from the string length and the value
+
+		rawValue := p.advance().Value
+
+		size := uint8(32)
+
+		if len(rawValue) > 10 {
+			size = 64
+		} else {
+			// if number is out of range for 32-bit integer
+			// then it is a 64-bit integer
+			// But to avoid checking both positive and negative ranges, we just check the positive range by using the absolute value
+			// if the absolute value is greater than 2,147,483,647 then it is a 64-bit integer
+			number, _ := strconv.ParseInt(rawValue, 10, 32)
+			if number < 0 {
+				number = -number
+			}
+			if number > 2147483647 {
+				size = 64
+			}
+		}
+
 		return ast.NumericLiteral{
 			BaseStmt: ast.BaseStmt{
-				Kind:     ast.NUMERIC_LITERAL,
+				Kind:     ast.INTEGER_LITERAL,
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value: number,
+			Value: rawValue,
+			BitSize: size,
 		}
-	case lexer.STRING:
+	case lexer.FLOATING_TOKEN:
+		rawValue := p.advance().Value
+
+		size := uint8(32)
+		
+		number, _ := strconv.ParseFloat(rawValue, 64)
+
+		if number < 0 {
+			number = -number
+		}
+
+		// check the floating point decimal size
+
+		decimal := int64(number)
+
+		//max size of a 32-bit floating point number is 7 digits
+		if decimal > 9999999 {
+			size = 64
+		}
+
+		return ast.NumericLiteral{
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.FLOAT_LITERAL,
+				StartPos: startpos,
+				EndPos:   endpos,
+			},
+			Value: rawValue,
+			BitSize: size,
+		}
+
+	case lexer.STRING_TOKEN:
 		return ast.StringLiteral{
 			BaseStmt: ast.BaseStmt{
 				Kind:     ast.STRING_LITERAL,
@@ -177,7 +233,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 			},
 			Value: p.advance().Value,
 		}
-	case lexer.CHARACTER:
+	case lexer.CHARACTER_TOKEN:
 		return ast.CharacterLiteral{
 			BaseStmt: ast.BaseStmt{
 				Kind:     ast.CHARACTER_LITERAL,
@@ -186,7 +242,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 			},
 			Value: p.advance().Value,
 		}
-	case lexer.IDENTIFIER:
+	case lexer.IDENTIFIER_TOKEN:
 		return ast.IdentifierExpr{
 			BaseStmt: ast.BaseStmt{
 				Kind:     ast.IDENTIFIER,
@@ -195,7 +251,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 			},
 			Identifier: p.advance().Value,
 		}
-	case lexer.TRUE:
+	case lexer.TRUE_TOKEN:
 		p.advance()
 		return ast.BooleanLiteral{
 			BaseStmt: ast.BaseStmt{
@@ -205,7 +261,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 			},
 			Value: true,
 		}
-	case lexer.FALSE:
+	case lexer.FALSE_TOKEN:
 		p.advance()
 		return ast.BooleanLiteral{
 			BaseStmt: ast.BaseStmt{
@@ -215,7 +271,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 			},
 			Value: false,
 		}
-	case lexer.NULL:
+	case lexer.NULL_TOKEN:
 		p.advance()
 		return ast.NullLiteral{
 			BaseStmt: ast.BaseStmt{
@@ -235,9 +291,9 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 // enclosed in parentheses. It expects the opening parenthesis, parses the
 // expression inside, and then expects the closing parenthesis.
 func parseGroupingExpr(p *Parser) ast.Expression {
-	p.expect(lexer.OPEN_PAREN)
+	p.expect(lexer.OPEN_PAREN_TOKEN)
 	expression := parseExpr(p, DEFAULT_BP)
-	p.expect(lexer.CLOSE_PAREN)
+	p.expect(lexer.CLOSE_PAREN_TOKEN)
 	return expression
 }
 
@@ -327,21 +383,21 @@ func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression
 	var properties = map[string]ast.Expression{}
 	var methods = map[string]ast.FunctionDeclStmt{}
 
-	p.expect(lexer.OPEN_CURLY)
+	p.expect(lexer.OPEN_CURLY_TOKEN)
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
-		var propName = p.expect(lexer.IDENTIFIER).Value
-		p.expect(lexer.COLON)
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
+		var propName = p.expect(lexer.IDENTIFIER_TOKEN).Value
+		p.expect(lexer.COLON_TOKEN)
 		expr := parseExpr(p, LOGICAL)
 
 		properties[propName] = expr
 
-		if p.currentTokenKind() != lexer.CLOSE_CURLY {
-			p.expect(lexer.COMMA)
+		if p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
+			p.expect(lexer.COMMA_TOKEN)
 		}
 	}
 
-	end := p.expect(lexer.CLOSE_CURLY).EndPos
+	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
 
 	return ast.StructInstantiationExpr{
 		BaseStmt: ast.BaseStmt{
@@ -362,18 +418,18 @@ func parseArrayExpr(p *Parser) ast.Expression {
 
 	start := p.currentToken().StartPos
 
-	p.expect(lexer.OPEN_BRACKET)
+	p.expect(lexer.OPEN_BRACKET_TOKEN)
 
 	elements := []ast.Expression{}
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_BRACKET {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_BRACKET_TOKEN {
 		elements = append(elements, parseExpr(p, PRIMARY))
-		if p.currentTokenKind() != lexer.CLOSE_BRACKET {
-			p.expect(lexer.COMMA)
+		if p.currentTokenKind() != lexer.CLOSE_BRACKET_TOKEN {
+			p.expect(lexer.COMMA_TOKEN)
 		}
 	}
 
-	end := p.expect(lexer.CLOSE_BRACKET).EndPos
+	end := p.expect(lexer.CLOSE_BRACKET_TOKEN).EndPos
 
 	return ast.ArrayLiterals{
 		BaseStmt: ast.BaseStmt{

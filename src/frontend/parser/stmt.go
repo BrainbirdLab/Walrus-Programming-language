@@ -20,7 +20,7 @@ func parseNode(p *Parser) ast.Node {
 	// if not a statement, then it must be an expression
 	expr := parseExpr(p, DEFAULT_BP)
 
-	p.expect(lexer.SEMI_COLON)
+	p.expect(lexer.SEMI_COLON_TOKEN)
 
 	return expr
 }
@@ -29,9 +29,9 @@ func parseModuleStmt(p *Parser) ast.Statement {
 
 	p.advance() // skip MODULE token
 
-	moduleName := p.expect(lexer.IDENTIFIER).Value
+	moduleName := p.expect(lexer.IDENTIFIER_TOKEN).Value
 
-	end := p.expect(lexer.SEMI_COLON).EndPos
+	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
 	return ast.ModuleStmt{
 		BaseStmt: ast.BaseStmt{
@@ -51,30 +51,30 @@ func parseImportStmt(p *Parser) ast.Statement {
 	identifiers := []string{}
 
 	//expect the module name "..." or {x,y,z}
-	if p.currentTokenKind() == lexer.OPEN_CURLY {
+	if p.currentTokenKind() == lexer.OPEN_CURLY_TOKEN {
 
 		p.advance()
 
 		//expect identifiers inside the curly braces
-		for p.currentTokenKind() != lexer.CLOSE_CURLY {
+		for p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
 
-			identifier := p.expect(lexer.IDENTIFIER).Value
+			identifier := p.expect(lexer.IDENTIFIER_TOKEN).Value
 			identifiers = append(identifiers, identifier)
 
 			//expect a comma between the identifiers
-			if p.currentTokenKind() != lexer.CLOSE_CURLY {
-				p.expect(lexer.COMMA)
+			if p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
+				p.expect(lexer.COMMA_TOKEN)
 			}
 		}
-		p.expect(lexer.CLOSE_CURLY)
+		p.expect(lexer.CLOSE_CURLY_TOKEN)
 
 		//expect the "from" keyword
-		p.expect(lexer.FROM)
+		p.expect(lexer.FROM_TOKEN)
 	}
 
-	moduleName := p.expect(lexer.STRING).Value
+	moduleName := p.expect(lexer.STRING_TOKEN).Value
 
-	end := p.expect(lexer.SEMI_COLON).EndPos
+	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
 	return ast.ImportStmt{
 		BaseStmt: ast.BaseStmt{
@@ -94,12 +94,12 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 	var explicitType ast.Type
 	var assignedValue ast.Expression
 
-	isConstant := p.advance().Kind == lexer.CONST
+	isConstant := p.advance().Kind == lexer.CONST_TOKEN
 
 	//varName := p.expectError(lexer.IDENTIFIER, "Expected identifier after " + (isConstant ? "const" : "let")  ).Value
 	errMsg := fmt.Sprintf("Expected identifier after %s", utils.IF(isConstant, "const", "let"))
 
-	variable := p.expectError(lexer.IDENTIFIER, errMsg)
+	variable := p.expectError(lexer.IDENTIFIER_TOKEN, errMsg)
 
 	value := ast.IdentifierExpr{
 		BaseStmt: ast.BaseStmt{
@@ -111,7 +111,7 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 	}
 
 	//p.expectError(lexer.COLON, "Expected type or value after variable name")
-	if p.currentTokenKind() == lexer.WALRUS {
+	if p.currentTokenKind() == lexer.WALRUS_TOKEN {
 		p.advance()
 
 		assignedValue = parseExpr(p, DEFAULT_BP)
@@ -119,17 +119,17 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 		if assignedValue == nil {
 			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Expected value after := operator").Display()
 		}
-	} else if p.currentTokenKind() == lexer.COLON {
+	} else if p.currentTokenKind() == lexer.COLON_TOKEN {
 		// then we expect type
 		p.advance()
 		explicitType = parseType(p, DEFAULT_BP)
-		if p.currentTokenKind() == lexer.ASSIGNMENT {
+		if p.currentTokenKind() == lexer.ASSIGNMENT_TOKEN {
 			// then we expect assignment
 			p.advance()
 			assignedValue = parseExpr(p, DEFAULT_BP)
 		}
 	} else {
-		if p.currentTokenKind() == lexer.ASSIGNMENT {
+		if p.currentTokenKind() == lexer.ASSIGNMENT_TOKEN {
 			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Invalid token").AddHint("Use ':=' instead\n", TEXT_HINT).Display()
 		}
 		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Expected value or type").AddHint("You can declare a variable by\n", TEXT_HINT).AddHint(" let x : i8 = 4;", CODE_HINT).AddHint("\nor,", TEXT_HINT).AddHint("\n let x := 4;", CODE_HINT).Display()
@@ -139,7 +139,7 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Expected value").AddHint("Constants must have a value while declaration", TEXT_HINT).Display()
 	}
 
-	end := p.expect(lexer.SEMI_COLON).EndPos
+	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
 	return ast.VariableDclStml{
 		BaseStmt: ast.BaseStmt{
@@ -160,15 +160,15 @@ func parseBlockStmt(p *Parser) ast.Statement {
 
 func parseBlock(p *Parser) ast.BlockStmt {
 
-	start := p.expect(lexer.OPEN_CURLY).StartPos
+	start := p.expect(lexer.OPEN_CURLY_TOKEN).StartPos
 
 	body := make([]ast.Node, 0)
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
 		body = append(body, parseNode(p))
 	}
 
-	end := p.expect(lexer.CLOSE_CURLY).EndPos
+	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
 
 	return ast.BlockStmt{
 		BaseStmt: ast.BaseStmt{
@@ -184,9 +184,9 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
-	p.expect(lexer.FUNCTION)
+	p.expect(lexer.FUNCTION_TOKEN)
 
-	function := p.expect(lexer.IDENTIFIER)
+	function := p.expect(lexer.IDENTIFIER_TOKEN)
 
 	functionName := ast.IdentifierExpr{
 		BaseStmt: ast.BaseStmt{
@@ -202,7 +202,7 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 
 	// if there is a ARROW token, then we have explicit return type. else we have implicit return type of void
 	var explicitReturnType ast.Type
-	if p.currentTokenKind() == lexer.ARROW {
+	if p.currentTokenKind() == lexer.ARROW_TOKEN {
 		p.advance()
 		explicitReturnType = parseType(p, DEFAULT_BP)
 	} else {
@@ -234,17 +234,17 @@ func parseReturnStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
-	p.expect(lexer.RETURN)
+	p.expect(lexer.RETURN_TOKEN)
 
 	var value ast.Expression
 
-	if p.currentTokenKind() != lexer.SEMI_COLON {
+	if p.currentTokenKind() != lexer.SEMI_COLON_TOKEN {
 		value = parseExpr(p, DEFAULT_BP)
 	} else {
 		value = ast.VoidExpr{}
 	}
 
-	end := p.expect(lexer.SEMI_COLON).EndPos
+	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
 	return ast.ReturnStmt{
 		BaseStmt: ast.BaseStmt{
@@ -267,7 +267,7 @@ func parseContinueStmt(p *Parser) ast.Statement {
 func parseBreakoutStmt(p *Parser) ast.Statement {
 
 	start := p.advance().StartPos
-	end := p.expect(lexer.SEMI_COLON).EndPos
+	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
 	return ast.BreakStmt{
 		BaseStmt: ast.BaseStmt{
@@ -282,31 +282,31 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 
 	start := p.currentToken().StartPos
 
-	p.expect(lexer.STRUCT)
+	p.expect(lexer.STRUCT_TOKEN)
 
 	properties := map[string]ast.Property{}
-	structName := p.expect(lexer.IDENTIFIER).Value
+	structName := p.expect(lexer.IDENTIFIER_TOKEN).Value
 	var embeds []string
 
-	p.expect(lexer.OPEN_CURLY)
+	p.expect(lexer.OPEN_CURLY_TOKEN)
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
 
 		//property
-		if p.currentTokenKind() == lexer.ACCESS {
+		if p.currentTokenKind() == lexer.ACCESS_TOKEN {
 
 			properties = handleAccessModifier(p, properties)
 
 			continue
 
-		} else if p.currentTokenKind() == lexer.EMBED {
+		} else if p.currentTokenKind() == lexer.EMBED_TOKEN {
 			p.advance()
 			//parse the structname to be embeded into this struct
-			embededStructName := p.expect(lexer.IDENTIFIER).Value
+			embededStructName := p.expect(lexer.IDENTIFIER_TOKEN).Value
 
 			embeds = append(embeds, embededStructName)
 
-			p.expect(lexer.SEMI_COLON)
+			p.expect(lexer.SEMI_COLON_TOKEN)
 		} else {
 
 			err := "Expected access modifier or embed keyword"
@@ -317,7 +317,7 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 		}
 	}
 
-	end := p.expect(lexer.CLOSE_CURLY).EndPos
+	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
 
 	return ast.StructDeclStatement{
 		BaseStmt: ast.BaseStmt{
@@ -345,30 +345,30 @@ func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[str
 
 	p.advance() //pass the access modifier
 
-	if p.currentTokenKind() == lexer.STATIC {
+	if p.currentTokenKind() == lexer.STATIC_TOKEN {
 		isStatic = true
 		p.advance()
 	} else {
 		isStatic = false
 	}
 
-	if p.currentTokenKind() == lexer.READONLY {
+	if p.currentTokenKind() == lexer.READONLY_TOKEN {
 		readOnly = true
 		p.advance()
 	} else {
 		readOnly = false
 	}
 
-	prop := p.expect(lexer.IDENTIFIER)
+	prop := p.expect(lexer.IDENTIFIER_TOKEN)
 
-	if p.currentTokenKind() == lexer.COLON {
+	if p.currentTokenKind() == lexer.COLON_TOKEN {
 		//then its a property
 
 		p.advance()
 
 		propertyType := parseType(p, DEFAULT_BP)
 
-		p.expect(lexer.SEMI_COLON)
+		p.expect(lexer.SEMI_COLON_TOKEN)
 
 		//check if already exists
 		if _, exists := properties[prop.Value]; exists {
@@ -399,26 +399,26 @@ func parseTraitDeclStmt(p *Parser) ast.Statement {
 
 	p.advance() //pass the trait token
 
-	traitName := p.expect(lexer.IDENTIFIER).Value
+	traitName := p.expect(lexer.IDENTIFIER_TOKEN).Value
 
-	p.expect(lexer.OPEN_CURLY)
+	p.expect(lexer.OPEN_CURLY_TOKEN)
 
 	methods := map[string]ast.Method{}
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
 
 		//parse access modifier
 		isPublic := false
 		isStatic := false
 
-		if p.currentTokenKind() == lexer.ACCESS {
+		if p.currentTokenKind() == lexer.ACCESS_TOKEN {
 			if p.currentToken().Value == "pub" {
 				isPublic = true
 			}
 			p.advance()
 		}
 
-		if p.currentTokenKind() == lexer.STATIC {
+		if p.currentTokenKind() == lexer.STATIC_TOKEN {
 			isStatic = true
 			p.advance()
 		}
@@ -440,7 +440,7 @@ func parseTraitDeclStmt(p *Parser) ast.Statement {
 		methods[method.FunctionName.Identifier] = traitMethod
 	}
 
-	end := p.expect(lexer.CLOSE_CURLY).EndPos
+	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
 
 	return ast.TraitDeclStatement{
 		BaseStmt: ast.BaseStmt{
@@ -455,22 +455,22 @@ func parseTraitDeclStmt(p *Parser) ast.Statement {
 
 func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 
-	start := p.expect(lexer.FUNCTION).StartPos
+	start := p.expect(lexer.FUNCTION_TOKEN).StartPos
 
-	function := p.expect(lexer.IDENTIFIER)
+	function := p.expect(lexer.IDENTIFIER_TOKEN)
 
 	Parameters := parseParams(p)
 
 	var ReturnType ast.Type
 
-	if p.currentTokenKind() == lexer.ARROW {
+	if p.currentTokenKind() == lexer.ARROW_TOKEN {
 		p.advance()
 		ReturnType = parseType(p, DEFAULT_BP)
 	} else {
 		ReturnType = ast.Void{}
 	}
 
-	end := p.expect(lexer.SEMI_COLON).EndPos
+	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
 	return ast.FunctionPrototype{
 		BaseStmt: ast.BaseStmt{
@@ -501,42 +501,42 @@ func parseImplementStmt(p *Parser) ast.Statement {
 	var TypeToImplement string
 
 	// syntax: impl A, B, C for T { ... } or impl A for T { ... } or impl T { ... }
-	if p.currentTokenKind() == lexer.IDENTIFIER {
-		traits = append(traits, p.expect(lexer.IDENTIFIER).Value)
+	if p.currentTokenKind() == lexer.IDENTIFIER_TOKEN {
+		traits = append(traits, p.expect(lexer.IDENTIFIER_TOKEN).Value)
 	}
 
 	//parse the trait names
-	for p.currentTokenKind() == lexer.COMMA {
+	for p.currentTokenKind() == lexer.COMMA_TOKEN {
 		p.advance()
-		traits = append(traits, p.expect(lexer.IDENTIFIER).Value)
+		traits = append(traits, p.expect(lexer.IDENTIFIER_TOKEN).Value)
 	}
 
-	if p.currentTokenKind() != lexer.OPEN_CURLY {
-		p.expect(lexer.FOR)
-		TypeToImplement = p.expect(lexer.IDENTIFIER).Value
+	if p.currentTokenKind() != lexer.OPEN_CURLY_TOKEN {
+		p.expect(lexer.FOR_TOKEN)
+		TypeToImplement = p.expect(lexer.IDENTIFIER_TOKEN).Value
 	} else {
 		TypeToImplement = traits[0]
 	}
 
-	p.expect(lexer.OPEN_CURLY)
+	p.expect(lexer.OPEN_CURLY_TOKEN)
 
 	methods := map[string]ast.MethodImplementStmt{}
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
 
 		start := p.currentToken().StartPos
 
 		isPublic := false
 		isStatic := false
 
-		if p.currentTokenKind() == lexer.ACCESS {
+		if p.currentTokenKind() == lexer.ACCESS_TOKEN {
 			if p.currentToken().Value == "pub" {
 				isPublic = true
 			}
 			p.advance()
 		}
 
-		if p.currentTokenKind() == lexer.STATIC {
+		if p.currentTokenKind() == lexer.STATIC_TOKEN {
 			isStatic = true
 			p.advance()
 		}
@@ -556,7 +556,7 @@ func parseImplementStmt(p *Parser) ast.Statement {
 		}
 	}
 
-	end := p.expect(lexer.CLOSE_CURLY).EndPos
+	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
 
 	return ast.ImplementStatement{
 		BaseStmt: ast.BaseStmt{
@@ -576,11 +576,11 @@ func parseParams(p *Parser) []ast.FunctionParameter {
 	p.advance() // pass the open paren
 
 	//parse the parameters
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_PAREN {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_PAREN_TOKEN {
 
-		param := p.expect(lexer.IDENTIFIER)
+		param := p.expect(lexer.IDENTIFIER_TOKEN)
 
-		p.expect(lexer.COLON)
+		p.expect(lexer.COLON_TOKEN)
 
 		paramType := parseType(p, DEFAULT_BP)
 
@@ -604,11 +604,11 @@ func parseParams(p *Parser) []ast.FunctionParameter {
 			DefaultVal: nil,
 		})
 
-		if p.currentTokenKind() != lexer.CLOSE_PAREN {
-			p.expect(lexer.COMMA)
+		if p.currentTokenKind() != lexer.CLOSE_PAREN_TOKEN {
+			p.expect(lexer.COMMA_TOKEN)
 		}
 	}
-	p.expect(lexer.CLOSE_PAREN)
+	p.expect(lexer.CLOSE_PAREN_TOKEN)
 	return params
 }
 
@@ -622,11 +622,11 @@ func parseIfStatement(p *Parser) ast.Statement {
 
 	var alternate ast.Statement
 
-	if p.currentTokenKind() == lexer.ELSE {
+	if p.currentTokenKind() == lexer.ELSE_TOKEN {
 		p.advance() //pass the else
 		block := parseBlock(p)
 		alternate = block
-	} else if p.currentTokenKind() == lexer.ELSEIF {
+	} else if p.currentTokenKind() == lexer.ELSEIF_TOKEN {
 		//p.advance()
 		stmt := parseIfStatement(p)
 		alternate = stmt
@@ -650,16 +650,16 @@ func parseSwitchCaseStmt(p *Parser) ast.Statement {
 
 	discriminant := parseExpr(p, ASSIGNMENT)
 
-	p.expect(lexer.OPEN_CURLY)
+	p.expect(lexer.OPEN_CURLY_TOKEN)
 
 	cases := []ast.SwitchCase{}
 	var defaultCase *ast.SwitchCase = nil
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY {
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_CURLY_TOKEN {
 
 		caseStart := p.currentToken().StartPos
 
-		if p.currentTokenKind() == lexer.CASE {
+		if p.currentTokenKind() == lexer.CASE_TOKEN {
 			tests := parseCaseStmt(p)
 			block := parseBlock(p)
 
@@ -674,7 +674,7 @@ func parseSwitchCaseStmt(p *Parser) ast.Statement {
 					Consequent: block,
 				})
 			}
-		} else if p.currentTokenKind() == lexer.DEFAULT {
+		} else if p.currentTokenKind() == lexer.DEFAULT_TOKEN {
 			defaultCase = parseDefaultCase(p)
 		} else {
 			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, "Unexpected token: '"+p.currentToken().Value+"'").AddHint("Switch can have only ", TEXT_HINT).AddHint("case or default", CODE_HINT).AddHint(" keyword", TEXT_HINT).Display()
@@ -686,7 +686,7 @@ func parseSwitchCaseStmt(p *Parser) ast.Statement {
 		cases = append(cases, *defaultCase)
 	}
 
-	end := p.expect(lexer.CLOSE_CURLY).EndPos
+	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
 
 	return ast.SwitchStmt{
 		BaseStmt: ast.BaseStmt{
@@ -700,16 +700,16 @@ func parseSwitchCaseStmt(p *Parser) ast.Statement {
 }
 
 func parseCaseStmt(p *Parser) []ast.Expression {
-	p.expect(lexer.CASE)
+	p.expect(lexer.CASE_TOKEN)
 
 	tests := []ast.Expression{}
 
-	for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY {
+	for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY_TOKEN {
 		test := parseExpr(p, ASSIGNMENT)
 
 		tests = append(tests, test)
 
-		if p.currentTokenKind() == lexer.COMMA {
+		if p.currentTokenKind() == lexer.COMMA_TOKEN {
 			p.advance()
 		}
 	}
@@ -739,19 +739,19 @@ func parseForLoopStmt(p *Parser) ast.Statement {
 	loopKind := p.advance().Kind
 
 	//parse the init
-	identifier := p.expect(lexer.IDENTIFIER).Value
+	identifier := p.expect(lexer.IDENTIFIER_TOKEN).Value
 
-	if loopKind == lexer.FOR {
-		p.expect(lexer.WALRUS)
+	if loopKind == lexer.FOR_TOKEN {
+		p.expect(lexer.WALRUS_TOKEN)
 
 		init := parseExpr(p, ASSIGNMENT)
 
-		p.expect(lexer.SEMI_COLON)
+		p.expect(lexer.SEMI_COLON_TOKEN)
 
 		//parse the condition
 		condition := parseExpr(p, ASSIGNMENT)
 
-		p.expect(lexer.SEMI_COLON)
+		p.expect(lexer.SEMI_COLON_TOKEN)
 
 		//parse the post
 		post := parseExpr(p, ASSIGNMENT)
@@ -773,7 +773,7 @@ func parseForLoopStmt(p *Parser) ast.Statement {
 			Block:     block,
 		}
 
-	} else if loopKind == lexer.FOREACH {
+	} else if loopKind == lexer.FOREACH_TOKEN {
 
 		var indexVar string
 
@@ -783,14 +783,14 @@ func parseForLoopStmt(p *Parser) ast.Statement {
 			}
 		*/
 
-		if p.currentTokenKind() == lexer.COMMA {
+		if p.currentTokenKind() == lexer.COMMA_TOKEN {
 			// then user wants index
 			p.advance()
 
-			indexVar = p.expect(lexer.IDENTIFIER).Value
+			indexVar = p.expect(lexer.IDENTIFIER_TOKEN).Value
 		}
 
-		p.expect(lexer.IN)
+		p.expect(lexer.IN_TOKEN)
 
 		//parse the array
 
@@ -798,8 +798,8 @@ func parseForLoopStmt(p *Parser) ast.Statement {
 
 		var whereCause ast.Expression
 
-		if p.currentTokenKind() != lexer.OPEN_CURLY {
-			p.expect(lexer.WHERE)
+		if p.currentTokenKind() != lexer.OPEN_CURLY_TOKEN {
+			p.expect(lexer.WHERE_TOKEN)
 			whereCause = parseExpr(p, ASSIGNMENT)
 		}
 

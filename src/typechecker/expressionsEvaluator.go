@@ -3,8 +3,8 @@ package typechecker
 import (
 	"fmt"
 	"walrus/frontend/ast"
-	"walrus/frontend/parser"
 	"walrus/frontend/lexer"
+	"walrus/frontend/parser"
 	"walrus/helpers"
 )
 
@@ -17,7 +17,7 @@ func EvaluateIdenitifierExpr(expr ast.IdentifierExpr, env *Environment) RuntimeV
 	}
 	runtimeVal, err := env.GetRuntimeValue(expr.Identifier)
 
-	if err != nil {	
+	if err != nil {
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, err.Error()).Display()
 	}
 
@@ -34,7 +34,7 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 			panic(fmt.Sprintf("Invalid unary operation for type %v", expr))
 		}
 
-		var value int
+		var value int64
 
 		if unary.Operator.Value == "-" {
 			value = -expr.(IntegerValue).Value
@@ -50,7 +50,7 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 		}
 
 		return BooleanValue{
-			Type:  ast.Boolean{
+			Type: ast.Boolean{
 				Kind: ast.BOOLEAN,
 			},
 			Value: !expr.(BooleanValue).Value,
@@ -61,7 +61,7 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 			panic(fmt.Sprintf("Invalid unary operation for type %v", expr))
 		}
 
-		var value int
+		var value int64
 
 		if unary.Operator.Value == "++" {
 			value = expr.(IntegerValue).Value + 1
@@ -180,7 +180,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 			if err != nil {
 				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
 			}
-			
+
 			if err != nil {
 				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
 			}
@@ -238,7 +238,7 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 	value := Evaluate(assignNode.Value, env)
 
 	switch assignNode.Operator.Kind {
-	case lexer.PLUS_EQUALS, lexer.MINUS_EQUALS, lexer.TIMES_EQUALS, lexer.DIVIDE_EQUALS, lexer.MODULO_EQUALS:
+	case lexer.PLUS_EQUALS_TOKEN, lexer.MINUS_EQUALS_TOKEN, lexer.TIMES_EQUALS_TOKEN, lexer.DIVIDE_EQUALS_TOKEN, lexer.MODULO_EQUALS_TOKEN:
 		if GetRuntimeType(assigneValue) != ast.INTEGER || GetRuntimeType(value) != ast.INTEGER {
 
 			err = fmt.Errorf("invalid operation between %v and %v", assigneValue, value)
@@ -267,7 +267,8 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 }
 
 func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
-	result := 0
+	
+	result := int64(0)
 
 	switch operator.Value {
 	case "+", "+=":

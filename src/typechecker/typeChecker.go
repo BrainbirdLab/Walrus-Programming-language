@@ -2,6 +2,7 @@ package typechecker
 
 import (
 	"fmt"
+	"strconv"
 	"walrus/frontend/ast"
 	"walrus/frontend/parser"
 )
@@ -33,10 +34,15 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 	switch node := astNode.(type) {
 	case ast.NumericLiteral:
 		// Check if the number is an integer or a float
-		if node.Value == float64(int(node.Value)) {
-			return MAKE_INT(int(node.Value), 32, true)
+		if node.BaseStmt.Kind == ast.INTEGER_LITERAL {
+			val, _ := strconv.ParseInt(node.Value, 10, int(node.BitSize))
+			return MAKE_INT(val, node.BitSize, true)
+		} else if node.BaseStmt.Kind == ast.FLOAT_LITERAL {
+			val, _ := strconv.ParseFloat(node.Value, 64)
+			return MAKE_FLOAT(val, node.BitSize)
 		} else {
-			return MAKE_FLOAT(node.Value, 32)
+			parser.MakeError(env.parser, node.StartPos.Line, env.parser.FilePath, node.StartPos, node.EndPos, "invalid numeric literal").Display()
+			return nil
 		}
 	case ast.StringLiteral:
 		return MAKE_STRING(node.Value)

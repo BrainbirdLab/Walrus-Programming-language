@@ -27,12 +27,12 @@ func typeNUD(kind lexer.TOKEN_KIND, handleTypeNud typeNudNandlerType) {
 }
 
 func createTokenTypesLookups() {
-	typeNUD(lexer.IDENTIFIER, parseDataType)
-	typeNUD(lexer.OPEN_BRACKET, parseArrayType)
+	typeNUD(lexer.IDENTIFIER_TOKEN, parseDataType)
+	typeNUD(lexer.OPEN_BRACKET_TOKEN, parseArrayType)
 }
 
 func parseDataType(p *Parser) ast.Type {
-	identifier := p.expect(lexer.IDENTIFIER)
+	identifier := p.expect(lexer.IDENTIFIER_TOKEN)
 
 	value := identifier.Value
 
@@ -81,7 +81,7 @@ func parseDataType(p *Parser) ast.Type {
 func parseArrayType(p *Parser) ast.Type {
 
 	p.advance()
-	p.expect(lexer.CLOSE_BRACKET)
+	p.expect(lexer.CLOSE_BRACKET_TOKEN)
 
 	elemType := parseType(p, DEFAULT_BP)
 

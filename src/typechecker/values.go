@@ -10,7 +10,7 @@ type RuntimeValue interface{
 }
 
 type IntegerValue struct {
-	Value 	int
+	Value 	int64
 	Size 	uint8
 	Type 	ast.Type
 }
@@ -60,7 +60,7 @@ type FunctionValue struct {
 }
 func (f FunctionValue) _val() {}
 
-func MAKE_INT(value int, size uint8, signed bool) IntegerValue {
+func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
 	return IntegerValue{Value: value, Size: size, Type: ast.Integer{
 			Kind: ast.INTEGER,
 			BitSize: size,

@@ -8,7 +8,7 @@
   "EndPos": {
     "Line": 18,
     "Column": 1,
-    "Index": 197
+    "Index": 202
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -42,7 +42,7 @@
         "Identifier": "a"
       },
       "Value": {
-        "Kind": "NUMERIC_LITERAL",
+        "Kind": "INTEGER_LITERAL",
         "StartPos": {
           "Line": 2,
           "Column": 10,
@@ -53,8 +53,8 @@
           "Column": 11,
           "Index": 12
         },
-        "DATA_TYPE": "",
-        "Value": 1
+        "Value": "1",
+        "BitSize": 32
       },
       "ExplicitType": null
     },
@@ -86,7 +86,7 @@
         "Identifier": "b"
       },
       "Value": {
-        "Kind": "NUMERIC_LITERAL",
+        "Kind": "INTEGER_LITERAL",
         "StartPos": {
           "Line": 3,
           "Column": 10,
@@ -97,8 +97,8 @@
           "Column": 11,
           "Index": 25
         },
-        "DATA_TYPE": "",
-        "Value": 2
+        "Value": "2",
+        "BitSize": 32
       },
       "ExplicitType": null
     },
@@ -239,7 +239,7 @@
           }
         },
         "Left": {
-          "Kind": "NUMERIC_LITERAL",
+          "Kind": "INTEGER_LITERAL",
           "StartPos": {
             "Line": 6,
             "Column": 5,
@@ -250,8 +250,8 @@
             "Column": 7,
             "Index": 53
           },
-          "DATA_TYPE": "",
-          "Value": 20
+          "Value": "20",
+          "BitSize": 32
         },
         "Right": {
           "Kind": "IDENTIFIER",
@@ -310,7 +310,7 @@
         "Identifier": "b"
       },
       "Value": {
-        "Kind": "NUMERIC_LITERAL",
+        "Kind": "INTEGER_LITERAL",
         "StartPos": {
           "Line": 8,
           "Column": 6,
@@ -321,8 +321,8 @@
           "Column": 8,
           "Index": 69
         },
-        "DATA_TYPE": "",
-        "Value": 10
+        "Value": "10",
+        "BitSize": 32
       },
       "Operator": {
         "Kind": "+=",
@@ -595,7 +595,7 @@
         "Identifier": "PI"
       },
       "Value": {
-        "Kind": "NUMERIC_LITERAL",
+        "Kind": "FLOAT_LITERAL",
         "StartPos": {
           "Line": 15,
           "Column": 18,
@@ -606,55 +606,55 @@
           "Column": 31,
           "Index": 173
         },
-        "DATA_TYPE": "",
-        "Value": 3.14159265359
+        "Value": "3.14159265359",
+        "BitSize": 32
       },
       "ExplicitType": {
         "Kind": "float",
-        "BitSize": 64
+        "BitSize": 32
       }
     },
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 17,
+        "Line": 16,
         "Column": 1,
-        "Index": 178
+        "Index": 176
       },
       "EndPos": {
-        "Line": 17,
-        "Column": 18,
-        "Index": 195
+        "Line": 16,
+        "Column": 23,
+        "Index": 198
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 17,
+          "Line": 16,
           "Column": 5,
-          "Index": 182
+          "Index": 180
         },
         "EndPos": {
-          "Line": 17,
-          "Column": 6,
+          "Line": 16,
+          "Column": 8,
           "Index": 183
         },
-        "Identifier": "i"
+        "Identifier": "num"
       },
       "Value": {
-        "Kind": "NUMERIC_LITERAL",
+        "Kind": "FLOAT_LITERAL",
         "StartPos": {
-          "Line": 17,
-          "Column": 15,
+          "Line": 16,
+          "Column": 17,
           "Index": 192
         },
         "EndPos": {
-          "Line": 17,
-          "Column": 17,
-          "Index": 194
+          "Line": 16,
+          "Column": 22,
+          "Index": 197
         },
-        "DATA_TYPE": "",
-        "Value": 23
+        "Value": "10.00",
+        "BitSize": 32
       },
       "ExplicitType": {
         "Kind": "integer",

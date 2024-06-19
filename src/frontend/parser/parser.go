@@ -112,7 +112,7 @@ func (p *Parser) advance() lexer.Token {
 }
 
 func (p *Parser) hasTokens() bool {
-	return p.pos < len(p.tokens) && p.currentTokenKind() != lexer.EOF
+	return p.pos < len(p.tokens) && p.currentTokenKind() != lexer.EOF_TOKEN
 }
 
 func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token {

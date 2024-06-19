@@ -10,145 +10,149 @@ type TOKEN_KIND string
 
 const (
 	// Identifiers
-	EOF 					TOKEN_KIND = "eof"
-
-	NUMBER                	TOKEN_KIND = "number"
-	STRING                	TOKEN_KIND = "string"
-	CHARACTER             	TOKEN_KIND = "charecter"
-	IDENTIFIER            	TOKEN_KIND = "identifier"
-	RETURN                	TOKEN_KIND = "return"
-
-	// Delimiters
-	OPEN_BRACKET  			TOKEN_KIND = "["
-	CLOSE_BRACKET 			TOKEN_KIND = "]"
-	OPEN_CURLY    			TOKEN_KIND = "{"
-	CLOSE_CURLY   			TOKEN_KIND = "}"
-	OPEN_PAREN    			TOKEN_KIND = "("
-	CLOSE_PAREN   			TOKEN_KIND = ")"
-
-	// Assignment operators
-	ASSIGNMENT 				TOKEN_KIND = "="
-	WALRUS     				TOKEN_KIND = ":="
-	ARROW      				TOKEN_KIND = "->"
-
-	// Comparison operators
-	EQUALS         			TOKEN_KIND = "=="
-	NOT_EQUALS     			TOKEN_KIND = "!="
-	LESS           			TOKEN_KIND = "<"
-	LESS_EQUALS    			TOKEN_KIND = "<="
-	GREATER        			TOKEN_KIND = ">"
-	GREATER_EQUALS 			TOKEN_KIND = ">="
-
-	// Logical operators
-	OR  					TOKEN_KIND = "||"
-	AND 					TOKEN_KIND = "&&"
+	EOF_TOKEN TOKEN_KIND = "eof"
 
 	// Literals
-	DOT        				TOKEN_KIND = "."
-	DOT_DOT    				TOKEN_KIND = ".."
-	SEMI_COLON 				TOKEN_KIND = ";"
-	COLON      				TOKEN_KIND = ":"
-	QUESTION   				TOKEN_KIND = "?"
-	COMMA      				TOKEN_KIND = ","
+	INTEGER_TOKEN   TOKEN_KIND = "integer"
+	FLOATING_TOKEN  TOKEN_KIND = "float"
+	STRING_TOKEN    TOKEN_KIND = "string"
+	CHARACTER_TOKEN TOKEN_KIND = "charecter"
+	BOOLEAN_TOKEN   TOKEN_KIND = "boolean"
+
+	IDENTIFIER_TOKEN TOKEN_KIND = "identifier"
+	RETURN_TOKEN     TOKEN_KIND = "return"
+
+	// Delimiters
+	OPEN_BRACKET_TOKEN  TOKEN_KIND = "["
+	CLOSE_BRACKET_TOKEN TOKEN_KIND = "]"
+	OPEN_CURLY_TOKEN    TOKEN_KIND = "{"
+	CLOSE_CURLY_TOKEN   TOKEN_KIND = "}"
+	OPEN_PAREN_TOKEN    TOKEN_KIND = "("
+	CLOSE_PAREN_TOKEN   TOKEN_KIND = ")"
+
+	// Assignment operators
+	ASSIGNMENT_TOKEN TOKEN_KIND = "="
+	WALRUS_TOKEN     TOKEN_KIND = ":="
+	ARROW_TOKEN      TOKEN_KIND = "->"
+
+	// Comparison operators
+	EQUALS_TOKEN         TOKEN_KIND = "=="
+	NOT_EQUALS_TOKEN     TOKEN_KIND = "!="
+	LESS_TOKEN           TOKEN_KIND = "<"
+	LESS_EQUALS_TOKEN    TOKEN_KIND = "<="
+	GREATER_TOKEN        TOKEN_KIND = ">"
+	GREATER_EQUALS_TOKEN TOKEN_KIND = ">="
+
+	// Logical operators
+	OR_TOKEN  TOKEN_KIND = "||"
+	AND_TOKEN TOKEN_KIND = "&&"
+
+	// Literals
+	DOT_TOKEN        TOKEN_KIND = "."
+	DOT_DOT_TOKEN    TOKEN_KIND = ".."
+	SEMI_COLON_TOKEN TOKEN_KIND = ";"
+	COLON_TOKEN      TOKEN_KIND = ":"
+	QUESTION_TOKEN   TOKEN_KIND = "?"
+	COMMA_TOKEN      TOKEN_KIND = ","
 
 	// Unary operators
-	NOT           			TOKEN_KIND = "!"
-	PLUS_PLUS     			TOKEN_KIND = "++"
-	MINUS_MINUS   			TOKEN_KIND = "--"
-	PLUS_EQUALS   			TOKEN_KIND = "+="
-	MINUS_EQUALS  			TOKEN_KIND = "-="
-	TIMES_EQUALS  			TOKEN_KIND = "*="
-	DIVIDE_EQUALS 			TOKEN_KIND = "/="
-	MODULO_EQUALS 			TOKEN_KIND = "%="
+	NOT_TOKEN           TOKEN_KIND = "!"
+	PLUS_PLUS_TOKEN     TOKEN_KIND = "++"
+	MINUS_MINUS_TOKEN   TOKEN_KIND = "--"
+	PLUS_EQUALS_TOKEN   TOKEN_KIND = "+="
+	MINUS_EQUALS_TOKEN  TOKEN_KIND = "-="
+	TIMES_EQUALS_TOKEN  TOKEN_KIND = "*="
+	DIVIDE_EQUALS_TOKEN TOKEN_KIND = "/="
+	MODULO_EQUALS_TOKEN TOKEN_KIND = "%="
 
 	// Binary operators
-	PLUS   					TOKEN_KIND = "+"
-	MINUS  					TOKEN_KIND = "-"
-	TIMES  					TOKEN_KIND = "*"
-	DIVIDE 					TOKEN_KIND = "/"
-	MODULO 					TOKEN_KIND = "%"
-	POWER  					TOKEN_KIND = "^"
+	PLUS_TOKEN   TOKEN_KIND = "+"
+	MINUS_TOKEN  TOKEN_KIND = "-"
+	TIMES_TOKEN  TOKEN_KIND = "*"
+	DIVIDE_TOKEN TOKEN_KIND = "/"
+	MODULO_TOKEN TOKEN_KIND = "%"
+	POWER_TOKEN  TOKEN_KIND = "^"
 
 	// Keywords
-	LET      				TOKEN_KIND = "let"
-	CONST    				TOKEN_KIND = "const"
-	NEW      				TOKEN_KIND = "new"
-	MODULE					TOKEN_KIND = "module"
-	IMPORT   				TOKEN_KIND = "import"
-	FROM     				TOKEN_KIND = "from"
-	FUNCTION 				TOKEN_KIND = "fn"
+	LET_TOKEN      TOKEN_KIND = "let"
+	CONST_TOKEN    TOKEN_KIND = "const"
+	NEW_TOKEN      TOKEN_KIND = "new"
+	MODULE_TOKEN   TOKEN_KIND = "module"
+	IMPORT_TOKEN   TOKEN_KIND = "import"
+	FROM_TOKEN     TOKEN_KIND = "from"
+	FUNCTION_TOKEN TOKEN_KIND = "fn"
 
-	SWITCH					TOKEN_KIND = "switch"
-	CASE					TOKEN_KIND = "case"
-	DEFAULT					TOKEN_KIND = "default"
+	SWITCH_TOKEN  TOKEN_KIND = "switch"
+	CASE_TOKEN    TOKEN_KIND = "case"
+	DEFAULT_TOKEN TOKEN_KIND = "default"
 
-	BREAK					TOKEN_KIND = "break"
-	CONTINUE				TOKEN_KIND = "continue"
+	BREAK_TOKEN    TOKEN_KIND = "break"
+	CONTINUE_TOKEN TOKEN_KIND = "continue"
 
-	IF       				TOKEN_KIND = "if"
-	ELSEIF   				TOKEN_KIND = "elf"
-	ELSE     				TOKEN_KIND = "els"
-	FOREACH  				TOKEN_KIND = "foreach"
-	WHERE					TOKEN_KIND = "where"
-	WHILE    				TOKEN_KIND = "while"
-	FOR      				TOKEN_KIND = "for"
-	EXPORT   				TOKEN_KIND = "export"
-	TYPEOF   				TOKEN_KIND = "typeof"
-	IN       				TOKEN_KIND = "in"
+	IF_TOKEN      TOKEN_KIND = "if"
+	ELSEIF_TOKEN  TOKEN_KIND = "elf"
+	ELSE_TOKEN    TOKEN_KIND = "els"
+	FOREACH_TOKEN TOKEN_KIND = "foreach"
+	WHERE_TOKEN   TOKEN_KIND = "where"
+	WHILE_TOKEN   TOKEN_KIND = "while"
+	FOR_TOKEN     TOKEN_KIND = "for"
+	EXPORT_TOKEN  TOKEN_KIND = "export"
+	TYPEOF_TOKEN  TOKEN_KIND = "typeof"
+	IN_TOKEN      TOKEN_KIND = "in"
 
 	// Special constants
-	NULL  					TOKEN_KIND = "null"
-	TRUE  					TOKEN_KIND = "true"
-	FALSE 					TOKEN_KIND = "false"
+	NULL_TOKEN  TOKEN_KIND = "null"
+	TRUE_TOKEN  TOKEN_KIND = "true"
+	FALSE_TOKEN TOKEN_KIND = "false"
 
 	// Other
-	STRUCT   				TOKEN_KIND = "struct"
-	EMBED	  				TOKEN_KIND = "embed"
-	TRAIT	  				TOKEN_KIND = "trait"
-	IMPLEMENT 				TOKEN_KIND = "implement"
-	OVERRIDE 				TOKEN_KIND = "override"
-	STATIC   				TOKEN_KIND = "static"
-	ACCESS   				TOKEN_KIND = "access modifier"
-	READONLY 				TOKEN_KIND = "readonly"
+	STRUCT_TOKEN    TOKEN_KIND = "struct"
+	EMBED_TOKEN     TOKEN_KIND = "embed"
+	TRAIT_TOKEN     TOKEN_KIND = "trait"
+	IMPLEMENT_TOKEN TOKEN_KIND = "implement"
+	OVERRIDE_TOKEN  TOKEN_KIND = "override"
+	STATIC_TOKEN    TOKEN_KIND = "static"
+	ACCESS_TOKEN    TOKEN_KIND = "access modifier"
+	READONLY_TOKEN  TOKEN_KIND = "readonly"
 )
 
 // Reserved keywords
 var reservedLookup map[string]TOKEN_KIND = map[string]TOKEN_KIND{
-	"let":      	LET,
-	"const":    	CONST,
-	"new":      	NEW,
-	"mod":   		MODULE,
-	"import":   	IMPORT,
-	"from":     	FROM,
-	"fn":       	FUNCTION,
-	"switch":		SWITCH,
-	"case":			CASE,
-	"default":		DEFAULT,
-	"break":		BREAK,
-	"continue":		CONTINUE,
-	"if":       	IF,
-	"elf":      	ELSEIF,
-	"els":      	ELSE,
-	"foreach":  	FOREACH,
-	"where":    	WHERE,
-	"while":    	WHILE,
-	"for":      	FOR,
-	"export":   	EXPORT,
-	"typeof":   	TYPEOF,
-	"in":       	IN,
-	"null":     	NULL,
-	"true":     	TRUE,
-	"false":    	FALSE,
-	"struct":   	STRUCT,
-	"embed":  		EMBED,
-	"trait":		TRAIT,
-	"impl":			IMPLEMENT,
-	"override": 	OVERRIDE,
-	"static":   	STATIC,
-	"pub":      	ACCESS,
-	"priv":     	ACCESS,
-	"readonly": 	READONLY,
-	"ret":      	RETURN,
+	"let":      LET_TOKEN,
+	"const":    CONST_TOKEN,
+	"new":      NEW_TOKEN,
+	"mod":      MODULE_TOKEN,
+	"import":   IMPORT_TOKEN,
+	"from":     FROM_TOKEN,
+	"fn":       FUNCTION_TOKEN,
+	"switch":   SWITCH_TOKEN,
+	"case":     CASE_TOKEN,
+	"default":  DEFAULT_TOKEN,
+	"break":    BREAK_TOKEN,
+	"continue": CONTINUE_TOKEN,
+	"if":       IF_TOKEN,
+	"elf":      ELSEIF_TOKEN,
+	"els":      ELSE_TOKEN,
+	"foreach":  FOREACH_TOKEN,
+	"where":    WHERE_TOKEN,
+	"while":    WHILE_TOKEN,
+	"for":      FOR_TOKEN,
+	"export":   EXPORT_TOKEN,
+	"typeof":   TYPEOF_TOKEN,
+	"in":       IN_TOKEN,
+	"null":     NULL_TOKEN,
+	"true":     TRUE_TOKEN,
+	"false":    FALSE_TOKEN,
+	"struct":   STRUCT_TOKEN,
+	"embed":    EMBED_TOKEN,
+	"trait":    TRAIT_TOKEN,
+	"impl":     IMPLEMENT_TOKEN,
+	"override": OVERRIDE_TOKEN,
+	"static":   STATIC_TOKEN,
+	"pub":      ACCESS_TOKEN,
+	"priv":     ACCESS_TOKEN,
+	"readonly": READONLY_TOKEN,
+	"ret":      RETURN_TOKEN,
 }
 
 func IsKeyword(tokenKind TOKEN_KIND) bool {
@@ -187,8 +191,7 @@ func (token Token) isOneOfMany(expectedTokens ...TOKEN_KIND) bool {
 
 // Debug prints a debug representation of the token
 func (token Token) Debug() {
-
-	if token.isOneOfMany(IDENTIFIER, NUMBER, STRING) {
+	if token.isOneOfMany(IDENTIFIER_TOKEN, INTEGER_TOKEN, FLOATING_TOKEN, STRING_TOKEN) {
 		fmt.Printf("%s (%s)\n", token.Kind, token.Value)
 	} else {
 		fmt.Printf("%s ()\n", token.Kind)
