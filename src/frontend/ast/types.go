@@ -130,15 +130,11 @@ func (u UserDefined) IType() DATA_TYPE {
 	return u.Kind
 }
 
-type Function struct {
-	BaseStmt
+type FunctionType struct {
 	Kind         DATA_TYPE
-	FunctionName IdentifierExpr
-	Parameters   []FunctionParameter
-	ReturnType   Type
 }
 
-func (f Function) IType() DATA_TYPE {
+func (f FunctionType) IType() DATA_TYPE {
 	return f.Kind
 }
 

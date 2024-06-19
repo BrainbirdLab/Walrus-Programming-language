@@ -96,8 +96,6 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 	errMsg := fmt.Sprintf("Unsupported binary operation between %v and %v", leftType, rightType)
 
-	errorProducer := parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg)
-
 	switch binop.Operator.Value {
 	case "+", "-", "*", "/", "^":
 		if helpers.TypesMatchT[IntegerValue](left) && helpers.TypesMatchT[IntegerValue](right) {
@@ -128,7 +126,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 			return val
 		} else {
 
-			errorProducer.Display()
+			parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg).Display()
 
 			return nil
 		}
@@ -153,14 +151,16 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 			return val
 		} else {
-			errorProducer.Display()
+
+			parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg).Display()
 
 			return nil
 		}
 
 	case "+=", "-=", "*=", "/=", "%=":
 		if !helpers.TypesMatchT[ast.IdentifierExpr](binop.Left) || !helpers.TypesMatchT[IntegerValue](right) {
-			errorProducer.Display()
+			
+			parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg).Display()
 
 			return nil
 		}
@@ -204,7 +204,8 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 		return val
 
 	default:
-		errorProducer.Display()
+		
+		parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg).Display()
 
 		return nil
 	}

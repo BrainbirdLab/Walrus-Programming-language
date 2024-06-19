@@ -340,6 +340,7 @@
       }
     },
     {
+      "Kind": "FN_DECLARATION_STATEMENT",
       "StartPos": {
         "Line": 10,
         "Column": 1,
@@ -350,7 +351,7 @@
         "Column": 2,
         "Index": 149
       },
-      "FunctionName": {
+      "Name": {
         "Kind": "IDENTIFIER",
         "StartPos": {
           "Line": 10,
@@ -435,9 +436,7 @@
         }
       ],
       "ReturnType": {
-        "Kind": "integer",
-        "BitSize": 32,
-        "IsSigned": true
+        "Kind": "string"
       },
       "Block": {
         "Kind": "BLOCK_STATEMENT",

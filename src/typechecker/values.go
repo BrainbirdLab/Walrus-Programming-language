@@ -6,7 +6,7 @@ import (
 )
 
 type RuntimeValue interface{
-	_val()
+	rVal()
 }
 
 type IntegerValue struct {
@@ -14,43 +14,56 @@ type IntegerValue struct {
 	Size 	uint8
 	Type 	ast.Type
 }
-func (i IntegerValue) _val() {}
+func (i IntegerValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type FloatValue struct {
 	Value 	float64
 	Size 	uint8
 	Type 	ast.Type
 }
-func (f FloatValue) _val() {}
+func (f FloatValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type BooleanValue struct {
 	Value 	bool
 	Type 	ast.Type
 }
-func (b BooleanValue) _val() {}
+func (b BooleanValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type StringValue struct {
 	Value 	string
 	Type 	ast.Type
 }
-func (s StringValue) _val() {}
+func (s StringValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type CharacterValue struct {
 	Value 	byte
 	Type 	ast.Type
 }
-func (c CharacterValue) _val() {}
+func (c CharacterValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type NullValue struct {
 	Type 	ast.Type
 }
-func (n NullValue) _val() {}
+func (n NullValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type VoidValue struct {
 	Type 	ast.Type
 }
-func (v VoidValue) _val() {}
-
+func (v VoidValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type FunctionValue struct {
 	Name 			string
@@ -59,13 +72,19 @@ type FunctionValue struct {
 	Type			ast.Type
 	ReturnType 		ast.Type
 }
-func (f FunctionValue) _val() {}
+func (f FunctionValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 type FunctionCall struct {
-	Value 	ast.Type
+	FunctionName 	string
+	Arguments 		[]RuntimeValue
+	Returns				RuntimeValue
 	Type 	ast.Type
 }
-func (f FunctionCall) _val() {}
+func (f FunctionCall) rVal() {
+	// empty function implements RuntimeValue interface
+}
 
 func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
 	return IntegerValue{Value: value, Size: size, Type: ast.Integer{

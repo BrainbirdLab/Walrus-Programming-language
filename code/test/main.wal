@@ -7,7 +7,7 @@ a = 20 + b;
 
 b += 10;
 
-fn add(a: i32, b: i32) -> i32 {
+fn add(a: i32, b: i32) -> str {
     let c := c ^ 2;
     ret a + b + c;
 }

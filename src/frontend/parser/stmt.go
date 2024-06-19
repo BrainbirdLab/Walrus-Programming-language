@@ -223,10 +223,15 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 			StartPos: start,
 			EndPos:   end,
 		},
-		Function: ast.Function{
-			FunctionName: functionName,
-			Parameters:   params,
-			ReturnType:   explicitReturnType,
+		FunctionPrototype: ast.FunctionPrototype{
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.FN_PROTOTYPE_STATEMENT,
+				StartPos: function.StartPos,
+				EndPos:   end,
+			},
+			Name: functionName,
+			Parameters: params,
+			ReturnType: explicitReturnType,
 		},
 		Block: functionBody,
 	}
@@ -439,7 +444,7 @@ func parseTraitDeclStmt(p *Parser) ast.Statement {
 			IsStatic: isStatic,
 		}
 
-		methods[method.FunctionName.Identifier] = traitMethod
+		methods[method.Name.Identifier] = traitMethod
 	}
 
 	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
@@ -455,7 +460,7 @@ func parseTraitDeclStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseFunctionPrototype(p *Parser) ast.Function {
+func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 
 	start := p.expect(lexer.FUNCTION_TOKEN).StartPos
 
@@ -474,13 +479,13 @@ func parseFunctionPrototype(p *Parser) ast.Function {
 
 	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
-	return ast.Function{
+	return ast.FunctionPrototype{
 		BaseStmt: ast.BaseStmt{
 			Kind:     ast.FN_PROTOTYPE_STATEMENT,
 			StartPos: start,
 			EndPos:   end,
 		},
-		FunctionName: ast.IdentifierExpr{
+		Name: ast.IdentifierExpr{
 			BaseStmt: ast.BaseStmt{
 				Kind:     ast.IDENTIFIER,
 				StartPos: function.StartPos,
@@ -545,7 +550,7 @@ func parseImplementStmt(p *Parser) ast.Statement {
 
 		method := parseFunctionDeclStmt(p).(ast.FunctionDeclStmt)
 
-		methods[method.FunctionName.Identifier] = ast.MethodImplementStmt{
+		methods[method.Name.Identifier] = ast.MethodImplementStmt{
 			BaseStmt: ast.BaseStmt{
 				Kind:     ast.FN_DECLARATION_STATEMENT,
 				StartPos: start,

@@ -155,13 +155,49 @@ func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue 
 
 func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment) RuntimeValue {
 
-	runtimeVal, err := env.DeclareFunction(stmt.FunctionName.Identifier, stmt.ReturnType, stmt.Parameters, stmt.Block)
+	err := env.DeclareFunction(stmt.Name.Identifier, stmt.ReturnType, stmt.Parameters, stmt.Block)
 
 	if err != nil {
-		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.FunctionName.StartPos, stmt.FunctionName.EndPos, err.Error()).Display()
+		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, err.Error()).Display()
 	}
 
-	return runtimeVal
+	// eliminate the return statement from the body
+
+	var returnStmt *ast.ReturnStmt
+
+	for _, stmt := range stmt.Block.Body {
+		switch t := stmt.(type) {
+		case ast.ReturnStmt:
+			returnStmt = &t
+		}
+	}
+
+	// a void function should not have a return statement with a value. It should be empty like return;
+	if stmt.ReturnType.IType() == ast.VOID {
+		if returnStmt != nil {
+			if returnStmt.Kind != ast.NODE_TYPE(ast.VOID) {
+				//return nil, fmt.Errorf("void function %s must not have a return statement with a value", name)
+				parser.MakeError(env.parser, returnStmt.StartPos.Line, env.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, "void function must not have a return statement with a value").Display()
+			}
+		}
+	} else {
+		if returnStmt == nil {
+			//return nil, fmt.Errorf("function %s must have a return statement", name)
+			parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, "function must have a return statement").Display()
+		} else {
+			// check the return type of the function
+			start, end := returnStmt.GetPos()
+			returnVal := Evaluate(returnStmt.Expression, env)
+			
+			returnType := GetRuntimeType(returnVal)
+
+			if returnType != stmt.ReturnType.IType() {
+				parser.MakeError(env.parser, start.Line, env.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s(...) with return type '%s'", returnType, stmt.Name.Identifier, stmt.ReturnType.IType())).Display()
+			}
+		}
+	}
+
+	return MAKE_VOID()
 }
 
 func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) RuntimeValue {
@@ -180,7 +216,6 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 
 	params := function.Parameters
 	body := function.Body
-	returnType := function.ReturnType
 
 	// create a new environment for the function
 	newEnv := NewEnvironment(env, env.parser)
@@ -199,13 +234,6 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 	}
 
 	lastVal := Evaluate(body, newEnv)
-
-	if returnType != nil {
-		start, end := expr.GetPos()
-		if GetRuntimeType(lastVal) != returnType.IType() {
-			parser.MakeError(env.parser, start.Line, env.parser.FilePath, start, end, fmt.Sprintf("return type mismatch: expected '%s' but got '%s'", returnType.IType(), GetRuntimeType(lastVal))).Display()
-		}
-	}
 
 	return lastVal
 }

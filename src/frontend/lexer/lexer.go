@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"strings"
 	"walrus/utils"
-	//"github.com/sanity-io/litter"
 )
 
 type regexHandler func(lex *Lexer, regex *regexp.Regexp)

@@ -89,14 +89,21 @@ func (v VariableDclStml) iStatement() {
 type FunctionParameter struct {
 	BaseStmt
 	IsVariadic bool
-	Identifier  IdentifierExpr
-	Type        Type
-	DefaultVal  Expression
+	Identifier IdentifierExpr
+	Type       Type
+	DefaultVal Expression
+}
+
+type FunctionPrototype struct {
+	BaseStmt
+	Name 	 	IdentifierExpr
+	Parameters []FunctionParameter
+	ReturnType  Type
 }
 
 type FunctionDeclStmt struct {
 	BaseStmt
-	Function
+	FunctionPrototype
 	Block BlockStmt
 }
 
@@ -165,7 +172,7 @@ type StructDeclStatement struct {
 	BaseStmt
 	StructName string
 	Properties map[string]Property
-	Methods    map[string]Function
+	Methods    map[string]FunctionType
 	Embeds     []string
 }
 
@@ -181,7 +188,7 @@ func (s StructDeclStatement) iStatement() {
 
 type Method struct {
 	BaseStmt
-	Function
+	FunctionType
 	IsStatic bool
 	IsPublic bool
 }

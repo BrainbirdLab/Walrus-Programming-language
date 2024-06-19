@@ -27,7 +27,7 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 	if e.variables[name] != nil {
 		return nil, fmt.Errorf("variable %s already declared in this scope", name)
 	}
-	
+
 	e.variables[name] = value
 
 	if isConstant {
@@ -38,7 +38,7 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 }
 
 func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeValue, error) {
-	
+
 	env, err := e.ResolveVariable(name)
 
 	if err != nil {
@@ -72,26 +72,23 @@ func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeVa
 	return value, nil
 }
 
-func (e *Environment) DeclareFunction(name string, returnType ast.Type, parameters []ast.FunctionParameter, body ast.BlockStmt) (RuntimeValue, error) {
+func (e *Environment) DeclareFunction(name string, returnType ast.Type, parameters []ast.FunctionParameter, body ast.BlockStmt) error {
 
 	if e.variables[name] != nil {
-		return nil, fmt.Errorf("identifier (function) %s already declared in this scope", name)
+		return fmt.Errorf("identifier (function) %s already declared in this scope", name)
 	}
 
 	e.variables[name] = FunctionValue{
 		Name:       name,
 		Parameters: parameters,
 		Body:       body,
-		Type: 	    ast.Function{
-			BaseStmt: ast.BaseStmt{
-				Kind: ast.NODE_TYPE(ast.FUNCTION),
-			},
-			Kind: 	ast.FUNCTION,
+		Type: ast.FunctionType{
+			Kind: ast.FUNCTION,
 		},
 		ReturnType: returnType,
 	}
 
-	return e.variables[name], nil
+	return nil
 }
 
 func (e *Environment) ResolveVariable(name string) (*Environment, error) {
