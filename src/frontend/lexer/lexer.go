@@ -182,6 +182,7 @@ func createLexer(source *string) *Lexer {
 			{regexp.MustCompile(`/`), defaultHandler(DIVIDE_TOKEN, "/")},
 			{regexp.MustCompile(`\*`), defaultHandler(TIMES_TOKEN, "*")},
 			{regexp.MustCompile(`%`), defaultHandler(MODULO_TOKEN, "%")},
+			{regexp.MustCompile(`^`), defaultHandler(POWER_TOKEN, "^")},
 		},
 	}
 

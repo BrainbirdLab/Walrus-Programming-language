@@ -118,6 +118,7 @@ func createTokenLookups() {
 	led(lexer.TIMES_TOKEN, MULTIPLICATIVE, parseBinaryExpr)
 	led(lexer.DIVIDE_TOKEN, MULTIPLICATIVE, parseBinaryExpr)
 	led(lexer.MODULO_TOKEN, MULTIPLICATIVE, parseBinaryExpr)
+	led(lexer.POWER_TOKEN, MULTIPLICATIVE, parseBinaryExpr)
 
 	//call
 	led(lexer.OPEN_PAREN_TOKEN, CALL, parseCallExpr)

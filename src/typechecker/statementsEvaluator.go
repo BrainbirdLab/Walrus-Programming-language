@@ -91,7 +91,6 @@ func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, sta
 	switch t := explicitType.(type) {
 	case ast.Integer:
 		if GetRuntimeType(value) == ast.INTEGER {
-			fmt.Printf("Expected size: %d, Got size: %d\n", t.BitSize, value.(IntegerValue).Size)
 			if t.BitSize != value.(IntegerValue).Size {
 				msg = strFormatter(explicitType, value)
 				msg += fmt.Sprintf(" of size %d to integer of size %d", value.(IntegerValue).Size, t.BitSize)

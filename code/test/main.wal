@@ -8,11 +8,12 @@ a = 20 + b;
 b += 10;
 
 fn add(a: i32, b: i32) -> i32 {
-    ret a + b;
+    let c := c ^ 2;
+    ret a + b + c;
 }
 
-let x := 's';
 const PI : f32 = 3.14159265359;
+let x := 's';
 let num : f32 = 10.00;
 
 let sum := add(10, 21);

@@ -11,7 +11,7 @@ import (
 func EvaluateIdenitifierExpr(expr ast.IdentifierExpr, env *Environment) RuntimeValue {
 	if !env.HasVariable(expr.Identifier) {
 
-		msg := fmt.Sprintf("Variable %v is not declared in this scope\n", expr.Identifier)
+		msg := fmt.Sprintf("variable %v is not declared in this scope\n", expr.Identifier)
 
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, msg).Display()
 	}
@@ -99,7 +99,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 	errorProducer := parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg)
 
 	switch binop.Operator.Value {
-	case "+", "-", "*", "/":
+	case "+", "-", "*", "/", "^":
 		if helpers.TypesMatchT[IntegerValue](left) && helpers.TypesMatchT[IntegerValue](right) {
 			// Numeric expr
 			val, err := evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
@@ -153,7 +153,6 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 			return val
 		} else {
-			//panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
 			errorProducer.Display()
 
 			return nil
@@ -161,7 +160,6 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 	case "+=", "-=", "*=", "/=", "%=":
 		if !helpers.TypesMatchT[ast.IdentifierExpr](binop.Left) || !helpers.TypesMatchT[IntegerValue](right) {
-			//panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
 			errorProducer.Display()
 
 			return nil
@@ -206,7 +204,6 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 		return val
 
 	default:
-		//panic(fmt.Sprintf("Unsupported binary operation between %v and %v", left, right))
 		errorProducer.Display()
 
 		return nil
@@ -287,6 +284,20 @@ func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator lexer.T
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
 		result = left.Value % right.Value
+	case "^":
+		//power operation
+		number := left.Value
+		power := right.Value
+
+		//use bit shifting to calculate power
+		result = 1
+		for power > 0 {
+			if power&1 == 1 {
+				result *= number
+			}
+			number *= number
+			power >>= 1
+		}
 	default:
 		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
