@@ -2,7 +2,6 @@ package typechecker
 
 import (
 	"fmt"
-	"reflect"
 	"walrus/frontend/ast"
 	"walrus/frontend/lexer"
 	"walrus/frontend/parser"
@@ -30,16 +29,15 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		value = MAKE_NULL()
 	}
 
-	
 	if stmt.ExplicitType != nil {
 
 		// size checking for the integer and float types
 		var explicitSize uint8 = 0
 
 		switch t := stmt.ExplicitType.(type) {
-		case ast.IntegerType:
+		case ast.Integer:
 			explicitSize = t.BitSize
-		case ast.FloatingType:
+		case ast.Float:
 			explicitSize = t.BitSize
 		}
 
@@ -47,18 +45,24 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		case IntegerValue:
 			//modify the Size field of the value. Update the original value
 			v.Size = explicitSize // is it reference or copy? It is a copy. So, the original value is not updated
+			t := v.Type.(ast.Integer)
+			t.BitSize = explicitSize
+			v.Type = t
 			//update the Original value
 			value = v
 		case FloatValue:
 			v.Size = explicitSize
+			t := v.Type.(ast.Float)
+			t.BitSize = explicitSize
+			v.Type = t
 			value = v
 		}
 
-
-		start, end := stmt.Value.GetPos()
 		//check user defined types with the value type
+		start, end := stmt.Value.GetPos()
 		checkTypes(env.parser, stmt.ExplicitType, value, start, end)
 	}
+	
 
 	val, err := env.DeclareVariable(stmt.Identifier.Identifier, value, stmt.IsConstant)
 
@@ -69,34 +73,44 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 	return val
 }
 
+func strFormatter(expected ast.Type, got RuntimeValue) string {
+	var name string
+	//if expected is userdefined type
+	if udt, ok := expected.(ast.UserDefined); ok {
+		name = udt.Name
+	} else {
+		name = string(expected.IType())
+	}
+	return fmt.Sprintf("cannot assign value of type '%s' to '%s'", GetRuntimeType(got), name)
+}
+
 func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
 
 	var msg string
 
 	switch t := explicitType.(type) {
-	case ast.IntegerType:
-		if helpers.TypesMatchT[IntegerValue](value) {
+	case ast.Integer:
+		if GetRuntimeType(value) == ast.INTEGER {
+			fmt.Printf("Expected size: %d, Got size: %d\n", t.BitSize, value.(IntegerValue).Size)
 			if t.BitSize != value.(IntegerValue).Size {
-				msg = fmt.Sprintf("cannot assign integer of size %d to integer of size %d", value.(IntegerValue).Size, t.BitSize)
+				msg = strFormatter(explicitType, value)
+				msg += fmt.Sprintf(" of size %d to integer of size %d", value.(IntegerValue).Size, t.BitSize)
 			}
 		} else {
-			msg = fmt.Sprintf("cannot assign %s to %s", reflect.TypeOf(value).Name(), "integer")
+			msg = strFormatter(explicitType, value)
 		}
-	case ast.FloatingType:
-		if helpers.TypesMatchT[FloatValue](value) {
+	case ast.Float:
+		if GetRuntimeType(value) == ast.FLOATING {
 			if t.BitSize != value.(FloatValue).Size {
-				msg = fmt.Sprintf("cannot assign float of size %d to float of size %d", value.(FloatValue).Size, t.BitSize)
+				msg = strFormatter(explicitType, value)
+				msg += fmt.Sprintf(" of size %d to float of size %d", value.(FloatValue).Size, t.BitSize)
 			}
 		} else {
-			msg = fmt.Sprintf("cannot assign %s to %s", reflect.TypeOf(value).Name(), "float")
+			msg = strFormatter(explicitType, value)
 		}
-	case ast.StringType:
-		if !helpers.TypesMatchT[StringValue](value) {
-			msg = fmt.Sprintf("cannot assign %s to %s", reflect.TypeOf(value).Name(), "string")
-		}
-	case ast.BooleanType:
-		if !helpers.TypesMatchT[BooleanValue](value) {
-			msg = fmt.Sprintf("cannot assign %s to %s", reflect.TypeOf(value).Name(), "boolean")
+	default:
+		if GetRuntimeType(value) != t.IType() {
+			msg = strFormatter(explicitType, value)
 		}
 	}
 
@@ -104,7 +118,6 @@ func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, sta
 		parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, msg).Display()
 	}
 }
-
 
 func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue {
 

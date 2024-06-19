@@ -206,7 +206,7 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 		p.advance()
 		explicitReturnType = parseType(p, DEFAULT_BP)
 	} else {
-		explicitReturnType = ast.VoidType{}
+		explicitReturnType = ast.Void{}
 	}
 
 	// parse block
@@ -311,7 +311,7 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 
 			err := "Expected access modifier or embed keyword"
 
-			MakeError(p, p.currentToken().StartPos.Line, p.FilePath,p.currentToken().StartPos, p.currentToken().EndPos, err).AddHint("Try adding access modifier - ", TEXT_HINT).AddHint("pub or priv", CODE_HINT).AddHint(" to the property.\n", TEXT_HINT).AddHint("Or,\nTo embed a struct, use the ", TEXT_HINT).AddHint("embed", CODE_HINT).AddHint(" keyword.", TEXT_HINT).Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, p.currentToken().StartPos, p.currentToken().EndPos, err).AddHint("Try adding access modifier - ", TEXT_HINT).AddHint("pub or priv", CODE_HINT).AddHint(" to the property.\n", TEXT_HINT).AddHint("Or,\nTo embed a struct, use the ", TEXT_HINT).AddHint("embed", CODE_HINT).AddHint(" keyword.", TEXT_HINT).Display()
 
 			os.Exit(1)
 		}
@@ -332,7 +332,6 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 }
 
 func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[string]ast.Property {
-
 
 	var isStatic bool
 	var isPublic bool
@@ -468,7 +467,7 @@ func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 		p.advance()
 		ReturnType = parseType(p, DEFAULT_BP)
 	} else {
-		ReturnType = ast.VoidType{}
+		ReturnType = ast.Void{}
 	}
 
 	end := p.expect(lexer.SEMI_COLON).EndPos
@@ -487,8 +486,8 @@ func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 			},
 			Identifier: function.Value,
 		},
-		Parameters:   Parameters,
-		ReturnType:   ReturnType,
+		Parameters: Parameters,
+		ReturnType: ReturnType,
 	}
 }
 
@@ -588,11 +587,11 @@ func parseParams(p *Parser) []ast.FunctionParameter {
 		//add to the map
 		params = append(params, ast.FunctionParameter{
 			BaseStmt: ast.BaseStmt{
-				Kind:     	ast.FUNCTION_PARAMETER,
-				StartPos: 	param.StartPos,
-				EndPos:   	param.EndPos,
+				Kind:     ast.FUNCTION_PARAMETER,
+				StartPos: param.StartPos,
+				EndPos:   param.EndPos,
 			},
-			Identifier:	 	ast.IdentifierExpr{
+			Identifier: ast.IdentifierExpr{
 				BaseStmt: ast.BaseStmt{
 					Kind:     ast.IDENTIFIER,
 					StartPos: param.StartPos,
@@ -600,9 +599,9 @@ func parseParams(p *Parser) []ast.FunctionParameter {
 				},
 				Identifier: param.Value,
 			},
-			IsVariadic: 	false,
-			Type:          	paramType,
-			DefaultVal:   	nil,
+			IsVariadic: false,
+			Type:       paramType,
+			DefaultVal: nil,
 		})
 
 		if p.currentTokenKind() != lexer.CLOSE_PAREN {

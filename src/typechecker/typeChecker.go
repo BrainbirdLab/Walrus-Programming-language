@@ -3,72 +3,52 @@ package typechecker
 import (
 	"fmt"
 	"walrus/frontend/ast"
+	"walrus/frontend/parser"
 )
 
-func GetRuntimeType(runtimeValue RuntimeValue) string {
-	switch runtimeValue.(type) {
+func GetRuntimeType(runtimeValue RuntimeValue) ast.DATA_TYPE {
+	switch t := runtimeValue.(type) {
 	case IntegerValue:
-		return "int"
+		return t.Type.IType()
 	case FloatValue:
-		return "float"
+		return t.Type.IType()
 	case BooleanValue:
-		return "bool"
+		return t.Type.IType()
 	case StringValue:
-		return "string"
+		return t.Type.IType()
 	case CharacterValue:
-		return "char"
+		return t.Type.IType()
 	case NullValue:
-		return "null"
+		return t.Type.IType()
 	case VoidValue:
-		return "void"
+		return t.Type.IType()
 	case FunctionValue:
-		return "function"
+		return t.Type.IType()
 	default:
 		panic(fmt.Sprintf("This runtime value is not implemented yet: %v", runtimeValue))
 	}
 }
 
 func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
-
 	switch node := astNode.(type) {
-
 	case ast.NumericLiteral:
-
 		// Check if the number is an integer or a float
 		if node.Value == float64(int(node.Value)) {
-			return IntegerValue{
-				Type:  "int",
-				Value: int(node.Value),
-				Size:  32,
-			}
+			return MAKE_INT(int(node.Value), 32, true)
 		} else {
-
-			return FloatValue{
-				Type:  "float",
-				Value: node.Value,
-				Size:  32,
-			}
+			return MAKE_FLOAT(node.Value, 32)
 		}
-
 	case ast.StringLiteral:
-		return StringValue{
-			Type:  "string",
-			Value: node.Value,
-		}
+		return MAKE_STRING(node.Value)
 	case ast.CharacterLiteral:
-		return CharacterValue{
-			Type:  "char",
-			Value: node.Value[0],
+		if len(node.Value) > 1 {
+			parser.MakeError(env.parser, node.StartPos.Line, env.parser.FilePath, node.StartPos, node.EndPos, "character literals can only have one character").Display()
 		}
+		return MAKE_CHAR(node.Value[0])
 	case ast.BooleanLiteral:
-		return BooleanValue{
-			Type:  "bool",
-			Value: node.Value,
-		}
+		return MAKE_BOOL(node.Value)
 	case ast.NullLiteral:
-		return NullValue{
-			Type: "null",
-		}
+		return MAKE_NULL()
 	case ast.ProgramStmt:
 		return EvaluateProgramBlock(node, env)
 	case ast.VariableDclStml:

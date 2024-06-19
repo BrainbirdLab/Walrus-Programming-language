@@ -7,7 +7,11 @@ a = 20 + b;
 
 b += 10;
 
+fn add(a: i32, b: i32) -> i32 {
+    ret a + b;
+}
+
 let x := 's';
 const PI : f64 = 3.14159265359;
 
-const i : str = 23;
+let i : i32 = 23;

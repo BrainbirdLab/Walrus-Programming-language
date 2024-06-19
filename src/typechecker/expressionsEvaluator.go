@@ -42,10 +42,7 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 			value = expr.(IntegerValue).Value
 		}
 
-		return IntegerValue{
-			Type:  "int",
-			Value: value,
-		}
+		return MAKE_INT(value, 32, true)
 
 	case "!":
 		if !helpers.TypesMatchT[BooleanValue](expr) {
@@ -53,7 +50,9 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 		}
 
 		return BooleanValue{
-			Type:  "bool",
+			Type:  ast.Boolean{
+				Kind: ast.BOOLEAN,
+			},
 			Value: !expr.(BooleanValue).Value,
 		}
 
@@ -70,10 +69,7 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 			value = expr.(IntegerValue).Value - 1
 		}
 
-		runtimeVal := IntegerValue{
-			Type:  "int",
-			Value: value,
-		}
+		runtimeVal := MAKE_INT(value, 32, true)
 
 		if helpers.TypesMatchT[ast.IdentifierExpr](unary.Argument) {
 			if env.HasVariable(unary.Argument.(ast.IdentifierExpr).Identifier) {
@@ -95,8 +91,8 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 	var leftType, rightType string
 
-	leftType = GetRuntimeType(left)
-	rightType = GetRuntimeType(right)
+	leftType = string(GetRuntimeType(left))
+	rightType = string(GetRuntimeType(right))
 
 	errMsg := fmt.Sprintf("Unsupported binary operation between %v and %v", leftType, rightType)
 
@@ -243,7 +239,7 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 
 	switch assignNode.Operator.Kind {
 	case lexer.PLUS_EQUALS, lexer.MINUS_EQUALS, lexer.TIMES_EQUALS, lexer.DIVIDE_EQUALS, lexer.MODULO_EQUALS:
-		if !helpers.TypesMatchT[IntegerValue](assigneValue) || !helpers.TypesMatchT[IntegerValue](value) {
+		if GetRuntimeType(assigneValue) != ast.INTEGER || GetRuntimeType(value) != ast.INTEGER {
 
 			err = fmt.Errorf("invalid operation between %v and %v", assigneValue, value)
 
@@ -263,7 +259,8 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 	runtimeVal, err := env.AssignVariable(assignNode.Assigne.Identifier, value)
 
 	if err != nil {
-		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.StartPos, assignNode.EndPos, err.Error()).Display()
+		start, end := assignNode.Value.GetPos()
+		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, start, end, err.Error()).Display()
 	}
 
 	return runtimeVal
@@ -293,10 +290,7 @@ func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator lexer.T
 		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
 
-	return IntegerValue{
-		Type:  "int",
-		Value: result,
-	}, nil
+	return MAKE_INT(result, 32, true), nil
 }
 
 func evaluateLogicalExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
@@ -324,10 +318,7 @@ func evaluateLogicalExpr(left IntegerValue, right IntegerValue, operator lexer.T
 		return nil, fmt.Errorf("cannot evaluate logical expression. unsupported operator %v", operator.Value)
 	}
 
-	return BooleanValue{
-		Type:  "bool",
-		Value: result,
-	}, nil
+	return MAKE_BOOL(result), nil
 }
 
 func evaluateBoolExpr(left RuntimeValue, right RuntimeValue, operator lexer.Token) (RuntimeValue, error) {
@@ -364,10 +355,7 @@ func evaluateBoolExpr(left RuntimeValue, right RuntimeValue, operator lexer.Toke
 		return nil, fmt.Errorf("cannot evaluate boolean expression. unsupported operator %v", operator)
 	}
 
-	return BooleanValue{
-		Type:  "bool",
-		Value: result,
-	}, nil
+	return MAKE_BOOL(result), nil
 }
 
 func evaluateStringExpr(left StringValue, right StringValue, operator lexer.Token) (RuntimeValue, error) {
@@ -382,15 +370,9 @@ func evaluateStringExpr(left StringValue, right StringValue, operator lexer.Toke
 		return nil, fmt.Errorf("cannot evaluate string operation. unsupported operator %v", operator)
 	}
 
-	return BooleanValue{
-		Type:  "bool",
-		Value: result,
-	}, nil
+	return MAKE_BOOL(result), nil
 }
 
 func evaluateStringConcat(left StringValue, right StringValue) (RuntimeValue, error) {
-	return StringValue{
-		Type:  "string",
-		Value: left.Value + right.Value,
-	}, nil
+	return MAKE_STRING(left.Value + right.Value), nil
 }

@@ -12,42 +12,42 @@ type RuntimeValue interface{
 type IntegerValue struct {
 	Value 	int
 	Size 	uint8
-	Type 	string
+	Type 	ast.Type
 }
 func (i IntegerValue) _val() {}
 
 type FloatValue struct {
 	Value 	float64
 	Size 	uint8
-	Type 	string
+	Type 	ast.Type
 }
 func (f FloatValue) _val() {}
 
 type BooleanValue struct {
 	Value 	bool
-	Type 	string
+	Type 	ast.Type
 }
 func (b BooleanValue) _val() {}
 
 type StringValue struct {
 	Value 	string
-	Type 	string
+	Type 	ast.Type
 }
 func (s StringValue) _val() {}
 
 type CharacterValue struct {
 	Value 	byte
-	Type 	string
+	Type 	ast.Type
 }
 func (c CharacterValue) _val() {}
 
 type NullValue struct {
-	Type 	string
+	Type 	ast.Type
 }
 func (n NullValue) _val() {}
 
 type VoidValue struct {
-	Type 	string
+	Type 	ast.Type
 }
 func (v VoidValue) _val() {}
 
@@ -56,35 +56,60 @@ type FunctionValue struct {
 	Name 			string
 	Parameters 		[]ast.FunctionParameter
 	Body 			ast.BlockStmt
+	Type 			ast.Type
 }
 func (f FunctionValue) _val() {}
 
-func MAKE_INT(value int, size uint8) IntegerValue {
-	return IntegerValue{Value: value, Size: size, Type: "INTEGER"}
+func MAKE_INT(value int, size uint8, signed bool) IntegerValue {
+	return IntegerValue{Value: value, Size: size, Type: ast.Integer{
+			Kind: ast.INTEGER,
+			BitSize: size,
+			IsSigned: signed,
+		},
+	}
 }
 
 func MAKE_FLOAT(value float64, size uint8) FloatValue {
-	return FloatValue{Value: value, Size: size, Type: "FLOAT"}
+	return FloatValue{Value: value, Size: size, Type: ast.Float{
+			Kind: ast.FLOATING,
+			BitSize: size,
+		},
+	}
 }
 
 func MAKE_BOOL(value bool) BooleanValue {
-	return BooleanValue{Value: value, Type: "BOOL"}
+	return BooleanValue{Value: value, Type: ast.Boolean{
+			Kind: ast.BOOLEAN,
+		},
+	}
 }
 
 func MAKE_STRING(value string) StringValue {
-	return StringValue{Value: value, Type: "STRING"}
+	return StringValue{Value: value, Type: ast.String{
+			Kind: ast.STRING,
+		},
+	}
 }
 
 func MAKE_CHAR(value byte) CharacterValue {
-	return CharacterValue{Value: value, Type: "CHARACTER"}
+	return CharacterValue{Value: value, Type: ast.Char{
+			Kind: ast.CHARACTER,
+		},
+	}
 }
 
 func MAKE_NULL() NullValue {
-	return NullValue{Type: "NULL"}
+	return NullValue{Type: ast.Null{
+			Kind: ast.NULL,
+		},
+	}
 }
 
 func MAKE_VOID() VoidValue {
-	return VoidValue{Type: "VOID"}
+	return VoidValue{Type: ast.Void{
+			Kind: ast.VOID,
+		},
+	}
 }
 
 func IsTruthy(value RuntimeValue) bool {

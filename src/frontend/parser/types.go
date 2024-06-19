@@ -22,7 +22,6 @@ var typeBindindLookup = typeBpLookupType{}
 var typeNudLookup = typeNudLookupType{}
 var typeLedLookup = typeLedLookupType{}
 
-
 func typeNUD(kind lexer.TOKEN_KIND, handleTypeNud typeNudNandlerType) {
 	typeNudLookup[kind] = handleTypeNud
 }
@@ -39,36 +38,36 @@ func parseDataType(p *Parser) ast.Type {
 
 	switch value {
 	case "i8", "i16", "i32", "i64", "i128":
-		return ast.IntegerType{
+		return ast.Integer{
 			Kind:     ast.INTEGER,
 			BitSize:  utils.BitSizeFromString(value),
 			IsSigned: true,
 		}
 	case "u8", "u16", "u32", "u64", "u128":
-		return ast.IntegerType{
+		return ast.Integer{
 			Kind:     ast.INTEGER,
 			BitSize:  utils.BitSizeFromString(value),
 			IsSigned: false,
 		}
 	case "f32", "f64":
-		return ast.FloatingType{
+		return ast.Float{
 			Kind:    ast.FLOATING,
 			BitSize: utils.BitSizeFromString(value),
 		}
 	case "bool":
-		return ast.BooleanType{
+		return ast.Boolean{
 			Kind: ast.BOOLEAN,
 		}
 	case "char":
-		return ast.CharecterType{
+		return ast.Char{
 			Kind: ast.CHARACTER,
 		}
 	case "str":
-		return ast.StringType{
+		return ast.String{
 			Kind: ast.STRING,
 		}
 	default:
-		return ast.UserDefinedType{
+		return ast.UserDefined{
 			Kind: ast.USER_DEFINED,
 			Name: value,
 		}
@@ -86,7 +85,7 @@ func parseArrayType(p *Parser) ast.Type {
 
 	elemType := parseType(p, DEFAULT_BP)
 
-	return ast.ArrayType{
+	return ast.Array{
 		ElementType: elemType,
 	}
 }

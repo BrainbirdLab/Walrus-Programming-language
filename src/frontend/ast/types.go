@@ -4,171 +4,168 @@ type DATA_TYPE string
 
 const (
 	// Primitive Types
-	VOID DATA_TYPE = "VOID"
-
-	INTEGER   = "INTEGER"
-	FLOATING  = "FLOATING"
-	BOOLEAN   = "BOOLEAN"
-	STRING    = "STRING"
-	CHARACTER = "CHARECTER"
-	NULL      = "NULL"
+	VOID      DATA_TYPE = "void"
+	INTEGER   DATA_TYPE = "integer"
+	FLOATING  DATA_TYPE = "float"
+	BOOLEAN   DATA_TYPE = "boolean"
+	STRING    DATA_TYPE = "string"
+	CHARACTER DATA_TYPE = "character"
+	NULL      DATA_TYPE = "null"
 
 	// Derived Types
-	ARRAY = "ARRAY"
+	ARRAY DATA_TYPE = "array"
 
-	STRUCT = "STRUCT"
-	TRAIT  = "TRAIT"
-	ENUM   = "ENUM"
-	FUNCTION = "FUNCTION"
+	STRUCT   DATA_TYPE = "struct"
+	TRAIT    DATA_TYPE = "trait"
+	ENUM     DATA_TYPE = "enum"
+	FUNCTION DATA_TYPE = "function"
 
 	//User Defined Types
-	USER_DEFINED = "USER_DEFINED"
+	USER_DEFINED DATA_TYPE = "user_defined"
 )
 
-type IntegerType struct {
+type Integer struct {
 	Kind     DATA_TYPE
 	BitSize  uint8
 	IsSigned bool
 }
 
-func (i IntegerType) iType() {
-	// empty method implements the Type interface
+func (i Integer) IType() DATA_TYPE {
+	return i.Kind
 }
 
-type FloatingType struct {
+type Float struct {
 	Kind    DATA_TYPE
 	BitSize uint8
 }
 
-func (f FloatingType) iType() {
-	// empty method implements the Type interface
+func (f Float) IType() DATA_TYPE {
+	return f.Kind
 }
 
-type BooleanType struct {
+type Boolean struct {
 	Kind DATA_TYPE
 }
 
-func (b BooleanType) iType() {
-	// empty method implements the Type interface
+func (b Boolean) IType() DATA_TYPE {
+	return b.Kind
 }
 
-type StringType struct {
+type String struct {
 	Kind DATA_TYPE
 }
 
-func (s StringType) iType() {
-	// empty method implements the Type interface
+func (s String) IType() DATA_TYPE {
+	return s.Kind
 }
 
-type CharecterType struct {
+type Char struct {
 	Kind DATA_TYPE
 }
 
-func (c CharecterType) iType() {
-	// empty method implements the Type interface
+func (c Char) IType() DATA_TYPE {
+	return c.Kind
 }
 
-type NullType struct {
+type Null struct {
 	Kind DATA_TYPE
 }
 
-func (n NullType) iType() {
-	// empty method implements the Type interface
+func (n Null) IType() DATA_TYPE {
+	return n.Kind
 }
 
-type VoidType struct {
+type Void struct {
 	Kind DATA_TYPE
 }
 
-func (v VoidType) iType() {
-	// empty method implements the Type interface
+func (v Void) IType() DATA_TYPE {
+	return v.Kind
 }
 
-type ArrayType struct {
+type Array struct {
 	Kind        DATA_TYPE
 	ElementType Type
 	Size        int
 }
 
-func (a ArrayType) iType() {
-	// empty method implements the Type interface
+func (a Array) IType() DATA_TYPE {
+	return a.Kind
 }
 
-type StructType struct {
+type Struct struct {
 	Kind DATA_TYPE
 	Name string
 }
 
-func (s StructType) iType() {
-	// empty method implements the Type interface
+func (s Struct) IType() DATA_TYPE {
+	return s.Kind
 }
 
-type TraitType struct {
+type Trait struct {
 	Kind DATA_TYPE
 	Name string
 	For  string
 }
 
-func (t TraitType) iType() {
-	// empty method implements the Type interface
+func (t Trait) IType() DATA_TYPE {
+	return t.Kind
 }
 
-type EnumType struct {
+type Enum struct {
 	Kind   DATA_TYPE
 	Fields map[string]Type
 }
 
-func (e EnumType) iType() {
-	// empty method implements the Type interface
+func (e Enum) IType() DATA_TYPE {
+	return e.Kind
 }
 
-type UserDefinedType struct {
+type UserDefined struct {
 	Kind DATA_TYPE
 	Name string
 }
 
-func (u UserDefinedType) iType() {
-	// empty method implements the Type interface
+func (u UserDefined) IType() DATA_TYPE {
+	return u.Kind
 }
 
-type FunctionType struct {
-	Kind DATA_TYPE
-	FunctionName 	IdentifierExpr
-	Parameters  	[]FunctionParameter
-	ReturnType   	Type
+type Function struct {
+	Kind         DATA_TYPE
+	FunctionName IdentifierExpr
+	Parameters   []FunctionParameter
+	ReturnType   Type
 }
 
-func (f FunctionType) iType() {
-	// empty method implements the Type interface
+func (f Function) IType() DATA_TYPE {
+	return f.Kind
 }
-
-
 
 func GetType(t Type) DATA_TYPE {
 	switch t.(type) {
-	case IntegerType:
+	case Integer:
 		return INTEGER
-	case FloatingType:
+	case Float:
 		return FLOATING
-	case BooleanType:
+	case Boolean:
 		return BOOLEAN
-	case StringType:
+	case String:
 		return STRING
-	case CharecterType:
+	case Char:
 		return CHARACTER
-	case NullType:
+	case Null:
 		return NULL
-	case VoidType:
+	case Void:
 		return VOID
-	case ArrayType:
+	case Array:
 		return ARRAY
-	case StructType:
+	case Struct:
 		return STRUCT
-	case TraitType:
+	case Trait:
 		return TRAIT
-	case EnumType:
+	case Enum:
 		return ENUM
-	case UserDefinedType:
+	case UserDefined:
 		return USER_DEFINED
 	}
 	return "UNKNOWN"

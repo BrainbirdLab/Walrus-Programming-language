@@ -54,6 +54,7 @@ func (i IdentifierExpr) iExpression() {
 
 type NumericLiteral struct {
 	BaseStmt
+	DATA_TYPE
 	Value float64
 }
 
