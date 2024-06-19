@@ -72,7 +72,7 @@ func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeVa
 	return value, nil
 }
 
-func (e *Environment) DeclareFunction(name string, parameters []ast.FunctionParameter, body ast.BlockStmt) (RuntimeValue, error) {
+func (e *Environment) DeclareFunction(name string, returnType ast.Type, parameters []ast.FunctionParameter, body ast.BlockStmt) (RuntimeValue, error) {
 
 	if e.variables[name] != nil {
 		return nil, fmt.Errorf("identifier (function) %s already declared in this scope", name)
@@ -82,6 +82,13 @@ func (e *Environment) DeclareFunction(name string, parameters []ast.FunctionPara
 		Name:       name,
 		Parameters: parameters,
 		Body:       body,
+		Type: 	    ast.Function{
+			BaseStmt: ast.BaseStmt{
+				Kind: ast.NODE_TYPE(ast.FUNCTION),
+			},
+			Kind: 	ast.FUNCTION,
+		},
+		ReturnType: returnType,
 	}
 
 	return e.variables[name], nil

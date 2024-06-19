@@ -206,7 +206,9 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 		p.advance()
 		explicitReturnType = parseType(p, DEFAULT_BP)
 	} else {
-		explicitReturnType = ast.Void{}
+		explicitReturnType = ast.Void{
+			Kind: ast.VOID,
+		}
 	}
 
 	// parse block
@@ -221,7 +223,7 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 			StartPos: start,
 			EndPos:   end,
 		},
-		FunctionPrototype: ast.FunctionPrototype{
+		Function: ast.Function{
 			FunctionName: functionName,
 			Parameters:   params,
 			ReturnType:   explicitReturnType,
@@ -453,7 +455,7 @@ func parseTraitDeclStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
+func parseFunctionPrototype(p *Parser) ast.Function {
 
 	start := p.expect(lexer.FUNCTION_TOKEN).StartPos
 
@@ -472,7 +474,7 @@ func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 
 	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
 
-	return ast.FunctionPrototype{
+	return ast.Function{
 		BaseStmt: ast.BaseStmt{
 			Kind:     ast.FN_PROTOTYPE_STATEMENT,
 			StartPos: start,

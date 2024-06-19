@@ -340,7 +340,6 @@
       }
     },
     {
-      "Kind": "FN_DECLARATION_STATEMENT",
       "StartPos": {
         "Line": 10,
         "Column": 1,

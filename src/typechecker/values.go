@@ -56,9 +56,16 @@ type FunctionValue struct {
 	Name 			string
 	Parameters 		[]ast.FunctionParameter
 	Body 			ast.BlockStmt
-	Type 			ast.Type
+	Type			ast.Type
+	ReturnType 		ast.Type
 }
 func (f FunctionValue) _val() {}
+
+type FunctionCall struct {
+	Value 	ast.Type
+	Type 	ast.Type
+}
+func (f FunctionCall) _val() {}
 
 func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
 	return IntegerValue{Value: value, Size: size, Type: ast.Integer{

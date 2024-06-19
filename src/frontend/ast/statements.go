@@ -94,16 +94,9 @@ type FunctionParameter struct {
 	DefaultVal  Expression
 }
 
-type FunctionPrototype struct {
-	BaseStmt
-	FunctionName 	IdentifierExpr
-	Parameters  	[]FunctionParameter
-	ReturnType   	Type
-}
-
 type FunctionDeclStmt struct {
 	BaseStmt
-	FunctionPrototype
+	Function
 	Block BlockStmt
 }
 
@@ -172,7 +165,7 @@ type StructDeclStatement struct {
 	BaseStmt
 	StructName string
 	Properties map[string]Property
-	Methods    map[string]FunctionPrototype
+	Methods    map[string]Function
 	Embeds     []string
 }
 
@@ -188,7 +181,7 @@ func (s StructDeclStatement) iStatement() {
 
 type Method struct {
 	BaseStmt
-	FunctionPrototype
+	Function
 	IsStatic bool
 	IsPublic bool
 }

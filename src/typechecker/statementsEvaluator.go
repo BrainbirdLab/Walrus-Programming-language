@@ -154,7 +154,8 @@ func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue 
 }
 
 func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment) RuntimeValue {
-	runtimeVal, err := env.DeclareFunction(stmt.FunctionName.Identifier, stmt.Parameters, stmt.Block)
+
+	runtimeVal, err := env.DeclareFunction(stmt.FunctionName.Identifier, stmt.ReturnType, stmt.Parameters, stmt.Block)
 
 	if err != nil {
 		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.FunctionName.StartPos, stmt.FunctionName.EndPos, err.Error()).Display()
@@ -179,10 +180,12 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 
 	params := function.Parameters
 	body := function.Body
+	returnType := function.ReturnType
 
 	// create a new environment for the function
 	newEnv := NewEnvironment(env, env.parser)
 
+	// check and set the arguments to the function parameters
 	for i := 0; i < len(params); i++ {
 		param := params[i]
 		arg := args[i]
@@ -195,7 +198,16 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 		newEnv.DeclareVariable(param.Identifier.Identifier, Evaluate(arg, env), false)
 	}
 
-	return Evaluate(body, newEnv)
+	lastVal := Evaluate(body, newEnv)
+
+	if returnType != nil {
+		start, end := expr.GetPos()
+		if GetRuntimeType(lastVal) != returnType.IType() {
+			parser.MakeError(env.parser, start.Line, env.parser.FilePath, start, end, fmt.Sprintf("return type mismatch: expected '%s' but got '%s'", returnType.IType(), GetRuntimeType(lastVal))).Display()
+		}
+	}
+
+	return lastVal
 }
 
 

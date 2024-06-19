@@ -131,6 +131,7 @@ func (u UserDefined) IType() DATA_TYPE {
 }
 
 type Function struct {
+	BaseStmt
 	Kind         DATA_TYPE
 	FunctionName IdentifierExpr
 	Parameters   []FunctionParameter
