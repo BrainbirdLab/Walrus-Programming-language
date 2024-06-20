@@ -236,14 +236,14 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 
 	switch assignNode.Operator.Kind {
 	case lexer.PLUS_EQUALS_TOKEN, lexer.MINUS_EQUALS_TOKEN, lexer.TIMES_EQUALS_TOKEN, lexer.DIVIDE_EQUALS_TOKEN, lexer.MODULO_EQUALS_TOKEN:
-		if !IsINT(assigneValue) || !IsINT(value) {
+		if (!IsINT(assigneValue) || !IsINT(value)) && (!IsFLOAT(assigneValue) || !IsFLOAT(value)){
 
 			err = fmt.Errorf("invalid operation between %v and %v", GetRuntimeType(assigneValue), GetRuntimeType(value))
 
 			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Operator.StartPos, assignNode.Operator.EndPos, err.Error()).Display()
 		}
 
-		value, err = evaluateNumericExpr(assigneValue.(IntegerValue), value.(IntegerValue), assignNode.Operator)
+		value, err = evaluateNumericExpr(assigneValue, value, assignNode.Operator)
 
 		if err != nil {
 

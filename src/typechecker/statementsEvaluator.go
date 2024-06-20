@@ -318,5 +318,5 @@ func EvaluateStructPropertyExpr(expr ast.StructPropertyExpr, env *Environment) R
 
 	obj := Evaluate(expr.Object, env)
 
-	return obj
+	return obj.(StructInstance).Fields[expr.Property.Identifier]
 }
