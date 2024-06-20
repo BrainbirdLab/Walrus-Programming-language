@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 19,
-    "Column": 29,
-    "Index": 255
+    "Line": 30,
+    "Column": 13,
+    "Index": 376
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -668,8 +668,8 @@
       },
       "EndPos": {
         "Line": 19,
-        "Column": 29,
-        "Index": 255
+        "Column": 26,
+        "Index": 252
       },
       "IsConstant": false,
       "Identifier": {
@@ -695,8 +695,8 @@
         },
         "EndPos": {
           "Line": 19,
-          "Column": 28,
-          "Index": 254
+          "Column": 25,
+          "Index": 251
         },
         "Function": {
           "Kind": "IDENTIFIER",
@@ -742,25 +742,209 @@
             },
             "Value": "5.4",
             "BitSize": 32
-          },
-          {
-            "Kind": "INTEGER_LITERAL",
-            "StartPos": {
-              "Line": 19,
-              "Column": 26,
-              "Index": 252
-            },
-            "EndPos": {
-              "Line": 19,
-              "Column": 27,
-              "Index": 253
-            },
-            "Value": "9",
-            "BitSize": 32
           }
         ]
       },
       "ExplicitType": null
+    },
+    {
+      "Kind": "STRUCT_STATEMENT",
+      "StartPos": {
+        "Line": 22,
+        "Column": 1,
+        "Index": 258
+      },
+      "EndPos": {
+        "Line": 25,
+        "Column": 2,
+        "Index": 309
+      },
+      "StructName": "Point",
+      "Properties": {
+        "y": {
+          "Kind": "",
+          "StartPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "EndPos": {
+            "Line": 0,
+            "Column": 0,
+            "Index": 0
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Name": "",
+          "Type": {
+            "Kind": "f32",
+            "BitSize": 32
+          }
+        }
+      },
+      "Methods": null,
+      "Embeds": null
+    },
+    {
+      "Kind": "VARIABLE_DECLARATION_STATEMENT",
+      "StartPos": {
+        "Line": 28,
+        "Column": 1,
+        "Index": 315
+      },
+      "EndPos": {
+        "Line": 28,
+        "Column": 46,
+        "Index": 360
+      },
+      "IsConstant": false,
+      "Identifier": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 28,
+          "Column": 5,
+          "Index": 319
+        },
+        "EndPos": {
+          "Line": 28,
+          "Column": 10,
+          "Index": 324
+        },
+        "Identifier": "point"
+      },
+      "Value": {
+        "Kind": "STRUCT_LITERAL",
+        "StartPos": {
+          "Line": 28,
+          "Column": 27,
+          "Index": 341
+        },
+        "EndPos": {
+          "Line": 28,
+          "Column": 45,
+          "Index": 359
+        },
+        "StructName": "Point",
+        "Properties": {
+          "x": {
+            "Kind": "FLOAT_LITERAL",
+            "StartPos": {
+              "Line": 28,
+              "Column": 32,
+              "Index": 346
+            },
+            "EndPos": {
+              "Line": 28,
+              "Column": 35,
+              "Index": 349
+            },
+            "Value": "1.0",
+            "BitSize": 32
+          },
+          "y": {
+            "Kind": "FLOAT_LITERAL",
+            "StartPos": {
+              "Line": 28,
+              "Column": 40,
+              "Index": 354
+            },
+            "EndPos": {
+              "Line": 28,
+              "Column": 43,
+              "Index": 357
+            },
+            "Value": "2.0",
+            "BitSize": 32
+          }
+        }
+      },
+      "ExplicitType": {
+        "Kind": "struct",
+        "Name": "Point"
+      }
+    },
+    {
+      "Kind": "ASSIGNMENT_EXPRESSION",
+      "StartPos": {
+        "Line": 30,
+        "Column": 3,
+        "Index": 366
+      },
+      "EndPos": {
+        "Line": 30,
+        "Column": 12,
+        "Index": 375
+      },
+      "Assigne": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 30,
+          "Column": 1,
+          "Index": 364
+        },
+        "EndPos": {
+          "Line": 30,
+          "Column": 2,
+          "Index": 365
+        },
+        "Identifier": "x"
+      },
+      "Value": {
+        "Kind": "STRUCT_PROPERTY",
+        "StartPos": {
+          "Line": 30,
+          "Column": 11,
+          "Index": 374
+        },
+        "EndPos": {
+          "Line": 30,
+          "Column": 12,
+          "Index": 375
+        },
+        "Object": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 30,
+            "Column": 5,
+            "Index": 368
+          },
+          "EndPos": {
+            "Line": 30,
+            "Column": 10,
+            "Index": 373
+          },
+          "Identifier": "point"
+        },
+        "Property": {
+          "Kind": "IDENTIFIER",
+          "StartPos": {
+            "Line": 30,
+            "Column": 11,
+            "Index": 374
+          },
+          "EndPos": {
+            "Line": 30,
+            "Column": 12,
+            "Index": 375
+          },
+          "Identifier": "x"
+        }
+      },
+      "Operator": {
+        "Kind": "=",
+        "Value": "=",
+        "StartPos": {
+          "Line": 30,
+          "Column": 3,
+          "Index": 366
+        },
+        "EndPos": {
+          "Line": 30,
+          "Column": 4,
+          "Index": 367
+        }
+      }
     }
   ]
 }

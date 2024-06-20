@@ -6,43 +6,43 @@ type DATA_TYPE string
 
 const (
 	// Primitive Types
-	VOID      DATA_TYPE = "void"
-	INTEGER8  DATA_TYPE = "i8"
-	INTEGER16 DATA_TYPE = "i16"
-	INTEGER32 DATA_TYPE = "i32"
-	INTEGER64 DATA_TYPE = "i64"
+	T_VOID      DATA_TYPE = "void"
+	T_INTEGER8  DATA_TYPE = "i8"
+	T_INTEGER16 DATA_TYPE = "i16"
+	T_INTEGER32 DATA_TYPE = "i32"
+	T_INTEGER64 DATA_TYPE = "i64"
 
-	UNSIGNED8  DATA_TYPE = "u8"
-	UNSIGNED16 DATA_TYPE = "u16"
-	UNSIGNED32 DATA_TYPE = "u32"
-	UNSIGNED64 DATA_TYPE = "u64"
+	T_UNSIGNED8  DATA_TYPE = "u8"
+	T_UNSIGNED16 DATA_TYPE = "u16"
+	T_UNSIGNED32 DATA_TYPE = "u32"
+	T_UNSIGNED64 DATA_TYPE = "u64"
 
-	FLOAT32    DATA_TYPE = "f32"
-	FLOAT64    DATA_TYPE = "f64"
-	BOOLEAN    DATA_TYPE = "boolean"
-	STRING     DATA_TYPE = "str"
-	CHARACTER  DATA_TYPE = "chr"
-	NULL       DATA_TYPE = "null"
+	T_FLOAT32   DATA_TYPE = "f32"
+	T_FLOAT64   DATA_TYPE = "f64"
+	T_BOOLEAN   DATA_TYPE = "boolean"
+	T_STRING    DATA_TYPE = "str"
+	T_CHARACTER DATA_TYPE = "chr"
+	T_NULL      DATA_TYPE = "null"
 
 	// Derived Types
-	ARRAY DATA_TYPE = "array"
+	T_ARRAY DATA_TYPE = "array"
 
-	STRUCT   DATA_TYPE = "struct"
-	TRAIT    DATA_TYPE = "trait"
-	ENUM     DATA_TYPE = "enum"
-	FUNCTION DATA_TYPE = "function"
+	T_STRUCT   DATA_TYPE = "struct"
+	T_TRAIT    DATA_TYPE = "trait"
+	T_ENUM     DATA_TYPE = "enum"
+	T_FUNCTION DATA_TYPE = "function"
 
 	//User Defined Types
-	USER_DEFINED DATA_TYPE = "user_defined"
+	T_USER_DEFINED DATA_TYPE = "user_defined"
 )
 
-type Integer struct {
+type IntegerType struct {
 	Kind     DATA_TYPE
 	BitSize  uint8
 	IsSigned bool
 }
 
-func (i Integer) IType() DATA_TYPE {
+func (i IntegerType) IType() DATA_TYPE {
 	if i.IsSigned {
 		return DATA_TYPE(("i" + strconv.Itoa(int(i.BitSize))))
 	} else {
@@ -50,104 +50,98 @@ func (i Integer) IType() DATA_TYPE {
 	}
 }
 
-type Float struct {
+type FloatType struct {
 	Kind    DATA_TYPE
 	BitSize uint8
 }
 
-func (f Float) IType() DATA_TYPE {
+func (f FloatType) IType() DATA_TYPE {
 	return DATA_TYPE(("f" + strconv.Itoa(int(f.BitSize))))
 }
 
-type Boolean struct {
+type BoolType struct {
 	Kind DATA_TYPE
 }
 
-func (b Boolean) IType() DATA_TYPE {
+func (b BoolType) IType() DATA_TYPE {
 	return b.Kind
 }
 
-type String struct {
+type StringType struct {
 	Kind DATA_TYPE
 }
 
-func (s String) IType() DATA_TYPE {
+func (s StringType) IType() DATA_TYPE {
 	return s.Kind
 }
 
-type Char struct {
+type CharType struct {
 	Kind DATA_TYPE
 }
 
-func (c Char) IType() DATA_TYPE {
+func (c CharType) IType() DATA_TYPE {
 	return c.Kind
 }
 
-type Null struct {
+type NullType struct {
 	Kind DATA_TYPE
 }
 
-func (n Null) IType() DATA_TYPE {
+func (n NullType) IType() DATA_TYPE {
 	return n.Kind
 }
 
-type Void struct {
+type VoidType struct {
 	Kind DATA_TYPE
 }
 
-func (v Void) IType() DATA_TYPE {
+func (v VoidType) IType() DATA_TYPE {
 	return v.Kind
 }
 
-type Array struct {
+type ArrayType struct {
 	Kind        DATA_TYPE
 	ElementType Type
 	Size        int
 }
 
-func (a Array) IType() DATA_TYPE {
+func (a ArrayType) IType() DATA_TYPE {
 	return a.Kind
 }
 
-type Struct struct {
+type StructType struct {
 	Kind DATA_TYPE
 	Name string
 }
 
-func (s Struct) IType() DATA_TYPE {
+func (s StructType) IType() DATA_TYPE {
 	return s.Kind
 }
 
-type Trait struct {
+type TraitType struct {
 	Kind DATA_TYPE
 	Name string
 	For  string
 }
 
-func (t Trait) IType() DATA_TYPE {
+func (t TraitType) IType() DATA_TYPE {
 	return t.Kind
 }
 
-type Enum struct {
+type EnumType struct {
 	Kind   DATA_TYPE
-	Fields map[string]Type
+	Fields []Type
 }
 
-func (e Enum) IType() DATA_TYPE {
+func (e EnumType) IType() DATA_TYPE {
 	return e.Kind
 }
 
-type UserDefined struct {
-	Kind DATA_TYPE
-	Name string
-}
-
-func (u UserDefined) IType() DATA_TYPE {
-	return u.Kind
-}
-
 type FunctionType struct {
-	Kind DATA_TYPE
+	Kind       DATA_TYPE
+	Name       string
+	ReturnType Type
+	Parameters []FunctionParameter
 }
 
 func (f FunctionType) IType() DATA_TYPE {

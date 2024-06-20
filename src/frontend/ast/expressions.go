@@ -54,7 +54,7 @@ func (i IdentifierExpr) iExpression() {
 
 type NumericLiteral struct {
 	BaseStmt
-	Value string
+	Value   string
 	BitSize uint8
 }
 
@@ -176,20 +176,19 @@ func (c FunctionCallExpr) iExpression() {
 	// empty method implements the Expression interface
 }
 
-type StructInstantiationExpr struct {
+type StructLiteral struct {
 	BaseStmt
 	StructName string
 	Properties map[string]Expression
-	Methods    map[string]FunctionDeclStmt
 }
 
-func (s StructInstantiationExpr) iNode() {
+func (s StructLiteral) iNode() {
 	// empty method implements the Node interface
 }
-func (s StructInstantiationExpr) GetPos() (lexer.Position, lexer.Position) {
+func (s StructLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s StructInstantiationExpr) iExpression() {
+func (s StructLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 

@@ -206,8 +206,8 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 		p.advance()
 		explicitReturnType = parseType(p, DEFAULT_BP)
 	} else {
-		explicitReturnType = ast.Void{
-			Kind: ast.VOID,
+		explicitReturnType = ast.VoidType{
+			Kind: ast.T_VOID,
 		}
 	}
 
@@ -229,7 +229,7 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 				StartPos: function.StartPos,
 				EndPos:   end,
 			},
-			Name: functionName,
+			Name:       functionName,
 			Parameters: params,
 			ReturnType: explicitReturnType,
 		},
@@ -302,7 +302,7 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 		//property
 		if p.currentTokenKind() == lexer.ACCESS_TOKEN {
 
-			properties = handleAccessModifier(p, properties)
+			properties = getProperties(p)
 
 			continue
 
@@ -338,7 +338,7 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 	}
 }
 
-func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[string]ast.Property {
+func getProperties(p *Parser) map[string]ast.Property {
 
 	var isStatic bool
 	var isPublic bool
@@ -368,6 +368,8 @@ func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[str
 
 	prop := p.expect(lexer.IDENTIFIER_TOKEN)
 
+	propsMap := map[string]ast.Property{}
+
 	if p.currentTokenKind() == lexer.COLON_TOKEN {
 		//then its a property
 
@@ -378,7 +380,7 @@ func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[str
 		p.expect(lexer.SEMI_COLON_TOKEN)
 
 		//check if already exists
-		if _, exists := properties[prop.Value]; exists {
+		if _, exists := propsMap[prop.Value]; exists {
 			//panic(fmt.Sprintf("Property %s already declared", propName))
 			lineNo := prop.StartPos.Line
 			filePath := p.FilePath
@@ -388,7 +390,7 @@ func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[str
 			MakeError(p, lineNo, filePath, prop.StartPos, prop.EndPos, errMsg).AddHint("Try removing the duplicate", TEXT_HINT).Display()
 		}
 
-		properties[prop.Value] = ast.Property{
+		propsMap[prop.Value] = ast.Property{
 			IsStatic: isStatic,
 			IsPublic: isPublic,
 			ReadOnly: readOnly,
@@ -397,7 +399,7 @@ func handleAccessModifier(p *Parser, properties map[string]ast.Property) map[str
 		}
 	}
 
-	return properties
+	return propsMap
 }
 
 func parseTraitDeclStmt(p *Parser) ast.Statement {
@@ -474,7 +476,7 @@ func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 		p.advance()
 		ReturnType = parseType(p, DEFAULT_BP)
 	} else {
-		ReturnType = ast.Void{}
+		ReturnType = ast.VoidType{}
 	}
 
 	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos

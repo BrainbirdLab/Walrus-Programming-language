@@ -35,9 +35,9 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		var explicitSize uint8 = 0
 
 		switch t := stmt.ExplicitType.(type) {
-		case ast.Integer:
+		case ast.IntegerType:
 			explicitSize = t.BitSize
-		case ast.Float:
+		case ast.FloatType:
 			explicitSize = t.BitSize
 		}
 
@@ -45,14 +45,14 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		case IntegerValue:
 			//modify the Size field of the value. Update the original value
 			v.Size = explicitSize // is it reference or copy? It is a copy. So, the original value is not updated
-			t := v.Type.(ast.Integer)
+			t := v.Type.(ast.IntegerType)
 			t.BitSize = explicitSize
 			v.Type = t
 			//update the Original value
 			value = v
 		case FloatValue:
 			v.Size = explicitSize
-			t := v.Type.(ast.Float)
+			t := v.Type.(ast.FloatType)
 			t.BitSize = explicitSize
 			v.Type = t
 			value = v
@@ -60,7 +60,7 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 
 		//check user defined types with the value type
 		start, end := stmt.Value.GetPos()
-		checkTypes(env.parser, stmt.ExplicitType, value, start, end)
+		checkTypes(env, stmt.ExplicitType, value, start, end)
 	}
 
 	val, err := env.DeclareVariable(stmt.Identifier.Identifier, value, stmt.IsConstant)
@@ -75,7 +75,7 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 func strFormatter(expected ast.Type, got RuntimeValue) string {
 	var name string
 	//if expected is userdefined type
-	if udt, ok := expected.(ast.UserDefined); ok {
+	if udt, ok := expected.(ast.StructType); ok {
 		name = udt.Name
 	} else {
 		name = string(expected.IType())
@@ -83,12 +83,14 @@ func strFormatter(expected ast.Type, got RuntimeValue) string {
 	return fmt.Sprintf("cannot assign value of type '%s' to '%s'", GetRuntimeType(got), name)
 }
 
-func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
+func checkTypes(env *Environment, explicitType ast.Type, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
+
+	p := env.parser
 
 	var msg string
 
 	switch t := explicitType.(type) {
-	case ast.Integer:
+	case ast.IntegerType:
 		if IsINT(value) {
 			if t.BitSize != value.(IntegerValue).Size {
 				msg = strFormatter(explicitType, value)
@@ -97,13 +99,24 @@ func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, sta
 		} else {
 			msg = strFormatter(explicitType, value)
 		}
-	case ast.Float:
+	case ast.FloatType:
 		if IsFLOAT(value) {
 			if t.BitSize != value.(FloatValue).Size {
 				msg = strFormatter(explicitType, value)
 				msg += fmt.Sprintf(" of size %d to float of size %d", value.(FloatValue).Size, t.BitSize)
 			}
 		} else {
+			msg = strFormatter(explicitType, value)
+		}
+	case ast.StructType:
+		expected := t.Name
+		got := string(GetRuntimeType(value))
+
+		if !HasStruct(expected, env) {
+			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("struct '%s' is not defined", expected)).Display()
+		} else if !HasStruct(string(got), env) {
+			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("struct '%s' is not defined", got)).Display()
+		} else if expected != got {
 			msg = strFormatter(explicitType, value)
 		}
 	default:
@@ -182,9 +195,9 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 	}
 
 	// a void function should not have a return statement with a value. It should be empty like return;
-	if stmt.ReturnType.IType() == ast.VOID {
+	if stmt.ReturnType.IType() == ast.T_VOID {
 		if returnStmt != nil {
-			if returnStmt.Kind != ast.NODE_TYPE(ast.VOID) {
+			if returnStmt.Kind != ast.NODE_TYPE(ast.T_VOID) {
 				//return nil, fmt.Errorf("void function %s must not have a return statement with a value", name)
 				parser.MakeError(funcEnv.parser, returnStmt.StartPos.Line, funcEnv.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, "void function must not have a return statement with a value").Display()
 			}
@@ -253,7 +266,7 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 
 		if param.Type != nil {
 			start, end := arg.GetPos()
-			checkTypes(env.parser, param.Type, Evaluate(arg, env), start, end)
+			checkTypes(env, param.Type, Evaluate(arg, env), start, end)
 		}
 
 		newEnv.DeclareVariable(param.Identifier.Identifier, Evaluate(arg, env), false)
@@ -266,4 +279,44 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 
 func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
 	return Evaluate(stmt.Expression, env)
+}
+
+func EvaluateStructDeclarationStmt(stmt ast.StructDeclStatement, env *Environment) RuntimeValue {
+
+	env.structs[stmt.StructName] = StructValue{
+		Fields: stmt.Properties,
+		Methods: stmt.Methods,
+		Type: ast.StructType{
+			Kind: ast.T_STRUCT,
+			Name: stmt.StructName,
+		},
+	}
+
+	return MAKE_VOID()
+}
+
+func EvaluateStructLiteral(stmt ast.StructLiteral, env *Environment) RuntimeValue {
+
+	//check if the struct is defined
+	if !HasStruct(stmt.StructName, env) {
+		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.StartPos, stmt.EndPos, fmt.Sprintf("struct '%s' is not defined", stmt.StructName)).Display()
+	}
+
+	properties := make(map[string]RuntimeValue)
+
+	for name, value := range stmt.Properties {
+		properties[name] = Evaluate(value, env)
+	}
+
+	return StructInstance{
+		StructName: stmt.StructName,
+		Fields:     properties,
+	}
+}
+
+func EvaluateStructPropertyExpr(expr ast.StructPropertyExpr, env *Environment) RuntimeValue {
+
+	obj := Evaluate(expr.Object, env)
+
+	return obj
 }

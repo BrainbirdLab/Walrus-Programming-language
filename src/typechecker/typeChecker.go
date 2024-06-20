@@ -25,14 +25,18 @@ func GetRuntimeType(runtimeValue RuntimeValue) ast.DATA_TYPE {
 		return t.Type.IType()
 	case FunctionValue:
 		return t.Type.IType()
+	case StructValue:
+		return t.Type.IType()
+	case StructInstance:
+		return ast.DATA_TYPE(t.StructName)
 	default:
-		panic(fmt.Sprintf("This runtime value is not implemented yet: %v", runtimeValue))
+		panic(fmt.Sprintf("This runtime value is not implemented yet: %T", runtimeValue))
 	}
 }
 
 func IsINT(runtimeValue RuntimeValue) bool {
 	switch GetRuntimeType(runtimeValue) {
-	case ast.INTEGER8, ast.INTEGER16, ast.INTEGER32, ast.INTEGER64:
+	case ast.T_INTEGER8, ast.T_INTEGER16, ast.T_INTEGER32, ast.T_INTEGER64:
 		return true
 	default:
 		return false
@@ -41,7 +45,7 @@ func IsINT(runtimeValue RuntimeValue) bool {
 
 func IsFLOAT(runtimeValue RuntimeValue) bool {
 	switch GetRuntimeType(runtimeValue) {
-	case ast.FLOAT32, ast.FLOAT64:
+	case ast.T_FLOAT32, ast.T_FLOAT64:
 		return true
 	default:
 		return false
@@ -95,7 +99,17 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 		return EvaluateFunctionCallExpr(node, env)
 	case ast.ReturnStmt:
 		return EvaluateReturnStmt(node, env)
+	case ast.StructDeclStatement:
+		return EvaluateStructDeclarationStmt(node, env)
+	case ast.StructLiteral:
+		return EvaluateStructLiteral(node, env)
+	case ast.StructPropertyExpr:
+		return EvaluateStructPropertyExpr(node, env)
 	default:
 		panic(fmt.Sprintf("This ast node is not implemented yet: %v", node))
 	}
+}
+
+func HasStruct(name string, env *Environment) bool {
+	return env.structs[name] != nil
 }

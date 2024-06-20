@@ -38,37 +38,37 @@ func parseDataType(p *Parser) ast.Type {
 
 	switch value {
 	case "i8", "i16", "i32", "i64", "i128":
-		return ast.Integer{
+		return ast.IntegerType{
 			Kind:     ast.DATA_TYPE(value),
 			BitSize:  utils.BitSizeFromString(value),
 			IsSigned: true,
 		}
 	case "u8", "u16", "u32", "u64", "u128":
-		return ast.Integer{
+		return ast.IntegerType{
 			Kind:     ast.DATA_TYPE(value),
 			BitSize:  utils.BitSizeFromString(value),
 			IsSigned: false,
 		}
 	case "f32", "f64":
-		return ast.Float{
+		return ast.FloatType{
 			Kind:    ast.DATA_TYPE(value),
 			BitSize: utils.BitSizeFromString(value),
 		}
 	case "bool":
-		return ast.Boolean{
-			Kind: ast.BOOLEAN,
+		return ast.BoolType{
+			Kind: ast.T_BOOLEAN,
 		}
 	case "chr":
-		return ast.Char{
-			Kind: ast.CHARACTER,
+		return ast.CharType{
+			Kind: ast.T_CHARACTER,
 		}
 	case "str":
-		return ast.String{
-			Kind: ast.STRING,
+		return ast.StringType{
+			Kind: ast.T_STRING,
 		}
 	default:
-		return ast.UserDefined{
-			Kind: ast.USER_DEFINED,
+		return ast.StructType{
+			Kind: ast.T_STRUCT,
 			Name: value,
 		}
 		/*
@@ -85,7 +85,7 @@ func parseArrayType(p *Parser) ast.Type {
 
 	elemType := parseType(p, DEFAULT_BP)
 
-	return ast.Array{
+	return ast.ArrayType{
 		ElementType: elemType,
 	}
 }

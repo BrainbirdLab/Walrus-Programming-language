@@ -51,8 +51,8 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 		}
 
 		return BooleanValue{
-			Type: ast.Boolean{
-				Kind: ast.BOOLEAN,
+			Type: ast.BoolType{
+				Kind: ast.T_BOOLEAN,
 			},
 			Value: !expr.(BooleanValue).Value,
 		}
@@ -282,7 +282,7 @@ func evaluateNumericExpr(left RuntimeValue, right RuntimeValue, operator lexer.T
 				return evaluateFloatFloat(left.(FloatValue), right.(FloatValue), operator)
 			}
 		}
-}
+	}
 	return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 }
 
@@ -328,16 +328,16 @@ func evaluateIntInt(left IntegerValue, right IntegerValue, operator lexer.Token)
 func evaluateIntFloat(left IntegerValue, right FloatValue, operator lexer.Token) (RuntimeValue, error) {
 	switch operator.Value {
 	case "+", "+=":
-		return MAKE_INT(int64(float64(left.Value) + right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)+right.Value), 64, true), nil
 	case "-", "-=":
-		return MAKE_INT(int64(float64(left.Value) - right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)-right.Value), 64, true), nil
 	case "*", "*=":
-		return MAKE_INT(int64(float64(left.Value) * right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)*right.Value), 64, true), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_INT(int64(float64(left.Value) / right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)/right.Value), 64, true), nil
 	case "^":
 		//power operation
 		number := float64(left.Value)
@@ -362,16 +362,16 @@ func evaluateIntFloat(left IntegerValue, right FloatValue, operator lexer.Token)
 func evaluateFloatInt(left FloatValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
 	switch operator.Value {
 	case "+", "+=":
-		return MAKE_FLOAT(left.Value + float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value+float64(right.Value), 64), nil
 	case "-", "-=":
-		return MAKE_FLOAT(left.Value - float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value-float64(right.Value), 64), nil
 	case "*", "*=":
-		return MAKE_FLOAT(left.Value * float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value*float64(right.Value), 64), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_FLOAT(left.Value / float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value/float64(right.Value), 64), nil
 	case "^":
 		//power operation
 		number := left.Value
@@ -397,16 +397,16 @@ func evaluateFloatFloat(left FloatValue, right FloatValue, operator lexer.Token)
 
 	switch operator.Value {
 	case "+", "+=":
-		return MAKE_FLOAT(left.Value + right.Value, 64), nil
+		return MAKE_FLOAT(left.Value+right.Value, 64), nil
 	case "-", "-=":
-		return MAKE_FLOAT(left.Value - right.Value, 64), nil
+		return MAKE_FLOAT(left.Value-right.Value, 64), nil
 	case "*", "*=":
-		return MAKE_FLOAT(left.Value * right.Value, 64), nil
+		return MAKE_FLOAT(left.Value*right.Value, 64), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_FLOAT(left.Value / right.Value, 64), nil
+		return MAKE_FLOAT(left.Value/right.Value, 64), nil
 	case "^":
 		//power operation
 		number := left.Value

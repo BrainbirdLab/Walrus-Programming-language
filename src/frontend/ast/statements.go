@@ -161,11 +161,12 @@ func (c ContinueStmt) iStatement() {
 }
 
 type Property struct {
-	BaseStmt
-	IsStatic bool
-	IsPublic bool
-	ReadOnly bool
-	Type     Type
+	BaseStmt	
+	IsStatic 	bool
+	IsPublic 	bool
+	ReadOnly 	bool
+	Name		string
+	Type     	Type
 }
 
 type StructDeclStatement struct {

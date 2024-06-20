@@ -88,10 +88,29 @@ type FunctionCall struct {
 	FunctionName string
 	Arguments    []RuntimeValue
 	Returns      RuntimeValue
-	Type         ast.Type
+	//Type         ast.Type
 }
 
 func (f FunctionCall) rVal() {
+	// empty function implements RuntimeValue interface
+}
+
+type StructValue struct {
+	Fields 	map[string]ast.Property
+	Methods map[string]ast.FunctionType
+	Type   ast.Type
+}
+
+func (s StructValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
+
+type StructInstance struct {
+	StructName string
+	Fields     map[string]RuntimeValue
+}
+
+func (s StructInstance) rVal() {
 	// empty function implements RuntimeValue interface
 }
 
@@ -103,54 +122,54 @@ func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
 		initial = "u"
 	}
 
-	return IntegerValue{Value: value, Size: size, Type: ast.Integer{
-			Kind:     ast.DATA_TYPE((initial + fmt.Sprintf("%d", size))),
-			BitSize:  size,
-			IsSigned: signed,
-		},
+	return IntegerValue{Value: value, Size: size, Type: ast.IntegerType{
+		Kind:     ast.DATA_TYPE((initial + fmt.Sprintf("%d", size))),
+		BitSize:  size,
+		IsSigned: signed,
+	},
 	}
 }
 
 func MAKE_FLOAT(value float64, size uint8) FloatValue {
-	
-	return FloatValue{Value: value, Size: size, Type: ast.Float{
-			Kind:    ast.DATA_TYPE(("f" + fmt.Sprintf("%d", size))),
-			BitSize: size,
-		},
+
+	return FloatValue{Value: value, Size: size, Type: ast.FloatType{
+		Kind:    ast.DATA_TYPE(("f" + fmt.Sprintf("%d", size))),
+		BitSize: size,
+	},
 	}
 }
 
 func MAKE_BOOL(value bool) BooleanValue {
-	return BooleanValue{Value: value, Type: ast.Boolean{
-		Kind: ast.BOOLEAN,
+	return BooleanValue{Value: value, Type: ast.BoolType{
+		Kind: ast.T_BOOLEAN,
 	},
 	}
 }
 
 func MAKE_STRING(value string) StringValue {
-	return StringValue{Value: value, Type: ast.String{
-		Kind: ast.STRING,
+	return StringValue{Value: value, Type: ast.StringType{
+		Kind: ast.T_STRING,
 	},
 	}
 }
 
 func MAKE_CHAR(value byte) CharacterValue {
-	return CharacterValue{Value: value, Type: ast.Char{
-		Kind: ast.CHARACTER,
+	return CharacterValue{Value: value, Type: ast.CharType{
+		Kind: ast.T_CHARACTER,
 	},
 	}
 }
 
 func MAKE_NULL() NullValue {
-	return NullValue{Type: ast.Null{
-		Kind: ast.NULL,
+	return NullValue{Type: ast.NullType{
+		Kind: ast.T_NULL,
 	},
 	}
 }
 
 func MAKE_VOID() VoidValue {
-	return VoidValue{Type: ast.Void{
-		Kind: ast.VOID,
+	return VoidValue{Type: ast.VoidType{
+		Kind: ast.T_VOID,
 	},
 	}
 }
@@ -158,19 +177,19 @@ func MAKE_VOID() VoidValue {
 func MakeDefaultRuntimeValue(t ast.Type) RuntimeValue {
 
 	switch t := t.(type) {
-	case ast.Integer:
+	case ast.IntegerType:
 		return MAKE_INT(0, t.BitSize, t.IsSigned)
-	case ast.Float:
+	case ast.FloatType:
 		return MAKE_FLOAT(0, t.BitSize)
-	case ast.Boolean:
+	case ast.BoolType:
 		return MAKE_BOOL(false)
-	case ast.String:
+	case ast.StringType:
 		return MAKE_STRING("")
-	case ast.Char:
+	case ast.CharType:
 		return MAKE_CHAR(0)
-	case ast.Null:
+	case ast.NullType:
 		return MAKE_NULL()
-	case ast.Void:
+	case ast.VoidType:
 		return MAKE_VOID()
 	default:
 		panic(fmt.Sprintf("unsupported type %T", t))

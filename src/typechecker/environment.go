@@ -10,6 +10,8 @@ type Environment struct {
 	parent    *Environment
 	variables map[string]RuntimeValue
 	constants map[string]bool
+	//user defined types declared with struct keyword
+	structs map[string]RuntimeValue
 	parser    *parser.Parser
 }
 
@@ -18,6 +20,7 @@ func NewEnvironment(parent *Environment, p *parser.Parser) *Environment {
 		parent:    parent,
 		variables: make(map[string]RuntimeValue),
 		constants: make(map[string]bool),
+		structs:   make(map[string]RuntimeValue),
 		parser:    p,
 	}
 }
@@ -83,7 +86,7 @@ func (e *Environment) DeclareFunction(name string, returnType ast.Type, paramete
 		Parameters: parameters,
 		Body:       body,
 		Type: ast.FunctionType{
-			Kind: ast.FUNCTION,
+			Kind: ast.T_FUNCTION,
 		},
 		ReturnType: returnType,
 	}

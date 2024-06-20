@@ -200,14 +200,14 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value: rawValue,
+			Value:   rawValue,
 			BitSize: size,
 		}
 	case lexer.FLOATING_TOKEN:
 		rawValue := p.advance().Value
 
 		size := uint8(32)
-		
+
 		number, _ := strconv.ParseFloat(rawValue, 64)
 
 		if number < 0 {
@@ -229,7 +229,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 				StartPos: startpos,
 				EndPos:   endpos,
 			},
-			Value: rawValue,
+			Value:   rawValue,
 			BitSize: size,
 		}
 
@@ -390,7 +390,6 @@ func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression
 	structName := helpers.ExpectType[ast.IdentifierExpr](left).Identifier
 
 	var properties = map[string]ast.Expression{}
-	var methods = map[string]ast.FunctionDeclStmt{}
 
 	p.expect(lexer.OPEN_CURLY_TOKEN)
 
@@ -408,7 +407,7 @@ func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression
 
 	end := p.expect(lexer.CLOSE_CURLY_TOKEN).EndPos
 
-	return ast.StructInstantiationExpr{
+	return ast.StructLiteral{
 		BaseStmt: ast.BaseStmt{
 			Kind:     ast.STRUCT_LITERAL,
 			StartPos: start,
@@ -416,7 +415,6 @@ func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression
 		},
 		StructName: structName,
 		Properties: properties,
-		Methods:    methods,
 	}
 }
 
