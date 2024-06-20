@@ -1,16 +1,28 @@
 package ast
 
+import "strconv"
+
 type DATA_TYPE string
 
 const (
 	// Primitive Types
 	VOID      DATA_TYPE = "void"
-	INTEGER   DATA_TYPE = "integer"
-	FLOATING  DATA_TYPE = "float"
-	BOOLEAN   DATA_TYPE = "boolean"
-	STRING    DATA_TYPE = "string"
-	CHARACTER DATA_TYPE = "character"
-	NULL      DATA_TYPE = "null"
+	INTEGER8  DATA_TYPE = "i8"
+	INTEGER16 DATA_TYPE = "i16"
+	INTEGER32 DATA_TYPE = "i32"
+	INTEGER64 DATA_TYPE = "i64"
+
+	UNSIGNED8  DATA_TYPE = "u8"
+	UNSIGNED16 DATA_TYPE = "u16"
+	UNSIGNED32 DATA_TYPE = "u32"
+	UNSIGNED64 DATA_TYPE = "u64"
+
+	FLOAT32    DATA_TYPE = "f32"
+	FLOAT64    DATA_TYPE = "f64"
+	BOOLEAN    DATA_TYPE = "boolean"
+	STRING     DATA_TYPE = "string"
+	CHARACTER  DATA_TYPE = "character"
+	NULL       DATA_TYPE = "null"
 
 	// Derived Types
 	ARRAY DATA_TYPE = "array"
@@ -31,7 +43,11 @@ type Integer struct {
 }
 
 func (i Integer) IType() DATA_TYPE {
-	return i.Kind
+	if i.IsSigned {
+		return DATA_TYPE(("i" + strconv.Itoa(int(i.BitSize))))
+	} else {
+		return DATA_TYPE(("u" + strconv.Itoa(int(i.BitSize))))
+	}
 }
 
 type Float struct {
@@ -40,7 +56,7 @@ type Float struct {
 }
 
 func (f Float) IType() DATA_TYPE {
-	return f.Kind
+	return DATA_TYPE(("f" + strconv.Itoa(int(f.BitSize))))
 }
 
 type Boolean struct {
@@ -131,39 +147,9 @@ func (u UserDefined) IType() DATA_TYPE {
 }
 
 type FunctionType struct {
-	Kind         DATA_TYPE
+	Kind DATA_TYPE
 }
 
 func (f FunctionType) IType() DATA_TYPE {
 	return f.Kind
-}
-
-func GetType(t Type) DATA_TYPE {
-	switch t.(type) {
-	case Integer:
-		return INTEGER
-	case Float:
-		return FLOATING
-	case Boolean:
-		return BOOLEAN
-	case String:
-		return STRING
-	case Char:
-		return CHARACTER
-	case Null:
-		return NULL
-	case Void:
-		return VOID
-	case Array:
-		return ARRAY
-	case Struct:
-		return STRUCT
-	case Trait:
-		return TRAIT
-	case Enum:
-		return ENUM
-	case UserDefined:
-		return USER_DEFINED
-	}
-	return "UNKNOWN"
 }

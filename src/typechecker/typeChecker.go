@@ -30,6 +30,24 @@ func GetRuntimeType(runtimeValue RuntimeValue) ast.DATA_TYPE {
 	}
 }
 
+func IsINT(runtimeValue RuntimeValue) bool {
+	switch GetRuntimeType(runtimeValue) {
+	case ast.INTEGER8, ast.INTEGER16, ast.INTEGER32, ast.INTEGER64:
+		return true
+	default:
+		return false
+	}
+}
+
+func IsFLOAT(runtimeValue RuntimeValue) bool {
+	switch GetRuntimeType(runtimeValue) {
+	case ast.FLOAT32, ast.FLOAT64:
+		return true
+	default:
+		return false
+	}
+}
+
 func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 	switch node := astNode.(type) {
 	case ast.NumericLiteral:

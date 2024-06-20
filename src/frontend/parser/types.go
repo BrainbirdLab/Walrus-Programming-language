@@ -39,19 +39,19 @@ func parseDataType(p *Parser) ast.Type {
 	switch value {
 	case "i8", "i16", "i32", "i64", "i128":
 		return ast.Integer{
-			Kind:     ast.INTEGER,
+			Kind:     ast.DATA_TYPE(value),
 			BitSize:  utils.BitSizeFromString(value),
 			IsSigned: true,
 		}
 	case "u8", "u16", "u32", "u64", "u128":
 		return ast.Integer{
-			Kind:     ast.INTEGER,
+			Kind:     ast.DATA_TYPE(value),
 			BitSize:  utils.BitSizeFromString(value),
 			IsSigned: false,
 		}
 	case "f32", "f64":
 		return ast.Float{
-			Kind:    ast.FLOATING,
+			Kind:    ast.DATA_TYPE(value),
 			BitSize: utils.BitSizeFromString(value),
 		}
 	case "bool":

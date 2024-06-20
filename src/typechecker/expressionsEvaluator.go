@@ -159,7 +159,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 	case "+=", "-=", "*=", "/=", "%=":
 		if !helpers.TypesMatchT[ast.IdentifierExpr](binop.Left) || !helpers.TypesMatchT[IntegerValue](right) {
-			
+
 			parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg).Display()
 
 			return nil
@@ -204,7 +204,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 		return val
 
 	default:
-		
+
 		parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, errMsg).Display()
 
 		return nil
@@ -237,9 +237,9 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 
 	switch assignNode.Operator.Kind {
 	case lexer.PLUS_EQUALS_TOKEN, lexer.MINUS_EQUALS_TOKEN, lexer.TIMES_EQUALS_TOKEN, lexer.DIVIDE_EQUALS_TOKEN, lexer.MODULO_EQUALS_TOKEN:
-		if GetRuntimeType(assigneValue) != ast.INTEGER || GetRuntimeType(value) != ast.INTEGER {
+		if !IsINT(assigneValue) || !IsINT(value) {
 
-			err = fmt.Errorf("invalid operation between %v and %v", assigneValue, value)
+			err = fmt.Errorf("invalid operation between %v and %v", GetRuntimeType(assigneValue), GetRuntimeType(value))
 
 			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Operator.StartPos, assignNode.Operator.EndPos, err.Error()).Display()
 		}
@@ -265,7 +265,7 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 }
 
 func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
-	
+
 	result := int64(0)
 
 	switch operator.Value {

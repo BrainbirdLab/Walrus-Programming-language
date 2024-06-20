@@ -62,7 +62,6 @@ func MakeError(p *Parser, lineNo int, filePath string, startPos lexer.Position, 
 	var errStr string
 
 	var prvLines []string
-	var nxtLines []string
 	line := (*p.Lines)[lineNo-1]
 	maxWidth := len(fmt.Sprintf("%d", len(*p.Lines)))
 
@@ -75,14 +74,6 @@ func MakeError(p *Parser, lineNo int, filePath string, startPos lexer.Position, 
 		}
 	}
 
-	if lineNo+1 < len(*p.Lines) {
-		nxtLines = (*p.Lines)[lineNo : lineNo+1]
-
-		for i, l := range nxtLines {
-			nxtLines[i] = utils.Colorize(utils.GREY, makePadding(maxWidth, lineNo+1+i)) + lexer.Highlight(l)
-		}
-	}
-
 	errStr += fmt.Sprintf("\nIn file: %s:%d:%d\n", filePath, startPos.Line, startPos.Column)
 
 	padding := makePadding(maxWidth, startPos.Line)
@@ -91,7 +82,6 @@ func MakeError(p *Parser, lineNo int, filePath string, startPos lexer.Position, 
 	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:startPos.Column-1]) + utils.Colorize(utils.RED, line[startPos.Column-1 : endPos.Column-1]) + lexer.Highlight(line[endPos.Column-1 : ]) + "\n"
 	errStr += strings.Repeat(" ", (startPos.Column-1)+len(padding))
 	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", (endPos.Column - startPos.Column) - 1))))
-	errStr += strings.Join(nxtLines, "\n") + "\n"
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 
 	return &ErrorMessage{

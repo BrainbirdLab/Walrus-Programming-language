@@ -62,7 +62,6 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		start, end := stmt.Value.GetPos()
 		checkTypes(env.parser, stmt.ExplicitType, value, start, end)
 	}
-	
 
 	val, err := env.DeclareVariable(stmt.Identifier.Identifier, value, stmt.IsConstant)
 
@@ -90,7 +89,7 @@ func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, sta
 
 	switch t := explicitType.(type) {
 	case ast.Integer:
-		if GetRuntimeType(value) == ast.INTEGER {
+		if IsINT(value) {
 			if t.BitSize != value.(IntegerValue).Size {
 				msg = strFormatter(explicitType, value)
 				msg += fmt.Sprintf(" of size %d to integer of size %d", value.(IntegerValue).Size, t.BitSize)
@@ -99,7 +98,7 @@ func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, sta
 			msg = strFormatter(explicitType, value)
 		}
 	case ast.Float:
-		if GetRuntimeType(value) == ast.FLOATING {
+		if IsFLOAT(value) {
 			if t.BitSize != value.(FloatValue).Size {
 				msg = strFormatter(explicitType, value)
 				msg += fmt.Sprintf(" of size %d to float of size %d", value.(FloatValue).Size, t.BitSize)
@@ -119,7 +118,7 @@ func checkTypes(p *parser.Parser, explicitType ast.Type, value RuntimeValue, sta
 }
 
 func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
-	
+
 	var lastEvaluated RuntimeValue = MAKE_NULL()
 
 	for _, stmt := range block.Body {
@@ -188,11 +187,22 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 			// check the return type of the function
 			start, end := returnStmt.GetPos()
 			returnVal := Evaluate(returnStmt.Expression, env)
-			
+
 			returnType := GetRuntimeType(returnVal)
 
 			if returnType != stmt.ReturnType.IType() {
-				parser.MakeError(env.parser, start.Line, env.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s(...) with return type '%s'", returnType, stmt.Name.Identifier, stmt.ReturnType.IType())).Display()
+				funcName := fmt.Sprintf("%s(", stmt.Name.Identifier)
+				params := stmt.Parameters
+				formattedParams := ""
+				for i, param := range params {
+					if i == 0 {
+						formattedParams += fmt.Sprintf("%s: %s", param.Identifier.Identifier, param.Type.IType())
+					} else {
+						formattedParams += fmt.Sprintf(", %s: %s", param.Identifier.Identifier, param.Type.IType())
+					}
+				}
+				funcName += formattedParams + ")"
+				parser.MakeError(env.parser, start.Line, env.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, funcName, stmt.ReturnType.IType())).Display()
 			}
 		}
 	}
@@ -205,11 +215,10 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 	// check if the function is defined
 	funcName := expr.Function.Identifier
 
-	
-	if  env.variables[funcName] == nil {
+	if env.variables[funcName] == nil {
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Function.StartPos, expr.Function.EndPos, fmt.Sprintf("function '%s' is not defined", funcName)).Display()
 	}
-	
+
 	function := env.variables[funcName].(FunctionValue)
 
 	args := expr.Args
@@ -229,7 +238,7 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 			start, end := arg.GetPos()
 			checkTypes(env.parser, param.Type, Evaluate(arg, env), start, end)
 		}
-		
+
 		newEnv.DeclareVariable(param.Identifier.Identifier, Evaluate(arg, env), false)
 	}
 
@@ -237,7 +246,6 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 
 	return lastVal
 }
-
 
 func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
 	return Evaluate(stmt.Expression, env)

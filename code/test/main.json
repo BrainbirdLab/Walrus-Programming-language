@@ -394,7 +394,7 @@
             "Identifier": "a"
           },
           "Type": {
-            "Kind": "integer",
+            "Kind": "i32",
             "BitSize": 32,
             "IsSigned": true
           },
@@ -428,7 +428,7 @@
             "Identifier": "b"
           },
           "Type": {
-            "Kind": "integer",
+            "Kind": "i32",
             "BitSize": 32,
             "IsSigned": true
           },
@@ -691,7 +691,7 @@
         "BitSize": 32
       },
       "ExplicitType": {
-        "Kind": "float",
+        "Kind": "f32",
         "BitSize": 32
       }
     },
@@ -781,7 +781,7 @@
         "BitSize": 32
       },
       "ExplicitType": {
-        "Kind": "float",
+        "Kind": "f32",
         "BitSize": 32
       }
     },
