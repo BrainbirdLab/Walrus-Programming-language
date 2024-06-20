@@ -1,7 +1,7 @@
 
 let a := 1;
 let b := 2;
-//let c := a + b;
+let c := a + b;
 
 a = 20 + b;
 
@@ -18,13 +18,11 @@ let num : f64 = 10.00;
 
 let sum := add(1.3, 5.4);
 
-
 struct Point {
     pub x: f32;
     pub y: f32;
 }
 
-
-let point : Point = Point { x: 1.79, y: 2.0 };
+let point := Point { x: 1.79, y: 2.0 };
 
 num += point.x;
