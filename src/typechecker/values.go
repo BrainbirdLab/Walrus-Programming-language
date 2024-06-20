@@ -96,19 +96,27 @@ func (f FunctionCall) rVal() {
 }
 
 func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
+
+	initial := "i"
+
+	if !signed {
+		initial = "u"
+	}
+
 	return IntegerValue{Value: value, Size: size, Type: ast.Integer{
-		Kind:     ast.INTEGER32,
-		BitSize:  size,
-		IsSigned: signed,
-	},
+			Kind:     ast.DATA_TYPE((initial + fmt.Sprintf("%d", size))),
+			BitSize:  size,
+			IsSigned: signed,
+		},
 	}
 }
 
 func MAKE_FLOAT(value float64, size uint8) FloatValue {
+	
 	return FloatValue{Value: value, Size: size, Type: ast.Float{
-		Kind:    ast.FLOAT32,
-		BitSize: size,
-	},
+			Kind:    ast.DATA_TYPE(("f" + fmt.Sprintf("%d", size))),
+			BitSize: size,
+		},
 	}
 }
 
@@ -144,6 +152,28 @@ func MAKE_VOID() VoidValue {
 	return VoidValue{Type: ast.Void{
 		Kind: ast.VOID,
 	},
+	}
+}
+
+func MakeDefaultRuntimeValue(t ast.Type) RuntimeValue {
+
+	switch t := t.(type) {
+	case ast.Integer:
+		return MAKE_INT(0, t.BitSize, t.IsSigned)
+	case ast.Float:
+		return MAKE_FLOAT(0, t.BitSize)
+	case ast.Boolean:
+		return MAKE_BOOL(false)
+	case ast.String:
+		return MAKE_STRING("")
+	case ast.Char:
+		return MAKE_CHAR(0)
+	case ast.Null:
+		return MAKE_NULL()
+	case ast.Void:
+		return MAKE_VOID()
+	default:
+		panic(fmt.Sprintf("unsupported type %T", t))
 	}
 }
 

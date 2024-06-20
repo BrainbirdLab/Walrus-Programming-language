@@ -58,7 +58,7 @@ func parseDataType(p *Parser) ast.Type {
 		return ast.Boolean{
 			Kind: ast.BOOLEAN,
 		}
-	case "char":
+	case "chr":
 		return ast.Char{
 			Kind: ast.CHARACTER,
 		}

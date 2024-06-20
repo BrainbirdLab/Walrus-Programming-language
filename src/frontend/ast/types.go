@@ -20,8 +20,8 @@ const (
 	FLOAT32    DATA_TYPE = "f32"
 	FLOAT64    DATA_TYPE = "f64"
 	BOOLEAN    DATA_TYPE = "boolean"
-	STRING     DATA_TYPE = "string"
-	CHARACTER  DATA_TYPE = "character"
+	STRING     DATA_TYPE = "str"
+	CHARACTER  DATA_TYPE = "chr"
 	NULL       DATA_TYPE = "null"
 
 	// Derived Types

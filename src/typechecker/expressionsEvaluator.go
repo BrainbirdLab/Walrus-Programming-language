@@ -15,6 +15,7 @@ func EvaluateIdenitifierExpr(expr ast.IdentifierExpr, env *Environment) RuntimeV
 
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, msg).Display()
 	}
+
 	runtimeVal, err := env.GetRuntimeValue(expr.Identifier)
 
 	if err != nil {
@@ -89,18 +90,16 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 	left := Evaluate(binop.Left, env)
 	right := Evaluate(binop.Right, env)
 
-	var leftType, rightType string
-
-	leftType = string(GetRuntimeType(left))
-	rightType = string(GetRuntimeType(right))
+	leftType := GetRuntimeType(left)
+	rightType := GetRuntimeType(right)
 
 	errMsg := fmt.Sprintf("Unsupported binary operation between %v and %v", leftType, rightType)
 
 	switch binop.Operator.Value {
 	case "+", "-", "*", "/", "^":
-		if helpers.TypesMatchT[IntegerValue](left) && helpers.TypesMatchT[IntegerValue](right) {
+		if IsINT(left) || IsFLOAT(left) && IsINT(right) || IsFLOAT(right) {
 			// Numeric expr
-			val, err := evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+			val, err := evaluateNumericExpr(left, right, binop.Operator)
 
 			if err != nil {
 				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
@@ -264,34 +263,54 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 	return runtimeVal
 }
 
-func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
+func evaluateNumericExpr(left RuntimeValue, right RuntimeValue, operator lexer.Token) (RuntimeValue, error) {
 
-	result := int64(0)
+	if left != nil && right != nil {
 
+		// evaluate both left, right as a, b where a and b can be int or float
+		// if a is int return int, if a is float return float
+		if IsINT(left) {
+			if IsINT(right) {
+				return evaluateIntInt(left.(IntegerValue), right.(IntegerValue), operator)
+			} else {
+				return evaluateIntFloat(left.(IntegerValue), right.(FloatValue), operator)
+			}
+		} else if IsFLOAT(left) {
+			if IsINT(right) {
+				return evaluateFloatInt(left.(FloatValue), right.(IntegerValue), operator)
+			} else {
+				return evaluateFloatFloat(left.(FloatValue), right.(FloatValue), operator)
+			}
+		}
+}
+	return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
+}
+
+func evaluateIntInt(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
 	switch operator.Value {
 	case "+", "+=":
-		result = left.Value + right.Value
+		return MAKE_INT(left.Value+right.Value, 32, true), nil
 	case "-", "-=":
-		result = left.Value - right.Value
+		return MAKE_INT(left.Value-right.Value, 32, true), nil
 	case "*", "*=":
-		result = left.Value * right.Value
+		return MAKE_INT(left.Value*right.Value, 32, true), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		result = left.Value / right.Value
+		return MAKE_INT(left.Value/right.Value, 32, true), nil
 	case "%", "%=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		result = left.Value % right.Value
+		return MAKE_INT(left.Value%right.Value, 32, true), nil
 	case "^":
 		//power operation
 		number := left.Value
 		power := right.Value
 
 		//use bit shifting to calculate power
-		result = 1
+		result := int64(1)
 		for power > 0 {
 			if power&1 == 1 {
 				result *= number
@@ -299,11 +318,114 @@ func evaluateNumericExpr(left IntegerValue, right IntegerValue, operator lexer.T
 			number *= number
 			power >>= 1
 		}
+
+		return MAKE_INT(result, 32, true), nil
 	default:
 		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
+}
 
-	return MAKE_INT(result, 32, true), nil
+func evaluateIntFloat(left IntegerValue, right FloatValue, operator lexer.Token) (RuntimeValue, error) {
+	switch operator.Value {
+	case "+", "+=":
+		return MAKE_INT(int64(float64(left.Value) + right.Value), 64, true), nil
+	case "-", "-=":
+		return MAKE_INT(int64(float64(left.Value) - right.Value), 64, true), nil
+	case "*", "*=":
+		return MAKE_INT(int64(float64(left.Value) * right.Value), 64, true), nil
+	case "/", "/=":
+		if right.Value == 0 {
+			return nil, fmt.Errorf("division by zero is forbidden")
+		}
+		return MAKE_INT(int64(float64(left.Value) / right.Value), 64, true), nil
+	case "^":
+		//power operation
+		number := float64(left.Value)
+		power := right.Value
+
+		//use bit shifting to calculate power
+		result := 1.0
+		for power > 0 {
+			if int64(power)&1 == 1 {
+				result *= number
+			}
+			number *= number
+			power /= 2
+		}
+
+		return MAKE_INT(int64(result), 64, true), nil
+	default:
+		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
+	}
+}
+
+func evaluateFloatInt(left FloatValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
+	switch operator.Value {
+	case "+", "+=":
+		return MAKE_FLOAT(left.Value + float64(right.Value), 64), nil
+	case "-", "-=":
+		return MAKE_FLOAT(left.Value - float64(right.Value), 64), nil
+	case "*", "*=":
+		return MAKE_FLOAT(left.Value * float64(right.Value), 64), nil
+	case "/", "/=":
+		if right.Value == 0 {
+			return nil, fmt.Errorf("division by zero is forbidden")
+		}
+		return MAKE_FLOAT(left.Value / float64(right.Value), 64), nil
+	case "^":
+		//power operation
+		number := left.Value
+		power := float64(right.Value)
+
+		//use bit shifting to calculate power
+		result := 1.0
+		for power > 0 {
+			if int64(power)&1 == 1 {
+				result *= number
+			}
+			number *= number
+			power /= 2
+		}
+
+		return MAKE_FLOAT(result, 64), nil
+	default:
+		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
+	}
+}
+
+func evaluateFloatFloat(left FloatValue, right FloatValue, operator lexer.Token) (RuntimeValue, error) {
+
+	switch operator.Value {
+	case "+", "+=":
+		return MAKE_FLOAT(left.Value + right.Value, 64), nil
+	case "-", "-=":
+		return MAKE_FLOAT(left.Value - right.Value, 64), nil
+	case "*", "*=":
+		return MAKE_FLOAT(left.Value * right.Value, 64), nil
+	case "/", "/=":
+		if right.Value == 0 {
+			return nil, fmt.Errorf("division by zero is forbidden")
+		}
+		return MAKE_FLOAT(left.Value / right.Value, 64), nil
+	case "^":
+		//power operation
+		number := left.Value
+		power := right.Value
+
+		//use bit shifting to calculate power
+		result := 1.0
+		for power > 0 {
+			if int64(power)&1 == 1 {
+				result *= number
+			}
+			number *= number
+			power /= 2
+		}
+
+		return MAKE_FLOAT(result, 64), nil
+	default:
+		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
+	}
 }
 
 func evaluateLogicalExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {

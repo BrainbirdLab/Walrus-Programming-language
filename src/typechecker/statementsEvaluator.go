@@ -164,8 +164,18 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 
 	var returnStmt *ast.ReturnStmt
 
-	for _, stmt := range stmt.Block.Body {
-		switch t := stmt.(type) {
+	funcEnv := NewEnvironment(env, env.parser)
+
+	//for each parameter, declare a variable in the function environment
+	for _, param := range stmt.Parameters {
+		funcEnv.DeclareVariable(param.Identifier.Identifier, MakeDefaultRuntimeValue(param.Type), false)
+	}
+
+	for _, body := range stmt.Block.Body {
+		switch t := body.(type) {
+		case ast.VariableDclStml:
+			val := Evaluate(t.Value, funcEnv)
+			funcEnv.DeclareVariable(t.Identifier.Identifier, val, t.IsConstant)
 		case ast.ReturnStmt:
 			returnStmt = &t
 		}
@@ -176,17 +186,19 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 		if returnStmt != nil {
 			if returnStmt.Kind != ast.NODE_TYPE(ast.VOID) {
 				//return nil, fmt.Errorf("void function %s must not have a return statement with a value", name)
-				parser.MakeError(env.parser, returnStmt.StartPos.Line, env.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, "void function must not have a return statement with a value").Display()
+				parser.MakeError(funcEnv.parser, returnStmt.StartPos.Line, funcEnv.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, "void function must not have a return statement with a value").Display()
 			}
 		}
 	} else {
 		if returnStmt == nil {
 			//return nil, fmt.Errorf("function %s must have a return statement", name)
-			parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, "function must have a return statement").Display()
+			parser.MakeError(funcEnv.parser, stmt.StartPos.Line, funcEnv.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, "function must have a return statement").Display()
 		} else {
 			// check the return type of the function
 			start, end := returnStmt.GetPos()
-			returnVal := Evaluate(returnStmt.Expression, env)
+
+			// evaluate the return statement
+			returnVal := Evaluate(returnStmt.Expression, funcEnv)
 
 			returnType := GetRuntimeType(returnVal)
 
@@ -202,7 +214,7 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 					}
 				}
 				funcName += formattedParams + ")"
-				parser.MakeError(env.parser, start.Line, env.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, funcName, stmt.ReturnType.IType())).Display()
+				parser.MakeError(funcEnv.parser, start.Line, funcEnv.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, funcName, stmt.ReturnType.IType())).Display()
 			}
 		}
 	}
@@ -225,6 +237,11 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 
 	params := function.Parameters
 	body := function.Body
+
+	// check if the number of arguments match the number of parameters
+	if len(args) != len(params) {
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("function '%s' expects %d arguments but %d were provided", funcName, len(params), len(args))).Display()
+	}
 
 	// create a new environment for the function
 	newEnv := NewEnvironment(env, env.parser)
