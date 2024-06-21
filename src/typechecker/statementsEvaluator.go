@@ -251,11 +251,13 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 	// check if the function is defined
 	funcName := expr.Function.Identifier
 
-	if env.variables[funcName] == nil {
+	functionScope, err := env.ResolveVariable(funcName)
+
+	if err != nil {
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Function.StartPos, expr.Function.EndPos, fmt.Sprintf("function '%s' is not defined", funcName)).Display()
 	}
 
-	function := env.variables[funcName].(FunctionValue)
+	function := functionScope.variables[funcName].(FunctionValue)
 
 	args := expr.Args
 

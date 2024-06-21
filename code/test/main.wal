@@ -34,11 +34,13 @@ red.r = 0.5;
 let sum := add(1.3, red.r);
 
 fn NewColor(name: str, r: f32, g: f32, b: f32) -> Color {
-    ret Color { name: name, r: r, g: g, b: b, a: 1.0};
+    ret Color { name: name, r: r, g: g, b: b, a: add(r, g)};
 }
 
 let green := NewColor("green", 0.0, 1.0, 0.0);
 
 green.g;
 
-green.a; // Error: a is private
+//green.a; // Error: a is private
+
+

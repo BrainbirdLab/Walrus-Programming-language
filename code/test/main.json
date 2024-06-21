@@ -7,8 +7,8 @@
   },
   "EndPos": {
     "Line": 44,
-    "Column": 32,
-    "Index": 837
+    "Column": 34,
+    "Index": 845
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -1191,7 +1191,7 @@
       "EndPos": {
         "Line": 38,
         "Column": 2,
-        "Index": 740
+        "Index": 746
       },
       "Name": {
         "Kind": "IDENTIFIER",
@@ -1354,7 +1354,7 @@
         "EndPos": {
           "Line": 38,
           "Column": 2,
-          "Index": 740
+          "Index": 746
         },
         "Body": [
           {
@@ -1366,8 +1366,8 @@
             },
             "EndPos": {
               "Line": 37,
-              "Column": 55,
-              "Index": 737
+              "Column": 61,
+              "Index": 743
             },
             "Expression": {
               "Kind": "STRUCT_LITERAL",
@@ -1378,25 +1378,67 @@
               },
               "EndPos": {
                 "Line": 37,
-                "Column": 54,
-                "Index": 736
+                "Column": 60,
+                "Index": 742
               },
               "StructName": "Color",
               "Properties": {
                 "a": {
-                  "Kind": "FLOAT_LITERAL",
+                  "Kind": "FUNCTION_CALL_EXPRESSION",
                   "StartPos": {
-                    "Line": 37,
-                    "Column": 50,
-                    "Index": 732
-                  },
-                  "EndPos": {
                     "Line": 37,
                     "Column": 53,
                     "Index": 735
                   },
-                  "Value": "1.0",
-                  "BitSize": 32
+                  "EndPos": {
+                    "Line": 37,
+                    "Column": 59,
+                    "Index": 741
+                  },
+                  "Function": {
+                    "Kind": "IDENTIFIER",
+                    "StartPos": {
+                      "Line": 37,
+                      "Column": 50,
+                      "Index": 732
+                    },
+                    "EndPos": {
+                      "Line": 37,
+                      "Column": 53,
+                      "Index": 735
+                    },
+                    "Identifier": "add"
+                  },
+                  "Args": [
+                    {
+                      "Kind": "IDENTIFIER",
+                      "StartPos": {
+                        "Line": 37,
+                        "Column": 54,
+                        "Index": 736
+                      },
+                      "EndPos": {
+                        "Line": 37,
+                        "Column": 55,
+                        "Index": 737
+                      },
+                      "Identifier": "r"
+                    },
+                    {
+                      "Kind": "IDENTIFIER",
+                      "StartPos": {
+                        "Line": 37,
+                        "Column": 57,
+                        "Index": 739
+                      },
+                      "EndPos": {
+                        "Line": 37,
+                        "Column": 58,
+                        "Index": 740
+                      },
+                      "Identifier": "g"
+                    }
+                  ]
                 },
                 "b": {
                   "Kind": "IDENTIFIER",
@@ -1465,12 +1507,12 @@
       "StartPos": {
         "Line": 40,
         "Column": 1,
-        "Index": 744
+        "Index": 750
       },
       "EndPos": {
         "Line": 40,
         "Column": 47,
-        "Index": 790
+        "Index": 796
       },
       "IsConstant": false,
       "Identifier": {
@@ -1478,12 +1520,12 @@
         "StartPos": {
           "Line": 40,
           "Column": 5,
-          "Index": 748
+          "Index": 754
         },
         "EndPos": {
           "Line": 40,
           "Column": 10,
-          "Index": 753
+          "Index": 759
         },
         "Identifier": "green"
       },
@@ -1492,24 +1534,24 @@
         "StartPos": {
           "Line": 40,
           "Column": 22,
-          "Index": 765
+          "Index": 771
         },
         "EndPos": {
           "Line": 40,
           "Column": 46,
-          "Index": 789
+          "Index": 795
         },
         "Function": {
           "Kind": "IDENTIFIER",
           "StartPos": {
             "Line": 40,
             "Column": 14,
-            "Index": 757
+            "Index": 763
           },
           "EndPos": {
             "Line": 40,
             "Column": 22,
-            "Index": 765
+            "Index": 771
           },
           "Identifier": "NewColor"
         },
@@ -1519,12 +1561,12 @@
             "StartPos": {
               "Line": 40,
               "Column": 23,
-              "Index": 766
+              "Index": 772
             },
             "EndPos": {
               "Line": 40,
               "Column": 30,
-              "Index": 773
+              "Index": 779
             },
             "Value": "green"
           },
@@ -1533,12 +1575,12 @@
             "StartPos": {
               "Line": 40,
               "Column": 32,
-              "Index": 775
+              "Index": 781
             },
             "EndPos": {
               "Line": 40,
               "Column": 35,
-              "Index": 778
+              "Index": 784
             },
             "Value": "0.0",
             "BitSize": 32
@@ -1548,12 +1590,12 @@
             "StartPos": {
               "Line": 40,
               "Column": 37,
-              "Index": 780
+              "Index": 786
             },
             "EndPos": {
               "Line": 40,
               "Column": 40,
-              "Index": 783
+              "Index": 789
             },
             "Value": "1.0",
             "BitSize": 32
@@ -1563,12 +1605,12 @@
             "StartPos": {
               "Line": 40,
               "Column": 42,
-              "Index": 785
+              "Index": 791
             },
             "EndPos": {
               "Line": 40,
               "Column": 45,
-              "Index": 788
+              "Index": 794
             },
             "Value": "0.0",
             "BitSize": 32
@@ -1582,81 +1624,40 @@
       "StartPos": {
         "Line": 42,
         "Column": 7,
-        "Index": 800
+        "Index": 806
       },
       "EndPos": {
         "Line": 42,
         "Column": 8,
-        "Index": 801
+        "Index": 807
       },
       "Object": {
         "Kind": "IDENTIFIER",
         "StartPos": {
           "Line": 42,
           "Column": 1,
-          "Index": 794
-        },
-        "EndPos": {
-          "Line": 42,
-          "Column": 6,
-          "Index": 799
-        },
-        "Identifier": "green"
-      },
-      "Property": {
-        "Kind": "IDENTIFIER",
-        "StartPos": {
-          "Line": 42,
-          "Column": 7,
           "Index": 800
         },
         "EndPos": {
           "Line": 42,
-          "Column": 8,
-          "Index": 801
-        },
-        "Identifier": "g"
-      }
-    },
-    {
-      "Kind": "STRUCT_PROPERTY",
-      "StartPos": {
-        "Line": 44,
-        "Column": 7,
-        "Index": 812
-      },
-      "EndPos": {
-        "Line": 44,
-        "Column": 8,
-        "Index": 813
-      },
-      "Object": {
-        "Kind": "IDENTIFIER",
-        "StartPos": {
-          "Line": 44,
-          "Column": 1,
-          "Index": 806
-        },
-        "EndPos": {
-          "Line": 44,
           "Column": 6,
-          "Index": 811
+          "Index": 805
         },
         "Identifier": "green"
       },
       "Property": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 44,
+          "Line": 42,
           "Column": 7,
-          "Index": 812
+          "Index": 806
         },
         "EndPos": {
-          "Line": 44,
+          "Line": 42,
           "Column": 8,
-          "Index": 813
+          "Index": 807
         },
-        "Identifier": "a"
+        "Identifier": "g"
       }
     }
   ]
