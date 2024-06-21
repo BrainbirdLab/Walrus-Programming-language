@@ -40,7 +40,6 @@ func TypesMatchT[T any](args ...any) bool {
 			return false
 		}
 	}
-
 	return true
 }
 
@@ -52,6 +51,5 @@ func ContainsIn(items []string, targets ...string) bool {
 			}
 		}
 	}
-
 	return false
 }
