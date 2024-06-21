@@ -43,6 +43,10 @@ func IsINT(runtimeValue RuntimeValue) bool {
 	}
 }
 
+func IsBothINT(runtimeValue1 RuntimeValue, runtimeValue2 RuntimeValue) bool {
+	return IsINT(runtimeValue1) && IsINT(runtimeValue2)
+}
+
 func IsFLOAT(runtimeValue RuntimeValue) bool {
 	switch GetRuntimeType(runtimeValue) {
 	case ast.T_FLOAT32, ast.T_FLOAT64:
@@ -50,6 +54,10 @@ func IsFLOAT(runtimeValue RuntimeValue) bool {
 	default:
 		return false
 	}
+}
+
+func IsBothFLOAT(runtimeValue1 RuntimeValue, runtimeValue2 RuntimeValue) bool {
+	return IsFLOAT(runtimeValue1) && IsFLOAT(runtimeValue2)
 }
 
 func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
@@ -111,5 +119,14 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 }
 
 func HasStruct(name string, env *Environment) bool {
-	return env.structs[name] != nil
+	// if not found in the current scope, check the parent scope
+	if _, ok := env.structs[name]; ok {
+		return true
+	}
+
+	if env.parent != nil {
+		return HasStruct(name, env.parent)
+	}
+
+	return false
 }

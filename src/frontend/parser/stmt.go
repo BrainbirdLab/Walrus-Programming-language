@@ -302,7 +302,7 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 		//property
 		if p.currentTokenKind() == lexer.ACCESS_TOKEN {
 
-			properties = getProperties(p)
+			setProperties(p, properties)
 
 			continue
 
@@ -338,7 +338,7 @@ func parseStructDeclStmt(p *Parser) ast.Statement {
 	}
 }
 
-func getProperties(p *Parser) map[string]ast.Property {
+func setProperties(p *Parser, propsMap map[string]ast.Property) {
 
 	var isStatic bool
 	var isPublic bool
@@ -368,8 +368,6 @@ func getProperties(p *Parser) map[string]ast.Property {
 
 	prop := p.expect(lexer.IDENTIFIER_TOKEN)
 
-	propsMap := map[string]ast.Property{}
-
 	if p.currentTokenKind() == lexer.COLON_TOKEN {
 		//then its a property
 
@@ -391,15 +389,18 @@ func getProperties(p *Parser) map[string]ast.Property {
 		}
 
 		propsMap[prop.Value] = ast.Property{
+			BaseStmt: ast.BaseStmt{
+				Kind:     ast.STRUCT_PROPERTY,
+				StartPos: prop.StartPos,
+				EndPos:   prop.EndPos,
+			},
 			IsStatic: isStatic,
 			IsPublic: isPublic,
 			ReadOnly: readOnly,
+			Name: prop.Value,
 			Type:     propertyType,
-			//Value: nil,
 		}
 	}
-
-	return propsMap
 }
 
 func parseTraitDeclStmt(p *Parser) ast.Statement {

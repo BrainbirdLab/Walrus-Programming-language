@@ -133,7 +133,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 	case "==", "!=", ">", "<", ">=", "<=":
 		if helpers.TypesMatchT[IntegerValue](left) && helpers.TypesMatchT[IntegerValue](right) {
 			// Logical expr
-			val, err := evaluateLogicalExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+			val, err := evaluateComparisonExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
 
 			if err != nil {
 				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
@@ -166,7 +166,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 		if env.HasVariable((binop.Left).(ast.IdentifierExpr).Identifier) {
 
-			exprVal, err := evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+			exprVal, err := evaluateNumericExpr(left, right, binop.Operator)
 
 			if err != nil {
 				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
@@ -184,7 +184,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 
 			return runtimeVal
 		} else {
-			val, err := evaluateNumericExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+			val, err := evaluateNumericExpr(left, right, binop.Operator)
 
 			if err != nil {
 				parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
@@ -194,7 +194,7 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 		}
 
 	case "&&", "||":
-		val, err := evaluateLogicalExpr(left.(IntegerValue), right.(IntegerValue), binop.Operator)
+		val, err := evaluateComparisonExpr(left, right, binop.Operator)
 
 		if err != nil {
 			parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.StartPos, binop.EndPos, err.Error()).Display()
@@ -214,36 +214,65 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 
 	var err error
 
-	if assignNode.Assigne.Kind != ast.IDENTIFIER {
-		err = fmt.Errorf("invalid left-hand side in assignment expression %v", assignNode.Assigne)
-		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Assigne.StartPos, assignNode.Assigne.EndPos, err.Error()).Display()
+	var variableToAssign ast.IdentifierExpr
+	var variableNameString string
+
+	switch assignNode.Assigne.(type) {
+		case ast.IdentifierExpr:
+			variableToAssign = assignNode.Assigne.(ast.IdentifierExpr)
+			variableNameString = variableToAssign.Identifier
+		case ast.StructPropertyExpr:
+			variableToAssign = assignNode.Assigne.(ast.StructPropertyExpr).Property
+			variableNameString = assignNode.Assigne.(ast.StructPropertyExpr).Object.(ast.IdentifierExpr).Identifier
+		default:
+			err = fmt.Errorf("invalid left-hand side in assignment expression")
+			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, variableToAssign.StartPos, variableToAssign.EndPos, err.Error()).Display()
 	}
 
 	//if assigne is any of "false", "true", "null";
-	if helpers.ContainsIn([]string{"false", "true", "null"}, assignNode.Assigne.Identifier) {
-		err = fmt.Errorf("cannot assign to built-in constant %v", assignNode.Assigne.Identifier)
-		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Assigne.StartPos, assignNode.Assigne.EndPos, err.Error()).Display()
+	if helpers.ContainsIn([]string{"false", "true", "null"}, variableToAssign.Identifier) {
+		err = fmt.Errorf("cannot assign to built-in constant %v", variableToAssign.Identifier)
+		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, variableToAssign.StartPos, variableToAssign.EndPos, err.Error()).Display()
 	}
 
-	assigneValue, err := env.GetRuntimeValue(assignNode.Assigne.Identifier)
+	currentValueOfIdentifier, err := env.GetRuntimeValue(variableNameString)
 
 	if err != nil {
 		valStart, valEnd := assignNode.Value.GetPos()
 		parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, valStart, valEnd, err.Error()).Display()
 	}
 
-	value := Evaluate(assignNode.Value, env)
+	valueToSet := Evaluate(assignNode.Value, env)
+
+	if helpers.TypesMatchT[StructInstance](currentValueOfIdentifier) {
+
+		// assign struct instance properties
+		// if object is declared in the current scope
+		if !env.HasVariable(variableNameString) {
+			err = fmt.Errorf("variable %v is not declared in this scope", variableNameString)
+			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, variableToAssign.StartPos, variableToAssign.EndPos, err.Error()).Display()
+		}
+
+		structInstance := env.variables[variableNameString]
+		i := structInstance.(StructInstance)
+
+		i.Fields[assignNode.Assigne.(ast.StructPropertyExpr).Property.Identifier] = valueToSet
+
+		env.structs[variableNameString] = i
+
+		return valueToSet
+	}
 
 	switch assignNode.Operator.Kind {
 	case lexer.PLUS_EQUALS_TOKEN, lexer.MINUS_EQUALS_TOKEN, lexer.TIMES_EQUALS_TOKEN, lexer.DIVIDE_EQUALS_TOKEN, lexer.MODULO_EQUALS_TOKEN:
-		if (!IsINT(assigneValue) || !IsINT(value)) && (!IsFLOAT(assigneValue) || !IsFLOAT(value)){
+		if (!IsINT(currentValueOfIdentifier) || !IsINT(valueToSet)) && (!IsFLOAT(currentValueOfIdentifier) || !IsFLOAT(valueToSet)){
 
-			err = fmt.Errorf("invalid operation between %v and %v", GetRuntimeType(assigneValue), GetRuntimeType(value))
+			err = fmt.Errorf("invalid operation between %v and %v", GetRuntimeType(currentValueOfIdentifier), GetRuntimeType(valueToSet))
 
 			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, assignNode.Operator.StartPos, assignNode.Operator.EndPos, err.Error()).Display()
 		}
 
-		value, err = evaluateNumericExpr(assigneValue, value, assignNode.Operator)
+		valueToSet, err = evaluateNumericExpr(currentValueOfIdentifier, valueToSet, assignNode.Operator)
 
 		if err != nil {
 
@@ -253,7 +282,7 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 		}
 	}
 
-	runtimeVal, err := env.AssignVariable(assignNode.Assigne.Identifier, value)
+	runtimeVal, err := env.AssignVariable(variableToAssign.Identifier, valueToSet)
 
 	if err != nil {
 		start, end := assignNode.Value.GetPos()
@@ -287,23 +316,32 @@ func evaluateNumericExpr(left RuntimeValue, right RuntimeValue, operator lexer.T
 }
 
 func evaluateIntInt(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
+
+	highestBit := uint8(0)
+
+	if left.Size > right.Size {
+		highestBit = left.Size
+	} else {
+		highestBit = right.Size
+	}
+
 	switch operator.Value {
 	case "+", "+=":
-		return MAKE_INT(left.Value+right.Value, 32, true), nil
+		return MAKE_INT(left.Value+right.Value, highestBit, true), nil
 	case "-", "-=":
-		return MAKE_INT(left.Value-right.Value, 32, true), nil
+		return MAKE_INT(left.Value-right.Value, highestBit, true), nil
 	case "*", "*=":
-		return MAKE_INT(left.Value*right.Value, 32, true), nil
+		return MAKE_INT(left.Value*right.Value, highestBit, true), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_INT(left.Value/right.Value, 32, true), nil
+		return MAKE_INT(left.Value/right.Value, highestBit, true), nil
 	case "%", "%=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_INT(left.Value%right.Value, 32, true), nil
+		return MAKE_INT(left.Value%right.Value, highestBit, true), nil
 	case "^":
 		//power operation
 		number := left.Value
@@ -319,25 +357,34 @@ func evaluateIntInt(left IntegerValue, right IntegerValue, operator lexer.Token)
 			power >>= 1
 		}
 
-		return MAKE_INT(result, 32, true), nil
+		return MAKE_INT(result, highestBit, true), nil
 	default:
 		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
 }
 
 func evaluateIntFloat(left IntegerValue, right FloatValue, operator lexer.Token) (RuntimeValue, error) {
+
+	highestBit := uint8(0)
+
+	if left.Size > right.Size {
+		highestBit = left.Size
+	} else {
+		highestBit = right.Size
+	}
+
 	switch operator.Value {
 	case "+", "+=":
-		return MAKE_INT(int64(float64(left.Value)+right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)+right.Value), highestBit, true), nil
 	case "-", "-=":
-		return MAKE_INT(int64(float64(left.Value)-right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)-right.Value), highestBit, true), nil
 	case "*", "*=":
-		return MAKE_INT(int64(float64(left.Value)*right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)*right.Value), highestBit, true), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_INT(int64(float64(left.Value)/right.Value), 64, true), nil
+		return MAKE_INT(int64(float64(left.Value)/right.Value), highestBit, true), nil
 	case "^":
 		//power operation
 		number := float64(left.Value)
@@ -353,25 +400,34 @@ func evaluateIntFloat(left IntegerValue, right FloatValue, operator lexer.Token)
 			power /= 2
 		}
 
-		return MAKE_INT(int64(result), 64, true), nil
+		return MAKE_INT(int64(result), highestBit, true), nil
 	default:
 		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
 }
 
 func evaluateFloatInt(left FloatValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
+
+	highestBit := uint8(0)
+
+	if left.Size > right.Size {
+		highestBit = left.Size
+	} else {
+		highestBit = right.Size
+	}
+
 	switch operator.Value {
 	case "+", "+=":
-		return MAKE_FLOAT(left.Value+float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value+float64(right.Value), highestBit), nil
 	case "-", "-=":
-		return MAKE_FLOAT(left.Value-float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value-float64(right.Value), highestBit), nil
 	case "*", "*=":
-		return MAKE_FLOAT(left.Value*float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value*float64(right.Value), highestBit), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_FLOAT(left.Value/float64(right.Value), 64), nil
+		return MAKE_FLOAT(left.Value/float64(right.Value), highestBit), nil
 	case "^":
 		//power operation
 		number := left.Value
@@ -387,7 +443,7 @@ func evaluateFloatInt(left FloatValue, right IntegerValue, operator lexer.Token)
 			power /= 2
 		}
 
-		return MAKE_FLOAT(result, 64), nil
+		return MAKE_FLOAT(result, highestBit), nil
 	default:
 		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
@@ -395,18 +451,26 @@ func evaluateFloatInt(left FloatValue, right IntegerValue, operator lexer.Token)
 
 func evaluateFloatFloat(left FloatValue, right FloatValue, operator lexer.Token) (RuntimeValue, error) {
 
+	highestBit := uint8(0)
+
+	if left.Size > right.Size {
+		highestBit = left.Size
+	} else {
+		highestBit = right.Size
+	}
+
 	switch operator.Value {
 	case "+", "+=":
-		return MAKE_FLOAT(left.Value+right.Value, 64), nil
+		return MAKE_FLOAT(left.Value+right.Value, highestBit), nil
 	case "-", "-=":
-		return MAKE_FLOAT(left.Value-right.Value, 64), nil
+		return MAKE_FLOAT(left.Value-right.Value, highestBit), nil
 	case "*", "*=":
-		return MAKE_FLOAT(left.Value*right.Value, 64), nil
+		return MAKE_FLOAT(left.Value*right.Value, highestBit), nil
 	case "/", "/=":
 		if right.Value == 0 {
 			return nil, fmt.Errorf("division by zero is forbidden")
 		}
-		return MAKE_FLOAT(left.Value/right.Value, 64), nil
+		return MAKE_FLOAT(left.Value/right.Value, highestBit), nil
 	case "^":
 		//power operation
 		number := left.Value
@@ -422,35 +486,31 @@ func evaluateFloatFloat(left FloatValue, right FloatValue, operator lexer.Token)
 			power /= 2
 		}
 
-		return MAKE_FLOAT(result, 64), nil
+		return MAKE_FLOAT(result, highestBit), nil
 	default:
 		return nil, fmt.Errorf("cannot evaluate numeric operation. unsupported operator %v", operator.Value)
 	}
 }
 
-func evaluateLogicalExpr(left IntegerValue, right IntegerValue, operator lexer.Token) (RuntimeValue, error) {
+func evaluateComparisonExpr(left RuntimeValue, right RuntimeValue, operator lexer.Token) (RuntimeValue, error) {
 
 	result := false
 
+	castedLeft := left.(FloatValue)
+	castedRight := right.(FloatValue)
+
+	// these can be compared to int or float
 	switch operator.Value {
-	case "==":
-		result = left.Value == right.Value
-	case "!=":
-		result = left.Value != right.Value
 	case ">":
-		result = left.Value > right.Value
+		result = castedLeft.Value > castedRight.Value
 	case "<":
-		result = left.Value < right.Value
+		result = castedLeft.Value < castedRight.Value
 	case ">=":
-		result = left.Value >= right.Value
+		result = castedLeft.Value >= castedRight.Value
 	case "<=":
-		result = left.Value <= right.Value
-	case "&&":
-		result = left.Value != 0 && right.Value != 0
-	case "||":
-		result = left.Value != 0 || right.Value != 0
+		result = castedLeft.Value <= castedRight.Value
 	default:
-		return nil, fmt.Errorf("cannot evaluate logical expression. unsupported operator %v", operator.Value)
+		return nil, fmt.Errorf("cannot evaluate comparison expression. unsupported operator %v", operator.Value)
 	}
 
 	return MAKE_BOOL(result), nil

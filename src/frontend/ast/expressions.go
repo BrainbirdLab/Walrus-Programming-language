@@ -145,7 +145,7 @@ func (v VoidExpr) iExpression() {
 
 type AssignmentExpr struct {
 	BaseStmt
-	Assigne  IdentifierExpr
+	Assigne  Expression
 	Value    Expression
 	Operator lexer.Token
 }

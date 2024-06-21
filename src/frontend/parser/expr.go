@@ -118,7 +118,7 @@ func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 	tokenKind := token.Kind
 
-	if tokenKind == lexer.IDENTIFIER_TOKEN && p.nextToken().Kind == lexer.OPEN_CURLY_TOKEN && (p.previousToken().Kind == lexer.WALRUS_TOKEN || p.previousToken().Kind == lexer.ASSIGNMENT_TOKEN) {
+	if tokenKind == lexer.IDENTIFIER_TOKEN && p.nextToken().Kind == lexer.OPEN_CURLY_TOKEN && p.previousToken().Kind != lexer.STRUCT_TOKEN /*&& (p.previousToken().Kind == lexer.WALRUS_TOKEN || p.previousToken().Kind == lexer.ASSIGNMENT_TOKEN)*/ {
 		// Function call
 		return parseStructInstantiationExpr(p, parsePrimaryExpr(p))
 	}
@@ -344,18 +344,12 @@ func parseVarAssignmentExpr(p *Parser, left ast.Expression, bp BINDING_POWER) as
 
 	start := p.currentToken().StartPos
 
-	var identifier ast.IdentifierExpr
+	var identifier ast.Expression
 
 	switch assignee := left.(type) {
 
-	case ast.IdentifierExpr:
-
+	case ast.IdentifierExpr, ast.StructPropertyExpr:
 		identifier = assignee
-
-	case ast.StructPropertyExpr:
-
-		identifier = assignee.Property
-
 	default:
 		errMsg := "Cannot assign to a non-identifier\n"
 		MakeError(p, start.Line, p.FilePath, p.previousToken().StartPos, p.previousToken().EndPos, errMsg).AddHint("Expected an identifier", TEXT_HINT).Display()

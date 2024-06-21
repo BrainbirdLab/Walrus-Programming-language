@@ -31,6 +31,23 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 		return nil, fmt.Errorf("variable %s already declared in this scope", name)
 	}
 
+	switch v := value.(type){
+	case StructInstance:
+		// check all fields are initialized
+		structDeclaration := e.structs[v.StructName]
+
+		for _, field := range structDeclaration.(StructValue).Fields {
+			if v.Fields[field.Name] == nil {
+				return nil, fmt.Errorf("field '%s' of struct '%s' is not initialized", field.Name, v.StructName)
+			} else {
+				// check type compatibility
+				if GetRuntimeType(v.Fields[field.Name]) != field.Type.IType() {
+					return nil, fmt.Errorf("field '%s' of struct '%s' is of type %s, but got %s", field.Name, v.StructName, field.Type.IType(), GetRuntimeType(v.Fields[field.Name]))
+				}
+			}
+		}
+	}
+
 	e.variables[name] = value
 
 	if isConstant {
@@ -55,8 +72,8 @@ func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeVa
 	// check type compatibility
 	variable := env.variables[name]
 
-	if GetRuntimeType(variable) != GetRuntimeType(value) {
-		return nil, fmt.Errorf("cannot assign value of type %s to %s", GetRuntimeType(value), GetRuntimeType(variable))
+	if !((IsBothINT(variable, value) || IsBothFLOAT(variable, value)) || (GetRuntimeType(variable) != GetRuntimeType(value))) {
+		return nil, fmt.Errorf("cannot assign value %v of type %s to %s", value, GetRuntimeType(value), GetRuntimeType(variable))
 	} else {
 		switch t := variable.(type) {
 		case IntegerValue:

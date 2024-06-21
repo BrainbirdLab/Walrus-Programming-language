@@ -113,9 +113,9 @@ func checkTypes(env *Environment, explicitType ast.Type, value RuntimeValue, sta
 		got := string(GetRuntimeType(value))
 
 		if !HasStruct(expected, env) {
-			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("struct '%s' is not defined", expected)).Display()
+			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("failed to validate types. struct '%s' is not defined", expected)).Display()
 		} else if !HasStruct(string(got), env) {
-			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("struct '%s' is not defined", got)).Display()
+			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("failed to validate types. struct '%s' is not defined", got)).Display()
 		} else if expected != got {
 			msg = strFormatter(explicitType, value)
 		}
@@ -216,6 +216,7 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 			returnType := GetRuntimeType(returnVal)
 
 			if returnType != stmt.ReturnType.IType() {
+
 				funcName := fmt.Sprintf("%s(", stmt.Name.Identifier)
 				params := stmt.Parameters
 				formattedParams := ""
@@ -227,7 +228,17 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 					}
 				}
 				funcName += formattedParams + ")"
-				parser.MakeError(funcEnv.parser, start.Line, funcEnv.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, funcName, stmt.ReturnType.IType())).Display()
+
+				// if struct, check if the struct is defined
+				if _, ok := stmt.ReturnType.(ast.StructType); ok {
+					if HasStruct(stmt.ReturnType.(ast.StructType).Name, funcEnv) {
+						return MAKE_VOID()
+					} else {
+						parser.MakeError(funcEnv.parser, start.Line, funcEnv.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, stmt.Name.Identifier, stmt.ReturnType.(ast.StructType).Name)).Display()
+					}
+				} else {
+					parser.MakeError(funcEnv.parser, start.Line, funcEnv.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, funcName, stmt.ReturnType.IType())).Display()
+				}
 			}
 		}
 	}
@@ -299,7 +310,8 @@ func EvaluateStructLiteral(stmt ast.StructLiteral, env *Environment) RuntimeValu
 
 	//check if the struct is defined
 	if !HasStruct(stmt.StructName, env) {
-		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.StartPos, stmt.EndPos, fmt.Sprintf("struct '%s' is not defined", stmt.StructName)).Display()
+		fmt.Printf("structs: %v\n", env.structs)
+		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.StartPos, stmt.EndPos, fmt.Sprintf("cannot evaluate struct literal. struct '%s' is not defined", stmt.StructName)).Display()
 	}
 
 	properties := make(map[string]RuntimeValue)
@@ -317,6 +329,12 @@ func EvaluateStructLiteral(stmt ast.StructLiteral, env *Environment) RuntimeValu
 func EvaluateStructPropertyExpr(expr ast.StructPropertyExpr, env *Environment) RuntimeValue {
 
 	obj := Evaluate(expr.Object, env)
+
+	propname := expr.Property.Identifier
+
+	if obj.(StructInstance).Fields[propname] == nil {
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is not defined in struct '%s'", propname, obj.(StructInstance).StructName)).Display()
+	}
 
 	return obj.(StructInstance).Fields[expr.Property.Identifier]
 }
