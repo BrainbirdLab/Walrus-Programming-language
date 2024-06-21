@@ -328,13 +328,25 @@ func EvaluateStructLiteral(stmt ast.StructLiteral, env *Environment) RuntimeValu
 
 func EvaluateStructPropertyExpr(expr ast.StructPropertyExpr, env *Environment) RuntimeValue {
 
-	obj := Evaluate(expr.Object, env)
+	obj := Evaluate(expr.Object, env).(StructInstance)
 
 	propname := expr.Property.Identifier
 
-	if obj.(StructInstance).Fields[propname] == nil {
-		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is not defined in struct '%s'", propname, obj.(StructInstance).StructName)).Display()
+	if obj.Fields[propname] == nil {
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is not defined in struct '%s'", propname, obj.StructName)).Display()
 	}
 
-	return obj.(StructInstance).Fields[expr.Property.Identifier]
+	structValue, err := env.GetStructType(obj.StructName)
+
+	if err != nil {
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, err.Error()).Display()
+	}
+
+	// check if the property is public
+	if structValue.(StructValue).Fields[propname].IsPublic {
+		return obj.Fields[propname]
+	} else {
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is private in struct '%s'", propname, obj.StructName)).Display()
+		return nil
+	}
 }

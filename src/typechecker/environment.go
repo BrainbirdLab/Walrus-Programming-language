@@ -124,6 +124,19 @@ func (e *Environment) ResolveVariable(name string) (*Environment, error) {
 	return e.parent.ResolveVariable(name)
 }
 
+func (e *Environment) GetStructType(name string) (RuntimeValue, error) {
+	
+	if _, ok := e.structs[name]; ok {
+		return e.structs[name], nil
+	}
+
+	if e.parent == nil {
+		return nil, fmt.Errorf("struct %s was not declared in this scope", name)
+	}
+
+	return e.parent.GetStructType(name)
+}
+
 func (e *Environment) GetRuntimeValue(name string) (RuntimeValue, error) {
 	env, err := e.ResolveVariable(name)
 

@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 40,
-    "Column": 9,
-    "Index": 645
+    "Line": 44,
+    "Column": 32,
+    "Index": 837
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -17,41 +17,41 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 1,
+        "Line": 2,
         "Column": 1,
-        "Index": 0
+        "Index": 50
       },
       "EndPos": {
-        "Line": 1,
+        "Line": 2,
         "Column": 12,
-        "Index": 11
+        "Index": 61
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 1,
+          "Line": 2,
           "Column": 5,
-          "Index": 4
+          "Index": 54
         },
         "EndPos": {
-          "Line": 1,
+          "Line": 2,
           "Column": 6,
-          "Index": 5
+          "Index": 55
         },
         "Identifier": "a"
       },
       "Value": {
         "Kind": "INTEGER_LITERAL",
         "StartPos": {
-          "Line": 1,
+          "Line": 2,
           "Column": 10,
-          "Index": 9
+          "Index": 59
         },
         "EndPos": {
-          "Line": 1,
+          "Line": 2,
           "Column": 11,
-          "Index": 10
+          "Index": 60
         },
         "Value": "1",
         "BitSize": 32
@@ -61,41 +61,41 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 2,
+        "Line": 3,
         "Column": 1,
-        "Index": 13
+        "Index": 63
       },
       "EndPos": {
-        "Line": 2,
+        "Line": 3,
         "Column": 12,
-        "Index": 24
+        "Index": 74
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 2,
+          "Line": 3,
           "Column": 5,
-          "Index": 17
+          "Index": 67
         },
         "EndPos": {
-          "Line": 2,
+          "Line": 3,
           "Column": 6,
-          "Index": 18
+          "Index": 68
         },
         "Identifier": "b"
       },
       "Value": {
         "Kind": "INTEGER_LITERAL",
         "StartPos": {
-          "Line": 2,
+          "Line": 3,
           "Column": 10,
-          "Index": 22
+          "Index": 72
         },
         "EndPos": {
-          "Line": 2,
+          "Line": 3,
           "Column": 11,
-          "Index": 23
+          "Index": 73
         },
         "Value": "2",
         "BitSize": 32
@@ -105,81 +105,81 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 3,
+        "Line": 4,
         "Column": 1,
-        "Index": 26
+        "Index": 76
       },
       "EndPos": {
-        "Line": 3,
+        "Line": 4,
         "Column": 16,
-        "Index": 41
+        "Index": 91
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 3,
+          "Line": 4,
           "Column": 5,
-          "Index": 30
+          "Index": 80
         },
         "EndPos": {
-          "Line": 3,
+          "Line": 4,
           "Column": 6,
-          "Index": 31
+          "Index": 81
         },
         "Identifier": "c"
       },
       "Value": {
         "Kind": "BINARY_EXPRESSION",
         "StartPos": {
-          "Line": 3,
+          "Line": 4,
           "Column": 12,
-          "Index": 37
+          "Index": 87
         },
         "EndPos": {
-          "Line": 3,
+          "Line": 4,
           "Column": 15,
-          "Index": 40
+          "Index": 90
         },
         "Operator": {
           "Kind": "+",
           "Value": "+",
           "StartPos": {
-            "Line": 3,
+            "Line": 4,
             "Column": 12,
-            "Index": 37
+            "Index": 87
           },
           "EndPos": {
-            "Line": 3,
+            "Line": 4,
             "Column": 13,
-            "Index": 38
+            "Index": 88
           }
         },
         "Left": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 3,
+            "Line": 4,
             "Column": 10,
-            "Index": 35
+            "Index": 85
           },
           "EndPos": {
-            "Line": 3,
+            "Line": 4,
             "Column": 11,
-            "Index": 36
+            "Index": 86
           },
           "Identifier": "a"
         },
         "Right": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 3,
+            "Line": 4,
             "Column": 14,
-            "Index": 39
+            "Index": 89
           },
           "EndPos": {
-            "Line": 3,
+            "Line": 4,
             "Column": 15,
-            "Index": 40
+            "Index": 90
           },
           "Identifier": "b"
         }
@@ -189,66 +189,66 @@
     {
       "Kind": "ASSIGNMENT_EXPRESSION",
       "StartPos": {
-        "Line": 5,
+        "Line": 6,
         "Column": 3,
-        "Index": 47
+        "Index": 97
       },
       "EndPos": {
-        "Line": 5,
+        "Line": 6,
         "Column": 11,
-        "Index": 55
+        "Index": 105
       },
       "Assigne": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 5,
+          "Line": 6,
           "Column": 1,
-          "Index": 45
+          "Index": 95
         },
         "EndPos": {
-          "Line": 5,
+          "Line": 6,
           "Column": 2,
-          "Index": 46
+          "Index": 96
         },
         "Identifier": "a"
       },
       "Value": {
         "Kind": "BINARY_EXPRESSION",
         "StartPos": {
-          "Line": 5,
+          "Line": 6,
           "Column": 8,
-          "Index": 52
+          "Index": 102
         },
         "EndPos": {
-          "Line": 5,
+          "Line": 6,
           "Column": 11,
-          "Index": 55
+          "Index": 105
         },
         "Operator": {
           "Kind": "+",
           "Value": "+",
           "StartPos": {
-            "Line": 5,
+            "Line": 6,
             "Column": 8,
-            "Index": 52
+            "Index": 102
           },
           "EndPos": {
-            "Line": 5,
+            "Line": 6,
             "Column": 9,
-            "Index": 53
+            "Index": 103
           }
         },
         "Left": {
           "Kind": "INTEGER_LITERAL",
           "StartPos": {
-            "Line": 5,
+            "Line": 6,
             "Column": 5,
-            "Index": 49
+            "Index": 99
           },
           "EndPos": {
-            "Line": 5,
+            "Line": 6,
             "Column": 7,
-            "Index": 51
+            "Index": 101
           },
           "Value": "20",
           "BitSize": 32
@@ -256,14 +256,14 @@
         "Right": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 5,
+            "Line": 6,
             "Column": 10,
-            "Index": 54
+            "Index": 104
           },
           "EndPos": {
-            "Line": 5,
+            "Line": 6,
             "Column": 11,
-            "Index": 55
+            "Index": 105
           },
           "Identifier": "b"
         }
@@ -272,54 +272,54 @@
         "Kind": "=",
         "Value": "=",
         "StartPos": {
-          "Line": 5,
+          "Line": 6,
           "Column": 3,
-          "Index": 47
+          "Index": 97
         },
         "EndPos": {
-          "Line": 5,
+          "Line": 6,
           "Column": 4,
-          "Index": 48
+          "Index": 98
         }
       }
     },
     {
       "Kind": "ASSIGNMENT_EXPRESSION",
       "StartPos": {
-        "Line": 7,
+        "Line": 8,
         "Column": 3,
-        "Index": 62
+        "Index": 150
       },
       "EndPos": {
-        "Line": 7,
+        "Line": 8,
         "Column": 8,
-        "Index": 67
+        "Index": 155
       },
       "Assigne": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 7,
+          "Line": 8,
           "Column": 1,
-          "Index": 60
+          "Index": 148
         },
         "EndPos": {
-          "Line": 7,
+          "Line": 8,
           "Column": 2,
-          "Index": 61
+          "Index": 149
         },
         "Identifier": "b"
       },
       "Value": {
         "Kind": "INTEGER_LITERAL",
         "StartPos": {
-          "Line": 7,
+          "Line": 8,
           "Column": 6,
-          "Index": 65
+          "Index": 153
         },
         "EndPos": {
-          "Line": 7,
+          "Line": 8,
           "Column": 8,
-          "Index": 67
+          "Index": 155
         },
         "Value": "10",
         "BitSize": 32
@@ -328,40 +328,40 @@
         "Kind": "+=",
         "Value": "+=",
         "StartPos": {
-          "Line": 7,
+          "Line": 8,
           "Column": 3,
-          "Index": 62
+          "Index": 150
         },
         "EndPos": {
-          "Line": 7,
+          "Line": 8,
           "Column": 5,
-          "Index": 64
+          "Index": 152
         }
       }
     },
     {
       "Kind": "FN_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 9,
+        "Line": 11,
         "Column": 1,
-        "Index": 72
+        "Index": 229
       },
       "EndPos": {
-        "Line": 12,
+        "Line": 14,
         "Column": 2,
-        "Index": 145
+        "Index": 302
       },
       "Name": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 9,
+          "Line": 11,
           "Column": 4,
-          "Index": 75
+          "Index": 232
         },
         "EndPos": {
-          "Line": 9,
+          "Line": 11,
           "Column": 7,
-          "Index": 78
+          "Index": 235
         },
         "Identifier": "add"
       },
@@ -369,27 +369,27 @@
         {
           "Kind": "FUNCTION_PARAMETER",
           "StartPos": {
-            "Line": 9,
+            "Line": 11,
             "Column": 8,
-            "Index": 79
+            "Index": 236
           },
           "EndPos": {
-            "Line": 9,
+            "Line": 11,
             "Column": 9,
-            "Index": 80
+            "Index": 237
           },
           "IsVariadic": false,
           "Identifier": {
             "Kind": "IDENTIFIER",
             "StartPos": {
-              "Line": 9,
+              "Line": 11,
               "Column": 8,
-              "Index": 79
+              "Index": 236
             },
             "EndPos": {
-              "Line": 9,
+              "Line": 11,
               "Column": 9,
-              "Index": 80
+              "Index": 237
             },
             "Identifier": "a"
           },
@@ -402,27 +402,27 @@
         {
           "Kind": "FUNCTION_PARAMETER",
           "StartPos": {
-            "Line": 9,
+            "Line": 11,
             "Column": 16,
-            "Index": 87
+            "Index": 244
           },
           "EndPos": {
-            "Line": 9,
+            "Line": 11,
             "Column": 17,
-            "Index": 88
+            "Index": 245
           },
           "IsVariadic": false,
           "Identifier": {
             "Kind": "IDENTIFIER",
             "StartPos": {
-              "Line": 9,
+              "Line": 11,
               "Column": 16,
-              "Index": 87
+              "Index": 244
             },
             "EndPos": {
-              "Line": 9,
+              "Line": 11,
               "Column": 17,
-              "Index": 88
+              "Index": 245
             },
             "Identifier": "b"
           },
@@ -440,54 +440,54 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 9,
+          "Line": 11,
           "Column": 31,
-          "Index": 102
+          "Index": 259
         },
         "EndPos": {
-          "Line": 12,
+          "Line": 14,
           "Column": 2,
-          "Index": 145
+          "Index": 302
         },
         "Body": [
           {
             "Kind": "VARIABLE_DECLARATION_STATEMENT",
             "StartPos": {
-              "Line": 10,
+              "Line": 12,
               "Column": 5,
-              "Index": 109
+              "Index": 266
             },
             "EndPos": {
-              "Line": 10,
+              "Line": 12,
               "Column": 18,
-              "Index": 122
+              "Index": 279
             },
             "IsConstant": false,
             "Identifier": {
               "Kind": "IDENTIFIER",
               "StartPos": {
-                "Line": 10,
+                "Line": 12,
                 "Column": 9,
-                "Index": 113
+                "Index": 270
               },
               "EndPos": {
-                "Line": 10,
+                "Line": 12,
                 "Column": 10,
-                "Index": 114
+                "Index": 271
               },
               "Identifier": "c"
             },
             "Value": {
               "Kind": "FLOAT_LITERAL",
               "StartPos": {
-                "Line": 10,
+                "Line": 12,
                 "Column": 14,
-                "Index": 118
+                "Index": 275
               },
               "EndPos": {
-                "Line": 10,
+                "Line": 12,
                 "Column": 17,
-                "Index": 121
+                "Index": 278
               },
               "Value": "4.5",
               "BitSize": 32
@@ -497,92 +497,92 @@
           {
             "Kind": "RETURN_STATEMENT",
             "StartPos": {
-              "Line": 11,
+              "Line": 13,
               "Column": 5,
-              "Index": 128
+              "Index": 285
             },
             "EndPos": {
-              "Line": 11,
+              "Line": 13,
               "Column": 19,
-              "Index": 142
+              "Index": 299
             },
             "Expression": {
               "Kind": "BINARY_EXPRESSION",
               "StartPos": {
-                "Line": 11,
+                "Line": 13,
                 "Column": 15,
-                "Index": 138
+                "Index": 295
               },
               "EndPos": {
-                "Line": 11,
+                "Line": 13,
                 "Column": 18,
-                "Index": 141
+                "Index": 298
               },
               "Operator": {
                 "Kind": "+",
                 "Value": "+",
                 "StartPos": {
-                  "Line": 11,
+                  "Line": 13,
                   "Column": 15,
-                  "Index": 138
+                  "Index": 295
                 },
                 "EndPos": {
-                  "Line": 11,
+                  "Line": 13,
                   "Column": 16,
-                  "Index": 139
+                  "Index": 296
                 }
               },
               "Left": {
                 "Kind": "BINARY_EXPRESSION",
                 "StartPos": {
-                  "Line": 11,
+                  "Line": 13,
                   "Column": 11,
-                  "Index": 134
+                  "Index": 291
                 },
                 "EndPos": {
-                  "Line": 11,
+                  "Line": 13,
                   "Column": 14,
-                  "Index": 137
+                  "Index": 294
                 },
                 "Operator": {
                   "Kind": "+",
                   "Value": "+",
                   "StartPos": {
-                    "Line": 11,
+                    "Line": 13,
                     "Column": 11,
-                    "Index": 134
+                    "Index": 291
                   },
                   "EndPos": {
-                    "Line": 11,
+                    "Line": 13,
                     "Column": 12,
-                    "Index": 135
+                    "Index": 292
                   }
                 },
                 "Left": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 11,
+                    "Line": 13,
                     "Column": 9,
-                    "Index": 132
+                    "Index": 289
                   },
                   "EndPos": {
-                    "Line": 11,
+                    "Line": 13,
                     "Column": 10,
-                    "Index": 133
+                    "Index": 290
                   },
                   "Identifier": "a"
                 },
                 "Right": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 11,
+                    "Line": 13,
                     "Column": 13,
-                    "Index": 136
+                    "Index": 293
                   },
                   "EndPos": {
-                    "Line": 11,
+                    "Line": 13,
                     "Column": 14,
-                    "Index": 137
+                    "Index": 294
                   },
                   "Identifier": "b"
                 }
@@ -590,14 +590,14 @@
               "Right": {
                 "Kind": "IDENTIFIER",
                 "StartPos": {
-                  "Line": 11,
+                  "Line": 13,
                   "Column": 17,
-                  "Index": 140
+                  "Index": 297
                 },
                 "EndPos": {
-                  "Line": 11,
+                  "Line": 13,
                   "Column": 18,
-                  "Index": 141
+                  "Index": 298
                 },
                 "Identifier": "c"
               }
@@ -609,41 +609,41 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 14,
+        "Line": 16,
         "Column": 1,
-        "Index": 149
+        "Index": 306
       },
       "EndPos": {
-        "Line": 14,
+        "Line": 16,
         "Column": 32,
-        "Index": 180
+        "Index": 337
       },
       "IsConstant": true,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 14,
+          "Line": 16,
           "Column": 7,
-          "Index": 155
+          "Index": 312
         },
         "EndPos": {
-          "Line": 14,
+          "Line": 16,
           "Column": 9,
-          "Index": 157
+          "Index": 314
         },
         "Identifier": "PI"
       },
       "Value": {
         "Kind": "FLOAT_LITERAL",
         "StartPos": {
-          "Line": 14,
+          "Line": 16,
           "Column": 18,
-          "Index": 166
+          "Index": 323
         },
         "EndPos": {
-          "Line": 14,
+          "Line": 16,
           "Column": 31,
-          "Index": 179
+          "Index": 336
         },
         "Value": "3.14159265359",
         "BitSize": 32
@@ -656,41 +656,41 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 15,
+        "Line": 17,
         "Column": 1,
-        "Index": 182
+        "Index": 339
       },
       "EndPos": {
-        "Line": 15,
+        "Line": 17,
         "Column": 14,
-        "Index": 195
+        "Index": 352
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 15,
+          "Line": 17,
           "Column": 5,
-          "Index": 186
+          "Index": 343
         },
         "EndPos": {
-          "Line": 15,
+          "Line": 17,
           "Column": 6,
-          "Index": 187
+          "Index": 344
         },
         "Identifier": "x"
       },
       "Value": {
         "Kind": "CHARACTER_LITERAL",
         "StartPos": {
-          "Line": 15,
+          "Line": 17,
           "Column": 10,
-          "Index": 191
+          "Index": 348
         },
         "EndPos": {
-          "Line": 15,
+          "Line": 17,
           "Column": 13,
-          "Index": 194
+          "Index": 351
         },
         "Value": "s"
       },
@@ -699,41 +699,41 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 16,
+        "Line": 18,
         "Column": 1,
-        "Index": 197
+        "Index": 354
       },
       "EndPos": {
-        "Line": 16,
+        "Line": 18,
         "Column": 23,
-        "Index": 219
+        "Index": 376
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 16,
+          "Line": 18,
           "Column": 5,
-          "Index": 201
+          "Index": 358
         },
         "EndPos": {
-          "Line": 16,
+          "Line": 18,
           "Column": 8,
-          "Index": 204
+          "Index": 361
         },
         "Identifier": "num"
       },
       "Value": {
         "Kind": "FLOAT_LITERAL",
         "StartPos": {
-          "Line": 16,
+          "Line": 18,
           "Column": 17,
-          "Index": 213
+          "Index": 370
         },
         "EndPos": {
-          "Line": 16,
+          "Line": 18,
           "Column": 22,
-          "Index": 218
+          "Index": 375
         },
         "Value": "10.00",
         "BitSize": 32
@@ -746,28 +746,28 @@
     {
       "Kind": "STRUCT_STATEMENT",
       "StartPos": {
-        "Line": 19,
+        "Line": 21,
         "Column": 1,
-        "Index": 225
+        "Index": 382
       },
       "EndPos": {
-        "Line": 25,
+        "Line": 27,
         "Column": 2,
-        "Index": 331
+        "Index": 488
       },
       "StructName": "Color",
       "Properties": {
         "a": {
           "Kind": "STRUCT_PROPERTY",
           "StartPos": {
-            "Line": 24,
+            "Line": 26,
             "Column": 10,
-            "Index": 321
+            "Index": 478
           },
           "EndPos": {
-            "Line": 24,
+            "Line": 26,
             "Column": 11,
-            "Index": 322
+            "Index": 479
           },
           "IsStatic": false,
           "IsPublic": false,
@@ -781,14 +781,14 @@
         "b": {
           "Kind": "STRUCT_PROPERTY",
           "StartPos": {
-            "Line": 23,
+            "Line": 25,
             "Column": 9,
-            "Index": 303
+            "Index": 460
           },
           "EndPos": {
-            "Line": 23,
+            "Line": 25,
             "Column": 10,
-            "Index": 304
+            "Index": 461
           },
           "IsStatic": false,
           "IsPublic": true,
@@ -802,14 +802,14 @@
         "g": {
           "Kind": "STRUCT_PROPERTY",
           "StartPos": {
-            "Line": 22,
+            "Line": 24,
             "Column": 9,
-            "Index": 286
+            "Index": 443
           },
           "EndPos": {
-            "Line": 22,
+            "Line": 24,
             "Column": 10,
-            "Index": 287
+            "Index": 444
           },
           "IsStatic": false,
           "IsPublic": true,
@@ -823,14 +823,14 @@
         "name": {
           "Kind": "STRUCT_PROPERTY",
           "StartPos": {
-            "Line": 20,
+            "Line": 22,
             "Column": 9,
-            "Index": 249
+            "Index": 406
           },
           "EndPos": {
-            "Line": 20,
+            "Line": 22,
             "Column": 13,
-            "Index": 253
+            "Index": 410
           },
           "IsStatic": false,
           "IsPublic": true,
@@ -843,14 +843,14 @@
         "r": {
           "Kind": "STRUCT_PROPERTY",
           "StartPos": {
-            "Line": 21,
+            "Line": 23,
             "Column": 9,
-            "Index": 269
+            "Index": 426
           },
           "EndPos": {
-            "Line": 21,
+            "Line": 23,
             "Column": 10,
-            "Index": 270
+            "Index": 427
           },
           "IsStatic": false,
           "IsPublic": true,
@@ -868,55 +868,55 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 27,
+        "Line": 29,
         "Column": 1,
-        "Index": 335
+        "Index": 492
       },
       "EndPos": {
-        "Line": 27,
+        "Line": 29,
         "Column": 65,
-        "Index": 399
+        "Index": 556
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 27,
+          "Line": 29,
           "Column": 5,
-          "Index": 339
+          "Index": 496
         },
         "EndPos": {
-          "Line": 27,
+          "Line": 29,
           "Column": 8,
-          "Index": 342
+          "Index": 499
         },
         "Identifier": "red"
       },
       "Value": {
         "Kind": "STRUCT_LITERAL",
         "StartPos": {
-          "Line": 27,
+          "Line": 29,
           "Column": 18,
-          "Index": 352
+          "Index": 509
         },
         "EndPos": {
-          "Line": 27,
+          "Line": 29,
           "Column": 64,
-          "Index": 398
+          "Index": 555
         },
         "StructName": "Color",
         "Properties": {
           "a": {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 60,
-              "Index": 394
+              "Index": 551
             },
             "EndPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 63,
-              "Index": 397
+              "Index": 554
             },
             "Value": "1.0",
             "BitSize": 32
@@ -924,14 +924,14 @@
           "b": {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 52,
-              "Index": 386
+              "Index": 543
             },
             "EndPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 55,
-              "Index": 389
+              "Index": 546
             },
             "Value": "0.0",
             "BitSize": 32
@@ -939,14 +939,14 @@
           "g": {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 44,
-              "Index": 378
+              "Index": 535
             },
             "EndPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 47,
-              "Index": 381
+              "Index": 538
             },
             "Value": "0.0",
             "BitSize": 32
@@ -954,28 +954,28 @@
           "name": {
             "Kind": "STRING_LITERAL",
             "StartPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 26,
-              "Index": 360
+              "Index": 517
             },
             "EndPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 31,
-              "Index": 365
+              "Index": 522
             },
             "Value": "red"
           },
           "r": {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 36,
-              "Index": 370
+              "Index": 527
             },
             "EndPos": {
-              "Line": 27,
+              "Line": 29,
               "Column": 39,
-              "Index": 373
+              "Index": 530
             },
             "Value": "1.0",
             "BitSize": 32
@@ -987,52 +987,52 @@
     {
       "Kind": "ASSIGNMENT_EXPRESSION",
       "StartPos": {
-        "Line": 31,
+        "Line": 33,
         "Column": 7,
-        "Index": 428
+        "Index": 585
       },
       "EndPos": {
-        "Line": 31,
+        "Line": 33,
         "Column": 12,
-        "Index": 433
+        "Index": 590
       },
       "Assigne": {
         "Kind": "STRUCT_PROPERTY",
         "StartPos": {
-          "Line": 31,
+          "Line": 33,
           "Column": 5,
-          "Index": 426
+          "Index": 583
         },
         "EndPos": {
-          "Line": 31,
+          "Line": 33,
           "Column": 6,
-          "Index": 427
+          "Index": 584
         },
         "Object": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 31,
+            "Line": 33,
             "Column": 1,
-            "Index": 422
+            "Index": 579
           },
           "EndPos": {
-            "Line": 31,
+            "Line": 33,
             "Column": 4,
-            "Index": 425
+            "Index": 582
           },
           "Identifier": "red"
         },
         "Property": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 31,
+            "Line": 33,
             "Column": 5,
-            "Index": 426
+            "Index": 583
           },
           "EndPos": {
-            "Line": 31,
+            "Line": 33,
             "Column": 6,
-            "Index": 427
+            "Index": 584
           },
           "Identifier": "r"
         }
@@ -1040,14 +1040,14 @@
       "Value": {
         "Kind": "FLOAT_LITERAL",
         "StartPos": {
-          "Line": 31,
+          "Line": 33,
           "Column": 9,
-          "Index": 430
+          "Index": 587
         },
         "EndPos": {
-          "Line": 31,
+          "Line": 33,
           "Column": 12,
-          "Index": 433
+          "Index": 590
         },
         "Value": "0.5",
         "BitSize": 32
@@ -1056,67 +1056,67 @@
         "Kind": "=",
         "Value": "=",
         "StartPos": {
-          "Line": 31,
+          "Line": 33,
           "Column": 7,
-          "Index": 428
+          "Index": 585
         },
         "EndPos": {
-          "Line": 31,
+          "Line": 33,
           "Column": 8,
-          "Index": 429
+          "Index": 586
         }
       }
     },
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 32,
+        "Line": 34,
         "Column": 1,
-        "Index": 436
+        "Index": 593
       },
       "EndPos": {
-        "Line": 32,
+        "Line": 34,
         "Column": 28,
-        "Index": 463
+        "Index": 620
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 32,
+          "Line": 34,
           "Column": 5,
-          "Index": 440
+          "Index": 597
         },
         "EndPos": {
-          "Line": 32,
+          "Line": 34,
           "Column": 8,
-          "Index": 443
+          "Index": 600
         },
         "Identifier": "sum"
       },
       "Value": {
         "Kind": "FUNCTION_CALL_EXPRESSION",
         "StartPos": {
-          "Line": 32,
+          "Line": 34,
           "Column": 15,
-          "Index": 450
+          "Index": 607
         },
         "EndPos": {
-          "Line": 32,
+          "Line": 34,
           "Column": 27,
-          "Index": 462
+          "Index": 619
         },
         "Function": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 32,
+            "Line": 34,
             "Column": 12,
-            "Index": 447
+            "Index": 604
           },
           "EndPos": {
-            "Line": 32,
+            "Line": 34,
             "Column": 15,
-            "Index": 450
+            "Index": 607
           },
           "Identifier": "add"
         },
@@ -1124,14 +1124,14 @@
           {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 32,
+              "Line": 34,
               "Column": 16,
-              "Index": 451
+              "Index": 608
             },
             "EndPos": {
-              "Line": 32,
+              "Line": 34,
               "Column": 19,
-              "Index": 454
+              "Index": 611
             },
             "Value": "1.3",
             "BitSize": 32
@@ -1139,40 +1139,40 @@
           {
             "Kind": "STRUCT_PROPERTY",
             "StartPos": {
-              "Line": 32,
+              "Line": 34,
               "Column": 25,
-              "Index": 460
+              "Index": 617
             },
             "EndPos": {
-              "Line": 32,
+              "Line": 34,
               "Column": 26,
-              "Index": 461
+              "Index": 618
             },
             "Object": {
               "Kind": "IDENTIFIER",
               "StartPos": {
-                "Line": 32,
+                "Line": 34,
                 "Column": 21,
-                "Index": 456
+                "Index": 613
               },
               "EndPos": {
-                "Line": 32,
+                "Line": 34,
                 "Column": 24,
-                "Index": 459
+                "Index": 616
               },
               "Identifier": "red"
             },
             "Property": {
               "Kind": "IDENTIFIER",
               "StartPos": {
-                "Line": 32,
+                "Line": 34,
                 "Column": 25,
-                "Index": 460
+                "Index": 617
               },
               "EndPos": {
-                "Line": 32,
+                "Line": 34,
                 "Column": 26,
-                "Index": 461
+                "Index": 618
               },
               "Identifier": "r"
             }
@@ -1184,26 +1184,26 @@
     {
       "Kind": "FN_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 34,
+        "Line": 36,
         "Column": 1,
-        "Index": 467
+        "Index": 624
       },
       "EndPos": {
-        "Line": 36,
+        "Line": 38,
         "Column": 2,
-        "Index": 583
+        "Index": 740
       },
       "Name": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 34,
+          "Line": 36,
           "Column": 4,
-          "Index": 470
+          "Index": 627
         },
         "EndPos": {
-          "Line": 34,
+          "Line": 36,
           "Column": 12,
-          "Index": 478
+          "Index": 635
         },
         "Identifier": "NewColor"
       },
@@ -1211,27 +1211,27 @@
         {
           "Kind": "FUNCTION_PARAMETER",
           "StartPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 13,
-            "Index": 479
+            "Index": 636
           },
           "EndPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 17,
-            "Index": 483
+            "Index": 640
           },
           "IsVariadic": false,
           "Identifier": {
             "Kind": "IDENTIFIER",
             "StartPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 13,
-              "Index": 479
+              "Index": 636
             },
             "EndPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 17,
-              "Index": 483
+              "Index": 640
             },
             "Identifier": "name"
           },
@@ -1243,27 +1243,27 @@
         {
           "Kind": "FUNCTION_PARAMETER",
           "StartPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 24,
-            "Index": 490
+            "Index": 647
           },
           "EndPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 25,
-            "Index": 491
+            "Index": 648
           },
           "IsVariadic": false,
           "Identifier": {
             "Kind": "IDENTIFIER",
             "StartPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 24,
-              "Index": 490
+              "Index": 647
             },
             "EndPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 25,
-              "Index": 491
+              "Index": 648
             },
             "Identifier": "r"
           },
@@ -1276,27 +1276,27 @@
         {
           "Kind": "FUNCTION_PARAMETER",
           "StartPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 32,
-            "Index": 498
+            "Index": 655
           },
           "EndPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 33,
-            "Index": 499
+            "Index": 656
           },
           "IsVariadic": false,
           "Identifier": {
             "Kind": "IDENTIFIER",
             "StartPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 32,
-              "Index": 498
+              "Index": 655
             },
             "EndPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 33,
-              "Index": 499
+              "Index": 656
             },
             "Identifier": "g"
           },
@@ -1309,27 +1309,27 @@
         {
           "Kind": "FUNCTION_PARAMETER",
           "StartPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 40,
-            "Index": 506
+            "Index": 663
           },
           "EndPos": {
-            "Line": 34,
+            "Line": 36,
             "Column": 41,
-            "Index": 507
+            "Index": 664
           },
           "IsVariadic": false,
           "Identifier": {
             "Kind": "IDENTIFIER",
             "StartPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 40,
-              "Index": 506
+              "Index": 663
             },
             "EndPos": {
-              "Line": 34,
+              "Line": 36,
               "Column": 41,
-              "Index": 507
+              "Index": 664
             },
             "Identifier": "b"
           },
@@ -1347,53 +1347,53 @@
       "Block": {
         "Kind": "BLOCK_STATEMENT",
         "StartPos": {
-          "Line": 34,
+          "Line": 36,
           "Column": 57,
-          "Index": 523
+          "Index": 680
         },
         "EndPos": {
-          "Line": 36,
+          "Line": 38,
           "Column": 2,
-          "Index": 583
+          "Index": 740
         },
         "Body": [
           {
             "Kind": "RETURN_STATEMENT",
             "StartPos": {
-              "Line": 35,
+              "Line": 37,
               "Column": 5,
-              "Index": 530
+              "Index": 687
             },
             "EndPos": {
-              "Line": 35,
+              "Line": 37,
               "Column": 55,
-              "Index": 580
+              "Index": 737
             },
             "Expression": {
               "Kind": "STRUCT_LITERAL",
               "StartPos": {
-                "Line": 35,
+                "Line": 37,
                 "Column": 15,
-                "Index": 540
+                "Index": 697
               },
               "EndPos": {
-                "Line": 35,
+                "Line": 37,
                 "Column": 54,
-                "Index": 579
+                "Index": 736
               },
               "StructName": "Color",
               "Properties": {
                 "a": {
                   "Kind": "FLOAT_LITERAL",
                   "StartPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 50,
-                    "Index": 575
+                    "Index": 732
                   },
                   "EndPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 53,
-                    "Index": 578
+                    "Index": 735
                   },
                   "Value": "1.0",
                   "BitSize": 32
@@ -1401,56 +1401,56 @@
                 "b": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 44,
-                    "Index": 569
+                    "Index": 726
                   },
                   "EndPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 45,
-                    "Index": 570
+                    "Index": 727
                   },
                   "Identifier": "b"
                 },
                 "g": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 38,
-                    "Index": 563
+                    "Index": 720
                   },
                   "EndPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 39,
-                    "Index": 564
+                    "Index": 721
                   },
                   "Identifier": "g"
                 },
                 "name": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 23,
-                    "Index": 548
+                    "Index": 705
                   },
                   "EndPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 27,
-                    "Index": 552
+                    "Index": 709
                   },
                   "Identifier": "name"
                 },
                 "r": {
                   "Kind": "IDENTIFIER",
                   "StartPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 32,
-                    "Index": 557
+                    "Index": 714
                   },
                   "EndPos": {
-                    "Line": 35,
+                    "Line": 37,
                     "Column": 33,
-                    "Index": 558
+                    "Index": 715
                   },
                   "Identifier": "r"
                 }
@@ -1463,53 +1463,53 @@
     {
       "Kind": "VARIABLE_DECLARATION_STATEMENT",
       "StartPos": {
-        "Line": 38,
+        "Line": 40,
         "Column": 1,
-        "Index": 587
+        "Index": 744
       },
       "EndPos": {
-        "Line": 38,
+        "Line": 40,
         "Column": 47,
-        "Index": 633
+        "Index": 790
       },
       "IsConstant": false,
       "Identifier": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 38,
+          "Line": 40,
           "Column": 5,
-          "Index": 591
+          "Index": 748
         },
         "EndPos": {
-          "Line": 38,
+          "Line": 40,
           "Column": 10,
-          "Index": 596
+          "Index": 753
         },
         "Identifier": "green"
       },
       "Value": {
         "Kind": "FUNCTION_CALL_EXPRESSION",
         "StartPos": {
-          "Line": 38,
+          "Line": 40,
           "Column": 22,
-          "Index": 608
+          "Index": 765
         },
         "EndPos": {
-          "Line": 38,
+          "Line": 40,
           "Column": 46,
-          "Index": 632
+          "Index": 789
         },
         "Function": {
           "Kind": "IDENTIFIER",
           "StartPos": {
-            "Line": 38,
+            "Line": 40,
             "Column": 14,
-            "Index": 600
+            "Index": 757
           },
           "EndPos": {
-            "Line": 38,
+            "Line": 40,
             "Column": 22,
-            "Index": 608
+            "Index": 765
           },
           "Identifier": "NewColor"
         },
@@ -1517,28 +1517,28 @@
           {
             "Kind": "STRING_LITERAL",
             "StartPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 23,
-              "Index": 609
+              "Index": 766
             },
             "EndPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 30,
-              "Index": 616
+              "Index": 773
             },
             "Value": "green"
           },
           {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 32,
-              "Index": 618
+              "Index": 775
             },
             "EndPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 35,
-              "Index": 621
+              "Index": 778
             },
             "Value": "0.0",
             "BitSize": 32
@@ -1546,14 +1546,14 @@
           {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 37,
-              "Index": 623
+              "Index": 780
             },
             "EndPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 40,
-              "Index": 626
+              "Index": 783
             },
             "Value": "1.0",
             "BitSize": 32
@@ -1561,14 +1561,14 @@
           {
             "Kind": "FLOAT_LITERAL",
             "StartPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 42,
-              "Index": 628
+              "Index": 785
             },
             "EndPos": {
-              "Line": 38,
+              "Line": 40,
               "Column": 45,
-              "Index": 631
+              "Index": 788
             },
             "Value": "0.0",
             "BitSize": 32
@@ -1580,42 +1580,83 @@
     {
       "Kind": "STRUCT_PROPERTY",
       "StartPos": {
-        "Line": 40,
+        "Line": 42,
         "Column": 7,
-        "Index": 643
+        "Index": 800
       },
       "EndPos": {
-        "Line": 40,
+        "Line": 42,
         "Column": 8,
-        "Index": 644
+        "Index": 801
       },
       "Object": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 40,
+          "Line": 42,
           "Column": 1,
-          "Index": 637
+          "Index": 794
         },
         "EndPos": {
-          "Line": 40,
+          "Line": 42,
           "Column": 6,
-          "Index": 642
+          "Index": 799
         },
         "Identifier": "green"
       },
       "Property": {
         "Kind": "IDENTIFIER",
         "StartPos": {
-          "Line": 40,
+          "Line": 42,
           "Column": 7,
-          "Index": 643
+          "Index": 800
         },
         "EndPos": {
-          "Line": 40,
+          "Line": 42,
           "Column": 8,
-          "Index": 644
+          "Index": 801
         },
         "Identifier": "g"
+      }
+    },
+    {
+      "Kind": "STRUCT_PROPERTY",
+      "StartPos": {
+        "Line": 44,
+        "Column": 7,
+        "Index": 812
+      },
+      "EndPos": {
+        "Line": 44,
+        "Column": 8,
+        "Index": 813
+      },
+      "Object": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 44,
+          "Column": 1,
+          "Index": 806
+        },
+        "EndPos": {
+          "Line": 44,
+          "Column": 6,
+          "Index": 811
+        },
+        "Identifier": "green"
+      },
+      "Property": {
+        "Kind": "IDENTIFIER",
+        "StartPos": {
+          "Line": 44,
+          "Column": 7,
+          "Index": 812
+        },
+        "EndPos": {
+          "Line": 44,
+          "Column": 8,
+          "Index": 813
+        },
+        "Identifier": "a"
       }
     }
   ]

@@ -1,11 +1,13 @@
+// Variable declaration with auto type inference
 let a := 1;
 let b := 2;
 let c := a + b;
 
-a = 20 + b;
+a = 20 + b; // b is available in the global scope
 
-b += 10;
+b += 10; // add 10 with b and assign the value to it
 
+// function declaration
 fn add(a: f32, b: f32) -> f32 {
     let c := 4.5;
     ret a + b + c;
@@ -38,3 +40,5 @@ fn NewColor(name: str, r: f32, g: f32, b: f32) -> Color {
 let green := NewColor("green", 0.0, 1.0, 0.0);
 
 green.g;
+
+green.a; // Error: a is private

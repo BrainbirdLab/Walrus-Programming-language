@@ -81,7 +81,7 @@ func MakeError(p *Parser, lineNo int, filePath string, startPos lexer.Position, 
 	errStr += strings.Join(prvLines, "\n") + "\n"
 	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:startPos.Column-1]) + utils.Colorize(utils.RED, line[startPos.Column-1 : endPos.Column-1]) + lexer.Highlight(line[endPos.Column-1 : ]) + "\n"
 	errStr += strings.Repeat(" ", (startPos.Column-1)+len(padding))
-	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", (endPos.Column - startPos.Column) - 1))))
+	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", ((endPos.Column - 1) - (startPos.Column - 1))))))
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))
 
 	return &ErrorMessage{
