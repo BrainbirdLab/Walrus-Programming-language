@@ -2,7 +2,7 @@ package parser
 
 import (
 	"fmt"
-	"os"
+	//"os"
 	"strings"
 	"walrus/frontend/lexer"
 	"walrus/utils"
@@ -48,7 +48,8 @@ func (e *ErrorMessage) Display() {
 		}
 	}
 	fmt.Println("")
-	os.Exit(1)
+	panic("Error")
+	//os.Exit(1)
 }
 
 func makePadding(width, line int) string {

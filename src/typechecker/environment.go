@@ -72,7 +72,7 @@ func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeVa
 	// check type compatibility
 	variable := env.variables[name]
 
-	if !((IsBothINT(variable, value) || IsBothFLOAT(variable, value)) || (GetRuntimeType(variable) != GetRuntimeType(value))) {
+	if !((IsBothINT(variable, value) || IsBothFLOAT(variable, value)) || (GetRuntimeType(variable) == GetRuntimeType(value))) {
 		return nil, fmt.Errorf("cannot assign value %v of type %s to %s", value, GetRuntimeType(value), GetRuntimeType(variable))
 	} else {
 		switch t := variable.(type) {
@@ -106,7 +106,23 @@ func (e *Environment) DeclareFunction(name string, returnType ast.Type, paramete
 			Kind: ast.T_FUNCTION,
 		},
 		ReturnType: returnType,
+		DeclarationEnv: e,
 	}
+
+	e.constants[name] = true
+
+	return nil
+}
+
+func (e *Environment) DeclareNativeFn(name string, fn RuntimeValue) error {
+
+	if e.variables[name] != nil {
+		return fmt.Errorf("identifier (function) %s already declared in this scope", name)
+	}
+
+	e.variables[name] = fn
+
+	e.constants[name] = true
 
 	return nil
 }

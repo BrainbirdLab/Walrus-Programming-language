@@ -10,7 +10,7 @@ import (
 
 // parseBinaryExpr parses a binary expression, given the left-hand side expression
 // and the current binding power. It advances the parser to the next token,
-// parses the right-hand side expression, and returns an AST iNode representing
+// parses the right-hand side expression, and returns an AST INode representing
 // the binary expression.
 func parseBinaryExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
 
@@ -42,11 +42,9 @@ func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Express
 
 	//try to convert the left expression to a function
 
-	function, err := left.(ast.IdentifierExpr)
-
-	if !err {
+	if left.INodeType() != ast.IDENTIFIER {
 		start, end := left.GetPos()
-		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, start, end, "Cannot call a non-function").Display()
+		MakeError(p, p.currentToken().StartPos.Line, p.FilePath, start, end, "cannot parse expression. calling a non-function").Display()
 	}
 
 	start := p.currentToken().StartPos
@@ -73,8 +71,8 @@ func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Express
 			StartPos: start,
 			EndPos:   end,
 		},
-		Function: function,
-		Args:     arguments,
+		Caller: left.(ast.IdentifierExpr),
+		Args:   arguments,
 	}
 }
 
@@ -118,8 +116,9 @@ func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
 
 	tokenKind := token.Kind
 
-	if tokenKind == lexer.IDENTIFIER_TOKEN && p.nextToken().Kind == lexer.OPEN_CURLY_TOKEN && p.previousToken().Kind != lexer.STRUCT_TOKEN /*&& (p.previousToken().Kind == lexer.WALRUS_TOKEN || p.previousToken().Kind == lexer.ASSIGNMENT_TOKEN)*/ {
-		// Function call
+	tokenPos := p.pos
+
+	if tokenKind == lexer.IDENTIFIER_TOKEN && p.tokens[tokenPos+1].Kind == lexer.OPEN_CURLY_TOKEN && p.tokens[tokenPos+2].Kind == lexer.IDENTIFIER_TOKEN && p.tokens[tokenPos+3].Kind == lexer.COLON_TOKEN {
 		return parseStructInstantiationExpr(p, parsePrimaryExpr(p))
 	}
 
@@ -414,7 +413,7 @@ func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression
 
 // parseArrayExpr parses an array expression in the input stream.
 // It expects the opening '[' bracket, parses the array elements,
-// and returns an ast.ArrayLiterals iNode representing the array.
+// and returns an ast.ArrayLiterals INode representing the array.
 func parseArrayExpr(p *Parser) ast.Expression {
 
 	start := p.currentToken().StartPos

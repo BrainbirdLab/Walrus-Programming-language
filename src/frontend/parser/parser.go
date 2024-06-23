@@ -121,13 +121,13 @@ func (p *Parser) expectError(expectedKind lexer.TOKEN_KIND, err any) lexer.Token
 
 	if kind != expectedKind {
 		if err == nil {
-			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, fmt.Sprintf("Unexpected '%s' at line %d", token.Value, token.StartPos.Line)).AddHint(fmt.Sprintf("How about trying '%s' instead?", expectedKind), TEXT_HINT).Display()
+			MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, fmt.Sprintf("unexpected '%s' at line %d", token.Value, token.StartPos.Line)).AddHint(fmt.Sprintf("How about trying '%s' instead?", expectedKind), TEXT_HINT).Display()
 		} else {
 			if errMsg, ok := err.(string); ok {
 				MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, errMsg).Display()
 			} else {
 				// Handle error if it's not a string
-				MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, "An unexpected error occurred").Display()
+				MakeError(p, p.currentToken().StartPos.Line, p.FilePath, token.StartPos, token.EndPos, "an unexpected error occurred").Display()
 			}
 		}
 	}

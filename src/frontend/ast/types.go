@@ -31,6 +31,7 @@ const (
 	T_TRAIT    DATA_TYPE = "trait"
 	T_ENUM     DATA_TYPE = "enum"
 	T_FUNCTION DATA_TYPE = "function"
+	T_NATIVE_FN DATA_TYPE = "native_fn"
 
 	//User Defined Types
 	T_USER_DEFINED DATA_TYPE = "user_defined"
@@ -146,4 +147,11 @@ type FunctionType struct {
 
 func (f FunctionType) IType() DATA_TYPE {
 	return f.Kind
+}
+
+type NativeFnType struct {
+	Kind       DATA_TYPE
+}
+func (n NativeFnType) IType() DATA_TYPE {
+	return n.Kind
 }

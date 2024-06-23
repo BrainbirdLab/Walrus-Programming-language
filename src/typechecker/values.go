@@ -73,25 +73,15 @@ func (v VoidValue) rVal() {
 }
 
 type FunctionValue struct {
-	Name       string
-	Parameters []ast.FunctionParameter
-	Body       ast.BlockStmt
-	Type       ast.Type
-	ReturnType ast.Type
+	Name       		string
+	Parameters 		[]ast.FunctionParameter
+	Body       		ast.BlockStmt
+	Type       		ast.Type
+	ReturnType 		ast.Type
+	DeclarationEnv 	*Environment
 }
 
 func (f FunctionValue) rVal() {
-	// empty function implements RuntimeValue interface
-}
-
-type FunctionCall struct {
-	FunctionName string
-	Arguments    []RuntimeValue
-	Returns      RuntimeValue
-	//Type         ast.Type
-}
-
-func (f FunctionCall) rVal() {
 	// empty function implements RuntimeValue interface
 }
 
@@ -113,6 +103,17 @@ type StructInstance struct {
 func (s StructInstance) rVal() {
 	// empty function implements RuntimeValue interface
 }
+
+type FunctionCall = func(...RuntimeValue) RuntimeValue
+
+type NativeFunctionValue struct {
+	Caller    	FunctionCall
+	Type		ast.Type
+}
+func (n NativeFunctionValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
+	
 
 func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
 
@@ -171,6 +172,15 @@ func MAKE_VOID() VoidValue {
 	return VoidValue{Type: ast.VoidType{
 		Kind: ast.T_VOID,
 	},
+	}
+}
+
+func MAKE_NATIVE_FUNCTION(call FunctionCall) NativeFunctionValue {
+	return NativeFunctionValue{
+		Caller: call,
+		Type: ast.NativeFnType{
+			Kind: ast.T_NATIVE_FN,
+		},
 	}
 }
 

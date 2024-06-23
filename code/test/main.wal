@@ -38,9 +38,54 @@ fn NewColor(name: str, r: f32, g: f32, b: f32) -> Color {
 }
 
 let green := NewColor("green", 0.0, 1.0, 0.0);
-
 green.g;
 
 //green.a; // Error: a is private
+/*
+//factorial function
+fn factorial(n: i32) -> i32 {
+    if n == 0 {
+        ret 1;
+    }
+    ret n * factorial(n - 1);
+}
+
+let fact := factorial(5);
+*/
 
 
+//void function example use case
+fn plus(a: i32, b: i32) {
+    print("Sum of " + a + " and " + b + " is " + (a + b));
+}
+
+fn minus(a: i32, b: i32) {
+    print("Difference of " + a + " and " + b + " is " + (a - b));
+}
+
+fn multiply(a: i32, b: i32) {
+    print("Product of " + a + " and " + b + " is " + (a * b));
+}
+
+fn divide(a: i32, b: i32) {
+    print("Division of " + a + " and " + b + " is " + (a / b));
+}
+
+fn calculate(a: i32, b: i32, op: str) {
+    if op == "+" {
+        plus(a, b);
+    } elf op == "-" {
+        minus(a, b);
+    } elf op == "*" {
+        multiply(a, b);
+    } elf op == "/" {
+        divide(a, b);
+    } els {
+        print("Invalid operator");
+    }
+}
+
+calculate(10, 5, "+");
+calculate(10, 5, "-");
+//calculate(10, 5, "*");
+print(time());

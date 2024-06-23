@@ -11,9 +11,10 @@ type BinaryExpr struct {
 	Right    Expression
 }
 
-func (b BinaryExpr) iNode() {
-	// empty method implements the Node interface
+func (b BinaryExpr) INodeType() NODE_TYPE {
+	return b.Kind
 }
+
 func (b BinaryExpr) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
@@ -27,8 +28,8 @@ type UnaryExpr struct {
 	Argument Expression
 }
 
-func (u UnaryExpr) iNode() {
-	// empty method implements the Node interface
+func (u UnaryExpr) INodeType() NODE_TYPE {
+	return u.Kind
 }
 func (u UnaryExpr) GetPos() (lexer.Position, lexer.Position) {
 	return u.StartPos, u.EndPos
@@ -42,8 +43,8 @@ type IdentifierExpr struct {
 	Identifier string
 }
 
-func (i IdentifierExpr) iNode() {
-	// empty method implements the Node interface
+func (i IdentifierExpr) INodeType() NODE_TYPE {
+	return i.Kind
 }
 func (i IdentifierExpr) GetPos() (lexer.Position, lexer.Position) {
 	return i.StartPos, i.EndPos
@@ -58,8 +59,8 @@ type NumericLiteral struct {
 	BitSize uint8
 }
 
-func (n NumericLiteral) iNode() {
-	// empty method implements the Node interface
+func (n NumericLiteral) INodeType() NODE_TYPE {
+	return n.Kind
 }
 func (n NumericLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return n.StartPos, n.EndPos
@@ -73,8 +74,8 @@ type StringLiteral struct {
 	Value string
 }
 
-func (s StringLiteral) iNode() {
-	// empty method implements the Node interface
+func (s StringLiteral) INodeType() NODE_TYPE {
+	return s.Kind
 }
 func (s StringLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
@@ -88,8 +89,8 @@ type CharacterLiteral struct {
 	Value string
 }
 
-func (c CharacterLiteral) iNode() {
-	// empty method implements the Node interface
+func (c CharacterLiteral) INodeType() NODE_TYPE {
+	return c.Kind
 }
 func (c CharacterLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return c.StartPos, c.EndPos
@@ -103,8 +104,8 @@ type BooleanLiteral struct {
 	Value bool
 }
 
-func (b BooleanLiteral) iNode() {
-	// empty method implements the Node interface
+func (b BooleanLiteral) INodeType() NODE_TYPE {
+	return b.Kind
 }
 func (b BooleanLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
@@ -118,8 +119,8 @@ type NullLiteral struct {
 	Value string
 }
 
-func (n NullLiteral) iNode() {
-	// empty method implements the Node interface
+func (n NullLiteral) INodeType() NODE_TYPE {
+	return n.Kind
 }
 func (n NullLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return n.StartPos, n.EndPos
@@ -133,8 +134,8 @@ type VoidExpr struct {
 	Value string
 }
 
-func (v VoidExpr) iNode() {
-	// empty method implements the Node interface
+func (v VoidExpr) INodeType() NODE_TYPE {
+	return v.Kind
 }
 func (v VoidExpr) GetPos() (lexer.Position, lexer.Position) {
 	return lexer.Position{}, lexer.Position{}
@@ -150,8 +151,8 @@ type AssignmentExpr struct {
 	Operator lexer.Token
 }
 
-func (a AssignmentExpr) iNode() {
-	// empty method implements the Node interface
+func (a AssignmentExpr) INodeType() NODE_TYPE {
+	return a.Kind
 }
 func (a AssignmentExpr) GetPos() (lexer.Position, lexer.Position) {
 	return a.StartPos, a.EndPos
@@ -162,12 +163,12 @@ func (a AssignmentExpr) iExpression() {
 
 type FunctionCallExpr struct {
 	BaseStmt
-	Function IdentifierExpr
-	Args     []Expression
+	Caller 	IdentifierExpr
+	Args   	[]Expression
 }
 
-func (c FunctionCallExpr) iNode() {
-	// empty method implements the Node interface
+func (c FunctionCallExpr) INodeType() NODE_TYPE {
+	return c.Kind
 }
 func (c FunctionCallExpr) GetPos() (lexer.Position, lexer.Position) {
 	return c.StartPos, c.EndPos
@@ -182,8 +183,8 @@ type StructLiteral struct {
 	Properties map[string]Expression
 }
 
-func (s StructLiteral) iNode() {
-	// empty method implements the Node interface
+func (s StructLiteral) INodeType() NODE_TYPE {
+	return s.Kind
 }
 func (s StructLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
@@ -198,8 +199,8 @@ type StructPropertyExpr struct {
 	Property IdentifierExpr
 }
 
-func (s StructPropertyExpr) iNode() {
-	// empty method implements the Node interface
+func (s StructPropertyExpr) INodeType() NODE_TYPE {
+	return s.Kind
 }
 func (s StructPropertyExpr) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
@@ -214,8 +215,8 @@ type ArrayLiterals struct {
 	Elements []Expression
 }
 
-func (a ArrayLiterals) iNode() {
-	// empty method implements the Node interface
+func (a ArrayLiterals) INodeType() NODE_TYPE {
+	return a.Kind
 }
 func (a ArrayLiterals) GetPos() (lexer.Position, lexer.Position) {
 	return a.StartPos, a.EndPos

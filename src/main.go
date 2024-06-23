@@ -11,6 +11,33 @@ import (
 	"walrus/utils"
 )
 
+func native_print(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
+
+	//if no arguments
+	if len(args) == 0 {
+		fmt.Println()
+		return typechecker.MAKE_VOID()
+	}
+
+	for _, arg := range args {
+		val, err := typechecker.CastToStringValue(arg)
+
+		if err != nil {
+			continue
+		}
+
+		//colorize
+		fmt.Print(utils.Colorize(utils.YELLOW, val.Value))
+	}
+	fmt.Println()
+	return typechecker.MAKE_VOID()
+}
+
+func native_time(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
+	t := time.Now().Unix()
+	return typechecker.MAKE_INT(t, 64, true)
+}
+
 func main() {
 	// time start
 
@@ -23,6 +50,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println("Compiling...")
 
 	for _, file := range dir {
 
@@ -37,6 +66,8 @@ func main() {
 		parserMachine := parser.NewParser(filename, false)
 
 		ast := parserMachine.Parse()
+
+		fmt.Printf("Parsed: %v\n", filename)
 	
 		//store as file
 		file, err := os.Create( targetDir + "/" + sf[0] + ".json")
@@ -65,6 +96,11 @@ func main() {
 		env.DeclareVariable("true", typechecker.MAKE_BOOL(true), true)
 		env.DeclareVariable("false", typechecker.MAKE_BOOL(false), true)
 		env.DeclareVariable("null", typechecker.MAKE_NULL(), true)
+
+		env.DeclareNativeFn("print", typechecker.MAKE_NATIVE_FUNCTION(native_print))
+		env.DeclareNativeFn("time", typechecker.MAKE_NATIVE_FUNCTION(native_time))
+
+		fmt.Printf("Evaluating: %v\n", filename)
 
 		result := typechecker.Evaluate(ast, env)
 

@@ -25,12 +25,34 @@ func GetRuntimeType(runtimeValue RuntimeValue) ast.DATA_TYPE {
 		return t.Type.IType()
 	case FunctionValue:
 		return t.Type.IType()
+	case NativeFunctionValue:
+		return t.Type.IType()
 	case StructValue:
 		return t.Type.IType()
 	case StructInstance:
 		return ast.DATA_TYPE(t.StructName)
 	default:
 		panic(fmt.Sprintf("This runtime value is not implemented yet: %T", runtimeValue))
+	}
+}
+
+func GetNumericValue(runtimeValue RuntimeValue) (float64, error) {
+	//cast to float64
+	switch t := runtimeValue.(type) {
+	case IntegerValue:
+		return float64(t.Value), nil
+	case FloatValue:
+		return t.Value, nil
+	case BooleanValue:
+		if t.Value {
+			return 1, nil
+		} else {
+			return 0, nil
+		}
+	case CharacterValue:
+		return float64(t.Value), nil
+	default:
+		return 0, fmt.Errorf("cannot convert %T to a numeric value", runtimeValue)
 	}
 }
 
@@ -58,6 +80,45 @@ func IsFLOAT(runtimeValue RuntimeValue) bool {
 
 func IsBothFLOAT(runtimeValue1 RuntimeValue, runtimeValue2 RuntimeValue) bool {
 	return IsFLOAT(runtimeValue1) && IsFLOAT(runtimeValue2)
+}
+
+func IsNumber(runtimeValue RuntimeValue) bool {
+	return IsINT(runtimeValue) || IsFLOAT(runtimeValue)
+}
+
+func IsString(runtimeValue RuntimeValue) bool {
+	return GetRuntimeType(runtimeValue) == ast.T_STRING
+}
+
+func IsArithmetic(value RuntimeValue) bool {
+	switch value.(type) {
+	case IntegerValue, FloatValue, CharacterValue, BooleanValue:
+		return true
+	default:
+		return false
+	}
+}
+
+func IsFunction(value RuntimeValue) bool {
+	return GetRuntimeType(value) == ast.T_FUNCTION || GetRuntimeType(value) == ast.T_NATIVE_FN
+}
+
+func CastToStringValue(value RuntimeValue) (StringValue, error) {
+
+	switch t := value.(type) {
+	case StringValue:
+		return t, nil
+	case IntegerValue:
+		return MAKE_STRING(strconv.FormatInt(t.Value, 10)), nil
+	case FloatValue:
+		return MAKE_STRING(strconv.FormatFloat(t.Value, 'f', -1, 64)), nil
+	case BooleanValue:
+		return MAKE_STRING(strconv.FormatBool(t.Value)), nil
+	case CharacterValue:
+		return MAKE_STRING(string(t.Value)), nil
+	default:
+		return StringValue{}, fmt.Errorf("cannot cast %T to string", value)
+	}
 }
 
 func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {

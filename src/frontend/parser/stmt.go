@@ -176,7 +176,7 @@ func parseBlock(p *Parser) ast.BlockStmt {
 			StartPos: start,
 			EndPos:   end,
 		},
-		Body: body,
+		Items: body,
 	}
 }
 
@@ -397,7 +397,7 @@ func setProperties(p *Parser, propsMap map[string]ast.Property) {
 			IsStatic: isStatic,
 			IsPublic: isPublic,
 			ReadOnly: readOnly,
-			Name: prop.Value,
+			Name:     prop.Value,
 			Type:     propertyType,
 		}
 	}

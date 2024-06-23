@@ -134,12 +134,11 @@ func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
 
 	var lastEvaluated RuntimeValue = MAKE_NULL()
 
-	for _, stmt := range block.Body {
+	for _, stmt := range block.Items {
 		lastEvaluated = Evaluate(stmt, env)
 	}
 
 	return lastEvaluated
-
 }
 
 func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue {
@@ -149,6 +148,7 @@ func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue 
 	if IsTruthy(condition) {
 		return Evaluate(astNode.Block, env)
 	} else {
+		// check if there is an else block
 		for astNode.Alternate != nil && helpers.TypesMatchT[ast.IfStmt](astNode.Alternate) {
 			alt := astNode.Alternate.(ast.IfStmt)
 			condition = Evaluate(alt.Condition, env)
@@ -184,7 +184,7 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 		funcEnv.DeclareVariable(param.Identifier.Identifier, MakeDefaultRuntimeValue(param.Type), false)
 	}
 
-	for _, body := range stmt.Block.Body {
+	for _, body := range stmt.Block.Items {
 		switch t := body.(type) {
 		case ast.VariableDclStml:
 			val := Evaluate(t.Value, funcEnv)
@@ -248,46 +248,56 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 
 func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) RuntimeValue {
 
-	// check if the function is defined
-	funcName := expr.Function.Identifier
+	var args []RuntimeValue
 
-	functionScope, err := env.ResolveVariable(funcName)
-
-	if err != nil {
-		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Function.StartPos, expr.Function.EndPos, fmt.Sprintf("function '%s' is not defined", funcName)).Display()
+	for _, arg := range expr.Args {
+		args = append(args, Evaluate(arg, env))
 	}
 
-	function := functionScope.variables[funcName].(FunctionValue)
+	fn := Evaluate(expr.Caller, env)
 
-	args := expr.Args
+	if !IsFunction(fn) {
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("could not call. %s not a function", expr.Caller.Identifier)).Display()
+	}
+
+	if GetRuntimeType(fn) == ast.T_NATIVE_FN {
+		return fn.(NativeFunctionValue).Caller(args...)
+	}
+
+	function := fn.(FunctionValue)
+	scope := NewEnvironment(function.DeclarationEnv, env.parser)
 
 	params := function.Parameters
 	body := function.Body
 
 	// check if the number of arguments match the number of parameters
 	if len(args) != len(params) {
-		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("function '%s' expects %d arguments but %d were provided", funcName, len(params), len(args))).Display()
+		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("function '%s' expects %d arguments but %d were provided", function.Name, len(params), len(args))).Display()
 	}
-
-	// create a new environment for the function
-	newEnv := NewEnvironment(env, env.parser)
 
 	// check and set the arguments to the function parameters
 	for i := 0; i < len(params); i++ {
+
 		param := params[i]
-		arg := args[i]
+		value := args[i]
 
-		if param.Type != nil {
-			start, end := arg.GetPos()
-			checkTypes(env, param.Type, Evaluate(arg, env), start, end)
-		}
-
-		newEnv.DeclareVariable(param.Identifier.Identifier, Evaluate(arg, env), false)
+		scope.DeclareVariable(param.Identifier.Identifier, value, false)
 	}
 
-	lastVal := Evaluate(body, newEnv)
+	var result RuntimeValue = MAKE_NULL()
 
-	return lastVal
+	for _, stmt := range body.Items {
+
+		// check if the statement is a return statement
+		if helpers.TypesMatchT[ast.ReturnStmt](stmt) {
+			result = Evaluate(stmt, scope)
+			break
+		} else {
+			result = Evaluate(stmt, scope)
+		}
+	}
+
+	return result
 }
 
 func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
@@ -297,7 +307,7 @@ func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
 func EvaluateStructDeclarationStmt(stmt ast.StructDeclStatement, env *Environment) RuntimeValue {
 
 	env.structs[stmt.StructName] = StructValue{
-		Fields: stmt.Properties,
+		Fields:  stmt.Properties,
 		Methods: stmt.Methods,
 		Type: ast.StructType{
 			Kind: ast.T_STRUCT,
@@ -312,7 +322,6 @@ func EvaluateStructLiteral(stmt ast.StructLiteral, env *Environment) RuntimeValu
 
 	//check if the struct is defined
 	if !HasStruct(stmt.StructName, env) {
-		fmt.Printf("structs: %v\n", env.structs)
 		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.StartPos, stmt.EndPos, fmt.Sprintf("cannot evaluate struct literal. struct '%s' is not defined", stmt.StructName)).Display()
 	}
 
