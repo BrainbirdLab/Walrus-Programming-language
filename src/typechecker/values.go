@@ -201,6 +201,12 @@ func MakeDefaultRuntimeValue(t ast.Type) RuntimeValue {
 		return MAKE_NULL()
 	case ast.VoidType:
 		return MAKE_VOID()
+	case ast.StructType:
+		return StructValue{
+			Fields:  make(map[string]ast.Property),
+			Methods: make(map[string]ast.FunctionType),
+			Type:    t,
+		}
 	default:
 		panic(fmt.Sprintf("unsupported type %T", t))
 	}

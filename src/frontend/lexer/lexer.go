@@ -176,6 +176,7 @@ func createLexer(source *string) *Lexer {
 			{regexp.MustCompile(`\*=`), defaultHandler(TIMES_EQUALS_TOKEN, "*=")},
 			{regexp.MustCompile(`/=`), defaultHandler(DIVIDE_EQUALS_TOKEN, "/=")},
 			{regexp.MustCompile(`%=`), defaultHandler(MODULO_EQUALS_TOKEN, "%=")},
+			{regexp.MustCompile(`\^=`), defaultHandler(POWER_EQUALS_TOKEN, "^=")},
 			{regexp.MustCompile(`\+`), defaultHandler(PLUS_TOKEN, "+")},
 			{regexp.MustCompile(`-`), defaultHandler(MINUS_TOKEN, "-")},
 			{regexp.MustCompile(`/`), defaultHandler(DIVIDE_TOKEN, "/")},

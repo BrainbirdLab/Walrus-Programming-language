@@ -123,6 +123,8 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 		// then we expect type
 		p.advance()
 		explicitType = parseType(p, DEFAULT_BP)
+		fmt.Printf("Explicit type for %s: %v\n", variable.Value, explicitType)
+		fmt.Printf("Next token: %v\n", p.currentToken().Value)
 		if p.currentTokenKind() == lexer.ASSIGNMENT_TOKEN {
 			// then we expect assignment
 			p.advance()

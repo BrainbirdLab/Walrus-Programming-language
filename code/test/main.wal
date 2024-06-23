@@ -68,7 +68,11 @@ fn multiply(a: i32, b: i32) {
 }
 
 fn divide(a: i32, b: i32) {
-    print("Division of " + a + " and " + b + " is " + (a / b));
+    print("Division of " + a + " by " + b + " is " + (a / b));
+}
+
+fn power(a: i32, b: i32) {
+    print(a, " raised to the power of " + b + " is " + (a ^ b));
 }
 
 fn calculate(a: i32, b: i32, op: str) {
@@ -80,6 +84,8 @@ fn calculate(a: i32, b: i32, op: str) {
         multiply(a, b);
     } elf op == "/" {
         divide(a, b);
+    } elf op == "^" {
+        power(a, b);
     } els {
         print("Invalid operator");
     }
@@ -87,5 +93,27 @@ fn calculate(a: i32, b: i32, op: str) {
 
 calculate(10, 5, "+");
 calculate(10, 5, "-");
-//calculate(10, 5, "*");
+calculate(10, 5, "*");
+calculate(10, 5, "/");
+calculate(10, 5, "^");
 print(time());
+
+num += 10.0;
+
+print(num);
+
+let ress: i32;
+
+fn getRes() -> i32 {
+    if num > 10.0 {
+        ret 1;
+    } els {
+        ret 0;
+    }
+    ret -1;
+}
+
+ress = getRes();
+
+print(num);
+print(ress);

@@ -9,14 +9,10 @@ import (
 )
 
 func EvaluateProgramBlock(block ast.ProgramStmt, env *Environment) RuntimeValue {
-
-	var lastEvaluated RuntimeValue = MAKE_NULL()
-
 	for _, stmt := range block.Contents {
-		lastEvaluated = Evaluate(stmt, env)
+		Evaluate(stmt, env)
 	}
-
-	return lastEvaluated
+	return MAKE_VOID()
 }
 
 func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment) RuntimeValue {
@@ -25,8 +21,6 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 
 	if stmt.Value != nil {
 		value = Evaluate(stmt.Value, env)
-	} else {
-		value = MAKE_NULL()
 	}
 
 	if stmt.ExplicitType != nil {
@@ -37,6 +31,7 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		switch t := stmt.ExplicitType.(type) {
 		case ast.IntegerType:
 			explicitSize = t.BitSize
+			
 		case ast.FloatType:
 			explicitSize = t.BitSize
 		}
@@ -58,8 +53,12 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 			value = v
 		}
 
+		if value == nil {
+			value = MakeDefaultRuntimeValue(stmt.ExplicitType)
+		}
+
 		//check user defined types with the value type
-		start, end := stmt.Value.GetPos()
+		start, end := stmt.Identifier.GetPos()
 		checkTypes(env, stmt.ExplicitType, value, start, end)
 	}
 
@@ -147,18 +146,14 @@ func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue 
 
 	if IsTruthy(condition) {
 		return Evaluate(astNode.Block, env)
-	} else {
-		// check if there is an else block
-		for astNode.Alternate != nil && helpers.TypesMatchT[ast.IfStmt](astNode.Alternate) {
-			alt := astNode.Alternate.(ast.IfStmt)
-			condition = Evaluate(alt.Condition, env)
-			if IsTruthy(condition) {
-				return Evaluate(alt.Block, env)
-			}
-		}
+	}
 
-		if astNode.Alternate != nil && helpers.TypesMatchT[ast.BlockStmt](astNode.Alternate) {
-			return Evaluate(astNode.Alternate.(ast.BlockStmt), env)
+	if astNode.Alternate != nil {
+		switch t := astNode.Alternate.(type) {
+		case ast.IfStmt:
+			return EvaluateControlFlowStmt(t, env)
+		case ast.BlockStmt:
+			return Evaluate(t, env)
 		}
 	}
 
@@ -185,6 +180,7 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 	}
 
 	for _, body := range stmt.Block.Items {
+		fmt.Printf("Body type: %T\n", body)
 		switch t := body.(type) {
 		case ast.VariableDclStml:
 			val := Evaluate(t.Value, funcEnv)
@@ -301,6 +297,7 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 }
 
 func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
+	fmt.Printf("Return expr type: %T\n", stmt.Expression)
 	return Evaluate(stmt.Expression, env)
 }
 

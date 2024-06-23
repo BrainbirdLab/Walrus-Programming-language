@@ -90,6 +90,18 @@ func IsString(runtimeValue RuntimeValue) bool {
 	return GetRuntimeType(runtimeValue) == ast.T_STRING
 }
 
+func IsBothSTRING(runtimeValue1 RuntimeValue, runtimeValue2 RuntimeValue) bool {
+	return IsString(runtimeValue1) && IsString(runtimeValue2)
+}
+
+func IsCharacter(runtimeValue RuntimeValue) bool {
+	return GetRuntimeType(runtimeValue) == ast.T_CHARACTER
+}
+
+func IsBoolean(runtimeValue RuntimeValue) bool {
+	return GetRuntimeType(runtimeValue) == ast.T_BOOLEAN
+}
+
 func IsArithmetic(value RuntimeValue) bool {
 	switch value.(type) {
 	case IntegerValue, FloatValue, CharacterValue, BooleanValue:
