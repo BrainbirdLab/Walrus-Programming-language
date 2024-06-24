@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 119,
+    "Line": 118,
     "Column": 13,
-    "Index": 2208
+    "Index": 2195
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -5408,8 +5408,8 @@
       },
       "EndPos": {
         "Line": 118,
-        "Column": 11,
-        "Index": 2193
+        "Column": 12,
+        "Index": 2194
       },
       "Caller": {
         "Kind": "identifier",
@@ -5435,51 +5435,8 @@
           },
           "EndPos": {
             "Line": 118,
-            "Column": 10,
-            "Index": 2192
-          },
-          "Identifier": "num"
-        }
-      ]
-    },
-    {
-      "Kind": "function call expression",
-      "StartPos": {
-        "Line": 119,
-        "Column": 6,
-        "Index": 2201
-      },
-      "EndPos": {
-        "Line": 119,
-        "Column": 12,
-        "Index": 2207
-      },
-      "Caller": {
-        "Kind": "identifier",
-        "StartPos": {
-          "Line": 119,
-          "Column": 1,
-          "Index": 2196
-        },
-        "EndPos": {
-          "Line": 119,
-          "Column": 6,
-          "Index": 2201
-        },
-        "Identifier": "print"
-      },
-      "Args": [
-        {
-          "Kind": "identifier",
-          "StartPos": {
-            "Line": 119,
-            "Column": 7,
-            "Index": 2202
-          },
-          "EndPos": {
-            "Line": 119,
             "Column": 11,
-            "Index": 2206
+            "Index": 2193
           },
           "Identifier": "ress"
         }

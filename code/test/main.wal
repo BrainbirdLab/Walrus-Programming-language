@@ -115,5 +115,4 @@ fn getRes() -> i32 {
 
 ress = getRes();
 
-print(num);
 print(ress);

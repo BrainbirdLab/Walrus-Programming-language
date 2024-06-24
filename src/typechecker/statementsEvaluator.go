@@ -5,7 +5,6 @@ import (
 	"walrus/frontend/ast"
 	"walrus/frontend/lexer"
 	"walrus/frontend/parser"
-	"walrus/helpers"
 )
 
 func EvaluateProgramBlock(block ast.ProgramStmt, env *Environment) RuntimeValue {
@@ -130,15 +129,19 @@ func checkTypes(env *Environment, explicitType ast.Type, value RuntimeValue, sta
 }
 
 func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
+    for _, stmt := range block.Items {
+        switch stmt := stmt.(type) {
+        case ast.ReturnStmt:
+            // Evaluate the return expression and return its value immediately
+            return Evaluate(stmt.Expression, env)
+        default:
+            Evaluate(stmt, env)
+        }
+    }
 
-	var lastEvaluated RuntimeValue = MAKE_NULL()
-
-	for _, stmt := range block.Items {
-		lastEvaluated = Evaluate(stmt, env)
-	}
-
-	return lastEvaluated
+    return MAKE_NULL() // or any default value if needed
 }
+
 
 func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue {
 
@@ -280,25 +283,7 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 		scope.DeclareVariable(param.Identifier.Identifier, value, false)
 	}
 
-	var result RuntimeValue = MAKE_NULL()
-
-	for _, stmt := range body.Items {
-
-		// check if the statement is a return statement
-		if helpers.TypesMatchT[ast.ReturnStmt](stmt) {
-			result = Evaluate(stmt, scope)
-			break
-		} else {
-			result = Evaluate(stmt, scope)
-		}
-	}
-
-	return result
-}
-
-func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
-	fmt.Printf("Return expr type: %T\n", stmt.Expression)
-	return Evaluate(stmt.Expression, env)
+	return Evaluate(body, scope)
 }
 
 func EvaluateStructDeclarationStmt(stmt ast.StructDeclStatement, env *Environment) RuntimeValue {

@@ -179,7 +179,7 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 	case ast.FunctionCallExpr:
 		return EvaluateFunctionCallExpr(node, env)
 	case ast.ReturnStmt:
-		return EvaluateReturnStmt(node, env)
+		return Evaluate(node.Expression, env)
 	case ast.StructDeclStatement:
 		return EvaluateStructDeclarationStmt(node, env)
 	case ast.StructLiteral:
