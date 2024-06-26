@@ -43,7 +43,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	targetDir := "./../code/test"
+	targetDir := "./../code/test/ret"
 
 	dir, err := os.ReadDir(targetDir)
 
@@ -110,4 +110,6 @@ func main() {
 	timeEnd := time.Now()
 
 	fmt.Print(utils.Colorize(utils.GREEN, fmt.Sprintf("Compiled succesfully in: %v\n", timeEnd.Sub(timeStart))))
+	//wait for user input to close
+	fmt.Scanln()
 }

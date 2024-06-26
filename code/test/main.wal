@@ -41,17 +41,21 @@ let green := NewColor("green", 0.0, 1.0, 0.0);
 green.g;
 
 //green.a; // Error: a is private
-/*
+
 //factorial function
 fn factorial(n: i32) -> i32 {
-    if n == 0 {
+    print("Passed value is " + n);
+    if n <= 1 {
+        print("Base case reached");
         ret 1;
     }
+    print("Calling factorial with " + (n - 1));
     ret n * factorial(n - 1);
 }
 
 let fact := factorial(5);
-*/
+
+print("Factorial of 5 is " + fact);
 
 
 //void function example use case
@@ -117,3 +121,4 @@ fn getRes() -> i32 {
 let ress := getRes();
 
 print(ress);
+

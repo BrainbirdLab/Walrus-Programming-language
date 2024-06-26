@@ -1,18 +1,14 @@
-
-let num := 23.4;
-
-fn getRes() -> i32 {
-    if num > 10.0 {
-        if num == 23.4 {
-            ret 1.1;
-        }
+//factorial function
+fn factorial(n: i32) -> i32 {
+    if n == 0 {
         ret 1;
     } els {
-        ret 0;
+        ret n * factorial(n - 1);
     }
-    ret -1;
+
+    ret 0;
 }
 
-let ress := getRes();
+let fact := factorial(5);
 
-print(ress);
+print("Factorial of 5 is " + fact);

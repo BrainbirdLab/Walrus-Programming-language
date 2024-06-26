@@ -129,18 +129,17 @@ func (n NullLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 
-type VoidExpr struct {
-	Kind  NODE_TYPE
-	Value string
+type VoidLiteral struct {
+	Kind NODE_TYPE
 }
 
-func (v VoidExpr) INodeType() NODE_TYPE {
+func (v VoidLiteral) INodeType() NODE_TYPE {
 	return v.Kind
 }
-func (v VoidExpr) GetPos() (lexer.Position, lexer.Position) {
+func (v VoidLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return lexer.Position{}, lexer.Position{}
 }
-func (v VoidExpr) iExpression() {
+func (v VoidLiteral) iExpression() {
 	// empty method implements the Expression interface
 }
 
@@ -163,8 +162,8 @@ func (a AssignmentExpr) iExpression() {
 
 type FunctionCallExpr struct {
 	BaseStmt
-	Caller 	IdentifierExpr
-	Args   	[]Expression
+	Caller IdentifierExpr
+	Args   []Expression
 }
 
 func (c FunctionCallExpr) INodeType() NODE_TYPE {

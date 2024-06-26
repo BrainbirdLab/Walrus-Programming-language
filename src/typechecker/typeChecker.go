@@ -158,6 +158,8 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 		return MAKE_BOOL(node.Value)
 	case ast.NullLiteral:
 		return MAKE_NULL()
+	case ast.VoidLiteral:
+		return MAKE_VOID()
 	case ast.ProgramStmt:
 		return EvaluateProgramBlock(node, env)
 	case ast.VariableDclStml:

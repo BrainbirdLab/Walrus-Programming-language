@@ -9,7 +9,10 @@ import (
 
 func EvaluateProgramBlock(block ast.ProgramStmt, env *Environment) RuntimeValue {
 	for _, stmt := range block.Contents {
-		Evaluate(stmt, env)
+		rVal := Evaluate(stmt, env)
+		if _, ok := rVal.(ReturnValue); ok {
+			return rVal
+		}
 	}
 	return MAKE_VOID()
 }
@@ -209,7 +212,7 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 	} else {
 		if returnStmt == nil {
 			//return nil, fmt.Errorf("function %s must have a return statement", name)
-			parser.MakeError(funcEnv.parser, stmt.StartPos.Line, funcEnv.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, "function must have a return statement").Display()
+			parser.MakeError(funcEnv.parser, stmt.StartPos.Line, funcEnv.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, "function must have a return value at the end").Display()
 		} else {
 			// check the return type of the function
 			start, end := returnStmt.GetPos()
@@ -259,7 +262,7 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 	}
 
 	fn := Evaluate(expr.Caller, env)
-
+	
 	if !IsFunction(fn) {
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("could not call. %s not a function", expr.Caller.Identifier)).Display()
 	}
@@ -272,25 +275,25 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 	scope := NewEnvironment(function.DeclarationEnv, env.parser)
 
 	params := function.Parameters
-	body := function.Body
-
+	
 	// check if the number of arguments match the number of parameters
 	if len(args) != len(params) {
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("function '%s' expects %d arguments but %d were provided", function.Name, len(params), len(args))).Display()
 	}
-
+	
 	// check and set the arguments to the function parameters
 	for i := 0; i < len(params); i++ {
-
-		param := params[i]
-		value := args[i]
-
-		scope.DeclareVariable(param.Identifier.Identifier, value, false)
+		scope.DeclareVariable(params[i].Identifier.Identifier, args[i], false)
+	}
+	
+	for _, stmt := range function.Body.Items {
+		rVal := Evaluate(stmt, scope)
+		if _, ok := rVal.(ReturnValue); ok {
+			return rVal.(ReturnValue).Value
+		}
 	}
 
-	rVal := Evaluate(body, scope)
-
-	return rVal.(ReturnValue).Value
+	return MAKE_VOID()
 }
 
 func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {

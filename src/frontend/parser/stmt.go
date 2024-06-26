@@ -123,8 +123,6 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 		// then we expect type
 		p.advance()
 		explicitType = parseType(p, DEFAULT_BP)
-		fmt.Printf("Explicit type for %s: %v\n", variable.Value, explicitType)
-		fmt.Printf("Next token: %v\n", p.currentToken().Value)
 		if p.currentTokenKind() == lexer.ASSIGNMENT_TOKEN {
 			// then we expect assignment
 			p.advance()
@@ -250,7 +248,9 @@ func parseReturnStmt(p *Parser) ast.Statement {
 	if p.currentTokenKind() != lexer.SEMI_COLON_TOKEN {
 		value = parseExpr(p, DEFAULT_BP)
 	} else {
-		value = ast.VoidExpr{}
+		value = ast.VoidLiteral{
+			Kind: ast.VOID_LITERAL,
+		}
 	}
 
 	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
