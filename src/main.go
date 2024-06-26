@@ -102,9 +102,7 @@ func main() {
 
 		fmt.Printf("Evaluating: %v\n", filename)
 
-		result := typechecker.Evaluate(ast, env)
-
-		fmt.Printf("Result: %v\n", result)
+		typechecker.Evaluate(ast, env)
 	}
 
 
