@@ -6,9 +6,9 @@
     "Index": 0
   },
   "EndPos": {
-    "Line": 118,
+    "Line": 119,
     "Column": 13,
-    "Index": 2195
+    "Index": 2241
   },
   "FileName": "./../code/test/main.wal",
   "ModuleName": "",
@@ -5039,62 +5039,28 @@
       ]
     },
     {
-      "Kind": "variable declaration statement",
+      "Kind": "fn declaration statement",
       "StartPos": {
         "Line": 105,
         "Column": 1,
         "Index": 2032
       },
       "EndPos": {
-        "Line": 105,
-        "Column": 15,
-        "Index": 2046
-      },
-      "IsConstant": false,
-      "Identifier": {
-        "Kind": "identifier",
-        "StartPos": {
-          "Line": 105,
-          "Column": 5,
-          "Index": 2036
-        },
-        "EndPos": {
-          "Line": 105,
-          "Column": 9,
-          "Index": 2040
-        },
-        "Identifier": "ress"
-      },
-      "Value": null,
-      "ExplicitType": {
-        "Kind": "i32",
-        "BitSize": 32,
-        "IsSigned": true
-      }
-    },
-    {
-      "Kind": "fn declaration statement",
-      "StartPos": {
-        "Line": 107,
-        "Column": 1,
-        "Index": 2050
-      },
-      "EndPos": {
-        "Line": 114,
+        "Line": 115,
         "Column": 2,
-        "Index": 2159
+        "Index": 2200
       },
       "Name": {
         "Kind": "identifier",
         "StartPos": {
-          "Line": 107,
+          "Line": 105,
           "Column": 4,
-          "Index": 2053
+          "Index": 2035
         },
         "EndPos": {
-          "Line": 107,
+          "Line": 105,
           "Column": 10,
-          "Index": 2059
+          "Index": 2041
         },
         "Identifier": "getRes"
       },
@@ -5107,79 +5073,79 @@
       "Block": {
         "Kind": "block statement",
         "StartPos": {
-          "Line": 107,
+          "Line": 105,
           "Column": 20,
-          "Index": 2069
+          "Index": 2051
         },
         "EndPos": {
-          "Line": 114,
+          "Line": 115,
           "Column": 2,
-          "Index": 2159
+          "Index": 2200
         },
         "Items": [
           {
             "Kind": "if statement",
             "StartPos": {
-              "Line": 108,
+              "Line": 106,
               "Column": 5,
-              "Index": 2076
+              "Index": 2058
             },
             "EndPos": {
-              "Line": 110,
+              "Line": 111,
               "Column": 6,
-              "Index": 2114
+              "Index": 2155
             },
             "Condition": {
               "Kind": "binary expression",
               "StartPos": {
-                "Line": 108,
+                "Line": 106,
                 "Column": 12,
-                "Index": 2083
+                "Index": 2065
               },
               "EndPos": {
-                "Line": 108,
+                "Line": 106,
                 "Column": 18,
-                "Index": 2089
+                "Index": 2071
               },
               "Operator": {
                 "Kind": "\u003e",
                 "Value": "\u003e",
                 "StartPos": {
-                  "Line": 108,
+                  "Line": 106,
                   "Column": 12,
-                  "Index": 2083
+                  "Index": 2065
                 },
                 "EndPos": {
-                  "Line": 108,
+                  "Line": 106,
                   "Column": 13,
-                  "Index": 2084
+                  "Index": 2066
                 }
               },
               "Left": {
                 "Kind": "identifier",
                 "StartPos": {
-                  "Line": 108,
+                  "Line": 106,
                   "Column": 8,
-                  "Index": 2079
+                  "Index": 2061
                 },
                 "EndPos": {
-                  "Line": 108,
+                  "Line": 106,
                   "Column": 11,
-                  "Index": 2082
+                  "Index": 2064
                 },
                 "Identifier": "num"
               },
               "Right": {
                 "Kind": "float literal",
                 "StartPos": {
-                  "Line": 108,
+                  "Line": 106,
                   "Column": 14,
-                  "Index": 2085
+                  "Index": 2067
                 },
                 "EndPos": {
-                  "Line": 108,
+                  "Line": 106,
                   "Column": 18,
-                  "Index": 2089
+                  "Index": 2071
                 },
                 "Value": "10.0",
                 "BitSize": 32
@@ -5188,39 +5154,152 @@
             "Block": {
               "Kind": "block statement",
               "StartPos": {
-                "Line": 108,
+                "Line": 106,
                 "Column": 19,
-                "Index": 2090
+                "Index": 2072
               },
               "EndPos": {
-                "Line": 110,
+                "Line": 111,
                 "Column": 6,
-                "Index": 2114
+                "Index": 2155
               },
               "Items": [
                 {
-                  "Kind": "return statement",
+                  "Kind": "if statement",
                   "StartPos": {
-                    "Line": 109,
+                    "Line": 107,
                     "Column": 9,
-                    "Index": 2101
+                    "Index": 2083
                   },
                   "EndPos": {
                     "Line": 109,
+                    "Column": 10,
+                    "Index": 2132
+                  },
+                  "Condition": {
+                    "Kind": "binary expression",
+                    "StartPos": {
+                      "Line": 107,
+                      "Column": 16,
+                      "Index": 2090
+                    },
+                    "EndPos": {
+                      "Line": 107,
+                      "Column": 23,
+                      "Index": 2097
+                    },
+                    "Operator": {
+                      "Kind": "==",
+                      "Value": "==",
+                      "StartPos": {
+                        "Line": 107,
+                        "Column": 16,
+                        "Index": 2090
+                      },
+                      "EndPos": {
+                        "Line": 107,
+                        "Column": 18,
+                        "Index": 2092
+                      }
+                    },
+                    "Left": {
+                      "Kind": "identifier",
+                      "StartPos": {
+                        "Line": 107,
+                        "Column": 12,
+                        "Index": 2086
+                      },
+                      "EndPos": {
+                        "Line": 107,
+                        "Column": 15,
+                        "Index": 2089
+                      },
+                      "Identifier": "num"
+                    },
+                    "Right": {
+                      "Kind": "float literal",
+                      "StartPos": {
+                        "Line": 107,
+                        "Column": 19,
+                        "Index": 2093
+                      },
+                      "EndPos": {
+                        "Line": 107,
+                        "Column": 23,
+                        "Index": 2097
+                      },
+                      "Value": "23.4",
+                      "BitSize": 32
+                    }
+                  },
+                  "Block": {
+                    "Kind": "block statement",
+                    "StartPos": {
+                      "Line": 107,
+                      "Column": 24,
+                      "Index": 2098
+                    },
+                    "EndPos": {
+                      "Line": 109,
+                      "Column": 10,
+                      "Index": 2132
+                    },
+                    "Items": [
+                      {
+                        "Kind": "return statement",
+                        "StartPos": {
+                          "Line": 108,
+                          "Column": 13,
+                          "Index": 2113
+                        },
+                        "EndPos": {
+                          "Line": 108,
+                          "Column": 21,
+                          "Index": 2121
+                        },
+                        "Expression": {
+                          "Kind": "float literal",
+                          "StartPos": {
+                            "Line": 108,
+                            "Column": 17,
+                            "Index": 2117
+                          },
+                          "EndPos": {
+                            "Line": 108,
+                            "Column": 20,
+                            "Index": 2120
+                          },
+                          "Value": "1.1",
+                          "BitSize": 32
+                        }
+                      }
+                    ]
+                  },
+                  "Alternate": null
+                },
+                {
+                  "Kind": "return statement",
+                  "StartPos": {
+                    "Line": 110,
+                    "Column": 9,
+                    "Index": 2142
+                  },
+                  "EndPos": {
+                    "Line": 110,
                     "Column": 15,
-                    "Index": 2107
+                    "Index": 2148
                   },
                   "Expression": {
                     "Kind": "integer literal",
                     "StartPos": {
-                      "Line": 109,
+                      "Line": 110,
                       "Column": 13,
-                      "Index": 2105
+                      "Index": 2146
                     },
                     "EndPos": {
-                      "Line": 109,
+                      "Line": 110,
                       "Column": 14,
-                      "Index": 2106
+                      "Index": 2147
                     },
                     "Value": "1",
                     "BitSize": 32
@@ -5231,39 +5310,39 @@
             "Alternate": {
               "Kind": "block statement",
               "StartPos": {
-                "Line": 110,
+                "Line": 111,
                 "Column": 11,
-                "Index": 2119
+                "Index": 2160
               },
               "EndPos": {
-                "Line": 112,
+                "Line": 113,
                 "Column": 6,
-                "Index": 2143
+                "Index": 2184
               },
               "Items": [
                 {
                   "Kind": "return statement",
                   "StartPos": {
-                    "Line": 111,
+                    "Line": 112,
                     "Column": 9,
-                    "Index": 2130
+                    "Index": 2171
                   },
                   "EndPos": {
-                    "Line": 111,
+                    "Line": 112,
                     "Column": 15,
-                    "Index": 2136
+                    "Index": 2177
                   },
                   "Expression": {
                     "Kind": "integer literal",
                     "StartPos": {
-                      "Line": 111,
+                      "Line": 112,
                       "Column": 13,
-                      "Index": 2134
+                      "Index": 2175
                     },
                     "EndPos": {
-                      "Line": 111,
+                      "Line": 112,
                       "Column": 14,
-                      "Index": 2135
+                      "Index": 2176
                     },
                     "Value": "0",
                     "BitSize": 32
@@ -5275,52 +5354,52 @@
           {
             "Kind": "return statement",
             "StartPos": {
-              "Line": 113,
+              "Line": 114,
               "Column": 5,
-              "Index": 2149
+              "Index": 2190
             },
             "EndPos": {
-              "Line": 113,
+              "Line": 114,
               "Column": 12,
-              "Index": 2156
+              "Index": 2197
             },
             "Expression": {
               "Kind": "unary expression",
               "StartPos": {
-                "Line": 113,
+                "Line": 114,
                 "Column": 9,
-                "Index": 2153
+                "Index": 2194
               },
               "EndPos": {
-                "Line": 113,
+                "Line": 114,
                 "Column": 11,
-                "Index": 2155
+                "Index": 2196
               },
               "Operator": {
                 "Kind": "-",
                 "Value": "-",
                 "StartPos": {
-                  "Line": 113,
+                  "Line": 114,
                   "Column": 9,
-                  "Index": 2153
+                  "Index": 2194
                 },
                 "EndPos": {
-                  "Line": 113,
+                  "Line": 114,
                   "Column": 10,
-                  "Index": 2154
+                  "Index": 2195
                 }
               },
               "Argument": {
                 "Kind": "integer literal",
                 "StartPos": {
-                  "Line": 113,
+                  "Line": 114,
                   "Column": 10,
-                  "Index": 2154
+                  "Index": 2195
                 },
                 "EndPos": {
-                  "Line": 113,
+                  "Line": 114,
                   "Column": 11,
-                  "Index": 2155
+                  "Index": 2196
                 },
                 "Value": "1",
                 "BitSize": 32
@@ -5331,97 +5410,85 @@
       }
     },
     {
-      "Kind": "assignment expression",
+      "Kind": "variable declaration statement",
       "StartPos": {
-        "Line": 116,
-        "Column": 6,
-        "Index": 2168
+        "Line": 117,
+        "Column": 1,
+        "Index": 2204
       },
       "EndPos": {
-        "Line": 116,
-        "Column": 16,
-        "Index": 2178
+        "Line": 117,
+        "Column": 22,
+        "Index": 2225
       },
-      "Assigne": {
+      "IsConstant": false,
+      "Identifier": {
         "Kind": "identifier",
         "StartPos": {
-          "Line": 116,
-          "Column": 1,
-          "Index": 2163
+          "Line": 117,
+          "Column": 5,
+          "Index": 2208
         },
         "EndPos": {
-          "Line": 116,
-          "Column": 5,
-          "Index": 2167
+          "Line": 117,
+          "Column": 9,
+          "Index": 2212
         },
         "Identifier": "ress"
       },
       "Value": {
         "Kind": "function call expression",
         "StartPos": {
-          "Line": 116,
-          "Column": 14,
-          "Index": 2176
+          "Line": 117,
+          "Column": 19,
+          "Index": 2222
         },
         "EndPos": {
-          "Line": 116,
-          "Column": 16,
-          "Index": 2178
+          "Line": 117,
+          "Column": 21,
+          "Index": 2224
         },
         "Caller": {
           "Kind": "identifier",
           "StartPos": {
-            "Line": 116,
-            "Column": 8,
-            "Index": 2170
+            "Line": 117,
+            "Column": 13,
+            "Index": 2216
           },
           "EndPos": {
-            "Line": 116,
-            "Column": 14,
-            "Index": 2176
+            "Line": 117,
+            "Column": 19,
+            "Index": 2222
           },
           "Identifier": "getRes"
         },
         "Args": null
       },
-      "Operator": {
-        "Kind": "=",
-        "Value": "=",
-        "StartPos": {
-          "Line": 116,
-          "Column": 6,
-          "Index": 2168
-        },
-        "EndPos": {
-          "Line": 116,
-          "Column": 7,
-          "Index": 2169
-        }
-      }
+      "ExplicitType": null
     },
     {
       "Kind": "function call expression",
       "StartPos": {
-        "Line": 118,
+        "Line": 119,
         "Column": 6,
-        "Index": 2188
+        "Index": 2234
       },
       "EndPos": {
-        "Line": 118,
+        "Line": 119,
         "Column": 12,
-        "Index": 2194
+        "Index": 2240
       },
       "Caller": {
         "Kind": "identifier",
         "StartPos": {
-          "Line": 118,
+          "Line": 119,
           "Column": 1,
-          "Index": 2183
+          "Index": 2229
         },
         "EndPos": {
-          "Line": 118,
+          "Line": 119,
           "Column": 6,
-          "Index": 2188
+          "Index": 2234
         },
         "Identifier": "print"
       },
@@ -5429,14 +5496,14 @@
         {
           "Kind": "identifier",
           "StartPos": {
-            "Line": 118,
+            "Line": 119,
             "Column": 7,
-            "Index": 2189
+            "Index": 2235
           },
           "EndPos": {
-            "Line": 118,
+            "Line": 119,
             "Column": 11,
-            "Index": 2193
+            "Index": 2239
           },
           "Identifier": "ress"
         }

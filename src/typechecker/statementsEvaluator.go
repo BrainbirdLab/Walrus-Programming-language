@@ -73,8 +73,8 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 func strFormatter(expected ast.Type, got RuntimeValue) string {
 	var name string
 	//if expected is userdefined type
-	if udt, ok := expected.(ast.StructType); ok {
-		name = udt.Name
+	if userDefinedType, ok := expected.(ast.StructType); ok {
+		name = userDefinedType.Name
 	} else {
 		name = string(expected.IType())
 	}
@@ -133,13 +133,19 @@ func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
         switch stmt := stmt.(type) {
         case ast.ReturnStmt:
             // Evaluate the return expression and return its value immediately
-            return Evaluate(stmt.Expression, env)
+			return Evaluate(stmt, env)
         default:
-            Evaluate(stmt, env)
+            rVal := Evaluate(stmt, env)
+			//check if the runtime value is a return value
+			if _, ok := rVal.(ReturnValue); ok {
+				return rVal
+			}
         }
     }
 
-    return MAKE_NULL() // or any default value if needed
+    return ReturnValue{
+		Value: MAKE_VOID(),
+	}
 }
 
 
@@ -183,7 +189,6 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 	}
 
 	for _, body := range stmt.Block.Items {
-		fmt.Printf("Body type: %T\n", body)
 		switch t := body.(type) {
 		case ast.VariableDclStml:
 			val := Evaluate(t.Value, funcEnv)
@@ -283,7 +288,18 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 		scope.DeclareVariable(param.Identifier.Identifier, value, false)
 	}
 
-	return Evaluate(body, scope)
+	rVal := Evaluate(body, scope)
+
+	return rVal.(ReturnValue).Value
+}
+
+func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
+	expr := stmt.Expression
+	val := Evaluate(expr, env)
+
+	return ReturnValue{
+		Value: val,
+	}
 }
 
 func EvaluateStructDeclarationStmt(stmt ast.StructDeclStatement, env *Environment) RuntimeValue {

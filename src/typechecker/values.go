@@ -72,6 +72,14 @@ func (v VoidValue) rVal() {
 	// empty function implements RuntimeValue interface
 }
 
+type ReturnValue struct {
+	Value RuntimeValue
+}
+
+func (r ReturnValue) rVal() {
+	// empty function implements RuntimeValue interface
+}
+
 type FunctionValue struct {
 	Name       		string
 	Parameters 		[]ast.FunctionParameter

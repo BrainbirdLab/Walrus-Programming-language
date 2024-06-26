@@ -1,0 +1,18 @@
+
+let num := 23.4;
+
+fn getRes() -> i32 {
+    if num > 10.0 {
+        if num == 23.4 {
+            ret 1.1;
+        }
+        ret 1;
+    } els {
+        ret 0;
+    }
+    ret -1;
+}
+
+let ress := getRes();
+
+print(ress);
