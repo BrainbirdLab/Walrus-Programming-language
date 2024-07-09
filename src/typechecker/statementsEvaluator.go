@@ -73,63 +73,84 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 	return val
 }
 
+func checkTypes(env *Environment, explicitType ast.Type, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
+
+	switch t := explicitType.(type) {
+	case ast.IntegerType:
+		checkIntegerType(env, t, value, startPos, endPos)
+	case ast.FloatType:
+		checkFloatType(env, t, value, startPos, endPos)
+	case ast.StructType:
+		checkStructType(env, t, value, startPos, endPos)
+	default:
+		checkGeneralType(env, t, value, startPos, endPos)
+	}
+}
+
+func checkIntegerType(env *Environment, explicitType ast.IntegerType, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
+	if IsINT(value) {
+		if explicitType.BitSize != value.(IntegerValue).Size {
+			displayTypeMismatchError(env.parser, explicitType, value, startPos, endPos, fmt.Sprintf("integer of size %d", explicitType.BitSize))
+		}
+	} else {
+		displayTypeMismatchError(env.parser, explicitType, value, startPos, endPos, "")
+	}
+}
+
+func checkFloatType(env *Environment, explicitType ast.FloatType, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
+	if IsFLOAT(value) {
+		if explicitType.BitSize != value.(FloatValue).Size {
+			displayTypeMismatchError(env.parser, explicitType, value, startPos, endPos, fmt.Sprintf("float of size %d", explicitType.BitSize))
+		}
+	} else {
+		displayTypeMismatchError(env.parser, explicitType, value, startPos, endPos, "")
+	}
+}
+
+func checkStructType(env *Environment, explicitType ast.StructType, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
+	expected := explicitType.Name
+	got := string(GetRuntimeType(value))
+
+	if !HasStruct(expected, env) {
+		parser.MakeError(env.parser, startPos.Line, env.parser.FilePath, startPos, endPos, fmt.Sprintf("failed to validate types. struct '%s' is not defined", expected)).Display()
+	} else if !HasStruct(got, env) {
+		parser.MakeError(env.parser, startPos.Line, env.parser.FilePath, startPos, endPos, fmt.Sprintf("failed to validate types. struct '%s' is not defined", got)).Display()
+	} else if expected != got {
+		displayTypeMismatchError(env.parser, explicitType, value, startPos, endPos, "")
+	}
+}
+
+func checkGeneralType(env *Environment, explicitType ast.Type, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
+	if GetRuntimeType(value) != explicitType.IType() {
+		displayTypeMismatchError(env.parser, explicitType, value, startPos, endPos, "")
+	}
+}
+
+func displayTypeMismatchError(p *parser.Parser, explicitType ast.Type, value RuntimeValue, startPos lexer.Position, endPos lexer.Position, additionalInfo string) {
+	msg := strFormatter(explicitType, value)
+	if additionalInfo != "" {
+		msg += fmt.Sprintf(" to %s", additionalInfo)
+	}
+	parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, msg).Display()
+}
+
 func strFormatter(expected ast.Type, got RuntimeValue) string {
 	var name string
-	//if expected is userdefined type
-	if userDefinedType, ok := expected.(ast.StructType); ok {
-		name = userDefinedType.Name
-	} else {
+	switch t := expected.(type) {
+	case ast.IntegerType:
+		name = fmt.Sprintf("integer of size %d", t.BitSize)
+	case ast.FloatType:
+		name = fmt.Sprintf("float of size %d", t.BitSize)
+	case ast.StructType:
+		if userDefinedType, ok := expected.(ast.StructType); ok {
+			name = userDefinedType.Name
+		}
+	default:
 		name = string(expected.IType())
 	}
 	return fmt.Sprintf("cannot assign value of type '%s' to '%s'", GetRuntimeType(got), name)
 }
 
-func checkTypes(env *Environment, explicitType ast.Type, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
-
-	p := env.parser
-
-	var msg string
-
-	switch t := explicitType.(type) {
-	case ast.IntegerType:
-		if IsINT(value) {
-			if t.BitSize != value.(IntegerValue).Size {
-				msg = strFormatter(explicitType, value)
-				msg += fmt.Sprintf(" of size %d to integer of size %d", value.(IntegerValue).Size, t.BitSize)
-			}
-		} else {
-			msg = strFormatter(explicitType, value)
-		}
-	case ast.FloatType:
-		if IsFLOAT(value) {
-			if t.BitSize != value.(FloatValue).Size {
-				msg = strFormatter(explicitType, value)
-				msg += fmt.Sprintf(" of size %d to float of size %d", value.(FloatValue).Size, t.BitSize)
-			}
-		} else {
-			msg = strFormatter(explicitType, value)
-		}
-	case ast.StructType:
-		expected := t.Name
-		got := string(GetRuntimeType(value))
-
-		if !HasStruct(expected, env) {
-			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("failed to validate types. struct '%s' is not defined", expected)).Display()
-		} else if !HasStruct(string(got), env) {
-			parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, fmt.Sprintf("failed to validate types. struct '%s' is not defined", got)).Display()
-		} else if expected != got {
-			msg = strFormatter(explicitType, value)
-		}
-	default:
-		if GetRuntimeType(value) != t.IType() {
-			msg = strFormatter(explicitType, value)
-		}
-	}
-
-	if msg != "" {
-		parser.MakeError(p, startPos.Line, p.FilePath, startPos, endPos, msg).Display()
-	}
-}
 
 func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
 	for _, stmt := range block.Items {
@@ -172,85 +193,71 @@ func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue 
 }
 
 func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment) RuntimeValue {
-
-	err := env.DeclareFunction(stmt.Name.Identifier, stmt.ReturnType, stmt.Parameters, stmt.Block)
-
+	err := declareFunction(stmt, env)
 	if err != nil {
-		parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, err.Error()).Display()
+		handleFunctionDeclarationError(stmt, env, err)
+		return MakeVOID()
 	}
 
-	// eliminate the return statement from the body
+	funcEnv := createFunctionEnvironment(stmt, env)
+	processFunctionBody(stmt.Block, funcEnv)
+	checkFunctionReturnType(stmt, funcEnv)
 
-	var returnStmt *ast.ReturnStmt
+	return MakeVOID()
+}
 
+func declareFunction(stmt ast.FunctionDeclStmt, env *Environment) error {
+	return env.DeclareFunction(stmt.Name.Identifier, stmt.ReturnType, stmt.Parameters, stmt.Block)
+}
+
+func handleFunctionDeclarationError(stmt ast.FunctionDeclStmt, env *Environment, err error) {
+	parser.MakeError(env.parser, stmt.StartPos.Line, env.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, err.Error()).Display()
+}
+
+func createFunctionEnvironment(stmt ast.FunctionDeclStmt, env *Environment) *Environment {
 	funcEnv := NewEnvironment(env, env.parser)
 
-	//for each parameter, declare a variable in the function environment
 	for _, param := range stmt.Parameters {
 		funcEnv.DeclareVariable(param.Identifier.Identifier, MakeDefaultRuntimeValue(param.Type), false)
 	}
 
-	for _, body := range stmt.Block.Items {
-		switch t := body.(type) {
-		case ast.VariableDclStml:
-			val := Evaluate(t.Value, funcEnv)
-			funcEnv.DeclareVariable(t.Identifier.Identifier, val, t.IsConstant)
-		case ast.ReturnStmt:
-			returnStmt = &t
-		}
-	}
-
-	// a void function should not have a return statement with a value. It should be empty like return;
-	if stmt.ReturnType.IType() == ast.T_VOID {
-		if returnStmt != nil {
-			if returnStmt.Kind != ast.NODE_TYPE(ast.T_VOID) {
-				//return nil, fmt.Errorf("void function %s must not have a return statement with a value", name)
-				parser.MakeError(funcEnv.parser, returnStmt.StartPos.Line, funcEnv.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, "void function must not have a return statement with a value").Display()
-			}
-		}
-	} else {
-		if returnStmt == nil {
-			//return nil, fmt.Errorf("function %s must have a return statement", name)
-			parser.MakeError(funcEnv.parser, stmt.StartPos.Line, funcEnv.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, "function must have a return value at the end").Display()
-		} else {
-			// check the return type of the function
-			start, end := returnStmt.GetPos()
-
-			// evaluate the return statement
-			returnVal := Evaluate(returnStmt.Expression, funcEnv)
-
-			returnType := GetRuntimeType(returnVal)
-
-			if returnType != stmt.ReturnType.IType() {
-
-				funcName := fmt.Sprintf("%s(", stmt.Name.Identifier)
-				params := stmt.Parameters
-				formattedParams := ""
-				for i, param := range params {
-					if i == 0 {
-						formattedParams += fmt.Sprintf("%s: %s", param.Identifier.Identifier, param.Type.IType())
-					} else {
-						formattedParams += fmt.Sprintf(", %s: %s", param.Identifier.Identifier, param.Type.IType())
-					}
-				}
-				funcName += formattedParams + ")"
-
-				// if struct, check if the struct is defined
-				if _, ok := stmt.ReturnType.(ast.StructType); ok {
-					if HasStruct(stmt.ReturnType.(ast.StructType).Name, funcEnv) {
-						return MakeVOID()
-					} else {
-						parser.MakeError(funcEnv.parser, start.Line, funcEnv.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, stmt.Name.Identifier, stmt.ReturnType.(ast.StructType).Name)).Display()
-					}
-				} else {
-					parser.MakeError(funcEnv.parser, start.Line, funcEnv.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, funcName, stmt.ReturnType.IType())).Display()
-				}
-			}
-		}
-	}
-
-	return MakeVOID()
+	return funcEnv
 }
+
+func processFunctionBody(body ast.BlockStmt, funcEnv *Environment) {
+	var returnStmt *ast.ReturnStmt
+
+	for _, stmt := range body.Items {
+		switch stmt := stmt.(type) {
+		case ast.VariableDclStml:
+			val := Evaluate(stmt.Value, funcEnv)
+			funcEnv.DeclareVariable(stmt.Identifier.Identifier, val, stmt.IsConstant)
+		case ast.ReturnStmt:
+			returnStmt = &stmt
+		}
+	}
+
+	if returnStmt != nil && returnStmt.Kind == ast.NODE_TYPE(ast.T_VOID) {
+		parser.MakeError(funcEnv.parser, returnStmt.StartPos.Line, funcEnv.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, "void function must not have a return statement with a value").Display()
+	}
+}
+
+func checkFunctionReturnType(stmt ast.FunctionDeclStmt, funcEnv *Environment) {
+	if stmt.ReturnType.IType() != ast.T_VOID {
+		lastStmt := stmt.Block.Items[len(stmt.Block.Items)-1]
+		if returnStmt, ok := lastStmt.(ast.ReturnStmt); ok {
+			returnVal := Evaluate(returnStmt.Expression, funcEnv)
+			if GetRuntimeType(returnVal) != stmt.ReturnType.IType() {
+				expectedType := fmt.Sprintf("%s", stmt.ReturnType)
+				returnType := fmt.Sprintf("%s", GetRuntimeType(returnVal))
+				parser.MakeError(funcEnv.parser, returnStmt.StartPos.Line, funcEnv.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, fmt.Sprintf("cannot return value of type '%s' from function with return type '%s'", returnType, expectedType)).Display()
+			}
+		} else {
+			parser.MakeError(funcEnv.parser, stmt.StartPos.Line, funcEnv.parser.FilePath, stmt.Name.StartPos, stmt.Name.EndPos, "function must have a return value at the end").Display()
+		}
+	}
+}
+
 
 func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) RuntimeValue {
 
