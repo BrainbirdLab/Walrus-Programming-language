@@ -81,12 +81,12 @@ func (r ReturnValue) rVal() {
 }
 
 type FunctionValue struct {
-	Name       		string
-	Parameters 		[]ast.FunctionParameter
-	Body       		ast.BlockStmt
-	Type       		ast.Type
-	ReturnType 		ast.Type
-	DeclarationEnv 	*Environment
+	Name           string
+	Parameters     []ast.FunctionParameter
+	Body           ast.BlockStmt
+	Type           ast.Type
+	ReturnType     ast.Type
+	DeclarationEnv *Environment
 }
 
 func (f FunctionValue) rVal() {
@@ -94,9 +94,9 @@ func (f FunctionValue) rVal() {
 }
 
 type StructValue struct {
-	Fields 	map[string]ast.Property
+	Fields  map[string]ast.Property
 	Methods map[string]ast.FunctionType
-	Type   ast.Type
+	Type    ast.Type
 }
 
 func (s StructValue) rVal() {
@@ -115,15 +115,15 @@ func (s StructInstance) rVal() {
 type FunctionCall = func(...RuntimeValue) RuntimeValue
 
 type NativeFunctionValue struct {
-	Caller    	FunctionCall
-	Type		ast.Type
+	Caller FunctionCall
+	Type   ast.Type
 }
+
 func (n NativeFunctionValue) rVal() {
 	// empty function implements RuntimeValue interface
 }
-	
 
-func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
+func MakeINT(value int64, size uint8, signed bool) IntegerValue {
 
 	initial := "i"
 
@@ -139,7 +139,7 @@ func MAKE_INT(value int64, size uint8, signed bool) IntegerValue {
 	}
 }
 
-func MAKE_FLOAT(value float64, size uint8) FloatValue {
+func MakeFLOAT(value float64, size uint8) FloatValue {
 
 	return FloatValue{Value: value, Size: size, Type: ast.FloatType{
 		Kind:    ast.DATA_TYPE(("f" + fmt.Sprintf("%d", size))),
@@ -148,42 +148,42 @@ func MAKE_FLOAT(value float64, size uint8) FloatValue {
 	}
 }
 
-func MAKE_BOOL(value bool) BooleanValue {
+func MakeBOOL(value bool) BooleanValue {
 	return BooleanValue{Value: value, Type: ast.BoolType{
 		Kind: ast.T_BOOLEAN,
 	},
 	}
 }
 
-func MAKE_STRING(value string) StringValue {
+func MakeSTRING(value string) StringValue {
 	return StringValue{Value: value, Type: ast.StringType{
 		Kind: ast.T_STRING,
 	},
 	}
 }
 
-func MAKE_CHAR(value byte) CharacterValue {
+func MakeCHAR(value byte) CharacterValue {
 	return CharacterValue{Value: value, Type: ast.CharType{
 		Kind: ast.T_CHARACTER,
 	},
 	}
 }
 
-func MAKE_NULL() NullValue {
+func MakeNULL() NullValue {
 	return NullValue{Type: ast.NullType{
 		Kind: ast.T_NULL,
 	},
 	}
 }
 
-func MAKE_VOID() VoidValue {
+func MakeVOID() VoidValue {
 	return VoidValue{Type: ast.VoidType{
 		Kind: ast.T_VOID,
 	},
 	}
 }
 
-func MAKE_NATIVE_FUNCTION(call FunctionCall) NativeFunctionValue {
+func MakeNativeFUNCTION(call FunctionCall) NativeFunctionValue {
 	return NativeFunctionValue{
 		Caller: call,
 		Type: ast.NativeFnType{
@@ -196,19 +196,19 @@ func MakeDefaultRuntimeValue(t ast.Type) RuntimeValue {
 
 	switch t := t.(type) {
 	case ast.IntegerType:
-		return MAKE_INT(0, t.BitSize, t.IsSigned)
+		return MakeINT(0, t.BitSize, t.IsSigned)
 	case ast.FloatType:
-		return MAKE_FLOAT(0, t.BitSize)
+		return MakeFLOAT(0, t.BitSize)
 	case ast.BoolType:
-		return MAKE_BOOL(false)
+		return MakeBOOL(false)
 	case ast.StringType:
-		return MAKE_STRING("")
+		return MakeSTRING("")
 	case ast.CharType:
-		return MAKE_CHAR(0)
+		return MakeCHAR(0)
 	case ast.NullType:
-		return MAKE_NULL()
+		return MakeNULL()
 	case ast.VoidType:
-		return MAKE_VOID()
+		return MakeVOID()
 	case ast.StructType:
 		return StructValue{
 			Fields:  make(map[string]ast.Property),

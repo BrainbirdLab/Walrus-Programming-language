@@ -34,7 +34,7 @@ const (
 	IMPLEMENTS_STATEMENT           NODE_TYPE = "implements statement"
 
 	// Literals
-	//NUMERIC_LITERAL   NODE_TYPE = "NUMERIC_LITERAL"
+	NUMERIC_LITERAL   NODE_TYPE = "NUMERIC_LITERAL"
 	INTEGER_LITERAL   NODE_TYPE = "integer literal"
 	FLOAT_LITERAL     NODE_TYPE = "float literal"
 	STRING_LITERAL    NODE_TYPE = "string literal"

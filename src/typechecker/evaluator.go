@@ -121,13 +121,13 @@ func CastToStringValue(value RuntimeValue) (StringValue, error) {
 	case StringValue:
 		return t, nil
 	case IntegerValue:
-		return MAKE_STRING(strconv.FormatInt(t.Value, 10)), nil
+		return MakeSTRING(strconv.FormatInt(t.Value, 10)), nil
 	case FloatValue:
-		return MAKE_STRING(strconv.FormatFloat(t.Value, 'f', -1, 64)), nil
+		return MakeSTRING(strconv.FormatFloat(t.Value, 'f', -1, 64)), nil
 	case BooleanValue:
-		return MAKE_STRING(strconv.FormatBool(t.Value)), nil
+		return MakeSTRING(strconv.FormatBool(t.Value)), nil
 	case CharacterValue:
-		return MAKE_STRING(string(t.Value)), nil
+		return MakeSTRING(string(t.Value)), nil
 	default:
 		return StringValue{}, fmt.Errorf("cannot cast %T to string", value)
 	}
@@ -139,27 +139,27 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 		// Check if the number is an integer or a float
 		if node.BaseStmt.Kind == ast.INTEGER_LITERAL {
 			val, _ := strconv.ParseInt(node.Value, 10, int(node.BitSize))
-			return MAKE_INT(val, node.BitSize, true)
+			return MakeINT(val, node.BitSize, true)
 		} else if node.BaseStmt.Kind == ast.FLOAT_LITERAL {
 			val, _ := strconv.ParseFloat(node.Value, 64)
-			return MAKE_FLOAT(val, node.BitSize)
+			return MakeFLOAT(val, node.BitSize)
 		} else {
 			parser.MakeError(env.parser, node.StartPos.Line, env.parser.FilePath, node.StartPos, node.EndPos, "invalid numeric literal").Display()
 			return nil
 		}
 	case ast.StringLiteral:
-		return MAKE_STRING(node.Value)
+		return MakeSTRING(node.Value)
 	case ast.CharacterLiteral:
 		if len(node.Value) > 1 {
 			parser.MakeError(env.parser, node.StartPos.Line, env.parser.FilePath, node.StartPos, node.EndPos, "character literals can only have one character").Display()
 		}
-		return MAKE_CHAR(node.Value[0])
+		return MakeCHAR(node.Value[0])
 	case ast.BooleanLiteral:
-		return MAKE_BOOL(node.Value)
+		return MakeBOOL(node.Value)
 	case ast.NullLiteral:
-		return MAKE_NULL()
+		return MakeNULL()
 	case ast.VoidLiteral:
-		return MAKE_VOID()
+		return MakeVOID()
 	case ast.ProgramStmt:
 		return EvaluateProgramBlock(node, env)
 	case ast.VariableDclStml:

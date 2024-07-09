@@ -14,7 +14,7 @@ func EvaluateProgramBlock(block ast.ProgramStmt, env *Environment) RuntimeValue 
 			return rVal
 		}
 	}
-	return MAKE_VOID()
+	return MakeVOID()
 }
 
 func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment) RuntimeValue {
@@ -33,7 +33,7 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		switch t := stmt.ExplicitType.(type) {
 		case ast.IntegerType:
 			explicitSize = t.BitSize
-			
+
 		case ast.FloatType:
 			explicitSize = t.BitSize
 		}
@@ -132,25 +132,24 @@ func checkTypes(env *Environment, explicitType ast.Type, value RuntimeValue, sta
 }
 
 func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
-    for _, stmt := range block.Items {
-        switch stmt := stmt.(type) {
-        case ast.ReturnStmt:
-            // Evaluate the return expression and return its value immediately
+	for _, stmt := range block.Items {
+		switch stmt := stmt.(type) {
+		case ast.ReturnStmt:
+			// Evaluate the return expression and return its value immediately
 			return Evaluate(stmt, env)
-        default:
-            rVal := Evaluate(stmt, env)
+		default:
+			rVal := Evaluate(stmt, env)
 			//check if the runtime value is a return value
 			if _, ok := rVal.(ReturnValue); ok {
 				return rVal
 			}
-        }
-    }
+		}
+	}
 
-    return ReturnValue{
-		Value: MAKE_VOID(),
+	return ReturnValue{
+		Value: MakeVOID(),
 	}
 }
-
 
 func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue {
 
@@ -169,7 +168,7 @@ func EvaluateControlFlowStmt(astNode ast.IfStmt, env *Environment) RuntimeValue 
 		}
 	}
 
-	return MAKE_NULL()
+	return MakeNULL()
 }
 
 func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment) RuntimeValue {
@@ -239,7 +238,7 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 				// if struct, check if the struct is defined
 				if _, ok := stmt.ReturnType.(ast.StructType); ok {
 					if HasStruct(stmt.ReturnType.(ast.StructType).Name, funcEnv) {
-						return MAKE_VOID()
+						return MakeVOID()
 					} else {
 						parser.MakeError(funcEnv.parser, start.Line, funcEnv.parser.FilePath, start, end, fmt.Sprintf("cannot return value of type '%s' from function %s with return type '%s'", returnType, stmt.Name.Identifier, stmt.ReturnType.(ast.StructType).Name)).Display()
 					}
@@ -250,7 +249,7 @@ func EvaluateFunctionDeclarationStmt(stmt ast.FunctionDeclStmt, env *Environment
 		}
 	}
 
-	return MAKE_VOID()
+	return MakeVOID()
 }
 
 func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) RuntimeValue {
@@ -262,7 +261,7 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 	}
 
 	fn := Evaluate(expr.Caller, env)
-	
+
 	if !IsFunction(fn) {
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("could not call. %s not a function", expr.Caller.Identifier)).Display()
 	}
@@ -275,17 +274,17 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 	scope := NewEnvironment(function.DeclarationEnv, env.parser)
 
 	params := function.Parameters
-	
+
 	// check if the number of arguments match the number of parameters
 	if len(args) != len(params) {
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, fmt.Sprintf("function '%s' expects %d arguments but %d were provided", function.Name, len(params), len(args))).Display()
 	}
-	
+
 	// check and set the arguments to the function parameters
 	for i := 0; i < len(params); i++ {
 		scope.DeclareVariable(params[i].Identifier.Identifier, args[i], false)
 	}
-	
+
 	for _, stmt := range function.Body.Items {
 		rVal := Evaluate(stmt, scope)
 		if _, ok := rVal.(ReturnValue); ok {
@@ -293,7 +292,7 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 		}
 	}
 
-	return MAKE_VOID()
+	return MakeVOID()
 }
 
 func EvaluateReturnStmt(stmt ast.ReturnStmt, env *Environment) RuntimeValue {
@@ -316,7 +315,7 @@ func EvaluateStructDeclarationStmt(stmt ast.StructDeclStatement, env *Environmen
 		},
 	}
 
-	return MAKE_VOID()
+	return MakeVOID()
 }
 
 func EvaluateStructLiteral(stmt ast.StructLiteral, env *Environment) RuntimeValue {

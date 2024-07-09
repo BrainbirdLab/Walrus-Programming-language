@@ -11,12 +11,12 @@ import (
 	"walrus/utils"
 )
 
-func native_print(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
+func nativePrint(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
 
 	//if no arguments
 	if len(args) == 0 {
 		fmt.Println()
-		return typechecker.MAKE_VOID()
+		return typechecker.MakeVOID()
 	}
 
 	for _, arg := range args {
@@ -30,12 +30,12 @@ func native_print(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
 		fmt.Print(utils.Colorize(utils.YELLOW, val.Value))
 	}
 	fmt.Println()
-	return typechecker.MAKE_VOID()
+	return typechecker.MakeVOID()
 }
 
-func native_time(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
+func nativeTime(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
 	t := time.Now().Unix()
-	return typechecker.MAKE_INT(t, 64, true)
+	return typechecker.MakeINT(t, 64, true)
 }
 
 func main() {
@@ -57,7 +57,7 @@ func main() {
 
 		sf := strings.Split(file.Name(), ".")
 
-		if file.IsDir() || sf[len(sf)-1] != "wal"{
+		if file.IsDir() || sf[len(sf)-1] != "wal" {
 			continue
 		}
 
@@ -68,43 +68,42 @@ func main() {
 		ast := parserMachine.Parse()
 
 		fmt.Printf("Parsed: %v\n", filename)
-	
+
 		//store as file
-		file, err := os.Create( targetDir + "/" + sf[0] + ".json")
-	
+		file, err := os.Create(targetDir + "/" + sf[0] + ".json")
+
 		if err != nil {
 			panic(err)
 		}
-	
+
 		//parse as string
 		astString, err := json.MarshalIndent(ast, "", "  ")
-	
+
 		if err != nil {
 			panic(err)
 		}
-	
+
 		_, err = file.Write(astString)
-	
+
 		if err != nil {
 			panic(err)
 		}
-	
+
 		file.Close()
 
 		env := typechecker.NewEnvironment(nil, parserMachine)
 
-		env.DeclareVariable("true", typechecker.MAKE_BOOL(true), true)
-		env.DeclareVariable("false", typechecker.MAKE_BOOL(false), true)
-		env.DeclareVariable("null", typechecker.MAKE_NULL(), true)
+		env.DeclareVariable("true", typechecker.MakeBOOL(true), true)
+		env.DeclareVariable("false", typechecker.MakeBOOL(false), true)
+		env.DeclareVariable("null", typechecker.MakeNULL(), true)
 
-		env.DeclareNativeFn("print", typechecker.MAKE_NATIVE_FUNCTION(native_print))
-		env.DeclareNativeFn("time", typechecker.MAKE_NATIVE_FUNCTION(native_time))
+		env.DeclareNativeFn("print", typechecker.MakeNativeFUNCTION(nativePrint))
+		env.DeclareNativeFn("time", typechecker.MakeNativeFUNCTION(nativeTime))
 
 		fmt.Printf("Evaluating: %v\n", filename)
 
 		typechecker.Evaluate(ast, env)
 	}
-
 
 	// time end
 	timeEnd := time.Now()
