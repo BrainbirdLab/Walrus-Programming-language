@@ -249,7 +249,7 @@ func checkFunctionReturnType(stmt ast.FunctionDeclStmt, funcEnv *Environment) {
 			returnVal := Evaluate(returnStmt.Expression, funcEnv)
 			if GetRuntimeType(returnVal) != stmt.ReturnType.IType() {
 				expectedType := fmt.Sprintf("%s", stmt.ReturnType)
-				returnType := fmt.Sprintf("%s", GetRuntimeType(returnVal))
+				returnType := GetRuntimeType(returnVal)
 				parser.MakeError(funcEnv.parser, returnStmt.StartPos.Line, funcEnv.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, fmt.Sprintf("cannot return value of type '%s' from function with return type '%s'", returnType, expectedType)).Display()
 			}
 		} else {

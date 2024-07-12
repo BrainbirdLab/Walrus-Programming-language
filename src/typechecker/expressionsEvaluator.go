@@ -30,33 +30,15 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 	expr := Evaluate(unary.Argument, env)
 
 	// Error message for unsupported unary operations
-	errMsg := fmt.Sprintf("unsupported unary operation for type %v", expr)
+	errMsg := fmt.Errorf("unsupported unary operation for type %v", expr)
 
 	// Switch based on the unary operator value
 	switch unary.Operator.Value {
 	case "-", "+":
-		// Handle unary minus and plus operators
-		if !helpers.TypesMatchT[IntegerValue](expr) {
-			panic(errMsg)
-		}
-
-		value := expr.(IntegerValue).Value
-		if unary.Operator.Value == "-" {
-			value = -value
-		}
-
-		return MakeINT(value, 32, true)
-
+		return handleUnaryAdditive(expr, unary, errMsg)
 	case "!":
 		// Handle unary logical NOT operator
-		if !helpers.TypesMatchT[BooleanValue](expr) {
-			panic(errMsg)
-		}
-
-		return BooleanValue{
-			Type: ast.BoolType{Kind: ast.T_BOOLEAN},
-			Value: !expr.(BooleanValue).Value,
-		}
+		return handleUnaryNegation(expr, errMsg)
 
 	case "++", "--":
 		// Handle pre-increment and pre-decrement operators
@@ -88,36 +70,40 @@ func EvaluateUnaryExpression(unary ast.UnaryExpr, env *Environment) RuntimeValue
 	}
 }
 
+func handleUnaryNegation(expr RuntimeValue, errMsg error) RuntimeValue {
+	if !helpers.TypesMatchT[BooleanValue](expr) {
+		panic(errMsg)
+	}
+
+	return BooleanValue{
+		Type:  ast.BoolType{Kind: ast.T_BOOLEAN},
+		Value: !expr.(BooleanValue).Value,
+	}
+}
+
+func handleUnaryAdditive(expr RuntimeValue, unary ast.UnaryExpr, errMsg error) RuntimeValue {
+	// Handle unary minus and plus operators
+	if !helpers.TypesMatchT[IntegerValue](expr) {
+		panic(errMsg)
+	}
+
+	value := expr.(IntegerValue).Value
+	if unary.Operator.Value == "-" {
+		value = -value
+	}
+
+	return MakeINT(value, 32, true)
+}
+
 func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
+
 	left := Evaluate(binop.Left, env)
 	right := Evaluate(binop.Right, env)
-
-	leftType := GetRuntimeType(left)
-	rightType := GetRuntimeType(right)
 
 	switch binop.Operator.Value {
 	// Arithmetic operators
 	case "+", "-", "*", "/", "%", "^":
-		if IsNumber(left) && IsNumber(right) {
-			result, err := evaluateNumericArithmeticExpr(left, right, binop.Operator)
-			if err != nil {
-				handleBinaryExprError(err, binop, env)
-			}
-			return result
-		} else if IsString(left) {
-			strVal, err := CastToStringValue(right)
-			if err != nil {
-				handleBinaryExprError(err, binop, env)
-			}
-			result, err := evaluateStringExpr(left.(StringValue), strVal, binop.Operator)
-			if err != nil {
-				handleBinaryExprError(err, binop, env)
-			}
-			return result
-		} else {
-			handleBinaryExprError(fmt.Errorf("operand types mismatch: %v and %v", leftType, rightType), binop, env)
-		}
-
+		return handleBinaryArithmeticExpr(left, right, binop, env)
 	// Relational operators
 	case "==", "!=", ">", "<", ">=", "<=":
 		result, err := evaluateComparisonExpr(left, right, binop.Operator)
@@ -146,11 +132,37 @@ func EvaluateBinaryExpr(binop ast.BinaryExpr, env *Environment) RuntimeValue {
 	return MakeNULL()
 }
 
+func handleBinaryArithmeticExpr(left RuntimeValue, right RuntimeValue, binop ast.BinaryExpr, env *Environment) RuntimeValue {
+
+	leftType := GetRuntimeType(left)
+	rightType := GetRuntimeType(right)
+
+	if IsNumber(left) && IsNumber(right) {
+		result, err := evaluateNumericArithmeticExpr(left, right, binop.Operator)
+		if err != nil {
+			handleBinaryExprError(err, binop, env)
+		}
+		return result
+	} else if IsString(left) {
+		strVal, err := CastToStringValue(right)
+		if err != nil {
+			handleBinaryExprError(err, binop, env)
+		}
+		result, err := evaluateStringExpr(left.(StringValue), strVal, binop.Operator)
+		if err != nil {
+			handleBinaryExprError(err, binop, env)
+		}
+		return result
+	} else {
+		handleBinaryExprError(fmt.Errorf("operand types mismatch: %v and %v", leftType, rightType), binop, env)
+	}
+
+	return MakeNULL()
+}
+
 func handleBinaryExprError(err error, binop ast.BinaryExpr, env *Environment) {
 	parser.MakeError(env.parser, binop.StartPos.Line, env.parser.FilePath, binop.Operator.StartPos, binop.Operator.EndPos, err.Error()).Display()
 }
-
-
 
 func evaluateNumericArithmeticExpr(left RuntimeValue, right RuntimeValue, operator lexer.Token) (RuntimeValue, error) {
 	if IsINT(left) {
@@ -284,12 +296,12 @@ func evaluateIntInt(left IntegerValue, right IntegerValue, operator lexer.Token)
 		return MakeINT(left.Value*right.Value, highestBit, true), nil
 	case "/", "/=":
 		if right.Value == 0 {
-			return nil, divisionByZero
+			return nil, errorDivisionByZero
 		}
 		return MakeINT(left.Value/right.Value, highestBit, true), nil
 	case "%", "%=":
 		if right.Value == 0 {
-			return nil, divisionByZero
+			return nil, errorDivisionByZero
 		}
 		return MakeINT(left.Value%right.Value, highestBit, true), nil
 	case "^":
@@ -333,7 +345,7 @@ func evaluateIntFloat(left IntegerValue, right FloatValue, operator lexer.Token)
 		return MakeINT(int64(float64(left.Value)*right.Value), highestBit, true), nil
 	case "/", "/=":
 		if right.Value == 0 {
-			return nil, fmt.Errorf("division by zero is forbidden")
+			return nil, errorDivisionByZero
 		}
 		return MakeINT(int64(float64(left.Value)/right.Value), highestBit, true), nil
 	case "^":
@@ -506,7 +518,6 @@ func evaluateLogicalOR(left float64, right float64) RuntimeValue {
 	}
 	return MakeBOOL(false)
 }
-
 
 func evaluateStringExpr(left StringValue, right StringValue, operator lexer.Token) (RuntimeValue, error) {
 
