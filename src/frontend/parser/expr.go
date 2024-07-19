@@ -2,17 +2,17 @@ package parser
 
 import (
 	"fmt"
-	"strconv"
 	"walrus/frontend/ast"
 	"walrus/frontend/lexer"
 	"walrus/helpers"
+	"walrus/utils"
 )
 
 // parseBinaryExpr parses a binary expression, given the left-hand side expression
 // and the current binding power. It advances the parser to the next token,
 // parses the right-hand side expression, and returns an AST INode representing
 // the binary expression.
-func parseBinaryExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parseBinaryExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
 
 	start := p.currentToken().StartPos
 
@@ -38,7 +38,7 @@ func parseBinaryExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expre
 // It expects the current token to be an opening parenthesis, and it will parse the arguments
 // until it encounters a closing parenthesis. The function returns an ast.FunctionCallExpr
 // representing the parsed function call.
-func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parseCallExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
 
 	//try to convert the left expression to a function
 
@@ -51,7 +51,7 @@ func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Express
 
 	p.expect(lexer.OPEN_PAREN_TOKEN)
 
-	var arguments []ast.Expression
+	var arguments []ast.Node
 
 	for p.currentTokenKind() != lexer.CLOSE_PAREN_TOKEN {
 		//parse the arguments
@@ -76,7 +76,7 @@ func parseCallExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Express
 	}
 }
 
-func parsePropertyExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parsePropertyExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
 
 	p.expect(lexer.DOT_TOKEN)
 
@@ -108,8 +108,8 @@ func parsePropertyExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Exp
 // It first parses the NUD (Null Denotation) of the expression,
 // then continues to parse the LED (Left Denotation) of the expression
 // until the binding power of the current token is less than or equal to the given binding power.
-// The parsed expression is returned as an ast.Expression.
-func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
+// The parsed expression is returned as an ast.Node.
+func parseExpr(p *Parser, bp BINDING_POWER) ast.Node {
 
 	// Fist parse the NUD
 	token := p.currentToken()
@@ -159,7 +159,7 @@ func parseExpr(p *Parser, bp BINDING_POWER) ast.Expression {
 // parsePrimaryExpr parses a primary expression in the input stream.
 // It handles numeric literals, string literals, identifiers, boolean literals, and null literals.
 // If the current token does not match any of these types, it panics with an error message.
-func parsePrimaryExpr(p *Parser) ast.Expression {
+func parsePrimaryExpr(p *Parser) ast.Node {
 
 	startpos := p.currentToken().StartPos
 
@@ -175,23 +175,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 
 		rawValue := p.advance().Value
 
-		size := uint8(32)
-
-		if len(rawValue) > 10 {
-			size = 64
-		} else {
-			// if number is out of range for 32-bit integer
-			// then it is a 64-bit integer
-			// But to avoid checking both positive and negative ranges, we just check the positive range by using the absolute value
-			// if the absolute value is greater than 2,147,483,647 then it is a 64-bit integer
-			number, _ := strconv.ParseInt(rawValue, 10, 32)
-			if number < 0 {
-				number = -number
-			}
-			if number > 2147483647 {
-				size = 64
-			}
-		}
+		size := utils.GetIntBitSize(rawValue)
 
 		return ast.NumericLiteral{
 			BaseStmt: ast.BaseStmt{
@@ -205,22 +189,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 	case lexer.FLOATING_TOKEN:
 		rawValue := p.advance().Value
 
-		size := uint8(32)
-
-		number, _ := strconv.ParseFloat(rawValue, 64)
-
-		if number < 0 {
-			number = -number
-		}
-
-		// check the floating point decimal size
-
-		decimal := int64(number)
-
-		//max size of a 32-bit floating point number is 7 digits
-		if decimal > 9999999 {
-			size = 64
-		}
+		size := utils.GetFloatBitSize(rawValue)
 
 		return ast.NumericLiteral{
 			BaseStmt: ast.BaseStmt{
@@ -298,7 +267,7 @@ func parsePrimaryExpr(p *Parser) ast.Expression {
 // parseGroupingExpr parses a grouping expression, which is an expression
 // enclosed in parentheses. It expects the opening parenthesis, parses the
 // expression inside, and then expects the closing parenthesis.
-func parseGroupingExpr(p *Parser) ast.Expression {
+func parseGroupingExpr(p *Parser) ast.Node {
 	p.expect(lexer.OPEN_PAREN_TOKEN)
 	expression := parseExpr(p, DEFAULT_BP)
 	p.expect(lexer.CLOSE_PAREN_TOKEN)
@@ -308,7 +277,7 @@ func parseGroupingExpr(p *Parser) ast.Expression {
 // parsePrefixExpr parses a prefix expression, which consists of a unary operator
 // followed by an expression. It returns an ast.UnaryExpr representing the parsed
 // prefix expression.
-func parsePrefixExpr(p *Parser) ast.Expression {
+func parsePrefixExpr(p *Parser) ast.Node {
 
 	startpos := p.currentToken().StartPos
 
@@ -330,20 +299,20 @@ func parsePrefixExpr(p *Parser) ast.Expression {
 }
 
 // parseUnaryExpr parses a unary expression from the input stream.
-// It returns the parsed expression as an ast.Expression.
-func parseUnaryExpr(p *Parser) ast.Expression {
+// It returns the parsed expression as an ast.Node.
+func parseUnaryExpr(p *Parser) ast.Node {
 	return parsePrefixExpr(p)
 }
 
 // parseVarAssignmentExpr parses a variable assignment expression. It takes a Parser, a left-hand side expression, and a binding power.
 // If the left-hand side is an identifier, it creates an AssignmentExpr with the identifier, the assignment operator, and the right-hand side expression.
 // If the left-hand side is not an identifier, it panics with an error message.
-func parseVarAssignmentExpr(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression {
+func parseVarAssignmentExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
 	// Check if left is an Identifier
 
 	start := p.currentToken().StartPos
 
-	var identifier ast.Expression
+	var identifier ast.Node
 
 	switch assignee := left.(type) {
 
@@ -375,14 +344,14 @@ func parseVarAssignmentExpr(p *Parser, left ast.Expression, bp BINDING_POWER) as
 // parseStructInstantiationExpr parses a struct instantiation expression, which creates a new instance of a struct.
 // It expects the left-hand side to be an identifier representing the struct type, followed by a block of property assignments
 // enclosed in curly braces. The function returns an ast.StructInstantiationExpr representing the parsed expression.
-func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression {
+func parseStructInstantiationExpr(p *Parser, left ast.Node) ast.Node {
 
 	start := p.currentToken().StartPos
 
 	// Check if left is an Identifier
 	structName := helpers.ExpectType[ast.IdentifierExpr](left).Identifier
 
-	var properties = map[string]ast.Expression{}
+	var properties = map[string]ast.Node{}
 
 	p.expect(lexer.OPEN_CURLY_TOKEN)
 
@@ -414,13 +383,13 @@ func parseStructInstantiationExpr(p *Parser, left ast.Expression) ast.Expression
 // parseArrayExpr parses an array expression in the input stream.
 // It expects the opening '[' bracket, parses the array elements,
 // and returns an ast.ArrayLiterals INode representing the array.
-func parseArrayExpr(p *Parser) ast.Expression {
+func parseArrayExpr(p *Parser) ast.Node {
 
 	start := p.currentToken().StartPos
 
 	p.expect(lexer.OPEN_BRACKET_TOKEN)
 
-	elements := []ast.Expression{}
+	elements := []ast.Node{}
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_BRACKET_TOKEN {
 		elements = append(elements, parseExpr(p, PRIMARY))
@@ -440,4 +409,41 @@ func parseArrayExpr(p *Parser) ast.Expression {
 		Elements: elements,
 		Size:     uint64(len(elements)),
 	}
+}
+
+func parseArrayAccessExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
+	//start := p.currentToken().StartPos
+
+	start := p.expect(lexer.OPEN_BRACKET_TOKEN).StartPos
+	
+	//get the index
+	index := parseExpr(p, bp)
+
+	end := p.expect(lexer.CLOSE_BRACKET_TOKEN).EndPos
+
+	switch t := index.(type) {
+	case ast.NumericLiteral:
+		if t.Kind == ast.INTEGER_LITERAL {
+			return ast.ArrayIndexAccess{
+				BaseStmt: ast.BaseStmt{
+					Kind: ast.ARRAY_ACCESS,
+					StartPos: start,
+					EndPos: end,
+				},
+				ArrayName: left.(ast.IdentifierExpr).Identifier,
+				Index: ast.NumericLiteral{
+					BaseStmt: ast.BaseStmt{
+						Kind: ast.INTEGER_LITERAL,
+						StartPos: t.StartPos,
+						EndPos: t.EndPos,
+					},
+					Value: t.Value,
+					BitSize: utils.GetIntBitSize(t.Value),
+				},
+			}
+		}
+	}
+	
+	MakeError(p, start.Line, p.FilePath, start, end, "invalid index value").AddHint("index must be an integer", TEXT_HINT).Display()
+	panic("error")
 }

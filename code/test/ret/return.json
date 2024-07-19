@@ -1,14 +1,14 @@
 {
   "Kind": "program",
   "StartPos": {
-    "Line": 1,
+    "Line": 2,
     "Column": 1,
-    "Index": 0
+    "Index": 22
   },
   "EndPos": {
-    "Line": 14,
-    "Column": 36,
-    "Index": 224
+    "Line": 26,
+    "Column": 10,
+    "Index": 364
   },
   "FileName": "./../code/test/ret/return.wal",
   "ModuleName": "",
@@ -465,28 +465,162 @@
       "ExplicitType": null
     },
     {
-      "Kind": "function call expression",
+      "Kind": "variable declaration statement",
       "StartPos": {
         "Line": 14,
-        "Column": 6,
-        "Index": 194
+        "Column": 1,
+        "Index": 189
       },
       "EndPos": {
         "Line": 14,
+        "Column": 22,
+        "Index": 210
+      },
+      "IsConstant": false,
+      "Identifier": {
+        "Kind": "identifier",
+        "StartPos": {
+          "Line": 14,
+          "Column": 5,
+          "Index": 193
+        },
+        "EndPos": {
+          "Line": 14,
+          "Column": 8,
+          "Index": 196
+        },
+        "Identifier": "arr"
+      },
+      "Value": {
+        "Kind": "array",
+        "StartPos": {
+          "Line": 14,
+          "Column": 12,
+          "Index": 200
+        },
+        "EndPos": {
+          "Line": 14,
+          "Column": 21,
+          "Index": 209
+        },
+        "Size": 4,
+        "Elements": [
+          {
+            "Kind": "integer literal",
+            "StartPos": {
+              "Line": 14,
+              "Column": 13,
+              "Index": 201
+            },
+            "EndPos": {
+              "Line": 14,
+              "Column": 14,
+              "Index": 202
+            },
+            "Value": "1",
+            "BitSize": 32
+          },
+          {
+            "Kind": "integer literal",
+            "StartPos": {
+              "Line": 14,
+              "Column": 15,
+              "Index": 203
+            },
+            "EndPos": {
+              "Line": 14,
+              "Column": 16,
+              "Index": 204
+            },
+            "Value": "2",
+            "BitSize": 32
+          },
+          {
+            "Kind": "integer literal",
+            "StartPos": {
+              "Line": 14,
+              "Column": 17,
+              "Index": 205
+            },
+            "EndPos": {
+              "Line": 14,
+              "Column": 18,
+              "Index": 206
+            },
+            "Value": "3",
+            "BitSize": 32
+          },
+          {
+            "Kind": "integer literal",
+            "StartPos": {
+              "Line": 14,
+              "Column": 19,
+              "Index": 207
+            },
+            "EndPos": {
+              "Line": 14,
+              "Column": 20,
+              "Index": 208
+            },
+            "Value": "5",
+            "BitSize": 32
+          }
+        ]
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "array access",
+      "StartPos": {
+        "Line": 15,
+        "Column": 4,
+        "Index": 215
+      },
+      "EndPos": {
+        "Line": 15,
+        "Column": 7,
+        "Index": 218
+      },
+      "ArrayName": "arr",
+      "Index": {
+        "Kind": "integer literal",
+        "StartPos": {
+          "Line": 15,
+          "Column": 5,
+          "Index": 216
+        },
+        "EndPos": {
+          "Line": 15,
+          "Column": 6,
+          "Index": 217
+        },
+        "Value": "2",
+        "BitSize": 32
+      }
+    },
+    {
+      "Kind": "function call expression",
+      "StartPos": {
+        "Line": 17,
+        "Column": 6,
+        "Index": 228
+      },
+      "EndPos": {
+        "Line": 17,
         "Column": 35,
-        "Index": 223
+        "Index": 257
       },
       "Caller": {
         "Kind": "identifier",
         "StartPos": {
-          "Line": 14,
+          "Line": 17,
           "Column": 1,
-          "Index": 189
+          "Index": 223
         },
         "EndPos": {
-          "Line": 14,
+          "Line": 17,
           "Column": 6,
-          "Index": 194
+          "Index": 228
         },
         "Identifier": "print"
       },
@@ -494,57 +628,323 @@
         {
           "Kind": "binary expression",
           "StartPos": {
-            "Line": 14,
+            "Line": 17,
             "Column": 28,
-            "Index": 216
+            "Index": 250
           },
           "EndPos": {
-            "Line": 14,
+            "Line": 17,
             "Column": 34,
-            "Index": 222
+            "Index": 256
           },
           "Operator": {
             "Kind": "+",
             "Value": "+",
             "StartPos": {
-              "Line": 14,
+              "Line": 17,
               "Column": 28,
-              "Index": 216
+              "Index": 250
             },
             "EndPos": {
-              "Line": 14,
+              "Line": 17,
               "Column": 29,
-              "Index": 217
+              "Index": 251
             }
           },
           "Left": {
             "Kind": "string literal",
             "StartPos": {
-              "Line": 14,
+              "Line": 17,
               "Column": 7,
-              "Index": 195
+              "Index": 229
             },
             "EndPos": {
-              "Line": 14,
+              "Line": 17,
               "Column": 27,
-              "Index": 215
+              "Index": 249
             },
             "Value": "Factorial of 5 is "
           },
           "Right": {
             "Kind": "identifier",
             "StartPos": {
-              "Line": 14,
+              "Line": 17,
               "Column": 30,
-              "Index": 218
+              "Index": 252
             },
             "EndPos": {
-              "Line": 14,
+              "Line": 17,
               "Column": 34,
-              "Index": 222
+              "Index": 256
             },
             "Identifier": "fact"
           }
+        }
+      ]
+    },
+    {
+      "Kind": "fn declaration statement",
+      "StartPos": {
+        "Line": 19,
+        "Column": 1,
+        "Index": 262
+      },
+      "EndPos": {
+        "Line": 24,
+        "Column": 2,
+        "Index": 351
+      },
+      "Name": {
+        "Kind": "identifier",
+        "StartPos": {
+          "Line": 19,
+          "Column": 4,
+          "Index": 265
+        },
+        "EndPos": {
+          "Line": 19,
+          "Column": 7,
+          "Index": 268
+        },
+        "Identifier": "sum"
+      },
+      "Parameters": [
+        {
+          "Kind": "function parameter",
+          "StartPos": {
+            "Line": 19,
+            "Column": 8,
+            "Index": 269
+          },
+          "EndPos": {
+            "Line": 19,
+            "Column": 9,
+            "Index": 270
+          },
+          "IsVariadic": false,
+          "Identifier": {
+            "Kind": "identifier",
+            "StartPos": {
+              "Line": 19,
+              "Column": 8,
+              "Index": 269
+            },
+            "EndPos": {
+              "Line": 19,
+              "Column": 9,
+              "Index": 270
+            },
+            "Identifier": "a"
+          },
+          "Type": {
+            "Kind": "array",
+            "ElementType": "i32"
+          },
+          "DefaultVal": null
+        }
+      ],
+      "ReturnType": {
+        "Kind": "i32",
+        "BitSize": 32,
+        "IsSigned": true
+      },
+      "Block": {
+        "Kind": "block statement",
+        "StartPos": {
+          "Line": 19,
+          "Column": 24,
+          "Index": 285
+        },
+        "EndPos": {
+          "Line": 24,
+          "Column": 2,
+          "Index": 351
+        },
+        "Items": [
+          {
+            "Kind": "function call expression",
+            "StartPos": {
+              "Line": 21,
+              "Column": 10,
+              "Index": 299
+            },
+            "EndPos": {
+              "Line": 21,
+              "Column": 40,
+              "Index": 329
+            },
+            "Caller": {
+              "Kind": "identifier",
+              "StartPos": {
+                "Line": 21,
+                "Column": 5,
+                "Index": 294
+              },
+              "EndPos": {
+                "Line": 21,
+                "Column": 10,
+                "Index": 299
+              },
+              "Identifier": "print"
+            },
+            "Args": [
+              {
+                "Kind": "binary expression",
+                "StartPos": {
+                  "Line": 21,
+                  "Column": 31,
+                  "Index": 320
+                },
+                "EndPos": {
+                  "Line": 21,
+                  "Column": 39,
+                  "Index": 328
+                },
+                "Operator": {
+                  "Kind": "+",
+                  "Value": "+",
+                  "StartPos": {
+                    "Line": 21,
+                    "Column": 31,
+                    "Index": 320
+                  },
+                  "EndPos": {
+                    "Line": 21,
+                    "Column": 32,
+                    "Index": 321
+                  }
+                },
+                "Left": {
+                  "Kind": "string literal",
+                  "StartPos": {
+                    "Line": 21,
+                    "Column": 11,
+                    "Index": 300
+                  },
+                  "EndPos": {
+                    "Line": 21,
+                    "Column": 30,
+                    "Index": 319
+                  },
+                  "Value": "length of array: "
+                },
+                "Right": {
+                  "Kind": "function call expression",
+                  "StartPos": {
+                    "Line": 21,
+                    "Column": 36,
+                    "Index": 325
+                  },
+                  "EndPos": {
+                    "Line": 21,
+                    "Column": 39,
+                    "Index": 328
+                  },
+                  "Caller": {
+                    "Kind": "identifier",
+                    "StartPos": {
+                      "Line": 21,
+                      "Column": 33,
+                      "Index": 322
+                    },
+                    "EndPos": {
+                      "Line": 21,
+                      "Column": 36,
+                      "Index": 325
+                    },
+                    "Identifier": "len"
+                  },
+                  "Args": [
+                    {
+                      "Kind": "identifier",
+                      "StartPos": {
+                        "Line": 21,
+                        "Column": 37,
+                        "Index": 326
+                      },
+                      "EndPos": {
+                        "Line": 21,
+                        "Column": 38,
+                        "Index": 327
+                      },
+                      "Identifier": "a"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "Kind": "return statement",
+            "StartPos": {
+              "Line": 23,
+              "Column": 5,
+              "Index": 342
+            },
+            "EndPos": {
+              "Line": 23,
+              "Column": 11,
+              "Index": 348
+            },
+            "Expression": {
+              "Kind": "integer literal",
+              "StartPos": {
+                "Line": 23,
+                "Column": 9,
+                "Index": 346
+              },
+              "EndPos": {
+                "Line": 23,
+                "Column": 10,
+                "Index": 347
+              },
+              "Value": "0",
+              "BitSize": 32
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "function call expression",
+      "StartPos": {
+        "Line": 26,
+        "Column": 4,
+        "Index": 358
+      },
+      "EndPos": {
+        "Line": 26,
+        "Column": 9,
+        "Index": 363
+      },
+      "Caller": {
+        "Kind": "identifier",
+        "StartPos": {
+          "Line": 26,
+          "Column": 1,
+          "Index": 355
+        },
+        "EndPos": {
+          "Line": 26,
+          "Column": 4,
+          "Index": 358
+        },
+        "Identifier": "sum"
+      },
+      "Args": [
+        {
+          "Kind": "identifier",
+          "StartPos": {
+            "Line": 26,
+            "Column": 5,
+            "Index": 359
+          },
+          "EndPos": {
+            "Line": 26,
+            "Column": 8,
+            "Index": 362
+          },
+          "Identifier": "arr"
         }
       ]
     }

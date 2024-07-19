@@ -10,25 +10,27 @@ import (
 func GetRuntimeType(runtimeValue RuntimeValue) ast.DATA_TYPE {
 	switch t := runtimeValue.(type) {
 	case IntegerValue:
-		return t.Type.IType()
+		return t.Type
 	case FloatValue:
-		return t.Type.IType()
+		return t.Type
 	case BooleanValue:
-		return t.Type.IType()
+		return t.Type
 	case StringValue:
-		return t.Type.IType()
+		return t.Type
 	case CharacterValue:
-		return t.Type.IType()
+		return t.Type
 	case NullValue:
-		return t.Type.IType()
+		return t.Type
 	case VoidValue:
-		return t.Type.IType()
+		return t.Type
 	case FunctionValue:
-		return t.Type.IType()
+		return t.Type
 	case NativeFunctionValue:
-		return t.Type.IType()
+		return t.Type
 	case StructValue:
-		return t.Type.IType()
+		return t.Type
+	case ArrayValue:
+		return ast.T_ARRAY
 	case StructInstance:
 		return ast.DATA_TYPE(t.StructName)
 	default:
@@ -112,7 +114,7 @@ func IsArithmetic(value RuntimeValue) bool {
 }
 
 func IsFunction(value RuntimeValue) bool {
-	return GetRuntimeType(value) == ast.T_FUNCTION || GetRuntimeType(value) == ast.T_NATIVE_FN
+	return GetRuntimeType(value) == ast.T_FN || GetRuntimeType(value) == ast.T_NATIVE_FN
 }
 
 func CastToStringValue(value RuntimeValue) (StringValue, error) {
@@ -188,6 +190,10 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 		return EvaluateStructLiteral(node, env)
 	case ast.StructPropertyExpr:
 		return EvaluateStructPropertyExpr(node, env)
+	case ast.ArrayLiterals:
+		return EvaluateArrayLiterals(node, env)
+	case ast.ArrayIndexAccess:
+		return EvaluateArrayAccess(node, env)
 	default:
 		panic(fmt.Sprintf("This ast node is not implemented yet: %v", node))
 	}

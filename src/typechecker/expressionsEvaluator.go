@@ -76,7 +76,7 @@ func handleUnaryNegation(expr RuntimeValue, errMsg error) RuntimeValue {
 	}
 
 	return BooleanValue{
-		Type:  ast.BoolType{Kind: ast.T_BOOLEAN},
+		Type:  ast.T_BOOLEAN,
 		Value: !expr.(BooleanValue).Value,
 	}
 }

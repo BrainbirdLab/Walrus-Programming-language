@@ -42,15 +42,13 @@ func EvaluateVariableDeclarationStmt(stmt ast.VariableDclStml, env *Environment)
 		case IntegerValue:
 			//modify the Size field of the value. Update the original value
 			v.Size = explicitSize // is it reference or copy? It is a copy. So, the original value is not updated
-			t := v.Type.(ast.IntegerType)
-			t.BitSize = explicitSize
+			t := v.Type
 			v.Type = t
 			//update the Original value
 			value = v
 		case FloatValue:
 			v.Size = explicitSize
-			t := v.Type.(ast.FloatType)
-			t.BitSize = explicitSize
+			t := v.Type
 			v.Type = t
 			value = v
 		}
@@ -108,7 +106,7 @@ func checkFloatType(env *Environment, explicitType ast.FloatType, value RuntimeV
 }
 
 func checkStructType(env *Environment, explicitType ast.StructType, value RuntimeValue, startPos lexer.Position, endPos lexer.Position) {
-	expected := explicitType.Name
+	expected := string(explicitType.Kind)
 	got := string(GetRuntimeType(value))
 
 	if !HasStruct(expected, env) {
@@ -143,7 +141,7 @@ func strFormatter(expected ast.Type, got RuntimeValue) string {
 		name = fmt.Sprintf("float of size %d", t.BitSize)
 	case ast.StructType:
 		if userDefinedType, ok := expected.(ast.StructType); ok {
-			name = userDefinedType.Name
+			name = string(userDefinedType.Kind)
 		}
 	default:
 		name = string(expected.IType())
@@ -244,12 +242,16 @@ func processFunctionBody(body ast.BlockStmt, funcEnv *Environment) {
 
 func checkFunctionReturnType(stmt ast.FunctionDeclStmt, funcEnv *Environment) {
 	if stmt.ReturnType.IType() != ast.T_VOID {
-		lastStmt := stmt.Block.Items[len(stmt.Block.Items)-1]
+		if (len(stmt.Block.Items) == 0) {
+			fmt.Println(stmt.StartPos, stmt.EndPos)
+			parser.MakeError(funcEnv.parser, stmt.StartPos.Line, funcEnv.parser.FilePath, stmt.StartPos, stmt.EndPos, "no return statement found").AddHint("function is empty", parser.TEXT_HINT).Display()
+		}
+		lastStmt := stmt.Block.Items[len(stmt.Block.Items) - 1]
 		if returnStmt, ok := lastStmt.(ast.ReturnStmt); ok {
 			returnVal := Evaluate(returnStmt.Expression, funcEnv)
+			expectedType := fmt.Sprintf("%s", stmt.ReturnType)
+			returnType := GetRuntimeType(returnVal)
 			if GetRuntimeType(returnVal) != stmt.ReturnType.IType() {
-				expectedType := fmt.Sprintf("%s", stmt.ReturnType)
-				returnType := GetRuntimeType(returnVal)
 				parser.MakeError(funcEnv.parser, returnStmt.StartPos.Line, funcEnv.parser.FilePath, returnStmt.StartPos, returnStmt.EndPos, fmt.Sprintf("cannot return value of type '%s' from function with return type '%s'", returnType, expectedType)).Display()
 			}
 		} else {
@@ -289,7 +291,18 @@ func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) Runti
 
 	// check and set the arguments to the function parameters
 	for i := 0; i < len(params); i++ {
-		scope.DeclareVariable(params[i].Identifier.Identifier, args[i], false)
+		param := params[i].Identifier
+		arg := args[i]
+
+		expected := params[i].Type.IType()
+		got := GetRuntimeType(arg)
+
+		if expected != got {
+			fmt.Printf("param: %v, arg: %v", params[i].Type.IType(), GetRuntimeType(arg))
+			parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, "function parameter and arguments type mismatched").AddHint(fmt.Sprintf("expected type '%s' but got '%s'", expected, got), parser.TEXT_HINT).Display()
+		}
+
+		scope.DeclareVariable(param.Identifier, arg, false)
 	}
 
 	for _, stmt := range function.Body.Items {
@@ -316,10 +329,7 @@ func EvaluateStructDeclarationStmt(stmt ast.StructDeclStatement, env *Environmen
 	env.structs[stmt.StructName] = StructValue{
 		Fields:  stmt.Properties,
 		Methods: stmt.Methods,
-		Type: ast.StructType{
-			Kind: ast.T_STRUCT,
-			Name: stmt.StructName,
-		},
+		Type: ast.DATA_TYPE(stmt.StructName),
 	}
 
 	return MakeVOID()
@@ -367,4 +377,45 @@ func EvaluateStructPropertyExpr(expr ast.StructPropertyExpr, env *Environment) R
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is private in struct '%s'", propname, obj.StructName)).Display()
 		return nil
 	}
+}
+
+
+func EvaluateArrayLiterals(node ast.Node, env *Environment) RuntimeValue {
+	var values []RuntimeValue
+
+	for _, value := range node.(ast.ArrayLiterals).Elements {
+		values = append(values, Evaluate(value, env))
+	}
+
+	return ArrayValue{
+		Values: values,
+		Type: ast.T_ARRAY,
+	}
+}
+
+func EvaluateArrayAccess(node ast.Node, env *Environment) RuntimeValue {
+	arr := node.(ast.ArrayIndexAccess)
+	name := arr.ArrayName
+	scope, err := env.ResolveVariable(name)
+	errorPrinter := parser.MakeError(env.parser, arr.StartPos.Line, env.parser.FilePath, arr.StartPos, arr.EndPos, "array was not declared\n")
+	if (err != nil) {
+		errorPrinter.Display()
+	}
+
+	indexNumber := Evaluate(arr.Index, env)
+
+	if _, ok := indexNumber.(IntegerValue); !ok {
+		errorPrinter.Message = "invalid index value\n"
+		errorPrinter.AddHint("index must be a valid integer\n", parser.TEXT_HINT).Display()
+	}
+
+	index := indexNumber.(IntegerValue).Value
+	values := scope.variables[name].(ArrayValue).Values
+
+	if index > int64(len(values) - 1){
+		errorPrinter.Message = fmt.Sprintf("invalid index range %d\n", index)
+		errorPrinter.AddHint(fmt.Sprintf("index must be within the range of 0 to %d\n", len(values) - 1), parser.TEXT_HINT).Display()
+	}
+
+	return values[index]
 }

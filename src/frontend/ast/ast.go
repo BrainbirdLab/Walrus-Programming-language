@@ -34,7 +34,6 @@ const (
 	IMPLEMENTS_STATEMENT           NODE_TYPE = "implements statement"
 
 	// Literals
-	NUMERIC_LITERAL   NODE_TYPE = "NUMERIC_LITERAL"
 	INTEGER_LITERAL   NODE_TYPE = "integer literal"
 	FLOAT_LITERAL     NODE_TYPE = "float literal"
 	STRING_LITERAL    NODE_TYPE = "string literal"
@@ -42,7 +41,8 @@ const (
 	BOOLEAN_LITERAL   NODE_TYPE = "boolean literal"
 	NULL_LITERAL      NODE_TYPE = "null literal"
 	VOID_LITERAL      NODE_TYPE = "void literal"
-	ARRAY_LITERALS    NODE_TYPE = "array literals"
+	ARRAY_LITERALS    NODE_TYPE = "array"
+	ARRAY_ACCESS	  NODE_TYPE = "array access"
 	STRUCT_LITERAL    NODE_TYPE = "struct literal"
 
 	STRUCT_PROPERTY NODE_TYPE = "struct property"
@@ -65,16 +65,6 @@ const (
 type Node interface {
 	INodeType() NODE_TYPE
 	GetPos() (lexer.Position, lexer.Position)
-}
-
-type Statement interface {
-	Node
-	iStatement()
-}
-
-type Expression interface {
-	Node
-	iExpression()
 }
 
 type Type interface {

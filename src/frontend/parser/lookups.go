@@ -23,13 +23,13 @@ const (
 )
 
 // Statement handler. Expect nothing to the left of the token
-type statementHandler func(p *Parser) ast.Statement
+type statementHandler func(p *Parser) ast.Node
 
 // Null denoted. Expect nothing to the left of the token
-type NUDHandler func(p *Parser) ast.Expression
+type NUDHandler func(p *Parser) ast.Node
 
 // Left denoted. Expect something to the left of the token
-type LEDHandler func(p *Parser, left ast.Expression, bp BINDING_POWER) ast.Expression
+type LEDHandler func(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node
 
 // lookup table for the different token types
 type stmtLookupType map[lexer.TOKEN_KIND]statementHandler
@@ -92,6 +92,7 @@ func createTokenLookups() {
 	led(lexer.TIMES_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
 	led(lexer.DIVIDE_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
 	led(lexer.MODULO_EQUALS_TOKEN, ASSIGNMENT, parseVarAssignmentExpr)
+	led(lexer.OPEN_BRACKET_TOKEN, MEMBER, parseArrayAccessExpr)
 
 	// Logical operations
 	led(lexer.AND_TOKEN, LOGICAL, parseBinaryExpr)

@@ -68,11 +68,7 @@ func (p *Parser) Parse() ast.ProgramStmt {
 	return ast.ProgramStmt{
 		BaseStmt: ast.BaseStmt{
 			Kind: ast.PROGRAM,
-			StartPos: lexer.Position{
-				Line:   1,
-				Column: 1,
-				Index:  0,
-			},
+			StartPos: p.tokens[0].StartPos,
 			EndPos: end,
 		},
 		ModuleName: moduleName,
@@ -91,12 +87,6 @@ func (p *Parser) currentToken() lexer.Token {
 	return p.tokens[p.pos]
 }
 
-func (p *Parser) nextToken() lexer.Token {
-	if p.pos+1 < len(p.tokens) {
-		return p.tokens[p.pos+1]
-	}
-	return lexer.Token{}
-}
 
 func (p *Parser) previousToken() lexer.Token {
 	if p.pos-1 >= 0 {

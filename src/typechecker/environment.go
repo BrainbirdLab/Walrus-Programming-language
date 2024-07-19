@@ -78,11 +78,11 @@ func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeVa
 		switch t := variable.(type) {
 		case IntegerValue:
 			if t.Size < value.(IntegerValue).Size {
-				return nil, fmt.Errorf("potential data loss. %d bit value cannot be assigned to %s of size %d. You can try type casting", value.(IntegerValue).Size, t.Type.IType(), t.Size)
+				return nil, fmt.Errorf("potential data loss. %d bit value cannot be assigned to %s of size %d. You can try type casting", value.(IntegerValue).Size, t.Type, t.Size)
 			}
 		case FloatValue:
 			if t.Size < value.(FloatValue).Size {
-				return nil, fmt.Errorf("potential data loss. %d bit value cannot be assigned to %s of size %d. You can try type casting", value.(FloatValue).Size, t.Type.IType(), t.Size)
+				return nil, fmt.Errorf("potential data loss. %d bit value cannot be assigned to %s of size %d. You can try type casting", value.(FloatValue).Size, t.Type, t.Size)
 			}
 		}
 	}
@@ -102,10 +102,8 @@ func (e *Environment) DeclareFunction(name string, returnType ast.Type, paramete
 		Name:       name,
 		Parameters: parameters,
 		Body:       body,
-		Type: ast.FunctionType{
-			Kind: ast.T_FUNCTION,
-		},
-		ReturnType: returnType,
+		Type: 		ast.T_FN,
+		ReturnType: returnType.IType(),
 		DeclarationEnv: e,
 	}
 

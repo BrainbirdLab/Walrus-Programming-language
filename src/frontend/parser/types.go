@@ -68,13 +68,8 @@ func parseDataType(p *Parser) ast.Type {
 		}
 	default:
 		return ast.StructType{
-			Kind: ast.T_STRUCT,
-			Name: value,
+			Kind: ast.DATA_TYPE(value),
 		}
-		/*
-			p.MakeError(identifier.StartPos.Line, p.FilePath, identifier, fmt.Sprintf("Unknown data type '%s'\n", value)).AddHint("You can use primitives types like i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, f32, f64, bool, char, str, or arrays of them").Display()
-			panic("Error while parsing")
-		*/
 	}
 }
 
@@ -86,7 +81,8 @@ func parseArrayType(p *Parser) ast.Type {
 	elemType := parseType(p, DEFAULT_BP)
 
 	return ast.ArrayType{
-		ElementType: elemType,
+		Kind: ast.T_ARRAY,
+		ElementType: elemType.IType(),
 	}
 }
 

@@ -11,4 +11,16 @@ fn factorial(n: i32) -> i32 {
 
 let fact := factorial(5);
 
+let arr := [1,2,3,5];
+arr[2];
+
 print("Factorial of 5 is " + fact);
+
+fn sum(a: []i32) -> i32{
+
+    print("length of array: " + len(a));    
+
+    ret 0;
+}
+
+sum(arr);

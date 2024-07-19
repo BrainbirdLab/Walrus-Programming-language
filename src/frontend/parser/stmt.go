@@ -24,7 +24,7 @@ func parseNode(p *Parser) ast.Node {
 
 	return expr
 }
-func parseModuleStmt(p *Parser) ast.Statement {
+func parseModuleStmt(p *Parser) ast.Node {
 	start := p.currentToken().StartPos
 
 	p.advance() // skip MODULE token
@@ -43,7 +43,7 @@ func parseModuleStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseImportStmt(p *Parser) ast.Statement {
+func parseImportStmt(p *Parser) ast.Node {
 	start := p.currentToken().StartPos
 	//advaced to the next token
 	p.advance()
@@ -87,12 +87,12 @@ func parseImportStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseVarDeclStmt(p *Parser) ast.Statement {
+func parseVarDeclStmt(p *Parser) ast.Node {
 
 	start := p.currentToken().StartPos
 
 	var explicitType ast.Type
-	var assignedValue ast.Expression
+	var assignedValue ast.Node
 
 	isConstant := p.advance().Kind == lexer.CONST_TOKEN
 
@@ -154,7 +154,7 @@ func parseVarDeclStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseBlockStmt(p *Parser) ast.Statement {
+func parseBlockStmt(p *Parser) ast.Node {
 	return parseBlock(p)
 }
 
@@ -180,7 +180,7 @@ func parseBlock(p *Parser) ast.BlockStmt {
 	}
 }
 
-func parseFunctionDeclStmt(p *Parser) ast.Statement {
+func parseFunctionDeclStmt(p *Parser) ast.Node {
 
 	start := p.currentToken().StartPos
 
@@ -212,7 +212,7 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 	}
 
 	// parse block
-	//type assertion from ast.Statement to ast.BlockStmt
+	//type assertion from ast.Node to ast.BlockStmt
 	functionBody := parseBlock(p)
 
 	end := functionBody.EndPos
@@ -237,13 +237,13 @@ func parseFunctionDeclStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseReturnStmt(p *Parser) ast.Statement {
+func parseReturnStmt(p *Parser) ast.Node {
 
 	start := p.currentToken().StartPos
 
 	p.expect(lexer.RETURN_TOKEN)
 
-	var value ast.Expression
+	var value ast.Node
 
 	if p.currentTokenKind() != lexer.SEMI_COLON_TOKEN {
 		value = parseExpr(p, DEFAULT_BP)
@@ -265,15 +265,15 @@ func parseReturnStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseBreakStmt(p *Parser) ast.Statement {
+func parseBreakStmt(p *Parser) ast.Node {
 	return parseBreakoutStmt(p)
 }
 
-func parseContinueStmt(p *Parser) ast.Statement {
+func parseContinueStmt(p *Parser) ast.Node {
 	return parseBreakoutStmt(p)
 }
 
-func parseBreakoutStmt(p *Parser) ast.Statement {
+func parseBreakoutStmt(p *Parser) ast.Node {
 
 	start := p.advance().StartPos
 	end := p.expect(lexer.SEMI_COLON_TOKEN).EndPos
@@ -287,7 +287,7 @@ func parseBreakoutStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseStructDeclStmt(p *Parser) ast.Statement {
+func parseStructDeclStmt(p *Parser) ast.Node {
 
 	start := p.currentToken().StartPos
 
@@ -405,7 +405,7 @@ func setProperties(p *Parser, propsMap map[string]ast.Property) {
 	}
 }
 
-func parseTraitDeclStmt(p *Parser) ast.Statement {
+func parseTraitDeclStmt(p *Parser) ast.Node {
 
 	start := p.currentToken().StartPos
 
@@ -503,7 +503,7 @@ func parseFunctionPrototype(p *Parser) ast.FunctionPrototype {
 	}
 }
 
-func parseImplementStmt(p *Parser) ast.Statement {
+func parseImplementStmt(p *Parser) ast.Node {
 
 	//advance impl token
 	start := p.advance().StartPos
@@ -624,7 +624,7 @@ func parseParams(p *Parser) []ast.FunctionParameter {
 	return params
 }
 
-func parseIfStatement(p *Parser) ast.Statement {
+func parseIfStatement(p *Parser) ast.Node {
 
 	start := p.advance().StartPos
 
@@ -632,7 +632,7 @@ func parseIfStatement(p *Parser) ast.Statement {
 
 	consequentBlock := parseBlock(p)
 
-	var alternate ast.Statement
+	var alternate ast.Node
 
 	if p.currentTokenKind() == lexer.ELSE_TOKEN {
 		p.advance() //pass the else
@@ -656,7 +656,7 @@ func parseIfStatement(p *Parser) ast.Statement {
 	}
 }
 
-func parseSwitchCaseStmt(p *Parser) ast.Statement {
+func parseSwitchCaseStmt(p *Parser) ast.Node {
 
 	start := p.advance().StartPos // pass the switch token
 
@@ -711,10 +711,10 @@ func parseSwitchCaseStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseCaseStmt(p *Parser) []ast.Expression {
+func parseCaseStmt(p *Parser) []ast.Node {
 	p.expect(lexer.CASE_TOKEN)
 
-	tests := []ast.Expression{}
+	tests := []ast.Node{}
 
 	for p.hasTokens() && p.currentTokenKind() != lexer.OPEN_CURLY_TOKEN {
 		test := parseExpr(p, ASSIGNMENT)
@@ -744,7 +744,7 @@ func parseDefaultCase(p *Parser) *ast.SwitchCase {
 	}
 }
 
-func parseForLoopStmt(p *Parser) ast.Statement {
+func parseForLoopStmt(p *Parser) ast.Node {
 
 	start := p.currentToken().StartPos
 
@@ -808,7 +808,7 @@ func parseForLoopStmt(p *Parser) ast.Statement {
 
 		arr := parseExpr(p, ASSIGNMENT)
 
-		var whereCause ast.Expression
+		var whereCause ast.Node
 
 		if p.currentTokenKind() != lexer.OPEN_CURLY_TOKEN {
 			p.expect(lexer.WHERE_TOKEN)
@@ -838,7 +838,7 @@ func parseForLoopStmt(p *Parser) ast.Statement {
 	}
 }
 
-func parseWhileLoopStmt(p *Parser) ast.Statement {
+func parseWhileLoopStmt(p *Parser) ast.Node {
 
 	start := p.advance().StartPos // skip the for token
 

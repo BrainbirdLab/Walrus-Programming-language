@@ -15,9 +15,6 @@ func (m ModuleStmt) INodeType() NODE_TYPE {
 func (m ModuleStmt) GetPos() (lexer.Position, lexer.Position) {
 	return m.StartPos, m.EndPos
 }
-func (m ModuleStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type ImportStmt struct {
 	BaseStmt
@@ -32,9 +29,6 @@ func (i ImportStmt) INodeType() NODE_TYPE {
 // implements the Statement interface
 func (i ImportStmt) GetPos() (lexer.Position, lexer.Position) {
 	return i.StartPos, i.EndPos
-}
-func (i ImportStmt) iStatement() {
-	// empty method implements the Statement interface
 }
 
 type ProgramStmt struct {
@@ -53,9 +47,6 @@ func (p ProgramStmt) INodeType() NODE_TYPE {
 func (p ProgramStmt) GetPos() (lexer.Position, lexer.Position) {
 	return p.StartPos, p.EndPos
 }
-func (p ProgramStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type BlockStmt struct {
 	BaseStmt
@@ -68,15 +59,12 @@ func (b BlockStmt) INodeType() NODE_TYPE {
 func (b BlockStmt) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
-func (b BlockStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type VariableDclStml struct {
 	BaseStmt
 	IsConstant   bool
 	Identifier   IdentifierExpr
-	Value        Expression
+	Value        Node
 	ExplicitType Type
 }
 
@@ -86,16 +74,13 @@ func (v VariableDclStml) INodeType() NODE_TYPE {
 func (v VariableDclStml) GetPos() (lexer.Position, lexer.Position) {
 	return v.StartPos, v.EndPos
 }
-func (v VariableDclStml) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type FunctionParameter struct {
 	BaseStmt
 	IsVariadic bool
 	Identifier IdentifierExpr
 	Type       Type
-	DefaultVal Expression
+	DefaultVal Node
 }
 
 type FunctionPrototype struct {
@@ -117,13 +102,10 @@ func (f FunctionDeclStmt) INodeType() NODE_TYPE {
 func (f FunctionDeclStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
-func (f FunctionDeclStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type ReturnStmt struct {
 	BaseStmt
-	Expression Expression
+	Expression Node
 }
 
 func (r ReturnStmt) INodeType() NODE_TYPE {
@@ -131,9 +113,6 @@ func (r ReturnStmt) INodeType() NODE_TYPE {
 }
 func (r ReturnStmt) GetPos() (lexer.Position, lexer.Position) {
 	return r.StartPos, r.EndPos
-}
-func (r ReturnStmt) iStatement() {
-	// empty method implements the Statement interface
 }
 
 type BreakStmt struct {
@@ -146,9 +125,7 @@ func (b BreakStmt) INodeType() NODE_TYPE {
 func (b BreakStmt) GetPos() (lexer.Position, lexer.Position) {
 	return b.StartPos, b.EndPos
 }
-func (b BreakStmt) iStatement() {
-	// empty method implements the Statement interface
-}
+
 
 type ContinueStmt struct {
 	BaseStmt
@@ -159,9 +136,6 @@ func (c ContinueStmt) INodeType() NODE_TYPE {
 }
 func (c ContinueStmt) GetPos() (lexer.Position, lexer.Position) {
 	return c.StartPos, c.EndPos
-}
-func (c ContinueStmt) iStatement() {
-	// empty method implements the Statement interface
 }
 
 type Property struct {
@@ -187,9 +161,7 @@ func (s StructDeclStatement) INodeType() NODE_TYPE {
 func (s StructDeclStatement) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s StructDeclStatement) iStatement() {
-	// empty method implements the Statement interface
-}
+
 
 type Method struct {
 	BaseStmt
@@ -208,9 +180,6 @@ func (t TraitDeclStatement) INodeType() NODE_TYPE {
 }
 func (t TraitDeclStatement) GetPos() (lexer.Position, lexer.Position) {
 	return t.StartPos, t.EndPos
-}
-func (t TraitDeclStatement) iStatement() {
-	// empty method implements the Statement interface
 }
 
 type MethodImplementStmt struct {
@@ -234,13 +203,10 @@ func (s ImplementStatement) INodeType() NODE_TYPE {
 func (s ImplementStatement) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
-func (s ImplementStatement) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type IfStmt struct {
 	BaseStmt
-	Condition Expression
+	Condition Node
 	Block     BlockStmt
 	Alternate interface{}
 }
@@ -251,16 +217,13 @@ func (i IfStmt) INodeType() NODE_TYPE {
 func (i IfStmt) GetPos() (lexer.Position, lexer.Position) {
 	return i.StartPos, i.EndPos
 }
-func (i IfStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type ForStmt struct {
 	BaseStmt
 	Variable  string
-	Init      Expression
-	Condition Expression
-	Post      Expression
+	Init      Node
+	Condition Node
+	Post      Node
 	Block     BlockStmt
 }
 
@@ -270,16 +233,13 @@ func (f ForStmt) INodeType() NODE_TYPE {
 func (f ForStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
-func (f ForStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type ForeachStmt struct {
 	BaseStmt
 	Variable      string
 	IndexVariable string
-	Iterable      Expression
-	WhereClause   Expression
+	Iterable      Node
+	WhereClause   Node
 	Block         BlockStmt
 }
 
@@ -289,13 +249,10 @@ func (f ForeachStmt) INodeType() NODE_TYPE {
 func (f ForeachStmt) GetPos() (lexer.Position, lexer.Position) {
 	return f.StartPos, f.EndPos
 }
-func (f ForeachStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type WhileLoopStmt struct {
 	BaseStmt
-	Condition Expression
+	Condition Node
 	Block     BlockStmt
 }
 
@@ -305,19 +262,16 @@ func (w WhileLoopStmt) INodeType() NODE_TYPE {
 func (w WhileLoopStmt) GetPos() (lexer.Position, lexer.Position) {
 	return w.StartPos, w.EndPos
 }
-func (w WhileLoopStmt) iStatement() {
-	// empty method implements the Statement interface
-}
 
 type SwitchCase struct {
 	BaseStmt
 	Consequent BlockStmt
-	Test       Expression
+	Test       Node
 }
 
 type SwitchStmt struct {
 	BaseStmt
-	Discriminant Expression
+	Discriminant Node
 	Cases        []SwitchCase
 }
 
@@ -326,7 +280,4 @@ func (s SwitchStmt) INodeType() NODE_TYPE {
 }
 func (s SwitchStmt) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
-}
-func (s SwitchStmt) iStatement() {
-	// empty method implements the Statement interface
 }

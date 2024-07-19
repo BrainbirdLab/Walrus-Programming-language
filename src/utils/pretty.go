@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 )
 
 // ANSI color escape codes
@@ -40,3 +41,46 @@ func IF(conddition bool, a, b any) any {
 	return b
 }
 
+func GetIntBitSize(rawValue string) uint8 {
+
+	size := uint8(32)
+
+	if len(rawValue) > 10 {
+		size = 64
+	} else {
+		// if number is out of range for 32-bit integer
+		// then it is a 64-bit integer
+		// But to avoid checking both positive and negative ranges, we just check the positive range by using the absolute value
+		// if the absolute value is greater than 2,147,483,647 then it is a 64-bit integer
+		number, _ := strconv.ParseInt(rawValue, 10, 32)
+		if number < 0 {
+			number = -number
+		}
+		if number > 2147483647 {
+			size = 64
+		}
+	}
+
+	return size
+}
+
+func GetFloatBitSize(rawValue string) uint8 {
+	size := uint8(32)
+
+	number, _ := strconv.ParseFloat(rawValue, 64)
+
+	if number < 0 {
+		number = -number
+	}
+
+	// check the floating point decimal size
+
+	decimal := int64(number)
+
+	//max size of a 32-bit floating point number is 7 digits
+	if decimal > 9999999 {
+		size = 64
+	}
+
+	return size
+}

@@ -27,7 +27,7 @@ func nativePrint(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
 		}
 
 		//colorize
-		fmt.Print(utils.Colorize(utils.YELLOW, val.Value))
+		fmt.Print(val.Value)
 	}
 	fmt.Println()
 	return typechecker.MakeVOID()
@@ -36,6 +36,16 @@ func nativePrint(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
 func nativeTime(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
 	t := time.Now().Unix()
 	return typechecker.MakeINT(t, 64, true)
+}
+
+func nativeLen(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
+	switch a := args[0].(type) {
+	case typechecker.ArrayValue:
+		size := len(a.Values)		
+		return typechecker.MakeINT(int64(size), 64, true)
+	default:
+		panic("invalid argument for len()")
+	}
 }
 
 func main() {
@@ -99,6 +109,7 @@ func main() {
 
 		env.DeclareNativeFn("print", typechecker.MakeNativeFUNCTION(nativePrint))
 		env.DeclareNativeFn("time", typechecker.MakeNativeFUNCTION(nativeTime))
+		env.DeclareNativeFn("len", typechecker.MakeNativeFUNCTION(nativeLen))
 
 		fmt.Printf("Evaluating: %v\n", filename)
 

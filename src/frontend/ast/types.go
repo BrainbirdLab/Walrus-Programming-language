@@ -24,17 +24,10 @@ const (
 	T_CHARACTER DATA_TYPE = "chr"
 	T_NULL      DATA_TYPE = "null"
 
-	// Derived Types
-	T_ARRAY DATA_TYPE = "array"
-
-	T_STRUCT   DATA_TYPE = "struct"
-	T_TRAIT    DATA_TYPE = "trait"
-	T_ENUM     DATA_TYPE = "enum"
-	T_FUNCTION DATA_TYPE = "function"
-	T_NATIVE_FN DATA_TYPE = "native_fn"
-
-	//User Defined Types
-	T_USER_DEFINED DATA_TYPE = "user_defined"
+	T_ARRAY		DATA_TYPE = "array"
+	T_STRUCT	DATA_TYPE = "struct"
+	T_NATIVE_FN DATA_TYPE = "native fn"
+	T_FN		DATA_TYPE = "fn"
 )
 
 type IntegerType struct {
@@ -102,17 +95,14 @@ func (v VoidType) IType() DATA_TYPE {
 
 type ArrayType struct {
 	Kind        DATA_TYPE
-	ElementType Type
-	Size        int
+	ElementType DATA_TYPE
 }
-
 func (a ArrayType) IType() DATA_TYPE {
 	return a.Kind
 }
 
 type StructType struct {
 	Kind DATA_TYPE
-	Name string
 }
 
 func (s StructType) IType() DATA_TYPE {
@@ -121,7 +111,6 @@ func (s StructType) IType() DATA_TYPE {
 
 type TraitType struct {
 	Kind DATA_TYPE
-	Name string
 	For  string
 }
 
@@ -131,7 +120,7 @@ func (t TraitType) IType() DATA_TYPE {
 
 type EnumType struct {
 	Kind   DATA_TYPE
-	Fields []Type
+	Fields []DATA_TYPE
 }
 
 func (e EnumType) IType() DATA_TYPE {
@@ -140,8 +129,7 @@ func (e EnumType) IType() DATA_TYPE {
 
 type FunctionType struct {
 	Kind       DATA_TYPE
-	Name       string
-	ReturnType Type
+	ReturnType DATA_TYPE
 	Parameters []FunctionParameter
 }
 

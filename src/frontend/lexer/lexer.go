@@ -116,7 +116,7 @@ func (lex *Lexer) atEOF() bool {
 
 func defaultHandler(kind TOKEN_KIND, value string) regexHandler {
 
-	return func(lex *Lexer, regex *regexp.Regexp) {
+	return func(lex *Lexer, _ *regexp.Regexp) {
 
 		start := lex.Pos
 		lex.advanceN(value)
