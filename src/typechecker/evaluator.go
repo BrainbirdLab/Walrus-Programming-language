@@ -188,8 +188,8 @@ func Evaluate(astNode ast.Node, env *Environment) RuntimeValue {
 		return EvaluateStructDeclarationStmt(node, env)
 	case ast.StructLiteral:
 		return EvaluateStructLiteral(node, env)
-	case ast.StructPropertyExpr:
-		return EvaluateStructPropertyExpr(node, env)
+	case ast.PropertyExpr:
+		return EvaluatePropertyExpr(node, env)
 	case ast.ArrayLiterals:
 		return EvaluateArrayLiterals(node, env)
 	case ast.ArrayIndexAccess:

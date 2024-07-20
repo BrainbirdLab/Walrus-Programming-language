@@ -105,7 +105,6 @@ func (n NullLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return n.StartPos, n.EndPos
 }
 
-
 type VoidLiteral struct {
 	Kind NODE_TYPE
 }
@@ -157,17 +156,16 @@ func (s StructLiteral) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
 
-
-type StructPropertyExpr struct {
+type PropertyExpr struct {
 	BaseStmt
 	Object   Node
 	Property IdentifierExpr
 }
 
-func (s StructPropertyExpr) INodeType() NODE_TYPE {
+func (s PropertyExpr) INodeType() NODE_TYPE {
 	return s.Kind
 }
-func (s StructPropertyExpr) GetPos() (lexer.Position, lexer.Position) {
+func (s PropertyExpr) GetPos() (lexer.Position, lexer.Position) {
 	return s.StartPos, s.EndPos
 }
 
@@ -187,8 +185,9 @@ func (a ArrayLiterals) GetPos() (lexer.Position, lexer.Position) {
 type ArrayIndexAccess struct {
 	BaseStmt
 	ArrayName string
-	Index Node
+	Index     Node
 }
+
 func (a ArrayIndexAccess) INodeType() NODE_TYPE {
 	return a.Kind
 }

@@ -1,9 +1,9 @@
 {
   "Kind": "program",
   "StartPos": {
-    "Line": 1,
+    "Line": 2,
     "Column": 1,
-    "Index": 0
+    "Index": 50
   },
   "EndPos": {
     "Line": 125,
@@ -1341,8 +1341,7 @@
         }
       ],
       "ReturnType": {
-        "Kind": "struct",
-        "Name": "Color"
+        "Kind": "Color"
       },
       "Block": {
         "Kind": "block statement",

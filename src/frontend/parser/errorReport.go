@@ -80,11 +80,11 @@ func MakeError(p *Parser, lineNo int, filePath string, startPos lexer.Position, 
 	padding := makePadding(maxWidth, startPos.Line)
 
 	errStr += strings.Join(prvLines, "\n") + "\n"
-	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line[0:startPos.Column-1]) + lexer.Highlight(line) + "\n"
+	errStr += utils.Colorize(utils.GREY, padding) + lexer.Highlight(line) + "\n"
 	errStr += strings.Repeat(" ", (startPos.Column-1)+len(padding))
-	repeatCount := (endPos.Column - 1) - (startPos.Column - 1)
-	if repeatCount <= 0 {
-		repeatCount = 1
+	repeatCount := (endPos.Column - 1) - (startPos.Column - 1) - 1
+	if repeatCount < 0 {
+		repeatCount = 0
 	}
 	errStr += fmt.Sprint(utils.Colorize(utils.BOLD_RED, fmt.Sprintf("%s%s\n", "^", strings.Repeat("~", repeatCount))))
 	errStr += fmt.Sprint(utils.Colorize(utils.RED, fmt.Sprintf("Error: %s\n", errMsg)))

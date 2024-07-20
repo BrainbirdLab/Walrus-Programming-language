@@ -93,9 +93,9 @@ func parsePropertyExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
 
 	start := property.StartPos
 
-	return ast.StructPropertyExpr{
+	return ast.PropertyExpr{
 		BaseStmt: ast.BaseStmt{
-			Kind:     ast.STRUCT_PROPERTY,
+			Kind:     ast.PROPERTY,
 			StartPos: start,
 			EndPos:   property.EndPos,
 		},
@@ -316,7 +316,7 @@ func parseVarAssignmentExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node
 
 	switch assignee := left.(type) {
 
-	case ast.IdentifierExpr, ast.StructPropertyExpr:
+	case ast.IdentifierExpr, ast.PropertyExpr:
 		identifier = assignee
 	default:
 		errMsg := "Cannot assign to a non-identifier\n"
@@ -415,7 +415,7 @@ func parseArrayAccessExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
 	//start := p.currentToken().StartPos
 
 	start := p.expect(lexer.OPEN_BRACKET_TOKEN).StartPos
-	
+
 	//get the index
 	index := parseExpr(p, bp)
 
@@ -426,24 +426,24 @@ func parseArrayAccessExpr(p *Parser, left ast.Node, bp BINDING_POWER) ast.Node {
 		if t.Kind == ast.INTEGER_LITERAL {
 			return ast.ArrayIndexAccess{
 				BaseStmt: ast.BaseStmt{
-					Kind: ast.ARRAY_ACCESS,
+					Kind:     ast.ARRAY_ACCESS,
 					StartPos: start,
-					EndPos: end,
+					EndPos:   end,
 				},
 				ArrayName: left.(ast.IdentifierExpr).Identifier,
 				Index: ast.NumericLiteral{
 					BaseStmt: ast.BaseStmt{
-						Kind: ast.INTEGER_LITERAL,
+						Kind:     ast.INTEGER_LITERAL,
 						StartPos: t.StartPos,
-						EndPos: t.EndPos,
+						EndPos:   t.EndPos,
 					},
-					Value: t.Value,
+					Value:   t.Value,
 					BitSize: utils.GetIntBitSize(t.Value),
 				},
 			}
 		}
 	}
-	
+
 	MakeError(p, start.Line, p.FilePath, start, end, "invalid index value").AddHint("index must be an integer", TEXT_HINT).Display()
 	panic("error")
 }

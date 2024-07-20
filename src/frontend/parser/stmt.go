@@ -392,7 +392,7 @@ func setProperties(p *Parser, propsMap map[string]ast.Property) {
 
 		propsMap[prop.Value] = ast.Property{
 			BaseStmt: ast.BaseStmt{
-				Kind:     ast.STRUCT_PROPERTY,
+				Kind:     ast.PROPERTY,
 				StartPos: prop.StartPos,
 				EndPos:   prop.EndPos,
 			},

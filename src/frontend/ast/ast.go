@@ -42,10 +42,10 @@ const (
 	NULL_LITERAL      NODE_TYPE = "null literal"
 	VOID_LITERAL      NODE_TYPE = "void literal"
 	ARRAY_LITERALS    NODE_TYPE = "array"
-	ARRAY_ACCESS	  NODE_TYPE = "array access"
+	ARRAY_ACCESS      NODE_TYPE = "array access"
 	STRUCT_LITERAL    NODE_TYPE = "struct literal"
 
-	STRUCT_PROPERTY NODE_TYPE = "struct property"
+	PROPERTY 			NODE_TYPE = "property"
 
 	// Expressions
 	ASSIGNMENT_EXPRESSION NODE_TYPE = "assignment expression"

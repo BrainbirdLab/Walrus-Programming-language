@@ -9,44 +9,10 @@ import (
 	"walrus/frontend/parser"
 	"walrus/typechecker"
 	"walrus/utils"
+	"walrus/builtins"
 )
 
-func nativePrint(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
 
-	//if no arguments
-	if len(args) == 0 {
-		fmt.Println()
-		return typechecker.MakeVOID()
-	}
-
-	for _, arg := range args {
-		val, err := typechecker.CastToStringValue(arg)
-
-		if err != nil {
-			continue
-		}
-
-		//colorize
-		fmt.Print(val.Value)
-	}
-	fmt.Println()
-	return typechecker.MakeVOID()
-}
-
-func nativeTime(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
-	t := time.Now().Unix()
-	return typechecker.MakeINT(t, 64, true)
-}
-
-func nativeLen(args ...typechecker.RuntimeValue) typechecker.RuntimeValue {
-	switch a := args[0].(type) {
-	case typechecker.ArrayValue:
-		size := len(a.Values)		
-		return typechecker.MakeINT(int64(size), 64, true)
-	default:
-		panic("invalid argument for len()")
-	}
-}
 
 func main() {
 	// time start
@@ -107,9 +73,8 @@ func main() {
 		env.DeclareVariable("false", typechecker.MakeBOOL(false), true)
 		env.DeclareVariable("null", typechecker.MakeNULL(), true)
 
-		env.DeclareNativeFn("print", typechecker.MakeNativeFUNCTION(nativePrint))
-		env.DeclareNativeFn("time", typechecker.MakeNativeFUNCTION(nativeTime))
-		env.DeclareNativeFn("len", typechecker.MakeNativeFUNCTION(nativeLen))
+		env.DeclareNativeFn("print", typechecker.MakeNativeFUNCTION(builtins.NativePrint))
+		env.DeclareNativeFn("time", typechecker.MakeNativeFUNCTION(builtins.NativeTime))
 
 		fmt.Printf("Evaluating: %v\n", filename)
 

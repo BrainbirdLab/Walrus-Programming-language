@@ -28,24 +28,12 @@ func NewEnvironment(parent *Environment, p *parser.Parser) *Environment {
 func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstant bool) (RuntimeValue, error) {
 
 	if e.variables[name] != nil {
-		return nil, fmt.Errorf("variable %s already declared in this scope", name)
+		return nil, fmt.Errorf("%s already declared in this scope", name)
 	}
 
 	switch v := value.(type){
 	case StructInstance:
-		// check all fields are initialized
-		structDeclaration := e.structs[v.StructName]
-
-		for _, field := range structDeclaration.(StructValue).Fields {
-			if v.Fields[field.Name] == nil {
-				return nil, fmt.Errorf("field '%s' of struct '%s' is not initialized", field.Name, v.StructName)
-			} else {
-				// check type compatibility
-				if GetRuntimeType(v.Fields[field.Name]) != field.Type.IType() {
-					return nil, fmt.Errorf("field '%s' of struct '%s' is of type %s, but got %s", field.Name, v.StructName, field.Type.IType(), GetRuntimeType(v.Fields[field.Name]))
-				}
-			}
-		}
+		declareStruct(e, &v)
 	}
 
 	e.variables[name] = value
@@ -55,6 +43,32 @@ func (e *Environment) DeclareVariable(name string, value RuntimeValue, isConstan
 	}
 
 	return value, nil
+}
+
+func declareStruct(e *Environment, v *StructInstance) error {
+	// check all fields are initialized
+	structDeclaration := e.structs[v.StructName] // v is the provided value
+
+	//check if provided field exist on struct
+	allFields := structDeclaration.(StructValue).Fields
+	for name := range v.Fields {
+		if _, ok := allFields[name]; !ok {
+			return fmt.Errorf("field '%s' is not defined in struct '%s'", name, v.StructName)
+		}
+	}
+
+	for _, field := range structDeclaration.(StructValue).Fields {
+
+		if v.Fields[field.Name] == nil {
+			return fmt.Errorf("field '%s' of struct '%s' is not initialized", field.Name, v.StructName)
+		} else {
+			// check type compatibility
+			if GetRuntimeType(v.Fields[field.Name]) != field.Type.IType() {
+				return fmt.Errorf("field '%s' of struct '%s' is of type %s, but got %s", field.Name, v.StructName, field.Type.IType(), GetRuntimeType(v.Fields[field.Name]))
+			}
+		}
+	}
+	return nil
 }
 
 func (e *Environment) AssignVariable(name string, value RuntimeValue) (RuntimeValue, error) {
@@ -132,7 +146,7 @@ func (e *Environment) ResolveVariable(name string) (*Environment, error) {
 	}
 
 	if e.parent == nil {
-		return nil, fmt.Errorf("variable %s was not declared in this scope", name)
+		return nil, fmt.Errorf("%s was not declared in this scope", name)
 	}
 
 	return e.parent.ResolveVariable(name)

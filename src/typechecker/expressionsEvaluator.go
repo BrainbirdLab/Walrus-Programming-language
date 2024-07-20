@@ -11,7 +11,7 @@ import (
 func EvaluateIdenitifierExpr(expr ast.IdentifierExpr, env *Environment) RuntimeValue {
 	if !env.HasVariable(expr.Identifier) {
 
-		msg := fmt.Sprintf("variable %v is not declared in this scope\n", expr.Identifier)
+		msg := fmt.Sprintf("%v is not declared in this scope\n", expr.Identifier)
 
 		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, msg).Display()
 	}
@@ -191,13 +191,13 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 	case ast.IdentifierExpr:
 		variableToAssign = assignNode.Assigne.(ast.IdentifierExpr)
 		variableNameString = variableToAssign.Identifier
-	case ast.StructPropertyExpr:
-		variableToAssign = assignNode.Assigne.(ast.StructPropertyExpr).Property
+	case ast.PropertyExpr:
+		variableToAssign = assignNode.Assigne.(ast.PropertyExpr).Property
 
 		//check if object is an identifier
-		object, ok := assignNode.Assigne.(ast.StructPropertyExpr).Object.(ast.IdentifierExpr)
+		object, ok := assignNode.Assigne.(ast.PropertyExpr).Object.(ast.IdentifierExpr)
 		if !ok {
-			err = fmt.Errorf("invalid left-hand side in assignment expression. expected identifier got %s", assignNode.Assigne.(ast.StructPropertyExpr).Object.INodeType())
+			err = fmt.Errorf("invalid left-hand side in assignment expression. expected identifier got %s", assignNode.Assigne.(ast.PropertyExpr).Object.INodeType())
 			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, variableToAssign.StartPos, variableToAssign.EndPos, err.Error()).Display()
 		}
 
@@ -228,14 +228,14 @@ func EvaluateAssignmentExpr(assignNode ast.AssignmentExpr, env *Environment) Run
 		// assign struct instance properties
 		// if object is declared in the current scope
 		if !env.HasVariable(variableNameString) {
-			err = fmt.Errorf("variable %v is not declared in this scope", variableNameString)
+			err = fmt.Errorf("%v is not declared in this scope", variableNameString)
 			parser.MakeError(env.parser, assignNode.StartPos.Line, env.parser.FilePath, variableToAssign.StartPos, variableToAssign.EndPos, err.Error()).Display()
 		}
 
 		structInstance := env.variables[variableNameString]
 		i := structInstance.(StructInstance)
 
-		i.Fields[assignNode.Assigne.(ast.StructPropertyExpr).Property.Identifier] = valueToSet
+		i.Fields[assignNode.Assigne.(ast.PropertyExpr).Property.Identifier] = valueToSet
 
 		env.structs[variableNameString] = i
 

@@ -149,7 +149,6 @@ func strFormatter(expected ast.Type, got RuntimeValue) string {
 	return fmt.Sprintf("cannot assign value of type '%s' to '%s'", GetRuntimeType(got), name)
 }
 
-
 func EvaluateBlockStmt(block ast.BlockStmt, env *Environment) RuntimeValue {
 	for _, stmt := range block.Items {
 		switch stmt := stmt.(type) {
@@ -242,11 +241,11 @@ func processFunctionBody(body ast.BlockStmt, funcEnv *Environment) {
 
 func checkFunctionReturnType(stmt ast.FunctionDeclStmt, funcEnv *Environment) {
 	if stmt.ReturnType.IType() != ast.T_VOID {
-		if (len(stmt.Block.Items) == 0) {
+		if len(stmt.Block.Items) == 0 {
 			fmt.Println(stmt.StartPos, stmt.EndPos)
 			parser.MakeError(funcEnv.parser, stmt.StartPos.Line, funcEnv.parser.FilePath, stmt.StartPos, stmt.EndPos, "no return statement found").AddHint("function is empty", parser.TEXT_HINT).Display()
 		}
-		lastStmt := stmt.Block.Items[len(stmt.Block.Items) - 1]
+		lastStmt := stmt.Block.Items[len(stmt.Block.Items)-1]
 		if returnStmt, ok := lastStmt.(ast.ReturnStmt); ok {
 			returnVal := Evaluate(returnStmt.Expression, funcEnv)
 			expectedType := fmt.Sprintf("%s", stmt.ReturnType)
@@ -259,7 +258,6 @@ func checkFunctionReturnType(stmt ast.FunctionDeclStmt, funcEnv *Environment) {
 		}
 	}
 }
-
 
 func EvaluateFunctionCallExpr(expr ast.FunctionCallExpr, env *Environment) RuntimeValue {
 
@@ -329,7 +327,7 @@ func EvaluateStructDeclarationStmt(stmt ast.StructDeclStatement, env *Environmen
 	env.structs[stmt.StructName] = StructValue{
 		Fields:  stmt.Properties,
 		Methods: stmt.Methods,
-		Type: ast.DATA_TYPE(stmt.StructName),
+		Type:    ast.DATA_TYPE(stmt.StructName),
 	}
 
 	return MakeVOID()
@@ -354,31 +352,42 @@ func EvaluateStructLiteral(stmt ast.StructLiteral, env *Environment) RuntimeValu
 	}
 }
 
-func EvaluateStructPropertyExpr(expr ast.StructPropertyExpr, env *Environment) RuntimeValue {
-
-	obj := Evaluate(expr.Object, env).(StructInstance)
+func EvaluatePropertyExpr(expr ast.PropertyExpr, env *Environment) RuntimeValue {
 
 	propname := expr.Property.Identifier
 
-	if obj.Fields[propname] == nil {
-		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is not defined in struct '%s'", propname, obj.StructName)).Display()
+	switch obj := Evaluate(expr.Object, env).(type) {
+	case StructInstance:
+	
+		if obj.Fields[propname] == nil {
+			parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' does not exist in type '%s'", propname, obj.StructName)).Display()
+		}
+	
+		structValue, err := env.GetStructType(obj.StructName)
+	
+		if err != nil {
+			parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, err.Error()).Display()
+		}
+	
+		// check if the property is public
+		if structValue.(StructValue).Fields[propname].IsPublic {
+			return obj.Fields[propname]
+		} else {
+			parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is private in struct '%s'", propname, obj.StructName)).Display()
+			return nil
+		}
+	case ArrayValue:
+		switch propname {
+		case "length":
+			//return the length of the array
+			size := len(obj.Values)
+			return MakeINT(int64(size), 32, true)
+		default:
+			parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' does not exist in type array", propname)).Display()
+		}
 	}
-
-	structValue, err := env.GetStructType(obj.StructName)
-
-	if err != nil {
-		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.StartPos, expr.EndPos, err.Error()).Display()
-	}
-
-	// check if the property is public
-	if structValue.(StructValue).Fields[propname].IsPublic {
-		return obj.Fields[propname]
-	} else {
-		parser.MakeError(env.parser, expr.StartPos.Line, env.parser.FilePath, expr.Property.StartPos, expr.Property.EndPos, fmt.Sprintf("property '%s' is private in struct '%s'", propname, obj.StructName)).Display()
-		return nil
-	}
+	return nil
 }
-
 
 func EvaluateArrayLiterals(node ast.Node, env *Environment) RuntimeValue {
 	var values []RuntimeValue
@@ -389,7 +398,7 @@ func EvaluateArrayLiterals(node ast.Node, env *Environment) RuntimeValue {
 
 	return ArrayValue{
 		Values: values,
-		Type: ast.T_ARRAY,
+		Type:   ast.T_ARRAY,
 	}
 }
 
@@ -398,7 +407,7 @@ func EvaluateArrayAccess(node ast.Node, env *Environment) RuntimeValue {
 	name := arr.ArrayName
 	scope, err := env.ResolveVariable(name)
 	errorPrinter := parser.MakeError(env.parser, arr.StartPos.Line, env.parser.FilePath, arr.StartPos, arr.EndPos, "array was not declared\n")
-	if (err != nil) {
+	if err != nil {
 		errorPrinter.Display()
 	}
 
@@ -412,9 +421,9 @@ func EvaluateArrayAccess(node ast.Node, env *Environment) RuntimeValue {
 	index := indexNumber.(IntegerValue).Value
 	values := scope.variables[name].(ArrayValue).Values
 
-	if index > int64(len(values) - 1){
+	if index > int64(len(values)-1) {
 		errorPrinter.Message = fmt.Sprintf("invalid index range %d\n", index)
-		errorPrinter.AddHint(fmt.Sprintf("index must be within the range of 0 to %d\n", len(values) - 1), parser.TEXT_HINT).Display()
+		errorPrinter.AddHint(fmt.Sprintf("index must be within the range of 0 to %d\n", len(values)-1), parser.TEXT_HINT).Display()
 	}
 
 	return values[index]
