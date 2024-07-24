@@ -185,7 +185,6 @@ func createLexer(source *string) *Lexer {
 			{regexp.MustCompile(`^`), defaultHandler(POWER_TOKEN, "^")},
 		},
 	}
-
 	return lex
 }
 

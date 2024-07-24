@@ -16,6 +16,10 @@ arr[2];
 
 print("Factorial of 5 is " + fact);
 
+fn sumAB(a: i32, b: i32) -> i32 {
+    ret a + b;
+}
+
 fn sum(a: []i32) -> i32 {
 
     print("length of array: " + a.length);
@@ -33,5 +37,3 @@ struct Point {
 const p := Point{x: 23, y: 65};
 
 print(p.x);
-
-print(arr.length);

@@ -1,0 +1,27 @@
+
+
+let a := 5;
+
+let b : f32 = 34.5;
+
+struct Point {
+    pub x: i32;
+    pub y: i32;
+}
+
+struct Circle {
+    pub rad: i32;
+    pub x: i32;
+    pub y: i32;
+    pub p: Point;
+}
+
+let c : Circle = Circle{
+    rad: 12,
+    x: 2,
+    y: 5,
+    p: Point{
+        x: 2,
+        y: 3,
+    },
+};

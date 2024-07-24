@@ -1,0 +1,413 @@
+{
+  "Kind": "program",
+  "StartPos": {
+    "Line": 3,
+    "Column": 1,
+    "Index": 4
+  },
+  "EndPos": {
+    "Line": 27,
+    "Column": 3,
+    "Index": 308
+  },
+  "FileName": "./../code/test/tc/tc.wal",
+  "ModuleName": "",
+  "Imports": null,
+  "Contents": [
+    {
+      "Kind": "variable declaration statement",
+      "StartPos": {
+        "Line": 3,
+        "Column": 1,
+        "Index": 4
+      },
+      "EndPos": {
+        "Line": 3,
+        "Column": 12,
+        "Index": 15
+      },
+      "IsConstant": false,
+      "Identifier": {
+        "Kind": "identifier",
+        "StartPos": {
+          "Line": 3,
+          "Column": 5,
+          "Index": 8
+        },
+        "EndPos": {
+          "Line": 3,
+          "Column": 6,
+          "Index": 9
+        },
+        "Identifier": "a"
+      },
+      "Value": {
+        "Kind": "integer literal",
+        "StartPos": {
+          "Line": 3,
+          "Column": 10,
+          "Index": 13
+        },
+        "EndPos": {
+          "Line": 3,
+          "Column": 11,
+          "Index": 14
+        },
+        "Value": "5",
+        "BitSize": 32
+      },
+      "ExplicitType": null
+    },
+    {
+      "Kind": "variable declaration statement",
+      "StartPos": {
+        "Line": 5,
+        "Column": 1,
+        "Index": 19
+      },
+      "EndPos": {
+        "Line": 5,
+        "Column": 20,
+        "Index": 38
+      },
+      "IsConstant": false,
+      "Identifier": {
+        "Kind": "identifier",
+        "StartPos": {
+          "Line": 5,
+          "Column": 5,
+          "Index": 23
+        },
+        "EndPos": {
+          "Line": 5,
+          "Column": 6,
+          "Index": 24
+        },
+        "Identifier": "b"
+      },
+      "Value": {
+        "Kind": "float literal",
+        "StartPos": {
+          "Line": 5,
+          "Column": 15,
+          "Index": 33
+        },
+        "EndPos": {
+          "Line": 5,
+          "Column": 19,
+          "Index": 37
+        },
+        "Value": "34.5",
+        "BitSize": 32
+      },
+      "ExplicitType": {
+        "Kind": "f32",
+        "BitSize": 32
+      }
+    },
+    {
+      "Kind": "struct statement",
+      "StartPos": {
+        "Line": 7,
+        "Column": 1,
+        "Index": 42
+      },
+      "EndPos": {
+        "Line": 10,
+        "Column": 2,
+        "Index": 93
+      },
+      "StructName": "Point",
+      "Properties": {
+        "x": {
+          "Kind": "property",
+          "StartPos": {
+            "Line": 8,
+            "Column": 9,
+            "Index": 66
+          },
+          "EndPos": {
+            "Line": 8,
+            "Column": 10,
+            "Index": 67
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Name": "x",
+          "Type": {
+            "Kind": "i32",
+            "BitSize": 32,
+            "IsSigned": true
+          }
+        },
+        "y": {
+          "Kind": "property",
+          "StartPos": {
+            "Line": 9,
+            "Column": 9,
+            "Index": 83
+          },
+          "EndPos": {
+            "Line": 9,
+            "Column": 10,
+            "Index": 84
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Name": "y",
+          "Type": {
+            "Kind": "i32",
+            "BitSize": 32,
+            "IsSigned": true
+          }
+        }
+      },
+      "Methods": null,
+      "Embeds": null
+    },
+    {
+      "Kind": "struct statement",
+      "StartPos": {
+        "Line": 12,
+        "Column": 1,
+        "Index": 97
+      },
+      "EndPos": {
+        "Line": 17,
+        "Column": 2,
+        "Index": 187
+      },
+      "StructName": "Circle",
+      "Properties": {
+        "p": {
+          "Kind": "property",
+          "StartPos": {
+            "Line": 16,
+            "Column": 9,
+            "Index": 175
+          },
+          "EndPos": {
+            "Line": 16,
+            "Column": 10,
+            "Index": 176
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Name": "p",
+          "Type": {
+            "Kind": "Point"
+          }
+        },
+        "rad": {
+          "Kind": "property",
+          "StartPos": {
+            "Line": 13,
+            "Column": 9,
+            "Index": 122
+          },
+          "EndPos": {
+            "Line": 13,
+            "Column": 12,
+            "Index": 125
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Name": "rad",
+          "Type": {
+            "Kind": "i32",
+            "BitSize": 32,
+            "IsSigned": true
+          }
+        },
+        "x": {
+          "Kind": "property",
+          "StartPos": {
+            "Line": 14,
+            "Column": 9,
+            "Index": 141
+          },
+          "EndPos": {
+            "Line": 14,
+            "Column": 10,
+            "Index": 142
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Name": "x",
+          "Type": {
+            "Kind": "i32",
+            "BitSize": 32,
+            "IsSigned": true
+          }
+        },
+        "y": {
+          "Kind": "property",
+          "StartPos": {
+            "Line": 15,
+            "Column": 9,
+            "Index": 158
+          },
+          "EndPos": {
+            "Line": 15,
+            "Column": 10,
+            "Index": 159
+          },
+          "IsStatic": false,
+          "IsPublic": true,
+          "ReadOnly": false,
+          "Name": "y",
+          "Type": {
+            "Kind": "i32",
+            "BitSize": 32,
+            "IsSigned": true
+          }
+        }
+      },
+      "Methods": null,
+      "Embeds": null
+    },
+    {
+      "Kind": "variable declaration statement",
+      "StartPos": {
+        "Line": 19,
+        "Column": 1,
+        "Index": 191
+      },
+      "EndPos": {
+        "Line": 27,
+        "Column": 3,
+        "Index": 308
+      },
+      "IsConstant": false,
+      "Identifier": {
+        "Kind": "identifier",
+        "StartPos": {
+          "Line": 19,
+          "Column": 5,
+          "Index": 195
+        },
+        "EndPos": {
+          "Line": 19,
+          "Column": 6,
+          "Index": 196
+        },
+        "Identifier": "c"
+      },
+      "Value": {
+        "Kind": "struct literal",
+        "StartPos": {
+          "Line": 19,
+          "Column": 24,
+          "Index": 214
+        },
+        "EndPos": {
+          "Line": 27,
+          "Column": 2,
+          "Index": 307
+        },
+        "StructName": "Circle",
+        "Properties": {
+          "p": {
+            "Kind": "struct literal",
+            "StartPos": {
+              "Line": 23,
+              "Column": 13,
+              "Index": 265
+            },
+            "EndPos": {
+              "Line": 26,
+              "Column": 6,
+              "Index": 303
+            },
+            "StructName": "Point",
+            "Properties": {
+              "x": {
+                "Kind": "integer literal",
+                "StartPos": {
+                  "Line": 24,
+                  "Column": 12,
+                  "Index": 279
+                },
+                "EndPos": {
+                  "Line": 24,
+                  "Column": 13,
+                  "Index": 280
+                },
+                "Value": "2",
+                "BitSize": 32
+              },
+              "y": {
+                "Kind": "integer literal",
+                "StartPos": {
+                  "Line": 25,
+                  "Column": 12,
+                  "Index": 294
+                },
+                "EndPos": {
+                  "Line": 25,
+                  "Column": 13,
+                  "Index": 295
+                },
+                "Value": "3",
+                "BitSize": 32
+              }
+            }
+          },
+          "rad": {
+            "Kind": "integer literal",
+            "StartPos": {
+              "Line": 20,
+              "Column": 10,
+              "Index": 226
+            },
+            "EndPos": {
+              "Line": 20,
+              "Column": 12,
+              "Index": 228
+            },
+            "Value": "12",
+            "BitSize": 32
+          },
+          "x": {
+            "Kind": "integer literal",
+            "StartPos": {
+              "Line": 21,
+              "Column": 8,
+              "Index": 238
+            },
+            "EndPos": {
+              "Line": 21,
+              "Column": 9,
+              "Index": 239
+            },
+            "Value": "2",
+            "BitSize": 32
+          },
+          "y": {
+            "Kind": "integer literal",
+            "StartPos": {
+              "Line": 22,
+              "Column": 8,
+              "Index": 249
+            },
+            "EndPos": {
+              "Line": 22,
+              "Column": 9,
+              "Index": 250
+            },
+            "Value": "5",
+            "BitSize": 32
+          }
+        }
+      },
+      "ExplicitType": {
+        "Kind": "Circle"
+      }
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import (
 	"walrus/typechecker"
 	"walrus/utils"
 	"walrus/builtins"
+	//"walrus/tc"
 )
 
 
@@ -19,7 +20,7 @@ func main() {
 
 	timeStart := time.Now()
 
-	targetDir := "./../code/test/ret"
+	targetDir := "./../code/test/tc"
 
 	dir, err := os.ReadDir(targetDir)
 
@@ -67,6 +68,7 @@ func main() {
 
 		file.Close()
 
+		
 		env := typechecker.NewEnvironment(nil, parserMachine)
 
 		env.DeclareVariable("true", typechecker.MakeBOOL(true), true)
@@ -79,6 +81,10 @@ func main() {
 		fmt.Printf("Evaluating: %v\n", filename)
 
 		typechecker.Evaluate(ast, env)
+		
+
+		//tc.CheckType(ast)
+
 	}
 
 	// time end
@@ -86,5 +92,5 @@ func main() {
 
 	fmt.Print(utils.Colorize(utils.GREEN, fmt.Sprintf("Compiled succesfully in: %v\n", timeEnd.Sub(timeStart))))
 	//wait for user input to close
-	fmt.Scanln()
+	//fmt.Scanln()
 }
